@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include <Headlines.h>
-#include <Functions.h>
+#include <System.h>
 #include <Player.h>
 
 int main() 
