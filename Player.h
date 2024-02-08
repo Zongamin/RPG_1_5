@@ -14,7 +14,7 @@ class Player
     
         double exp;
         double realExp;
-        double health;
+        double health = 100;
         double realHealth;
         double mana;
         double realMana;
@@ -75,4 +75,10 @@ class Player
         this->playerName = playerName;
         return;
     }
+
+    std::string getName() 
+    {
+        return this->playerName;
+    }
+
 };
