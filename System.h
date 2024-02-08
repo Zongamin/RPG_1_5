@@ -78,3 +78,4 @@ bool boolean()
     }
     return choice;
 }
+

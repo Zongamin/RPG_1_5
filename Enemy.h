@@ -1,19 +1,14 @@
-#include <string>
 #include <iostream>
 
-
-class Player
+class Enemy
 {
     private:
-            
-        std::string playerName = "Spielername";
-    
+        std::string enemyName = "Enemyname";
+
     public:
         
         // Attribute
-    
-        double exp;
-        double realExp;
+        
         double health;
         double realHealth;
         double mana;
@@ -23,38 +18,30 @@ class Player
         double dexterity;
         double luck;
         double endurance;
-        int skillPoints;
 
         // Inventar
 
-        double capacity;
         double gold;
         double scrapMetal;
         double aluminum;
         double copper;
         double manaPotion;
         double healthPotion;
-        double weapons[500];
-        double armor[500];
-        
+        double weapons;
+        double armor;
 
         // Buffs
-        int fireAura;
-        int regenerationOn;
 
-        // Statistics
-        double rooms;
-        double monsters;
-        double bosses;
-        double crafted;
+        double fireAura;
+        double regenerationOn;
 
     double damage(double damage)
     {
         this->realHealth =- damage;
-        
+
         if (this->realHealth < this->health)
         {
-            std::cout << "Tod";
+            std::cout << "Monsterkill!";
             return 0;
         }
         return 0;
@@ -66,13 +53,13 @@ class Player
         if (this->realHealth > this->health)
         {
             this->realHealth = this->health;
-
         }
     }
 
-    void setName(std::string playerName)
+    void setName(std::string enemyName)
     {
-        this->playerName = playerName;
-        return;
+        this->enemyName = enemyName;
+        return; 
+
     }
 };
