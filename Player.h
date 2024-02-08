@@ -6,7 +6,7 @@ class Player
 {
     private:
             
-        std::string playerName = "Spielername";
+        std::string playerName = "Player";
     
     public:
         

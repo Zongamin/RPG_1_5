@@ -7,11 +7,13 @@
 
 int main() 
 {
+    int roundManager = 0;
     int player[4];
+
     Player newPlayer[0];
     newPlayer[0].health = 100;
-    newPlayer[0].setName("Doktor");
-    std::cout << newPlayer[0].health;
-    std::cout << newPlayer[0].getName();
+    newPlayer[0].setName("HansWurst");
+    std::cout << "Gesundheit : " << newPlayer[0].health << std::endl;
+    std::cout << "Spielername : " << newPlayer[0].getName() << std::endl;
     return 0;
 }
