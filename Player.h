@@ -12,18 +12,18 @@ class Player
         
         // Attribute
     
-        double exp;
-        double realExp;
-        double health = 100;
-        double realHealth;
-        double mana;
-        double realMana;
-        double strength;
-        double intelligence;
-        double dexterity;
-        double luck;
-        double endurance;
-        int skillPoints;
+        double exp{};
+        double realExp{};
+        double health{};
+        double realHealth{};
+        double mana{};
+        double realMana{};
+        double strength{};
+        double intelligence{};
+        double dexterity{};
+        double luck{};
+        double endurance{};
+        int skillPoints{};
 
         // Inventar
 

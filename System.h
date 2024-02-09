@@ -1,6 +1,8 @@
 #include <iostream>
 #include <conio.h>
 #include <ctime>
+#include <fstream>
+#include <windows.h>
 
 int repeater;
 
@@ -49,7 +51,7 @@ void line()
     return;
 }
 
-bool boolean()
+bool question()
 {
     char key;
     bool running = true;
@@ -78,4 +80,5 @@ bool boolean()
     }
     return choice;
 }
+
 
