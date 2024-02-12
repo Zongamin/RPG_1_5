@@ -1,3 +1,6 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include <string>
 #include <iostream>
 
@@ -28,30 +31,31 @@ class Player
 
         // Inventar
 
-        double capacity;
-        double gold;
-        double scrapMetal;
-        double aluminum;
-        double copper;
-        double manaPotion;
-        double healthPotion;
+        double capacity{};
+        double gold{};
+        double scrapMetal{};
+        double aluminum{};
+        double copper{};
+        double manaPotion{};
+        double healthPotion{};
         double weapons[500];
         double armor[500];
         
 
         // Buffs
-        int fireAura;
-        int regenerationOn;
+        int fireAura{};
+        int regenerationOn{};
 
         // Statistics
-        double rooms;
-        double monsters;
-        double bosses;
-        double crafted;
-
+        double rooms{};
+        double monsters{};
+        double bosses{};
+        double crafted{};
+        
+        
     double damage(double damage)
     {
-        this->realHealth =- damage;
+        this->realHealth -= damage;
         
         if (this->realHealth < this->health)
         {
@@ -63,7 +67,7 @@ class Player
 
     double heal(double heal)
     {
-        this->realHealth =+ heal;
+        this->realHealth += heal;
         if (this->realHealth > this->health)
         {
             this->realHealth = this->health;
@@ -83,3 +87,5 @@ class Player
     }
 
 };
+
+#endif

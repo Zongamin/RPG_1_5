@@ -3,16 +3,12 @@
 #include <ctime>
 #include <fstream>
 #include <windows.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
 
 int repeater;
 
-void assignment(short numberOfPlayers)
+void assignment(Player player[], short numberOfPlayers)
 {
-    player[0].setName("Hans Wurst");
-    player[1].setName("Maxine Mustermann");
-    player[2].setName("Max Mustermann");
-    player[3].setName("Jane Doe");
-   
     for (int i = 0; i < numberOfPlayers; i++)
         {
         player[i].strength = 5;
