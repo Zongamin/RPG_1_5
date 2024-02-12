@@ -12,6 +12,7 @@ class Player
         
         // Attribute
     
+        double level{};
         double exp{};
         double realExp{};
         double health{};

@@ -6,6 +6,35 @@
 
 int repeater;
 
+void assignment(short numberOfPlayers)
+{
+    player[0].setName("Hans Wurst");
+    player[1].setName("Maxine Mustermann");
+    player[2].setName("Max Mustermann");
+    player[3].setName("Jane Doe");
+   
+    for (int i = 0; i < numberOfPlayers; i++)
+        {
+        player[i].strength = 5;
+        player[i].intelligence = 5;
+        player[i].endurance = 5;
+        player[i].dexterity = 5;
+        player[i].luck = 5;
+        player[i].level = 1;
+        player[i].skillPoints = 5;
+        player[i].exp = 1000;
+        player[i].realExp = 0;
+        player[i].health = (player[i].strength * 15) + (player[i].endurance * 5);
+        player[i].mana = (player[i].intelligence * 3) + (player[i].endurance * 2);
+        player[i].realHealth = player[i].health;
+        player[i].realMana = player[i].mana;
+        player[i].luck = (player[i].endurance * 0.01) + (player[i].dexterity * 0.1);
+        player[i].capacity = (player[i].strength * 15) + (player[i].endurance * 5);
+        player[i].regenerationOn = 0;
+        player[i].fireAura = 0;
+        }
+}
+
 int random(int min, int max)
 {
     bool running = true;

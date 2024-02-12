@@ -1,21 +1,12 @@
 {
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "echo",
             "type": "shell",
-            "command": "g++",
-            "args": [
-                "-g", // Fügt Debug-Informationen hinzu
-                "-I.", "C:\\Users\\DokBa\\Desktop\\Work\\Game\\RPG", // Fügt das aktuelle Verzeichnis als Include-Pfad hinzu
-                "${workspaceFolder}/Main.cpp", // Hier geben Sie den Pfad zu Ihrer Quelldatei an
-                "-o",
-                "${workspaceFolder}/Main.exe" // Hier geben Sie den Namen Ihrer ausführbaren Datei an
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "command": "echo Hello"
         }
     ]
 }
