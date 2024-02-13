@@ -1,3 +1,6 @@
+#ifndef HEADLINES_H
+#define HEADLINES_H
+
 #include <iostream>
 
 
@@ -183,3 +186,5 @@ void textDeath()
     std::cout << "              ####                                                                                   \n";
     return;
 }
+
+#endif

@@ -43,10 +43,12 @@ class Player
         
 
         // Buffs
+        
         int fireAura{};
         int regenerationOn{};
 
         // Statistics
+
         double rooms{};
         double monsters{};
         double bosses{};
