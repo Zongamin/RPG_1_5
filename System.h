@@ -4,6 +4,7 @@
 #include <iostream>
 #include <conio.h>
 #include <ctime>
+#include <cmath>
 #include <fstream>
 #include <windows.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
@@ -58,6 +59,7 @@ int random(int min, int max)
     running = false;
     break;
     }
+    
     return random;
 }
 
@@ -144,7 +146,7 @@ int choice()
 
 // Lebens- und Manaanzeige
 
-void ShowLife()
+void ShowLife(Player player[] , short roundManager)
 {
     COORD coord;
     coord.X = 0;
@@ -179,7 +181,7 @@ void ShowLife()
     return;
 }
 
-// Veränderung der Schriftfarben
+// Veränderung der Schalterfarben
 
 void colorSwitch(int color)
 {
@@ -199,6 +201,107 @@ void colorSwitch(int color)
     }
     return;
 }
+
+// Veränderung der Textfarben
+
+void textColor (int color)
+{
+    switch (color)
+    {
+        case 1:
+            std::cout << "\033[92m";
+            break;
+        
+        case 2:
+            std::cout << "\033[93m";
+            break;
+            
+        case 3:
+            std::cout << "\033[31m";
+            break;
+    }
+    return;
+}
+
+// Level up
+
+void levelUp (Player player[], short roundManager)
+{
+    player[roundManager].level++; 
+    player[roundManager].skillPoints = player[roundManager].skillPoints + 5;
+    player[roundManager].exp = round(player[roundManager].exp * 1.2);
+
+    std::cout << player[roundManager].getName() << " ist jetzt Level : " << player[roundManager].level;
+    std::cout << "\n\nSkillpunkte sind um 5 gestiegen!";
+    
+    getKey();
+    return;
+}
+
+
+// Experience up
+
+void ExpUp(Player player[], short roundManager)
+{
+    int range = 0;
+    bool running = true;
+        
+    while(running)
+    {
+    if (player[roundManager].realExp > player[roundManager].exp)
+    {
+        std::cout << "\n Expierience : " << player[roundManager].realExp - player[roundManager].realExp << "/" << round(player[roundManager].exp * 1.2) << "\n\n";
+    }
+    else
+    {
+        std::cout << "\n Expierience : "<< player[roundManager].realExp << "/" << player[roundManager].exp << "\n\n";
+    }
+        std::cout << "------------------------------------------------------------------------------------------------------------\n";
+        std::cout << "| Exp |\033[41m                                                                                                    \033[0m|\n";
+        std::cout << "------------------------------------------------------------------------------------------------------------\n";
+
+    COORD coord;
+    coord.X = 7;
+    coord.Y = 16;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    
+        if (player[roundManager].realExp > player[roundManager].exp)
+        {
+        
+        double px = player[roundManager].exp;
+        range = 100 * (px / player[roundManager].exp);
+        
+        for (int i = 0; i < range; i++)
+        {
+            std::cout << "\033[103m ";
+            Sleep(10);
+            std::cout << "\033[0m";
+        }
+            getKey();
+            player[roundManager].realExp = player[roundManager].realExp - player[roundManager].exp;
+            levelUp(player , roundManager);
+            break;
+        }
+        else
+        {
+            range = 100 * (player[roundManager].realExp / player[roundManager].exp);
+            
+            for (int i = 0; i < range; i++)
+            {
+            std::cout << "\033[103m ";
+            Sleep(10);
+            std::cout << "\033[0m";
+            }
+
+            running = false;
+            break;
+        }
+    }
+    getKey();
+    return;
+}
+
+
 
 #endif
 
