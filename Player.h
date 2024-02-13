@@ -31,6 +31,7 @@ class Player
 
         // Inventar
 
+        short key{};
         double capacity{};
         double gold{};
         double scrapMetal{};
@@ -43,7 +44,7 @@ class Player
         
 
         // Buffs
-        
+
         int fireAura{};
         int regenerationOn{};
 

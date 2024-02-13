@@ -9,6 +9,8 @@
 #include <windows.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
 
+// Globale Variable zum eingrenzen von wiederholten Zufallszahlen
+
 int repeater;
 
 //Wertzuweisung neuer Spieler Objekte
@@ -301,6 +303,108 @@ void ExpUp(Player player[], short roundManager)
     return;
 }
 
+// looten nach erfolgreicher Suche
+
+void loot(Player player[], short roundManager)
+{
+    double findGold = 0;
+    double experience = 0;
+    int findHeal = 0;
+    int findMana = 0;
+    int findRegen = 0;
+    int findMetal = 0;
+    int chance = random(1,100);
+    int xp = 0;
+    int px = 0;
+
+    std::cout << "\n";
+
+    if (chance > 0 & chance < 26 || chance > 49 & chance < 76) 
+    {
+        findGold = random((player[roundManager].level * 5), (player[roundManager].level * 25));
+        experience = findGold * 0.25;
+        xp = round(experience);
+        px = px + xp;
+        std::cout << "\n\033[93mGold -------------------> " << findGold << "\033[0m (" << xp << " EXP)";
+        player[roundManager].gold += findGold;
+
+    }
+    if (player[roundManager].key < 1)
+    {
+        chance = 0; chance = random(1,100);
+        if (chance > 0 & chance < 26 || chance > 49 & chance < 76)
+        {
+            xp = 0;
+            experience = 0;
+            experience = (50 * (player[roundManager].level * 0.5));
+            xp = round(experience);
+            px = px + xp;
+            std::cout << "\nSchluessel -------------> 1 (" << xp << " EXP)";
+            player[roundManager].key++;
+        } 
+    }
+    chance = 0; chance = random(1,100);
+    if (chance > 0 & chance < 26 || chance < 49 & chance < 76)
+    {
+        xp = 0;
+        experience = 0;
+        findHeal = random(1, 2);
+        experience = (findHeal * 10) * (player[roundManager].level * 0.25);
+        xp = round(experience);
+        px = px + xp;
+        std::cout << "\n\033[31mHeiltraenke ------------> " << findHeal << "\033[0m (" << xp << " EXP)";
+        player[roundManager].healthPotion += findHeal;
+    }
+    chance = 0; chance = random(1,100);
+    if (chance > 0 & chance < 26 || chance < 49 & chance < 76)
+    {
+        xp = 0;
+        experience = 0;
+        findMana = random(1, 2);
+        experience = (findMana * 15) * (player[roundManager].level * 0.25);
+        xp = round(experience);
+        px = px + xp;
+        std::cout << "\n\033[34mfindManaraenke ------------> " << findMana << "\033[0m (" << xp << " EXP)";
+        player[roundManager].manaPotion += findMana;
+    }
+    chance = 0; chance = random(1,100);
+    if (Chance > 0 & Chance < 26 || Chance < 49 & Chance < 76)
+    {
+        xp = 0;
+        experience = 0;
+        Regent = zufall(1, 3);
+        experience = (Regent * 20) * (SpielerLevel[roundManager] * 0.25);
+        xp = round(experience);
+        px = px + xp;
+        cout << "\n\033[35mRegenerationstraenke ----> " << findMana << "\033[0m (" << xp << " EXP)";
+        findManarank[roundManager] = findManarank[roundManager] + findMana;
+    }
+    Chance = 0; Chance = zufall(1,100);
+    if (Chance > 0 & Chance < 26 || Chance < 49 & Chance < 76)
+    {
+        xp = 0;
+        experience = 0;
+        Metall = zufall(1, 5);
+        experience = (Metall * 5) * (SpielerLevel[roundManager] * 0.25);
+        xp = round(experience);
+        px = px + xp;
+        cout << "\nAltmetall ----------> " << Metall << " (" << xp << " EXP)";
+        Altmetall[roundManager] = Altmetall[roundManager] + Metall;
+        Tragekapazitaet[roundManager] = Tragekapazitaet[roundManager] + (Metall * 0.1);
+    }
+    if (px < 1)
+    {
+        cout << "\n\nNichts!";
+        getKey();
+        return;
+    }
+    cout << "\nGesamt EXP ---------> " << px << " (EXP)";
+    Exp[roundManager] = Exp[roundManager] + px;
+    getKey();
+    ExpUp();
+    return;
+
+}
 
 
 #endif
