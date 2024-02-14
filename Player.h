@@ -33,12 +33,14 @@ class Player
 
         short key{};
         double capacity{};
+        double realCapacity{};
         double gold{};
         double scrapMetal{};
         double aluminum{};
         double copper{};
         double manaPotion{};
         double healthPotion{};
+        double regenPoition{};
         double weapons[500];
         double armor[500];
         

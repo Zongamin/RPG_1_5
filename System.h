@@ -36,6 +36,13 @@ void assignment(Player player[], short numberOfPlayers)
         player[i].capacity = (player[i].strength * 15) + (player[i].endurance * 5);
         player[i].regenerationOn = 0;
         player[i].fireAura = 0;
+        player[i].key = 0;
+        player[i].scrapMetal = 0;
+        player[i].aluminum = 0;
+        player[i].copper = 0;
+        player[i].healthPotion = 0;
+        player[i].manaPotion = 0;
+        player[i].regenPoition = 0;
         player[i].rooms = 0;
         player[i].crafted = 0;
         player[i].monsters = 0;
@@ -303,23 +310,54 @@ void ExpUp(Player player[], short roundManager)
     return;
 }
 
+// Überprüfung der Traglast
+
+void capacityCheck(Player player[], short roundManager, double weight, short numberOfObjects)
+{
+    if ((numberOfObjects * weight) + player[roundManager].realCapacity > player[roundManager].capacity)
+    {
+        std::cout << "Sie tragen zu viel, möchten sie etwas wegwerfen? (J/N)";
+        question();
+    }
+    return;
+}
+
 // looten nach erfolgreicher Suche
 
 void loot(Player player[], short roundManager)
 {
-    double findGold = 0;
+    double findItem = 0;
     double experience = 0;
-    int findHeal = 0;
-    int findMana = 0;
-    int findRegen = 0;
-    int findMetal = 0;
-    int chance = random(1,100);
+    int chance;
     int xp = 0;
     int px = 0;
 
-    std::cout << "\n";
+    for (int x = 0 ; x < 10; x++)
+    {
+    chance = 0; chance = random(1,100);
+    if (chance > 0 && chance < 26 || chance < 49 && chance < 76)
+    {
+        xp = 0;
+        experience = 0;
 
-    if (chance > 0 & chance < 26 || chance > 49 & chance < 76) 
+        switch (x)
+        {
+            case 0: // Gold
+                findItem = random((player[roundManager].level * 5), (player[roundManager].level * 25));
+                
+        }
+        
+        
+        experience = (findItem * 0.25) * (player[roundManager].level * 1.25);
+        xp = round(experience);
+        px = px + xp;
+        std::cout << "\nAltmetall ----------> " << findMetal << " (" << xp << " EXP)";
+        capacityCheck(player, roundManager, 0.1, findMetal);
+        player[roundManager].scrapMetal += findMetal;
+        player[roundManager].capacity += (findMetal * 0.1);
+    }std::cout << "\n";
+    }
+    /*if (chance > 0 & chance < 26 || chance > 49 & chance < 76) 
     {
         findGold = random((player[roundManager].level * 5), (player[roundManager].level * 25));
         experience = findGold * 0.25;
@@ -364,44 +402,32 @@ void loot(Player player[], short roundManager)
         experience = (findMana * 15) * (player[roundManager].level * 0.25);
         xp = round(experience);
         px = px + xp;
-        std::cout << "\n\033[34mfindManaraenke ------------> " << findMana << "\033[0m (" << xp << " EXP)";
+        std::cout << "\n\033[34mManaraenke ------------> " << findMana << "\033[0m (" << xp << " EXP)";
         player[roundManager].manaPotion += findMana;
     }
     chance = 0; chance = random(1,100);
-    if (Chance > 0 & Chance < 26 || Chance < 49 & Chance < 76)
+    if (chance > 0 & chance < 26 || chance < 49 & chance < 76)
     {
         xp = 0;
         experience = 0;
-        Regent = zufall(1, 3);
-        experience = (Regent * 20) * (SpielerLevel[roundManager] * 0.25);
+        findRegen = random(1, 2);
+        experience = (findRegen * 20) * (player[roundManager].level * 0.25);
         xp = round(experience);
         px = px + xp;
-        cout << "\n\033[35mRegenerationstraenke ----> " << findMana << "\033[0m (" << xp << " EXP)";
-        findManarank[roundManager] = findManarank[roundManager] + findMana;
-    }
-    Chance = 0; Chance = zufall(1,100);
-    if (Chance > 0 & Chance < 26 || Chance < 49 & Chance < 76)
-    {
-        xp = 0;
-        experience = 0;
-        Metall = zufall(1, 5);
-        experience = (Metall * 5) * (SpielerLevel[roundManager] * 0.25);
-        xp = round(experience);
-        px = px + xp;
-        cout << "\nAltmetall ----------> " << Metall << " (" << xp << " EXP)";
-        Altmetall[roundManager] = Altmetall[roundManager] + Metall;
-        Tragekapazitaet[roundManager] = Tragekapazitaet[roundManager] + (Metall * 0.1);
-    }
+        std::cout << "\n\033[35mRegenerationstraenke ----> " << findRegen << "\033[0m (" << xp << " EXP)";
+        player[roundManager].regenPoition += findRegen;
+    } */
+    
     if (px < 1)
     {
-        cout << "\n\nNichts!";
+        std::cout << "\n\nNichts!";
         getKey();
         return;
     }
-    cout << "\nGesamt EXP ---------> " << px << " (EXP)";
-    Exp[roundManager] = Exp[roundManager] + px;
+    std::cout << "\nGesamt EXP ---------> " << px << " (EXP)";
+    player[roundManager].realExp += px;
     getKey();
-    ExpUp();
+    ExpUp(player, roundManager);
     return;
 
 }
