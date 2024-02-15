@@ -40,7 +40,7 @@ class Player
         double copper{};
         double manaPotion{};
         double healthPotion{};
-        double regenPoition{};
+        double regenPotion{};
         double weapons[500];
         double armor[500];
         
