@@ -1,13 +1,34 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+#include <string>
 #include <iostream>
 #include <conio.h>
 #include <ctime>
 #include <cmath>
 #include <fstream>
 #include <windows.h>
+#include <algorithm>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
+
+/*Inhaltsverzeichnis:
+    - assignment     -- Zuweisung der Werte füür neue Spieler
+    - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
+    - getKey         -- press any key - Funktion
+    - error          -- Fehlermeldung : Falsche Eingabe
+    - clearScreen    -- Windows-CMD Screen leeren
+    - line           -- Trennstrich einfügen
+    - question       -- Ja/Nein - Abfrage des Spielers
+    - choice         -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe 
+    - showLife       -- Lebens- und Manaanzeige der Spieler
+    - colorSwitch    -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
+    - textColor      -- Schriftfarben verändern
+    - levelUp        -- Anheben von Skillpunkten, Spielerlevel & geforderten Level Exp
+    - expUp          -- Anheben der Spieler Exp und Level Umbruch
+    - capacityCheck  -- Überprüfung der Traglast des Spielers mit evtl. Übergabe an Ablagefunktion für Gegenstände
+    - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
+    - loot           -- Funktion für die Suche-Option des Spielers
+    - */
 
 // Globale Variable zum eingrenzen von wiederholten Zufallszahlen
 
@@ -155,7 +176,7 @@ int choice()
 
 // Lebens- und Manaanzeige
 
-void ShowLife(Player player[] , short roundManager)
+void showLife(Player player[] , short roundManager)
 {
     COORD coord;
     coord.X = 0;
@@ -237,8 +258,8 @@ void textColor (int color)
 void levelUp (Player player[], short roundManager)
 {
     player[roundManager].level++; 
-    player[roundManager].skillPoints = player[roundManager].skillPoints + 5;
-    player[roundManager].exp = round(player[roundManager].exp * 1.2);
+    player[roundManager].skillPoints += 5;
+    player[roundManager].exp = round(player[roundManager].exp * 1.25);
 
     std::cout << player[roundManager].getName() << " ist jetzt Level : " << player[roundManager].level;
     std::cout << "\n\nSkillpunkte sind um 5 gestiegen!";
@@ -250,7 +271,7 @@ void levelUp (Player player[], short roundManager)
 
 // Experience up
 
-void ExpUp(Player player[], short roundManager)
+void expUp(Player player[], short roundManager)
 {
     int range = 0;
     bool running = true;
@@ -322,6 +343,27 @@ void capacityCheck(Player player[], short roundManager, double weight, short num
     return;
 }
 
+// Sortierung und Nachrutschen von Arrays
+
+void arraySort(Player player[], short roundManager, std::string type)
+{
+    if (type == "weapon")
+    {
+        int arraySize = sizeof(player[roundManager].weapons) / sizeof(player[roundManager].weapons[0]);
+        std::sort(player[roundManager].weapons, player[roundManager].weapons + arraySize, std::greater<int>());
+        return;
+    }
+    else if (type == "armor")
+    {
+        int arraySize = sizeof(player[roundManager].armor) / sizeof(player[roundManager].armor[0]);
+        std::sort(player[roundManager].armor, player[roundManager].armor + arraySize, std::greater<int>());
+        return;
+    }
+    std::cout << "Error!" << std::endl;
+    getKey();
+    return;
+}
+
 // looten nach erfolgreicher Suche
 
 void loot(Player player[], short roundManager)
@@ -388,22 +430,34 @@ void loot(Player player[], short roundManager)
                 break;
             
             case 6: // Regenerationpotion
-                findItem = round(random((player[roundManager].level * 1), (player[roundManager].level *1.25)));
+                findItem = round(random((player[roundManager].level * 1), (player[roundManager].level * 1.25)));
                 experience = round((findItem * 20) * (player[roundManager].level * 1.25));
                 std::cout << "\nRegenerationstraenke ----> " << findItem << " / " << experience << " Exp." << std::endl;
                 capacityCheck(player, roundManager, 0.25, findItem);
                 player[roundManager].regenPotion += findItem;
                 break;
+            
+            case 7: // Waffen
+                chance = 0; chance = random(1,100);
+                if (chance > 39 && chance < 61)
+                {
+                    findItem = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2)); findItem++;
+                    experience = round((findItem * 100) * (player[roundManager].level * 1.25));
+                    std::cout << "\nWaffe -------------------> " << findItem << "DMG / " << experience << " Exp." << std::endl;
+                    capacityCheck(player, roundManager, findItem , 1);
+                    arraySort(player, roundManager, "weapon");
+                    for (int index = 0; player[roundManager].weapons[index] = !0; index++)
+                    {
+                    player[roundManager].weapons[index] += findItem;
+                    break;
+                    }
+                }
 
         }
 
         tempExp += experience;
-        
-        std::cout << "\nAltmetall ----------> " << findMetal << " (" << xp << " EXP)";
-        capacityCheck(player, roundManager, 0.1, findMetal);
-        player[roundManager].scrapMetal += findMetal;
-        player[roundManager].capacity += (findMetal * 0.1);
     }
+    
     if (tempExp < 1)
     {
         std::cout << "\n\nNichts!";
@@ -413,7 +467,7 @@ void loot(Player player[], short roundManager)
     std::cout << "\nGesamt EXP ---------> " << tempExp << " (EXP)";
     player[roundManager].realExp += tempExp;
     getKey();
-    ExpUp(player, roundManager);
+    expUp(player, roundManager);
     return;
     std::cout << "\n";
     }
