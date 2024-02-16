@@ -98,7 +98,7 @@ int random(int min, int max)
 void getKey() 
 {
     char key;
-    std::cout << "\n\n<<<< Press any key >>>>" << std::endl;
+    std::cout << "\n\n                                            \033[30;47m<<<< Press any key >>>>\033[0m" << std::endl;
     key = _getch();
     return;
 }
