@@ -373,7 +373,7 @@ void loot(Player player[], short roundManager)
     double findItem = 0;
     double experience = 0;
     
-    for (int x = 0 ; x < 10; x++)
+    for (int x = 0 ; x < 8; x++)
     {
     chance = 0; chance = random(1,100);
     if (chance > 0 && chance < 26 || chance > 49 && chance < 76)
@@ -445,14 +445,31 @@ void loot(Player player[], short roundManager)
                     experience = round((findItem * 100) * (player[roundManager].level * 1.25));
                     std::cout << "\nWaffe -------------------> " << findItem << "DMG / " << experience << " Exp." << std::endl;
                     capacityCheck(player, roundManager, findItem , 1);
-                    arraySort(player, roundManager, "weapon");
                     for (int index = 0; player[roundManager].weapons[index] = !0; index++)
                     {
                     player[roundManager].weapons[index] += findItem;
+                    arraySort(player, roundManager, "weapon");
                     break;
                     }
                 }
+                break;
 
+            case 8: // Rüstung
+                chance = 0; chance = random(1,100);
+                if (chance > 39 && chance < 61)
+                {
+                    findItem = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2)); findItem++;
+                    experience = round((findItem * 100) * (player[roundManager].level * 1.25));
+                    std::cout << "\nRuestung ----------------> " << findItem << "RST / " << experience << " Exp." << std::endl;
+                    capacityCheck(player, roundManager, findItem , 1);
+                    for (int index = 0; player[roundManager].armor[index] = !0; index++)
+                    {
+                    player[roundManager].armor[index] += findItem;
+                    arraySort(player, roundManager, "armor");
+                    break;
+                    }
+                }
+                break;
         }
 
         tempExp += experience;
@@ -464,7 +481,7 @@ void loot(Player player[], short roundManager)
         getKey();
         return;
     }
-    std::cout << "\nGesamt EXP ---------> " << tempExp << " (EXP)";
+    std::cout << "\nGesamt EXP --------------> " << tempExp << " (EXP)";
     player[roundManager].realExp += tempExp;
     getKey();
     expUp(player, roundManager);
