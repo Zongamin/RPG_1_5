@@ -12,7 +12,7 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
 
 /*Inhaltsverzeichnis:
-    - assignment     -- Zuweisung der Werte füür neue Spieler
+    - assignment     -- Zuweisung der Werte für neue Spieler
     - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
     - getKey         -- press any key - Funktion
     - error          -- Fehlermeldung : Falsche Eingabe
@@ -28,7 +28,8 @@
     - capacityCheck  -- Überprüfung der Traglast des Spielers mit evtl. Übergabe an Ablagefunktion für Gegenstände
     - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
     - loot           -- Funktion für die Suche-Option des Spielers
-    - */
+    - loadGame       -- Funktion zum Laden von Spielständen
+    */
 
 // Globale Variable zum eingrenzen von wiederholten Zufallszahlen
 
@@ -38,36 +39,36 @@ int repeater;
 
 void assignment(Player player[], short numberOfPlayers)
 {
-    for (int i = 0; i < numberOfPlayers; i++)
+    for (int index = 0; index < numberOfPlayers; index++)
         {
-        player[i].strength = 5;
-        player[i].intelligence = 5;
-        player[i].endurance = 5;
-        player[i].dexterity = 5;
-        player[i].luck = 5;
-        player[i].level = 1;
-        player[i].skillPoints = 5;
-        player[i].exp = 1000;
-        player[i].realExp = 0;
-        player[i].health = (player[i].strength * 15) + (player[i].endurance * 5);
-        player[i].mana = (player[i].intelligence * 3) + (player[i].endurance * 2);
-        player[i].realHealth = player[i].health;
-        player[i].realMana = player[i].mana;
-        player[i].luck = (player[i].endurance * 0.01) + (player[i].dexterity * 0.1);
-        player[i].capacity = (player[i].strength * 15) + (player[i].endurance * 5);
-        player[i].regenerationOn = 0;
-        player[i].fireAura = 0;
-        player[i].key = 0;
-        player[i].scrapMetal = 0;
-        player[i].aluminum = 0;
-        player[i].copper = 0;
-        player[i].healthPotion = 0;
-        player[i].manaPotion = 0;
-        player[i].regenPotion = 0;
-        player[i].rooms = 0;
-        player[i].crafted = 0;
-        player[i].monsters = 0;
-        player[i].bosses = 0;
+        player[index].strength = 5;
+        player[index].intelligence = 5;
+        player[index].endurance = 5;
+        player[index].dexterity = 5;
+        player[index].luck = 5;
+        player[index].level = 1;
+        player[index].skillPoints = 5;
+        player[index].exp = 1000;
+        player[index].realExp = 0;
+        player[index].health = (player[index].strength * 15) + (player[index].endurance * 5);
+        player[index].mana = (player[index].intelligence * 3) + (player[index].endurance * 2);
+        player[index].realHealth = player[index].health;
+        player[index].realMana = player[index].mana;
+        player[index].luck = (player[index].endurance * 0.01) + (player[index].dexterity * 0.1);
+        player[index].capacity = (player[index].strength * 15) + (player[index].endurance * 5);
+        player[index].regenerationOn = 0;
+        player[index].fireAura = 0;
+        player[index].key = 0;
+        player[index].scrapMetal = 0;
+        player[index].aluminum = 0;
+        player[index].copper = 0;
+        player[index].healthPotion = 1;
+        player[index].manaPotion = 1;
+        player[index].regenPotion = 0;
+        player[index].rooms = 0;
+        player[index].crafted = 0;
+        player[index].monsters = 0;
+        player[index].bosses = 0;
         }
 }
 
@@ -162,7 +163,7 @@ bool question()
 
 // Auswahl für Menüs
 
-int choice()
+short choice()
 {
     char key;
     key = _getch(); 
@@ -488,6 +489,15 @@ void loot(Player player[], short roundManager)
     return;
     std::cout << "\n";
     }
+}
+
+void loadGame()
+{
+    clearScreen();
+    textLoad();
+    line();
+    getKey();
+    return;
 }
 
 
