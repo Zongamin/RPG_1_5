@@ -13,13 +13,16 @@
 
 /*Inhaltsverzeichnis:
     - assignment     -- Zuweisung der Werte für neue Spieler
+    - charCalc       -- Charkter Rechner zum errechnen neuer Werte bei Skillpunktverteilung
     - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
     - getKey         -- press any key - Funktion
     - error          -- Fehlermeldung : Falsche Eingabe
     - clearScreen    -- Windows-CMD Screen leeren
     - line           -- Trennstrich einfügen
     - question       -- Ja/Nein - Abfrage des Spielers
-    - choice         -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe 
+    - choice         -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe
+    - position       -- Setzen der Cursor Position
+    - condition      -- Skillpunkt ermittlung für Charactermenü 
     - showLife       -- Lebens- und Manaanzeige der Spieler
     - colorSwitch    -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
     - textColor      -- Schriftfarben verändern
@@ -31,7 +34,7 @@
     - loadGame       -- Funktion zum Laden von Spielständen
     */
 
-// Globale Variable zum eingrenzen von wiederholten Zufallszahlen
+// Globale Variable zum Eingrenzen von wiederholten Zufallszahlen
 
 int repeater;
 
@@ -41,38 +44,52 @@ void assignment(Player player[], short numberOfPlayers)
 {
     for (int index = 0; index < numberOfPlayers; index++)
         {
-        player[index].strength = 5;
-        player[index].intelligence = 5;
-        player[index].endurance = 5;
-        player[index].dexterity = 5;
-        player[index].luck = 5;
-        player[index].level = 1;
-        player[index].skillPoints = 5;
-        player[index].exp = 1000;
-        player[index].realExp = 0;
-        player[index].health = (player[index].strength * 15) + (player[index].endurance * 5);
-        player[index].mana = (player[index].intelligence * 3) + (player[index].endurance * 2);
-        player[index].realHealth = player[index].health;
-        player[index].realMana = player[index].mana;
-        player[index].luck = (player[index].endurance * 0.01) + (player[index].dexterity * 0.1);
-        player[index].capacity = (player[index].strength * 15) + (player[index].endurance * 5);
-        player[index].regenerationOn = 0;
-        player[index].fireAura = 0;
-        player[index].key = 0;
-        player[index].scrapMetal = 0;
-        player[index].aluminum = 0;
-        player[index].copper = 0;
-        player[index].healthPotion = 1;
-        player[index].manaPotion = 1;
-        player[index].regenPotion = 0;
-        player[index].rooms = 0;
-        player[index].crafted = 0;
-        player[index].monsters = 0;
-        player[index].bosses = 0;
+            player[index].strength = 5;
+            player[index].intelligence = 5;
+            player[index].endurance = 5;
+            player[index].dexterity = 5;
+            player[index].luck = 5;
+            player[index].level = 1;
+            player[index].skillPoints = 5;
+            player[index].exp = 1000;   
+            player[index].realExp = 0;
+            player[index].health = (player[index].strength * 15) + (player[index].endurance * 5);
+            player[index].mana = (player[index].intelligence * 3) + (player[index].endurance * 2);
+            player[index].realHealth = player[index].health;
+            player[index].realMana = player[index].mana;
+            player[index].luck = (player[index].endurance * 0.01) + (player[index].dexterity * 0.1);
+            player[index].capacity = (player[index].strength * 15) + (player[index].endurance * 5);
+            player[index].regenerationOn = 0;
+            player[index].fireAura = 0;
+            player[index].key = 0;
+            player[index].scrapMetal = 0;
+            player[index].aluminum = 0;
+            player[index].copper = 0;
+            player[index].healthPotion = 1;
+            player[index].manaPotion = 1;
+            player[index].regenPotion = 0;
+            player[index].rooms = 0;
+            player[index].crafted = 0;
+            player[index].monsters = 0;
+            player[index].bosses = 0;
+            player[index].deaths = 0;
+            player[index].permaDeath = false;
         }
+    return;
 }
 
-//Generierung von Zufallszahlen mit min/max Wertübergabe
+// Errechnen neuer Werte bei Skillpunktverteilung
+
+void charCalc(Player player[], short index)
+{
+    player[index].health = (player[index].strength * 15) + (player[index].endurance * 5);
+    player[index].mana = (player[index].intelligence * 3) + (player[index].endurance * 2);
+    player[index].luck = (player[index].endurance * 0.01) + (player[index].dexterity * 0.1);
+    player[index].capacity = (player[index].strength * 15) + (player[index].endurance * 5);
+    return;
+}
+
+// Generierung von Zufallszahlen mit min/max Wertübergabe
 
 int random(int min, int max)
 {
@@ -104,11 +121,22 @@ void getKey()
     return;
 }
 
-// Falsche Eingabe Fehlermeldung
+// Falsche Eingaben Fehlermeldungen
 
-void error()
+void error(short error)
 {
-    std::cout << "Falsche Eingabe!" << std::endl;
+    switch(error)
+    {
+        case 0:
+            std::cout << "\n\n\033[31mFalsche Eingabe!\033[0m" << std::endl;
+            break;
+        case 1:
+            std::cout << "\n\n\033[31mZu wenig Skillpunkte!\033[0m" << std::endl;
+            break;
+        case 2:
+            std::cout << "\n\n\033[31mEs wurden noch keine Skillpunkte auf dieses Attribut verteilt!\033[0m" << std::endl;
+            break;
+    }
     getKey();
     return;
 }
@@ -154,7 +182,7 @@ bool question()
                 break;
 
             default:
-                error();
+                error(0);
                 continue;
         }
     }
@@ -173,6 +201,28 @@ short choice()
         return-1;
     }
 
+}
+
+// Position des Cursors setzen
+
+void position(int x, int y)
+{
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    return;
+}
+
+// Skillpunkte check für Character Menü
+
+bool condition(Player player[], short roundManager, double strength, double intelligence, double dexterity, double endurance)
+{
+    if (player[roundManager].skillPoints > 0 || strength + intelligence + dexterity + endurance > 0)
+    {
+        bool condition = true;
+        return condition;
+    }
 }
 
 // Lebens- und Manaanzeige

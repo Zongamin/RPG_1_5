@@ -22,7 +22,7 @@ int main()
     player[3].setName("Lasmiranda Densivilla");
 
     short numberOfPlayers = 1;
-    short roundManager = -1;
+    short roundManager = 0;
 
     // Title
 
@@ -31,11 +31,17 @@ int main()
     textRising();
     getKey();
     
-    // Gamemenue
+    // Gamemenue mit Spielerinitialisierung
 
     gameMenue(player, numberOfPlayers);
     
-    
+    // Erste Werteverteilung der Spieler
+
+    for (; roundManager < numberOfPlayers; roundManager++)
+    {
+    characterMenue(player, roundManager); 
+    }
+    roundManager = 0;
     return 0;
 }
 

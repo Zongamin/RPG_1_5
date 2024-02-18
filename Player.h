@@ -41,6 +41,7 @@ class Player
         double manaPotion{};
         double healthPotion{};
         double regenPotion{};
+        double resurrectionPoition{};
         double weapons[500];
         double armor[500];
         
@@ -49,6 +50,7 @@ class Player
 
         int fireAura{};
         int regenerationOn{};
+        bool permaDeath{};
 
         // Statistics
 
@@ -56,6 +58,7 @@ class Player
         double monsters{};
         double bosses{};
         double crafted{};
+        double deaths{};
         
         
     double damage(double damage)
