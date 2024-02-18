@@ -26,6 +26,7 @@
     - showLife       -- Lebens- und Manaanzeige der Spieler
     - colorSwitch    -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
     - textColor      -- Schriftfarben verändern
+    - backgroundColor-- Verändern der Hintergrund Farbe
     - levelUp        -- Anheben von Skillpunkten, Spielerlevel & geforderten Level Exp
     - expUp          -- Anheben der Spieler Exp und Level Umbruch
     - capacityCheck  -- Überprüfung der Traglast des Spielers mit evtl. Übergabe an Ablagefunktion für Gegenstände
@@ -229,29 +230,20 @@ bool condition(Player player[], short roundManager, double strength, double inte
 
 void showLife(Player player[] , short roundManager)
 {
-    COORD coord;
-    coord.X = 0;
-    coord.Y = 22;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-
+    position(0, 22);
     std::cout << "--------------------------------------------------------------------------------------------------------------\n";
     std::cout << "| Leben |\033[41m                                                                                                    \033[0m|\n";
     std::cout << "--------------------------------------------------------------------------------------------------------------\n";
     std::cout << "| Mana  |\033[41m                                                                                                    \033[0m|\n";
     std::cout << "--------------------------------------------------------------------------------------------------------------\n";
-        
-    coord.X = 9;
-    coord.Y = 23;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    
+    position(9, 23);
     int range = 100 * (player[roundManager].realHealth / player[roundManager].health);
+
     for (int i = 0; i < range; i++)
     {
     std::cout << "\033[42m ";
     }
-    coord.X = 9;
-    coord.Y = 25;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    position(9, 25);
 
     range = 100 * (player[roundManager].realMana / player[roundManager].mana);
     for (int x = 0; x < range; x++)
@@ -304,6 +296,23 @@ void textColor (int color)
     return;
 }
 
+// Verändern der Hintergrundfarbe (case 0 = Standard)
+
+void backgroundColor (short color)
+{
+    switch (color)
+    {
+        case 0:
+            system("color");
+            return;
+    
+        case 1:
+            system("color 0A");
+            return;
+    }
+
+}
+
 // Level up
 
 void levelUp (Player player[], short roundManager)
@@ -341,10 +350,7 @@ void expUp(Player player[], short roundManager)
         std::cout << "| Exp |\033[41m                                                                                                    \033[0m|\n";
         std::cout << "------------------------------------------------------------------------------------------------------------\n";
 
-    COORD coord;
-    coord.X = 7;
-    coord.Y = 16;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+        position(7, 16);
     
         if (player[roundManager].realExp > player[roundManager].exp)
         {

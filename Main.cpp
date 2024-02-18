@@ -42,6 +42,20 @@ int main()
     characterMenue(player, roundManager); 
     }
     roundManager = 0;
+
+    // Eingangsraum
+    
+    for (; roundManager < numberOfPlayers; roundManager++)
+    {
+        bool running = true;
+
+        while (running)
+        {
+            
+        }
+        player[roundManager].rooms++;
+    }
+    roundManager = 0;
     return 0;
 }
 

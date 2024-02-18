@@ -141,23 +141,15 @@ void characterMenue(Player player[], short roundManager)
         
         if (attitude == true) 
         { 
-            position(35, 15);
-            std::cout << " (" << strength << ") (Staerke beeinflusst die Angriffsstaerke und das Leben.) \033[0m";
-            position(35, 16);
-            std::cout << " (" << intelligence << ") (Intelligenz beeinflusst die Zauberintensitaet und das Mana.)\033[0m";
-            position(35, 17);
-            std::cout << " (" << endurance << ") (Ausdauer beeinflusst sowohl Leben, Mana als auch Glueck.)\033[0m";
-            position(35, 18);
-            std::cout << " (" << dexterity << ") (Geschick beeinflusst das Glueck.)\033[0m";
-            position(35, 22);
-            std::cout << " (Leben wird durch die Werte Staerke und Ausdauer beeinflusst.)\033[0m";
-            position(35, 23);
-            std::cout << " (Mana wird durch die Werte Intelligenz und Ausdauer beeinflusst.)\033[0m";
-            position(35, 24);
-            std::cout << " (Glueck beeinflusst die Kritische Trefferquote und die Beute.)\033[0m";
-            position(35, 25);
-            std::cout << " (Tragekapazitaet wird durch Staerke und Auddauer beeinflusst.)\033[0m";
-            position(0, 33);      
+            position(35, 15); std::cout << " (" << strength << ") (Staerke beeinflusst die Angriffsstaerke und das Leben.) \033[0m";
+            position(35, 16); std::cout << " (" << intelligence << ") (Intelligenz beeinflusst die Zauberintensitaet und das Mana.)\033[0m";
+            position(35, 17); std::cout << " (" << endurance << ") (Ausdauer beeinflusst sowohl Leben, Mana als auch Glueck.)\033[0m";
+            position(35, 18); std::cout << " (" << dexterity << ") (Geschick beeinflusst das Glueck.)\033[0m";
+            position(35, 22); std::cout << " (Leben wird durch die Werte Staerke und Ausdauer beeinflusst.)\033[0m";
+            position(35, 23); std::cout << " (Mana wird durch die Werte Intelligenz und Ausdauer beeinflusst.)\033[0m";
+            position(35, 24); std::cout << " (Glueck beeinflusst die Kritische Trefferquote und die Beute.)\033[0m";
+            position(35, 25); std::cout << " (Tragekapazitaet wird durch Staerke und Auddauer beeinflusst.)\033[0m";
+            position(0, 33);    
             std::cout << " \033[30;102m* 1 *\033[0m ------> \033[31mStaerke (+)\033[0m                              \033[41;97m* 5 *\033[0m ------> \033[31mStaerke (-)\033[0m \n\n";
             std::cout << " \033[30;102m* 2 *\033[0m ------> \033[34mIntelligenz (+)\033[0m                          \033[41;97m* 6 *\033[0m ------> \033[34mIntelligenz (-)\033[0m \n\n";
             std::cout << " \033[30;102m* 3 *\033[0m ------> \033[33mAusdauer (+)\033[0m                             \033[41;97m* 7 *\033[0m ------> \033[33mAusdauer (-)\033[0m \n\n";
@@ -169,7 +161,7 @@ void characterMenue(Player player[], short roundManager)
             switch (input)
             {
                 case 1:
-                    if (player[roundManager].skillPoints > 0) {player[roundManager].strength++; player[roundManager].skillPoints--; strength++; break;} 
+                    if (player[roundManager].skillPoints > 0) {player[roundManager].strength++; player[roundManager].skillPoints--; strength++; break;}
                     error(1);
                     break;
     
