@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Enemy.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
@@ -25,7 +26,8 @@ int main()
     short roundManager = 0;
 
     // Title
-
+    stairWayUp();
+    getKey();
     clearScreen();
     textTitle();
     textRising();
@@ -58,6 +60,18 @@ int main()
     roundManager = 0;
 
     // Endlosspiel
+
+bool playGame = true;
+
+    while (playGame)
+        {
+            bool running = true;
+                
+                while (running)
+                    {
+                        
+                    }
+        }
     
     return 0;
 }
