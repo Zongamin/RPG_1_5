@@ -26,8 +26,7 @@ int main()
     short roundManager = 0;
 
     // Title
-    stairWayUp();
-    getKey();
+   
     clearScreen();
     textTitle();
     textRising();
@@ -51,16 +50,36 @@ int main()
     {
         bool running = true;
 
+        backgroundColor(1);
+        clearScreen();
+        gambler();
+        getNumber(roundManager);
+        std::cout << "\n\n\n Spieler " << player[roundManager].getName()[roundManager] << " ist jetzt am Zug!";
+        getKey();
+        backgroundColor(0);
+
         while (running)
         {
-            backgroundColor(1);
             clearScreen();
-            gambler();
-            getNumber(roundManager);
+            line();
+            std::cout << player[roundManager].getName()[roundManager];
+            position(20, 3); std::cout << "Gold: " << player[roundManager].gold;
+            position(45, 3); std::cout << "EXP: " << player[roundManager].realExp << "/" << player[roundManager].exp << std::endl;
+            line();
+            doubleDoor();
+            position(45, 7);  std::cout << "Sie befinden sich vor der legendaeren Eingangstuer";
+            position(45, 8);  std::cout << "zum Endlosen Dungeon.";
+            position(45, 9);  std::cout << "Der Eingang wirkt sehr alt und Verheissungsvoll.";
+            position(45, 10); std::cout << "Sie bilden sich ein, Goblin und Orkfuerze riechen zu";
+            position(45, 11); std::cout << "koennen. Daher wissen Sie, dass Sie hier richtig sind.";
+            position(45, 14); std::cout << "-------------------------------------------------------------" << std::endl;
             getKey();
+            
             running = false;
+            break;
         }
         player[roundManager].rooms++;
+        break;
     }
     roundManager = 0;
 
@@ -75,6 +94,7 @@ bool playGame = true;
                 while (running)
                     {
                         running = false;
+                        break;
                     }
         }
     

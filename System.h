@@ -34,6 +34,7 @@
     - loot           -- Funktion für die Suche-Option des Spielers
     - loadGame       -- Funktion zum Laden von Spielständen
     - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
+    - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
     */
 
 // Globale Variable zum Eingrenzen von wiederholten Zufallszahlen
@@ -624,6 +625,13 @@ void getNumber(short roundManager)
             textFour(); 
             break;       
     }
+    return;
+}
+
+// Ermittlung der Gefahrenstufe der Räume
+
+void dangerZone()
+{
     return;
 }
 

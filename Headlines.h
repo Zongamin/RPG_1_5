@@ -22,10 +22,7 @@
     - textTitle
     - textEnd 
     - textDeath  
-    - textOne
-    - textTwo
-    - textThree
-    - textFour           */
+    -            */
 
 void textMainMenue()
 {

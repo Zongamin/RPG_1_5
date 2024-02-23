@@ -9,6 +9,9 @@
                                 Spielernamen, Spielstand laden, Spiel starten oder beenden.
     109     - characterMenue    Das Charactermenü ist sowohl eine einfache Anzeige der Charakterwerte, als auch (sofern
                                 Skillpunkte vorhanden sind) ein Menü zur Verteilung von Skillpunkten.
+    235     - roomOptions       Das Spielmenü des Spielers beinhaltet alle Optionen des Spiels. Sämtliche Ingamehand-
+                                lungen des Spielers werden von hier aus zugewiesen.
+
 */
 
 int gameMenue(Player player[], short& numberOfPlayers)
@@ -231,5 +234,12 @@ void characterMenue(Player player[], short roundManager)
     return;
 }
 
+// Ingame Hauptmenü
+
+void roomsOptions()
+{
+    position(27, 0);
+    return;
+}
 
 #endif
