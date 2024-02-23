@@ -2,9 +2,7 @@
 #define MENUES_H
 
 #include <iostream>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
+
 
 /*  Inhaltsverzeichnis
     16      - gameMenue         Das Gamemenü ist das Hauptmenue des Spiels und ist verantwortlich für Spieleranzahl,

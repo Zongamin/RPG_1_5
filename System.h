@@ -9,7 +9,6 @@
 #include <fstream>
 #include <windows.h>
 #include <algorithm>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
 
 /*Inhaltsverzeichnis:
@@ -17,7 +16,6 @@
     - charCalc       -- Charkter Rechner zum errechnen neuer Werte bei Skillpunktverteilung
     - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
     - getKey         -- press any key - Funktion
-    - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
     - error          -- Fehlermeldung : Falsche Eingabe
     - clearScreen    -- Windows-CMD Screen leeren
     - line           -- Trennstrich einfügen
@@ -35,6 +33,7 @@
     - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
     - loot           -- Funktion für die Suche-Option des Spielers
     - loadGame       -- Funktion zum Laden von Spielständen
+    - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
     */
 
 // Globale Variable zum Eingrenzen von wiederholten Zufallszahlen
@@ -121,24 +120,6 @@ void getKey()
     char key;
     std::cout << "\n\n                                            \033[30;47m<<<< Press any key >>>>\033[0m" << std::endl;
     key = _getch();
-    return;
-}
-
-// Ermittlung und Ausgabe der Spielernummer
-
-void getNumber(short roundManager)
-{
-    switch (roundManager)
-    {
-        case 0:
-            one();
-        case 1:
-            two();
-        case 2:
-            three();
-        case 3:
-            four();        
-    }
     return;
 }
 
@@ -327,7 +308,7 @@ void backgroundColor (short color)
             return;
     
         case 1:
-            system("color 0A");
+            system("color A0");
             return;
     }
 
@@ -576,6 +557,75 @@ void loadGame()
     return;
 }
 
+void textOne()
+{
+    position(70, 0); std::cout << "   _               \n";
+    position(70, 1); std::cout << " /' \\    		  \n";
+    position(70, 2); std::cout << "/\\_, \\           \n";
+    position(70, 3); std::cout << "\\/_/\\ \\         \n";
+    position(70, 4); std::cout << "   \\ \\ \\        \n";
+    position(70, 5); std::cout << "    \\ \\_\\       \n";
+    position(70, 6); std::cout << "     \\/_/         \n";
+    return;
+}
+
+void textTwo()
+{
+    position(70, 0); std::cout << "   ___             \n";
+    position(70, 1); std::cout << " /'___`\\          \n";
+    position(70, 2); std::cout << "/\\_\\ /\\ \\      \n";
+    position(70, 3); std::cout << "\\/_/// /__        \n";
+    position(70, 4); std::cout << "   // /_\\ \\      \n";
+    position(70, 5); std::cout << "  /\\______/       \n";
+    position(70, 6); std::cout << "  \\/_____/        \n";
+    return;
+}
+
+void textThree()
+{
+    position(70, 0); std::cout << "   __              \n";
+    position(70, 1); std::cout << " /'__`\\           \n";
+    position(70, 2); std::cout << "/\\_\\L\\ \\       \n";
+    position(70, 3); std::cout << "\\/_/_\\_<_        \n";
+    position(70, 4); std::cout << "  /\\ \\L\\ \\     \n";
+    position(70, 5); std::cout << "  \\ \\____/       \n";
+    position(70, 6); std::cout << "   \\/___/         \n";
+    return;
+}
+
+void textFour()
+{
+    position(70, 0); std::cout << " __ __             \n";
+    position(70, 1); std::cout << "/\\ \\\\ \\        \n";
+    position(70, 2); std::cout << "\\ \\ \\\\ \\      \n";
+    position(70, 3); std::cout << " \\ \\ \\\\ \\_    \n";
+    position(70, 4); std::cout << "  \\ \\__ ,__\\    \n";
+    position(70, 5); std::cout << "   \\/_/\\_\\_/    \n";
+    position(70, 6); std::cout << "      \\/_/        \n";
+    return;
+}
+
+// Ermittlung und Ausgabe der Spielernummer
+
+void getNumber(short roundManager)
+{
+    switch (roundManager)
+    {
+        case 0:
+            textOne();
+            break;
+        case 1:
+            textTwo();
+            break;
+        case 2:
+            textThree();
+            break;
+        case 3:
+            textFour(); 
+            break;       
+    }
+    return;
+}
 
 #endif
 

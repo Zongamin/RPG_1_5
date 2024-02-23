@@ -3,12 +3,12 @@
 
 #include <string>
 #include <iostream>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Enemy.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Menues.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Enemy.h>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Menues.h>
 
 // Main Game
             
@@ -54,9 +54,11 @@ int main()
         while (running)
         {
             backgroundColor(1);
+            clearScreen();
             gambler();
             getNumber(roundManager);
             getKey();
+            running = false;
         }
         player[roundManager].rooms++;
     }
@@ -72,7 +74,7 @@ bool playGame = true;
                 
                 while (running)
                     {
-                        
+                        running = false;
                     }
         }
     

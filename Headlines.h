@@ -2,14 +2,13 @@
 #define HEADLINES_H
 
 #include <iostream>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
 
 /* Inhaltsverzeichnis:
     Schriftzugdatei. Funktionen als Überschriften selbsterklärend
 
     - textMainMenue 
     - textCharacter
-    - player
+    - gambler
     - textLevelUp
     - textExpUp
     - textFight
@@ -23,12 +22,10 @@
     - textTitle
     - textEnd 
     - textDeath  
-    - one
-    - two
-    - three
-    - four           */
-
-
+    - textOne
+    - textTwo
+    - textThree
+    - textFour           */
 
 void textMainMenue()
 {
@@ -58,12 +55,12 @@ void textCharacter()
 
 void gambler()
 {
-    std::cout << "	  ____                               ___                                           \n";
+    std::cout << "    ____                               ___                                          \n";
     std::cout << "   /\\  _`\\               __           /\\_ \\                                      \n";
     std::cout << "   \\ \\,\\L\\_\\    _____   /\\_\\      __  \\//\\ \\       __    _ __              \n";
     std::cout << "    \\/_\\__ \\   /\\ '__`\\ \\/\\ \\   /'__`\\  \\ \\ \\    /'__`\\ /\\`'__\\       \n";
     std::cout << "      /\\ \\L\\ \\ \\ \\ \\L\\ \\ \\ \\ \\ /\\  __/   \\_\\ \\_ /\\  __/ \\ \\ \\/   \n";
-    std::cout << "      \\ `\\____\\ \\ \\ ,__/  \\ \\_\\ \\____\\  /\\____\\ \\____\\ \\ \\_\\        \n";
+    std::cout << "      \\ `\\____\\ \\ \\ ,__/  \\ \\_\\\\ \\____\\  /\\____\\\\ \\____\\ \\ \\_\\        \n";
     std::cout << "       \\/_____/  \\ \\ \\/    \\/_/ \\/____/  \\/____/ \\/____/  \\/_/              \n";
     std::cout << "                  \\ \\_\\                                                           \n";
     std::cout << "                   \\/_/                                                             \n";
@@ -279,58 +276,6 @@ void textDeath()
     std::cout << "           ##########                  ---       Moechten Sie einen Spielstand laden (J/N)?       ---\n";
     std::cout << "            ########                   --------------------------------------------------------------\n";
     std::cout << "              ####                                                                                   \n";
-    return;
-}
-
-void one()
-{
-    position( 0, 35 );
-    std::cout << "   _               ";
-    std::cout << " /' \\    		 ";
-    std::cout << "/\\_, \\           ";
-    std::cout << "\\/_/\\ \\         ";
-    std::cout << "   \\ \\ \\        ";
-    std::cout << "    \\ \\_\\       ";
-    std::cout << "     \\/_/         ";
-    return;
-}
-
-void two()
-{
-    position( 0, 35 );
-    std::cout << "   ___             ";
-    std::cout << " /'___`\\          ";
-    std::cout << "/\\_\\ /\\ \\      ";
-    std::cout << "\\/_/// /__        ";
-    std::cout << "   // /_\\ \\      ";
-    std::cout << "  /\\______/       ";
-    std::cout << "  \\/_____/        ";
-    return;
-}
-
-void three()
-{
-    position(0, 35);
-    std::cout << "   __              ";
-    std::cout << " /'__`\\           ";
-    std::cout << "/\\_\\L\\ \\       ";
-    std::cout << "\\/_/_\\_<_        ";
-    std::cout << "  /\\ \\L\\ \\     ";
-    std::cout << "  \\ \\____/       ";
-    std::cout << "   \\/___/         ";
-    return;
-}
-
-void four()
-{
-    position(0, 35);
-    std::cout << " __ __             ";
-    std::cout << "/\\ \\\\ \\        ";
-    std::cout << "\\ \\ \\\\ \\      ";
-    std::cout << " \\ \\ \\\\ \\_    ";
-    std::cout << "  \\ \\__ ,__\\    ";
-    std::cout << "   \\/_/\\_\\_/    ";
-    std::cout << "      \\/_/        ";
     return;
 }
 
