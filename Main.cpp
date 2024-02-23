@@ -54,27 +54,29 @@ int main()
         clearScreen();
         gambler();
         getNumber(roundManager);
-        std::cout << "\n\n\n Spieler " << player[roundManager].getName()[roundManager] << " ist jetzt am Zug!";
+        std::cout << "\n\n\n Spieler " << player[roundManager].getName() << " ist jetzt am Zug!";
         getKey();
         backgroundColor(0);
+        short zone = dangerZone();
 
         while (running)
         {
             clearScreen();
             line();
-            std::cout << player[roundManager].getName()[roundManager];
-            position(20, 3); std::cout << "Gold: " << player[roundManager].gold;
-            position(45, 3); std::cout << "EXP: " << player[roundManager].realExp << "/" << player[roundManager].exp << std::endl;
+            std::cout << player[roundManager].getName();
+            position(25, 3); std::cout << "Gold: " << player[roundManager].gold;
+            position(60, 3); std::cout << "EXP: " << player[roundManager].realExp << "/" << player[roundManager].exp << std::endl;
             line();
             doubleDoor();
-            position(45, 7);  std::cout << "Sie befinden sich vor der legendaeren Eingangstuer";
-            position(45, 8);  std::cout << "zum Endlosen Dungeon.";
-            position(45, 9);  std::cout << "Der Eingang wirkt sehr alt und Verheissungsvoll.";
-            position(45, 10); std::cout << "Sie bilden sich ein, Goblin und Orkfuerze riechen zu";
-            position(45, 11); std::cout << "koennen. Daher wissen Sie, dass Sie hier richtig sind.";
-            position(45, 14); std::cout << "-------------------------------------------------------------" << std::endl;
+            position(60, 7);  std::cout << "Sie befinden sich vor der legendaeren Eingangstuer";
+            position(60, 8);  std::cout << "zum Endlosen Dungeon.";
+            position(60, 9);  std::cout << "Der Eingang wirkt sehr alt und verheissungsvoll.";
+            position(60, 10); std::cout << "Sie bilden sich ein, Goblin und Orkfuerze riechen zu";
+            position(60, 11); std::cout << "koennen. Daher wissen Sie, dass Sie hier richtig sind.";
+            position(60, 14); std::cout << "-------------------------------------------------------------" << std::endl;
+            position(60, 16); std::cout << "Gefahrenstufe: ";
             getKey();
-            
+
             running = false;
             break;
         }

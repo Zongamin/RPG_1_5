@@ -37,9 +37,11 @@
     - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
     */
 
-// Globale Variable zum Eingrenzen von wiederholten Zufallszahlen
+// Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
 
-int repeater;
+short repeater{};
+short dangerRepeater{};
+short danger{};
 
 //Wertzuweisung neuer Spieler Objekte
 
@@ -630,9 +632,22 @@ void getNumber(short roundManager)
 
 // Ermittlung der Gefahrenstufe der Räume
 
-void dangerZone()
+short dangerZone()
 {
-    return;
+    short zone;
+    bool running = true;
+
+    while(running)
+    {
+        zone = round(random(1, 3));
+        if (zone == dangerRepeater) {danger++;} else {danger = 0;}
+        if (danger >= 2) {continue;}
+        dangerRepeater = zone;
+        running = false;
+        danger = 0;
+        break;
+    }
+    return zone;
 }
 
 #endif
