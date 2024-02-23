@@ -53,7 +53,10 @@ int main()
 
         while (running)
         {
-            
+            backgroundColor(1);
+            gambler();
+            getNumber(roundManager);
+            getKey();
         }
         player[roundManager].rooms++;
     }

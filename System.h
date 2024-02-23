@@ -10,12 +10,14 @@
 #include <windows.h>
 #include <algorithm>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
 
 /*Inhaltsverzeichnis:
     - assignment     -- Zuweisung der Werte für neue Spieler
     - charCalc       -- Charkter Rechner zum errechnen neuer Werte bei Skillpunktverteilung
     - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
     - getKey         -- press any key - Funktion
+    - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
     - error          -- Fehlermeldung : Falsche Eingabe
     - clearScreen    -- Windows-CMD Screen leeren
     - line           -- Trennstrich einfügen
@@ -119,6 +121,24 @@ void getKey()
     char key;
     std::cout << "\n\n                                            \033[30;47m<<<< Press any key >>>>\033[0m" << std::endl;
     key = _getch();
+    return;
+}
+
+// Ermittlung und Ausgabe der Spielernummer
+
+void getNumber(short roundManager)
+{
+    switch (roundManager)
+    {
+        case 0:
+            one();
+        case 1:
+            two();
+        case 2:
+            three();
+        case 3:
+            four();        
+    }
     return;
 }
 
