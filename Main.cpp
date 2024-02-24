@@ -66,7 +66,8 @@ int main()
         clearScreen();
         gambler();
         getNumber(roundManager);
-        std::cout << "\n\n\n\n                                   \033[32;40m Spieler: " << player[roundManager].getName() << " ist jetzt am Zug! \033[0m";
+        line();
+        std::cout << "\n\n                                  \033[32;40m Spieler: " << player[roundManager].getName() << " ist jetzt am Zug! \033[0m";
         getKey();
         backgroundColor(0);
         short zone = dangerZone();
@@ -96,8 +97,8 @@ int main()
             line();
             lifeDisplay(player, roundManager, 4, 28);
             line();
-
-
+            roomsOptions(zone);
+        
             getKey();
 
             running = false;

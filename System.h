@@ -220,10 +220,13 @@ short choice()
 {
     char key;
     key = _getch(); 
-    if (key >= '0' && key <= '9') {
+    if (key >= '0' && key <= '9') 
+    {
         return key - '0';
-    } else {
-        return-1;
+    } 
+    else 
+    {
+        return -1;
     }
 
 }

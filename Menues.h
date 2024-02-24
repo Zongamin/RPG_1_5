@@ -229,7 +229,7 @@ void characterMenue(Player player[], short roundManager)
                     break;
 
                 default:
-                    std::cout << "\033[31mDas ist leider nicht moeglich!\033[0m";
+                    std::cout << "\n\033[31mDas ist leider nicht moeglich!\033[0m";
                     getKey();       
                     break;
             }
@@ -246,10 +246,38 @@ void characterMenue(Player player[], short roundManager)
 
 // Ingame Hauptmenü
 
-void roomsOptions()
+short roomsOptions(Player player[], short roundManager, short danger, short roomNumber)
 {
-    position(27, 0);
-    return;
+    bool running = true;
+
+    while(running)
+    {
+    position(0, 32);
+    colorSwitch(danger); std::cout << "[ 1 ]\033[0m ------> "; textColor(danger); std::cout << "Weiter zum naechsten Raum\033[0m               \033[30;46m[ 5 ]\033[0m ------> \033[36mCharakter \033[0m \n\n";
+    colorSwitch(danger); std::cout << "[ 2 ]\033[0m ------> "; textColor(danger); std::cout << "Umgebung absuchen       \033[0m                \033[30;105m[ 6 ]\033[0m ------> \033[95mInventar \033[0m \n\n";
+    colorSwitch(danger); std::cout << "[ 3 ]\033[0m ------> "; textColor(danger); std::cout << "Nach Fallen suchen      \033[0m                \033[30;104m[ 7 ]\033[0m ------> \033[94mMagie \033[0m \n\n";
+    colorSwitch(danger); std::cout << "[ 4 ]\033[0m ------> "; textColor(danger); std::cout << "Ausruhen                \033[0m                \033[30;47m[ 8 ]\033[0m ------> Menue \n\n";
+    short input = choice();
+
+    switch (input)
+    {
+        case 0:
+            if (roomNumber == 1);
+            break;
+        
+        case 1:
+            if (player[roundManager].key >= 1);
+            break;
+
+        case 2:
+            loot(player, roundManager);
+            break;
+        
+        default:
+            error(0);
+            continue;        
+    }
+    }
 }
 
 #endif
