@@ -213,6 +213,16 @@ void characterMenue(Player player[], short roundManager)
                     choice  = question();
                     if (choice == true)
                     {
+                        player[roundManager].realHealth += (strength * 15) + (endurance * 5);
+                        if(player[roundManager].realHealth > player[roundManager].health)
+                        {
+                            player[roundManager].realHealth = player[roundManager].health;
+                        }
+                        player[roundManager].realMana += (intelligence * 3) + (endurance * 2);
+                        if(player[roundManager].realMana > player[roundManager].mana)
+                        {
+                            player[roundManager].realMana = player[roundManager].mana;
+                        } 
                         running = false; 
                         break;
                     }

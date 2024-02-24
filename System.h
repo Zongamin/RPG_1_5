@@ -18,12 +18,13 @@
     - getKey         -- press any key - Funktion
     - error          -- Fehlermeldung : Falsche Eingabe
     - clearScreen    -- Windows-CMD Screen leeren
+    - position       -- Setzen der Cursor Position
+    - miniLine       -- kleinen Trennstrich einfügen
     - line           -- Trennstrich einfügen
     - question       -- Ja/Nein - Abfrage des Spielers
     - choice         -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe
-    - position       -- Setzen der Cursor Position
     - condition      -- Skillpunkt ermittlung für Charactermenü 
-    - showLife       -- Lebens- und Manaanzeige der Spieler
+    - lifeDisplay    -- Lebens- und Manaanzeige der Spieler
     - colorSwitch    -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
     - textColor      -- Schriftfarben verändern
     - backgroundColor-- Verändern der Hintergrund Farbe
@@ -35,6 +36,8 @@
     - loadGame       -- Funktion zum Laden von Spielständen
     - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
     - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
+    - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
+    - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
     */
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
@@ -154,11 +157,28 @@ void clearScreen()
     return;
 }
 
+// Position des Cursors setzen
+
+void position(int x, int y)
+{
+    COORD coord;
+    coord.X = x;
+    coord.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    return;
+}
+
 // Trennlinie zeichnen
+
+void miniLine(int posX, int posY)
+{
+    position(posX, posY); std::cout << "-------------------------------------------------------------\n\n";
+    return;
+}
 
 void line()
 {
-    std::cout << "\n---------------------------------------------------------------------------------------------------------------\n\n";
+    std::cout << "\n-----------------------------------------------------------------------------------------------------------------------\n\n";
     return;
 }
 
@@ -208,17 +228,6 @@ short choice()
 
 }
 
-// Position des Cursors setzen
-
-void position(int x, int y)
-{
-    COORD coord;
-    coord.X = x;
-    coord.Y = y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-    return;
-}
-
 // Skillpunkte check für Character Menü
 
 bool condition(Player player[], short roundManager, double strength, double intelligence, double dexterity, double endurance)
@@ -230,31 +239,42 @@ bool condition(Player player[], short roundManager, double strength, double inte
     }
 }
 
-// Lebens- und Manaanzeige
+// Lebens-, Mana- und Exp - Anzeige des Spielers
 
-void showLife(Player player[] , short roundManager)
+void lifeDisplay(Player player[] , short roundManager,int posX, int posY)
 {
-    position(0, 22);
-    std::cout << "--------------------------------------------------------------------------------------------------------------\n";
-    std::cout << "| Leben |\033[41m                                                                                                    \033[0m|\n";
-    std::cout << "--------------------------------------------------------------------------------------------------------------\n";
-    std::cout << "| Mana  |\033[41m                                                                                                    \033[0m|\n";
-    std::cout << "--------------------------------------------------------------------------------------------------------------\n";
-    position(9, 23);
-    int range = 100 * (player[roundManager].realHealth / player[roundManager].health);
+    position(posX, posY);     std::cout << "--------------------------------------------------------------------------------------------------------------\n";
+    position(posX, posY + 1); std::cout << "| Leben |\033[41m                                                                                                    \033[0m|\n";
+    position(posX, posY + 2); std::cout << "--------------------------------------------------------------------------------------------------------------\n";
+    position(posX, posY + 3); std::cout << "| Mana  |\033[41m                                                                                                    \033[0m|\n";
+    position(posX, posY + 4); std::cout << "--------------------------------------------------------------------------------------------------------------\n";
+    position(posX, posY + 5); std::cout << "| Exp   |\033[41m                                                                                                    \033[0m|\n";
+    position(posX, posY + 6); std::cout << "--------------------------------------------------------------------------------------------------------------\n";
 
+    double range{};
+    position((posX + 9), (posY + 1));
+    round(range = 100 * (player[roundManager].realHealth / player[roundManager].health));
     for (int i = 0; i < range; i++)
     {
-    std::cout << "\033[42m ";
+        std::cout << "\033[42m ";
     }
-    position(9, 25);
-
-    range = 100 * (player[roundManager].realMana / player[roundManager].mana);
-    for (int x = 0; x < range; x++)
+    
+    range = 0;
+    position((posX + 9), (posY + 3));
+    round(range = 100 * (player[roundManager].realMana / player[roundManager].mana));
+    for (int i = 0; i < range; i++)
     {
-    std::cout << "\033[104m ";
+        std::cout << "\033[104m ";
     }
-    std::cout << "\n\n\n\033[0m";
+    
+    range = 0;
+    position((posX + 9), (posY + 5));
+    round(range = 100 *(player[roundManager].realExp / player[roundManager].exp));
+    for (int i = 0; i < range; i++)
+    {
+        std::cout << "\033[43m ";
+    }
+    std::cout << "\n\033[0m " << std::endl;
     return;
 }
 
@@ -648,6 +668,36 @@ short dangerZone()
         break;
     }
     return zone;
+}
+
+// Anzeige der Gefahrenstufe des Raums
+
+void dangerDisplay(short zone)
+{
+    switch(zone)
+    {
+        case 1:
+            std::cout << "\033[30;47m Gefahrenstufe : Sicher \033[0m" << std::endl;
+            break;
+        case 2:
+            std::cout << "\033[30;43m Gefahrenstufe : Unsicher \033[0m" << std::endl;
+            break;
+        case 3:
+            std::cout << "\033[97;41m Gefahrenstufe : Gefahr \033[0m" << std::endl;
+            break;
+    }
+    return;
+}
+
+void capacityColor(Player player[], short roundManager)
+{
+    double range{};
+    round(range = 100 * (player[roundManager].realCapacity / player[roundManager].capacity));
+    if (range <= 25)  {std::cout << "\033[92m"; return;}
+    if (range <= 50)  {std::cout << "\033[32m"; return;}
+    if (range <= 75)  {std::cout << "\033[43m"; return;}
+    std::cout << "\033[31m"; 
+    return;
 }
 
 #endif

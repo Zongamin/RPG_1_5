@@ -14,13 +14,25 @@
             
 int main() 
 {   
-    // Initialisierung
+    // Initialisierung Player
     
     Player player[4];
     player[0].setName("Max Mustermann");
     player[1].setName("Maxine Mustermann");
     player[2].setName("Hans Wurst");
     player[3].setName("Lasmiranda Densivilla");
+
+    // Initialisierung Enemy
+
+    Enemy enemy[6];
+    enemy[0].setName("Imp");
+    enemy[1].setName("Goblin");
+    enemy[2].setName("Ork");
+    enemy[3].setName("Oger");
+    enemy[4].setName("Killer Karnickel");
+    enemy[5].setName("Drache");
+
+    // Globale Variablen
 
     short numberOfPlayers = 1;
     short roundManager = 0;
@@ -54,7 +66,7 @@ int main()
         clearScreen();
         gambler();
         getNumber(roundManager);
-        std::cout << "\n\n\n Spieler " << player[roundManager].getName() << " ist jetzt am Zug!";
+        std::cout << "\n\n\n\n                                   \033[32;40m Spieler: " << player[roundManager].getName() << " ist jetzt am Zug! \033[0m";
         getKey();
         backgroundColor(0);
         short zone = dangerZone();
@@ -63,18 +75,29 @@ int main()
         {
             clearScreen();
             line();
-            std::cout << player[roundManager].getName();
-            position(25, 3); std::cout << "Gold: " << player[roundManager].gold;
-            position(60, 3); std::cout << "EXP: " << player[roundManager].realExp << "/" << player[roundManager].exp << std::endl;
+            std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+            position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+            capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
             line();
             doubleDoor();
-            position(60, 7);  std::cout << "Sie befinden sich vor der legendaeren Eingangstuer";
-            position(60, 8);  std::cout << "zum Endlosen Dungeon.";
-            position(60, 9);  std::cout << "Der Eingang wirkt sehr alt und verheissungsvoll.";
-            position(60, 10); std::cout << "Sie bilden sich ein, Goblin und Orkfuerze riechen zu";
-            position(60, 11); std::cout << "koennen. Daher wissen Sie, dass Sie hier richtig sind.";
-            position(60, 14); std::cout << "-------------------------------------------------------------" << std::endl;
-            position(60, 16); std::cout << "Gefahrenstufe: ";
+            position(58, 8);  std::cout << "Sie stehen vor der gewaltigen Pforte zum sagenumwobenen";
+            position(58, 9);  std::cout << "endlosen Dungeon. Die Tuer scheint so alt, dass selbst der";
+            position(58, 10); std::cout << "Schimmel darauf in Rente gehen koennte. Doch da ist auch";
+            position(58, 11); std::cout << "dieser Hauch von Abenteuer, der in der Luft liegt (oder";
+            position(58, 12); std::cout << "vielleicht ist es einfach nur der Gestank von alten"; 
+            position(58, 13); std::cout << "Goblinfuerzen, der seit Aeonen in den Tiefen dieses Dungeons";
+            position(58, 14); std::cout << "rumhaengt). Sie wissen geanu: Der Weg vor Ihnen ist gespickt";
+            position(58, 15); std::cout << "mit Reichtuemern, Gefahren und vielleicht sogar einer alten,";
+            position(58, 16); std::cout << "vergessenen Socke eines Ogers. Also,schnappen Sie sich Ihren";
+            position(58, 17); std::cout << "Mut und treten Sie ein in den endlosen Dungeon!";
+            miniLine(58, 19);
+            position(58, 21); dangerDisplay(zone);
+            miniLine(58, 23);
+            line();
+            lifeDisplay(player, roundManager, 4, 28);
+            line();
+
+
             getKey();
 
             running = false;
