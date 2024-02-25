@@ -469,15 +469,15 @@ void loot(Player player[], short roundManager)
     clearScreen();
     textSearch();
     line();
-
-    for (int x = 0 ; x < 8; x++)
+    std::cout << "\nSie begeben sich auf die Suche und finden: \n" << std::endl;
+    for (int i = 0 ; i < 9; i++)
     {
     chance = 0; chance = random(1,100);
     if (chance > 0 && chance < 26 || chance > 49 && chance < 76)
     {
         experience = 0;
 
-        switch (x)
+        switch (i)
         {
             case 0: // Gold
                 findItem = random((player[roundManager].level * 5), (player[roundManager].level * 25));
@@ -566,10 +566,12 @@ void loot(Player player[], short roundManager)
                     break;
                     }
                 }
-                break;
+                
         }
 
         tempExp += experience;
+        
+    }
     }
     
     if (tempExp < 1)
@@ -578,13 +580,13 @@ void loot(Player player[], short roundManager)
         getKey();
         return;
     }
+    
     std::cout << "\nGesamt EXP --------------> " << tempExp << " (EXP)";
     player[roundManager].realExp += tempExp;
     getKey();
     expUp(player, roundManager);
-    return;
     std::cout << "\n";
-    }
+    return;
 }
 
 void loadGame()

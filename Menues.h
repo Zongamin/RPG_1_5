@@ -2,7 +2,7 @@
 #define MENUES_H
 
 #include <iostream>
-
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Main.cpp>
 
 /*  Inhaltsverzeichnis
     16      - gameMenue         Das Gamemenü ist das Hauptmenue des Spiels und ist verantwortlich für Spieleranzahl,
@@ -246,10 +246,10 @@ void characterMenue(Player player[], short roundManager)
 
 // Ingame Hauptmenü
 
-bool roomsOptions(Player player[], short roundManager, short danger, short roomNumber)
+bool roomOptions(Player player[], short roundManager, short danger, short roomNumber)
 {
     bool running = true;
-    bool nextPlayer = false;
+    bool roomCleared = false;
 
     while(running)
     {
@@ -263,8 +263,10 @@ bool roomsOptions(Player player[], short roundManager, short danger, short roomN
     switch (input)
     {
         case 0:
-            if (roomNumber == 1);
-            break;
+            if (roomNumber == 1)
+            {
+                break;
+            }
         
         case 1:
             if (player[roundManager].key >= 1) 
@@ -272,7 +274,7 @@ bool roomsOptions(Player player[], short roundManager, short danger, short roomN
                 std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schlüssel und öffnest die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
                 player[roundManager].key--;
                 getKey();
-                nextPlayer = true;
+                roomCleared = true;
                 running = false;
                 break;                
             }
@@ -280,7 +282,7 @@ bool roomsOptions(Player player[], short roundManager, short danger, short roomN
             {
                 std::cout << "\n\n\033[37;41m *** Sie versuchen die Tuer zu öffnen, aber sie ist verschlossen. Sie durchsuchen Ihre Taschen aber Sie haben leider keinen Schluessel dabei! *** \033[0m" << std::endl;
                 getKey();
-                nextPlayer = false;
+                roomCleared = false;
                 running = false;
                 break;
             }
@@ -289,55 +291,55 @@ bool roomsOptions(Player player[], short roundManager, short danger, short roomN
 
         case 2:
             loot(player, roundManager);
-            nextPlayer = false;
+            roomCleared = false;
             running = false;
             break;
         
         case 3:
-            nextPlayer = false;
+            roomCleared = false;
             running = false;
             break;
         
         case 4:
-            nextPlayer = false;
+            roomCleared = false;
             running = false;
             break;
         
         case 5:
             characterMenue(player, roundManager);
-            nextPlayer = false;
+            roomCleared = false;
             running = false;
             break;
         
         case 6:
-            nextPlayer = false;
+            roomCleared = false;
             running = false;
             break;
         
         case 7:
-            nextPlayer = false;
+            roomCleared = false;
             running = false;
             break;
         
         case 8:
-            nextPlayer = false;
+            roomCleared = false;
             running = false;
             break;
 
         case 9:
-            nextPlayer = false;
+            roomCleared = false;
             running = false;
             break;
 
         default:
             error(0);
             getKey();
-            nextPlayer = false;
+            roomCleared = false;
             running = false;
             break;        
     }
-    return nextPlayer;
     }
+    return roomCleared;
     
 }
 

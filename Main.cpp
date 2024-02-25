@@ -10,10 +10,17 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
 
+
 // Main Game
             
 int main() 
 {   
+    // Globale Variablen
+
+    short numberOfPlayers = 1;
+    short roundManager = 0;
+    bool roomCleared = false;
+
     // Initialisierung Player
     
     Player player[4];
@@ -31,13 +38,7 @@ int main()
     enemy[3].setName("Oger");
     enemy[4].setName("Killer Karnickel");
     enemy[5].setName("Drache");
-
-    // Globale Variablen
-
-    short numberOfPlayers = 1;
-    short roundManager = 0;
-    bool roomCleared = false;
-
+            
     // Title
    
     clearScreen();
@@ -58,25 +59,26 @@ int main()
     roundManager = 0;
 
     // Eingangsraum
-    
+      
+    for(; roundManager < numberOfPlayers; roundManager++)
+    {
         bool running = true;
+        short zone = dangerZone();
 
-        for(; roundManager < numberOfPlayers; roundManager++)
-        {
         backgroundColor(1);
         clearScreen();
         gambler();
         getNumber(roundManager);
         line();
-        std::cout << "\n\n                   \033[32;40m Spieler: " << player[roundManager].getName() << " ist jetzt am Zug! " << "\033[102m \n";
+        std::cout << "\n\n                       \033[32;40m *** Spieler " << player[roundManager].getName() << " ist jetzt am Zug! *** " << "\033[102m \n";
         getKey();
         backgroundColor(0);
-        short zone = dangerZone();
+        
 
         if (zone > 1) 
-        {
-            player[roundManager].traps = trapCall(player, roundManager, zone);
-        }
+            {
+                player[roundManager].traps = trapCall(player, roundManager, zone);
+            }
 
         while (running)
         {
@@ -103,18 +105,19 @@ int main()
             line();
             lifeDisplay(player, roundManager, 4, 28);
             line();
-            roomCleared = roomsOptions(player, roundManager, zone, 0);
+            roomCleared = roomOptions(player, roundManager, zone, 0);
             if (roomCleared == true)
             {  
+            roomCleared = false;
             running = false;
             break;
             }
-            break;
+            continue;
         }
         player[roundManager].traps = 0;
         player[roundManager].rooms++;
-        }
-        roundManager = 0;
+    }
+        
 
     // Endlosspiel
 
