@@ -38,6 +38,7 @@
     - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
     - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
     - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
+    - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
     */
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
@@ -344,12 +345,16 @@ void backgroundColor (short color)
 
 void levelUp (Player player[], short roundManager)
 {
+    clearScreen();
+    textLevelUp();
+    line();
+
     player[roundManager].level++; 
     player[roundManager].skillPoints += 5;
     player[roundManager].exp = round(player[roundManager].exp * 1.25);
 
-    std::cout << player[roundManager].getName() << " ist jetzt Level : " << player[roundManager].level;
-    std::cout << "\n\nSkillpunkte sind um 5 gestiegen!";
+    std::cout << "\033[30;102m *** " << player[roundManager].getName() << " ist jetzt Level " << player[roundManager].level << " Ihre Skillpunkte sind um 5 gestiegen! *** \033[0m";
+    std::cout << "\n\n";
     
     getKey();
     return;
@@ -365,6 +370,10 @@ void expUp(Player player[], short roundManager)
         
     while(running)
     {
+    clearScreen();
+    textExpUp();
+    line();
+
     if (player[roundManager].realExp > player[roundManager].exp)
     {
         std::cout << "\n Expierience : " << player[roundManager].realExp - player[roundManager].realExp << "/" << round(player[roundManager].exp * 1.2) << "\n\n";
@@ -457,6 +466,10 @@ void loot(Player player[], short roundManager)
     double findItem = 0;
     double experience = 0;
     
+    clearScreen();
+    textSearch();
+    line();
+
     for (int x = 0 ; x < 8; x++)
     {
     chance = 0; chance = random(1,100);
@@ -591,7 +604,7 @@ void textOne()
     position(70, 3); std::cout << "\\/_/\\ \\         \n";
     position(70, 4); std::cout << "   \\ \\ \\        \n";
     position(70, 5); std::cout << "    \\ \\_\\       \n";
-    position(70, 6); std::cout << "     \\/_/         \n";
+    position(70, 6); std::cout << "     \\/_/         \n\n";
     return;
 }
 
@@ -603,7 +616,7 @@ void textTwo()
     position(70, 3); std::cout << "\\/_/// /__        \n";
     position(70, 4); std::cout << "   // /_\\ \\      \n";
     position(70, 5); std::cout << "  /\\______/       \n";
-    position(70, 6); std::cout << "  \\/_____/        \n";
+    position(70, 6); std::cout << "  \\/_____/        \n\n";
     return;
 }
 
@@ -615,7 +628,7 @@ void textThree()
     position(70, 3); std::cout << "\\/_/_\\_<_        \n";
     position(70, 4); std::cout << "  /\\ \\L\\ \\     \n";
     position(70, 5); std::cout << "  \\ \\____/       \n";
-    position(70, 6); std::cout << "   \\/___/         \n";
+    position(70, 6); std::cout << "   \\/___/         \n\n";
     return;
 }
 
@@ -627,7 +640,7 @@ void textFour()
     position(70, 3); std::cout << " \\ \\ \\\\ \\_    \n";
     position(70, 4); std::cout << "  \\ \\__ ,__\\    \n";
     position(70, 5); std::cout << "   \\/_/\\_\\_/    \n";
-    position(70, 6); std::cout << "      \\/_/        \n";
+    position(70, 6); std::cout << "      \\/_/        \n\n";
     return;
 }
 
@@ -701,6 +714,16 @@ void capacityColor(Player player[], short roundManager)
     if (range <= 75)  {std::cout << "\033[43m"; return;}
     std::cout << "\033[31m"; 
     return;
+}
+
+short trapCall(Player player[], short roundManager, short zone)
+{
+    short traps = 0;
+    if (zone == 2) 
+    {
+        
+    }
+    return traps;
 }
 
 #endif

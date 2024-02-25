@@ -50,6 +50,7 @@ class Player
 
         int fireAura{};
         int regenerationOn{};
+        int traps{};
         bool permaDeath{};
 
         // Statistics

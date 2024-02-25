@@ -36,6 +36,7 @@ int main()
 
     short numberOfPlayers = 1;
     short roundManager = 0;
+    bool roomCleared = false;
 
     // Title
    
@@ -58,19 +59,24 @@ int main()
 
     // Eingangsraum
     
-    for (; roundManager < numberOfPlayers; roundManager++)
-    {
         bool running = true;
 
+        for(; roundManager < numberOfPlayers; roundManager++)
+        {
         backgroundColor(1);
         clearScreen();
         gambler();
         getNumber(roundManager);
         line();
-        std::cout << "\n\n                                  \033[32;40m Spieler: " << player[roundManager].getName() << " ist jetzt am Zug! \033[0m";
+        std::cout << "\n\n                   \033[32;40m Spieler: " << player[roundManager].getName() << " ist jetzt am Zug! " << "\033[102m \n";
         getKey();
         backgroundColor(0);
         short zone = dangerZone();
+
+        if (zone > 1) 
+        {
+            player[roundManager].traps = trapCall(player, roundManager, zone);
+        }
 
         while (running)
         {
@@ -92,22 +98,23 @@ int main()
             position(58, 16); std::cout << "vergessenen Socke eines Ogers. Also,schnappen Sie sich Ihren";
             position(58, 17); std::cout << "Mut und treten Sie ein in den endlosen Dungeon!";
             miniLine(58, 19);
-            position(58, 21); dangerDisplay(zone);
+            position(68, 21); dangerDisplay(zone);
             miniLine(58, 23);
             line();
             lifeDisplay(player, roundManager, 4, 28);
             line();
-            roomsOptions(zone);
-        
-            getKey();
-
+            roomCleared = roomsOptions(player, roundManager, zone, 0);
+            if (roomCleared == true)
+            {  
             running = false;
             break;
+            }
+            break;
         }
+        player[roundManager].traps = 0;
         player[roundManager].rooms++;
-        break;
-    }
-    roundManager = 0;
+        }
+        roundManager = 0;
 
     // Endlosspiel
 
@@ -115,6 +122,11 @@ bool playGame = true;
 
     while (playGame)
         {
+            if(roundManager > numberOfPlayers)
+            {
+                roundManager = 0;
+                break;
+            }
             bool running = true;
                 
                 while (running)

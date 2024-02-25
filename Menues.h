@@ -246,17 +246,18 @@ void characterMenue(Player player[], short roundManager)
 
 // Ingame Hauptmenü
 
-short roomsOptions(Player player[], short roundManager, short danger, short roomNumber)
+bool roomsOptions(Player player[], short roundManager, short danger, short roomNumber)
 {
     bool running = true;
+    bool nextPlayer = false;
 
     while(running)
     {
-    position(0, 32);
-    colorSwitch(danger); std::cout << "[ 1 ]\033[0m ------> "; textColor(danger); std::cout << "Weiter zum naechsten Raum\033[0m               \033[30;46m[ 5 ]\033[0m ------> \033[36mCharakter \033[0m \n\n";
-    colorSwitch(danger); std::cout << "[ 2 ]\033[0m ------> "; textColor(danger); std::cout << "Umgebung absuchen       \033[0m                \033[30;105m[ 6 ]\033[0m ------> \033[95mInventar \033[0m \n\n";
-    colorSwitch(danger); std::cout << "[ 3 ]\033[0m ------> "; textColor(danger); std::cout << "Nach Fallen suchen      \033[0m                \033[30;104m[ 7 ]\033[0m ------> \033[94mMagie \033[0m \n\n";
-    colorSwitch(danger); std::cout << "[ 4 ]\033[0m ------> "; textColor(danger); std::cout << "Ausruhen                \033[0m                \033[30;47m[ 8 ]\033[0m ------> Menue \n\n";
+    position(20, 38); colorSwitch(danger); std::cout << "[ 1 ]\033[0m ------> "; textColor(danger); std::cout << "Weiter zum naechsten Raum\033[0m               \033[30;46m[ 5 ]\033[0m ------> \033[36mCharakter \033[0m \n\n";
+    position(20, 40); colorSwitch(danger); std::cout << "[ 2 ]\033[0m ------> "; textColor(danger); std::cout << "Umgebung absuchen       \033[0m                \033[30;105m[ 6 ]\033[0m ------> \033[95mInventar \033[0m \n\n";
+    position(20, 42); colorSwitch(danger); std::cout << "[ 3 ]\033[0m ------> "; textColor(danger); std::cout << "Nach Fallen suchen      \033[0m                \033[30;104m[ 7 ]\033[0m ------> \033[94mMagie \033[0m \n\n";
+    position(20, 44); colorSwitch(danger); std::cout << "[ 4 ]\033[0m ------> "; textColor(danger); std::cout << "Ausruhen                \033[0m                \033[30;47m[ 8 ]\033[0m ------> Menue \n\n";
+    
     short input = choice();
 
     switch (input)
@@ -266,18 +267,78 @@ short roomsOptions(Player player[], short roundManager, short danger, short room
             break;
         
         case 1:
-            if (player[roundManager].key >= 1);
+            if (player[roundManager].key >= 1) 
+            {
+                std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schlüssel und öffnest die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
+                player[roundManager].key--;
+                getKey();
+                nextPlayer = true;
+                running = false;
+                break;                
+            }
+            if (player[roundManager].key < 1)
+            {
+                std::cout << "\n\n\033[37;41m *** Sie versuchen die Tuer zu öffnen, aber sie ist verschlossen. Sie durchsuchen Ihre Taschen aber Sie haben leider keinen Schluessel dabei! *** \033[0m" << std::endl;
+                getKey();
+                nextPlayer = false;
+                running = false;
+                break;
+            }
+            running = false;
             break;
 
         case 2:
             loot(player, roundManager);
+            nextPlayer = false;
+            running = false;
             break;
         
+        case 3:
+            nextPlayer = false;
+            running = false;
+            break;
+        
+        case 4:
+            nextPlayer = false;
+            running = false;
+            break;
+        
+        case 5:
+            characterMenue(player, roundManager);
+            nextPlayer = false;
+            running = false;
+            break;
+        
+        case 6:
+            nextPlayer = false;
+            running = false;
+            break;
+        
+        case 7:
+            nextPlayer = false;
+            running = false;
+            break;
+        
+        case 8:
+            nextPlayer = false;
+            running = false;
+            break;
+
+        case 9:
+            nextPlayer = false;
+            running = false;
+            break;
+
         default:
             error(0);
-            continue;        
+            getKey();
+            nextPlayer = false;
+            running = false;
+            break;        
     }
+    return nextPlayer;
     }
+    
 }
 
 #endif
