@@ -465,13 +465,11 @@ void arraySort(Player player[], short roundManager, std::string type)
 
 void loot(Player player[], short roundManager)
 {
-    int chance;
-    int index = 0;
+    int chance = 0;
     double tempExp = 0;
     double findItem = 0;
     double experience = 0;
-    bool running = true;
-    
+        
     clearScreen();
     textSearch();
     line();
@@ -491,6 +489,7 @@ void loot(Player player[], short roundManager)
                     std::cout << "\nGold ---------------------> " << findItem << " / " << experience << " Exp." << std::endl;
                     player[roundManager].gold += findItem;
                     tempExp += experience;
+                    break;
                 }
                 std::cout << "Index: " << index;
                 break;
@@ -507,6 +506,7 @@ void loot(Player player[], short roundManager)
                     capacityCheck(player, roundManager, 0.3, findItem);
                     player[roundManager].scrapMetal += findItem;
                     tempExp += experience;
+                    break;
                 }
                 std::cout << "Index: " << index;
                 break;
@@ -523,6 +523,7 @@ void loot(Player player[], short roundManager)
                     capacityCheck(player, roundManager, 0.2, findItem);
                     player[roundManager].aluminum += findItem;
                     tempExp += experience;
+                    break;
                 }
                 std::cout << "Index: " << index;
                 break;
@@ -539,6 +540,7 @@ void loot(Player player[], short roundManager)
                     capacityCheck(player, roundManager, 0.1, findItem);
                     player[roundManager].copper += findItem;
                     tempExp += experience;
+                    break;
                 }
                 std::cout << "Index: " << index;
                 break;
@@ -554,6 +556,7 @@ void loot(Player player[], short roundManager)
                     capacityCheck(player, roundManager, 0.25, findItem);
                     player[roundManager].healthPotion += findItem;
                     tempExp += experience;
+                    break;
                 }
                 std::cout << "Index: " << index;
                 break;
@@ -570,6 +573,7 @@ void loot(Player player[], short roundManager)
                     capacityCheck(player, roundManager, 0.25, findItem);
                     player[roundManager].manaPotion += findItem;
                     tempExp += experience;
+                    break;
                 }
                 std::cout << "Index: " << index;
                 break;
@@ -586,6 +590,7 @@ void loot(Player player[], short roundManager)
                     capacityCheck(player, roundManager, 0.25, findItem);
                     player[roundManager].regenPotion += findItem;
                     tempExp += experience;
+                    break;
                 }
                 std::cout << "Index: " << index;
                 break;
@@ -603,13 +608,16 @@ void loot(Player player[], short roundManager)
                         experience = round((findItem * 100) * (player[roundManager].level * 1.25));
                         std::cout << "\nWaffe -------------------> " << findItem << "DMG / " << experience << " Exp." << std::endl;
                         capacityCheck(player, roundManager, findItem , 1);
-                        for (int index = 0; player[roundManager].weapons[index] = !0; index++)
+                        for (int i = 0; player[roundManager].weapons[i] = !0; i++)
                         {
                             player[roundManager].weapons[index] += findItem;
                             arraySort(player, roundManager, "weapon");
                             tempExp += experience;
+                            break;
                         }
+                        
                     }
+                    break;
                 }
                 std::cout << "Index: " << index;
                 break;
@@ -627,19 +635,21 @@ void loot(Player player[], short roundManager)
                         experience = round((findItem * 100) * (player[roundManager].level * 1.25));
                         std::cout << "\nRuestung ----------------> " << findItem << "RST / " << experience << " Exp." << std::endl;
                         capacityCheck(player, roundManager, findItem , 1);
-                        for (int index = 0; player[roundManager].armor[index] = !0; index++)
+                        for (int i = 0; player[roundManager].armor[i] = !0; i++)
                         {
-                            player[roundManager].armor[index] += findItem;
+                            player[roundManager].armor[i] += findItem;
                             arraySort(player, roundManager, "armor");
-                            tempExp += experience; 
+                            tempExp += experience;
+                            break; 
                         }
                     }
+                    break;
                 }
-                std::cout << "Index: " << index;
                 break;
+                std::cout << "Index: " << index;
+                
         }
-        running = false;
-        break;
+  
     }
     if (tempExp < 1)
     {

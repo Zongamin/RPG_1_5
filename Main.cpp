@@ -71,7 +71,7 @@ int main()
         gambler();
         getNumber(roundManager);
         line();
-        std::cout << "\n\n                       \033[32;40m *** Spieler " << player[roundManager].getName() << " ist jetzt am Zug! *** " << "\033[102m \n";
+        std::cout << "\n\n                                           \033[32;40m *** Spieler " << player[roundManager].getName() << " ist jetzt am Zug! *** " << "\033[102m \n";
         getKey();
         backgroundColor(0);
         
