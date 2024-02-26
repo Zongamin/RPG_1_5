@@ -249,20 +249,20 @@ void characterMenue(Player player[], short roundManager)
 void frameWork(Player player[], short roundManager, short zone, int room)
 {
     clearScreen();
-            line();
-            std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-            position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
-            capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
-            line();
-            roomPictures(0);
-            roomTexts(0);            
-            miniLine(58, 19);
-            position(76, 21); dangerDisplay(zone);
-            miniLine(58, 23);
-            line();
-            lifeDisplay(player, roundManager, 4, 28);
-            line();
-            return;
+    line();
+    std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+    position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+    capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    line();
+    roomPictures(0);
+    roomTexts(0);            
+    miniLine(58, 19);
+    position(76, 21); dangerDisplay(zone);
+    miniLine(58, 23);
+    line();
+    lifeDisplay(player, roundManager, 4, 28);
+    line();
+    return;
 }
 
 // Ingame Hauptmenü
