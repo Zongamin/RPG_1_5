@@ -350,6 +350,7 @@ void backgroundColor (short color)
 
 void levelUp (Player player[], short roundManager)
 {
+    backgroundColor(1);    
     clearScreen();
     textLevelUp();
     line();
@@ -362,6 +363,7 @@ void levelUp (Player player[], short roundManager)
     std::cout << "\n\n";
     
     getKey();
+    backgroundColor(0);
     return;
 }
 
@@ -417,9 +419,9 @@ void expUp(Player player[], short roundManager)
             
             for (int i = 0; i < range; i++)
             {
-            std::cout << "\033[103m ";
-            Sleep(10);
-            std::cout << "\033[0m";
+                std::cout << "\033[103m ";
+                Sleep(10);
+                std::cout << "\033[0m";
             }
 
             running = false;

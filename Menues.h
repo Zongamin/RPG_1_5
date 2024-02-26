@@ -292,20 +292,25 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
             case 1:
                 if (player[roundManager].key >= 1) 
                 {
-                std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schlüssel und öffnest die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
-                player[roundManager].key--;
-                getKey();
-                running = false;
-                break;                
-            }
-            if (player[roundManager].key < 1)
-            {
-                std::cout << "\n\n\033[37;41m *** Sie versuchen die Tuer zu öffnen, aber sie ist verschlossen. Sie durchsuchen Ihre Taschen aber Sie haben leider keinen Schluessel dabei! *** \033[0m" << std::endl;
-                getKey();
+                    std::cout << "\n\n Sind Sie sicher, dass Sie den Raum verlassen moechten? (J/N)" << std::endl;
+                    bool answer = question();
+                    if (answer == true)
+                    {
+                        std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schlüssel und öffnest die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
+                        player[roundManager].key--;
+                        getKey();
+                        running = false;
+                        break;
+                    }
+                    break;                
+                }
+                if (player[roundManager].key < 1)
+                {
+                    std::cout << "\n\n\033[37;41m *** Sie versuchen die Tuer zu öffnen, aber sie ist verschlossen. Sie durchsuchen Ihre Taschen aber Sie haben leider keinen Schluessel dabei! *** \033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
                 break;
-            }
-            running = false;
-            break;
 
         case 2:
             loot(player, roundManager);
