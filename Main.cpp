@@ -9,6 +9,7 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Menues.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Texts.h>
 
 
 // Main Game
@@ -82,37 +83,14 @@ int main()
 
         while (running)
         {
-            clearScreen();
-            line();
-            std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-            position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
-            capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
-            line();
-            doubleDoor();
-            position(58, 8);  std::cout << "Sie stehen vor der gewaltigen Pforte zum sagenumwobenen";
-            position(58, 9);  std::cout << "endlosen Dungeon. Die Tuer scheint so alt, dass selbst der";
-            position(58, 10); std::cout << "Schimmel darauf in Rente gehen koennte. Doch da ist auch";
-            position(58, 11); std::cout << "dieser Hauch von Abenteuer, der in der Luft liegt (oder";
-            position(58, 12); std::cout << "vielleicht ist es einfach nur der Gestank von alten"; 
-            position(58, 13); std::cout << "Goblinfuerzen, der seit Aeonen in den Tiefen dieses Dungeons";
-            position(58, 14); std::cout << "rumhaengt). Sie wissen geanu: Der Weg vor Ihnen ist gespickt";
-            position(58, 15); std::cout << "mit Reichtuemern, Gefahren und vielleicht sogar einer alten,";
-            position(58, 16); std::cout << "vergessenen Socke eines Ogers. Also,schnappen Sie sich Ihren";
-            position(58, 17); std::cout << "Mut und treten Sie ein in den endlosen Dungeon!";
-            miniLine(58, 19);
-            position(68, 21); dangerDisplay(zone);
-            miniLine(58, 23);
-            line();
-            lifeDisplay(player, roundManager, 4, 28);
-            line();
-            roomCleared = roomOptions(player, roundManager, zone, 0);
+            roomOptions(player, roundManager, zone, 0);
             if (roomCleared == true)
             {  
-            roomCleared = false;
-            running = false;
-            break;
+                roomCleared = false;
+                running = false;
+                break;
             }
-            continue;
+            
         }
         player[roundManager].traps = 0;
         player[roundManager].rooms++;

@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Main.cpp>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Texts.h>
 
 /*  Inhaltsverzeichnis
     16      - gameMenue         Das Gamemenü ist das Hauptmenue des Spiels und ist verantwortlich für Spieleranzahl,
@@ -244,37 +246,55 @@ void characterMenue(Player player[], short roundManager)
     return;
 }
 
+void frameWork(Player player[], short roundManager, short zone, int room)
+{
+    clearScreen();
+            line();
+            std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+            position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+            capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+            line();
+            roomPictures(0);
+            roomTexts(0);            
+            miniLine(58, 19);
+            position(76, 21); dangerDisplay(zone);
+            miniLine(58, 23);
+            line();
+            lifeDisplay(player, roundManager, 4, 28);
+            line();
+            return;
+}
+
 // Ingame Hauptmenü
 
-bool roomOptions(Player player[], short roundManager, short danger, short roomNumber)
+void roomOptions(Player player[], short roundManager, short danger, short room)
 {
     bool running = true;
-    bool roomCleared = false;
-
+    
     while(running)
     {
-    position(20, 38); colorSwitch(danger); std::cout << "[ 1 ]\033[0m ------> "; textColor(danger); std::cout << "Weiter zum naechsten Raum\033[0m               \033[30;46m[ 5 ]\033[0m ------> \033[36mCharakter \033[0m \n\n";
-    position(20, 40); colorSwitch(danger); std::cout << "[ 2 ]\033[0m ------> "; textColor(danger); std::cout << "Umgebung absuchen       \033[0m                \033[30;105m[ 6 ]\033[0m ------> \033[95mInventar \033[0m \n\n";
-    position(20, 42); colorSwitch(danger); std::cout << "[ 3 ]\033[0m ------> "; textColor(danger); std::cout << "Nach Fallen suchen      \033[0m                \033[30;104m[ 7 ]\033[0m ------> \033[94mMagie \033[0m \n\n";
-    position(20, 44); colorSwitch(danger); std::cout << "[ 4 ]\033[0m ------> "; textColor(danger); std::cout << "Ausruhen                \033[0m                \033[30;47m[ 8 ]\033[0m ------> Menue \n\n";
+        frameWork(player, roundManager, danger, room);
+        position(20, 38); colorSwitch(danger); std::cout << "[ 1 ]\033[0m ------> "; textColor(danger); std::cout << "Weiter zum naechsten Raum\033[0m               \033[30;46m[ 5 ]\033[0m ------> \033[36mCharakter \033[0m \n\n";
+        position(20, 40); colorSwitch(danger); std::cout << "[ 2 ]\033[0m ------> "; textColor(danger); std::cout << "Umgebung absuchen       \033[0m                \033[30;105m[ 6 ]\033[0m ------> \033[95mInventar \033[0m \n\n";
+        position(20, 42); colorSwitch(danger); std::cout << "[ 3 ]\033[0m ------> "; textColor(danger); std::cout << "Nach Fallen suchen      \033[0m                \033[30;104m[ 7 ]\033[0m ------> \033[94mMagie \033[0m \n\n";
+        position(20, 44); colorSwitch(danger); std::cout << "[ 4 ]\033[0m ------> "; textColor(danger); std::cout << "Ausruhen                \033[0m                \033[30;47m[ 8 ]\033[0m ------> Menue \n\n";
     
-    short input = choice();
+        short input = choice();
 
-    switch (input)
-    {
-        case 0:
-            if (roomNumber == 1)
-            {
-                break;
-            }
+        switch (input)
+        {
+            case 0:
+                if (room == 1)
+                {
+                    break;
+                }
         
-        case 1:
-            if (player[roundManager].key >= 1) 
-            {
+            case 1:
+                if (player[roundManager].key >= 1) 
+                {
                 std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schlüssel und öffnest die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
                 player[roundManager].key--;
                 getKey();
-                roomCleared = true;
                 running = false;
                 break;                
             }
@@ -282,8 +302,6 @@ bool roomOptions(Player player[], short roundManager, short danger, short roomNu
             {
                 std::cout << "\n\n\033[37;41m *** Sie versuchen die Tuer zu öffnen, aber sie ist verschlossen. Sie durchsuchen Ihre Taschen aber Sie haben leider keinen Schluessel dabei! *** \033[0m" << std::endl;
                 getKey();
-                roomCleared = false;
-                running = false;
                 break;
             }
             running = false;
@@ -291,55 +309,37 @@ bool roomOptions(Player player[], short roundManager, short danger, short roomNu
 
         case 2:
             loot(player, roundManager);
-            roomCleared = false;
-            running = false;
             break;
         
         case 3:
-            roomCleared = false;
-            running = false;
             break;
         
         case 4:
-            roomCleared = false;
-            running = false;
             break;
         
         case 5:
             characterMenue(player, roundManager);
-            roomCleared = false;
-            running = false;
             break;
         
         case 6:
-            roomCleared = false;
-            running = false;
             break;
         
         case 7:
-            roomCleared = false;
-            running = false;
             break;
         
         case 8:
-            roomCleared = false;
-            running = false;
             break;
 
         case 9:
-            roomCleared = false;
-            running = false;
             break;
 
         default:
             error(0);
             getKey();
-            roomCleared = false;
-            running = false;
             break;        
     }
     }
-    return roomCleared;
+    return;
     
 }
 
