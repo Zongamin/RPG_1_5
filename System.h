@@ -40,6 +40,7 @@
     - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
     - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
     - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
+    - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
     */
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
@@ -823,14 +824,60 @@ void capacityColor(Player player[], short roundManager)
     return;
 }
 
-short trapCall(Player player[], short roundManager, short zone)
+void trapCall(Player player[], short roundManager, short zone)
 {
-    short traps = 0;
     if (zone == 2) 
     {
-        
+        player[roundManager].traps = round(random(1, 5));
+        round(player[roundManager].traps -= player[roundManager].luck);
+        if (player[roundManager].traps < 1) {player[roundManager].traps = 0;}
     }
-    return traps;
+    if (zone >= 3)
+    {
+        player[roundManager].traps = round(random(1, 10));
+        round(player[roundManager].traps -= player[roundManager].luck);
+        if (player[roundManager].traps < 1) {player[roundManager].traps = 1;}
+    }
+    return;
+}
+
+void trapCheck(Player player[], short roundManager)
+{
+    double damage = 0;
+    double vari = 0;
+    short rand = round(random(1, 100));
+
+    if (rand > 0 & rand < 26 + player[roundManager].luck || rand > 49 & rand < 76 + player[roundManager].luck)
+    {
+        if (player[roundManager].traps > 0)
+        {
+        
+            clearScreen();
+            textTrap();
+            line();
+            std::cout << "Um es mit den Worten Admiral Ackbars zu sagen: \033[37;41m *** Das ist eine Falle! *** \033[0m" << std::endl;
+            line();
+            player[roundManager].traps--;
+            damage = (player[roundManager].health / 100 ) * 10;
+            vari = round((damage / 100) * 10);
+            damage = damage + (round(random(1, vari)) - player[roundManager].luck);
+            std::cout << "Als Sie, natuerlich Ihren Geschaeften nachgehend, ziellos... aehm... zielstrebig durch die Gegend wandern, erwischt Sie eine Falle!\n" << std::endl;
+            line();
+            std::cout << "\033[37;41m *** Schaden: *** \033[0m \033[31m" << damage << " DMG.\033[0m\n\n" << std::endl;
+            player[roundManager].realHealth -= damage;
+            if (player[roundManager].realHealth < 0)
+            {
+                player[roundManager].realHealth = 0;
+                lifeDisplay(player, roundManager, 0, 16);
+                getKey();
+                death(player, roundManager);
+                return;
+            }
+            lifeDisplay(player, roundManager, 0, 16);
+            getKey();
+            return;
+        }
+    }
 }
 
 #endif

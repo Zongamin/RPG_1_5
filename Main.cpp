@@ -75,25 +75,17 @@ int main()
         getKey();
         backgroundColor(0);
         
-
         if (zone > 1) 
             {
-                player[roundManager].traps = trapCall(player, roundManager, zone);
+                trapCall(player, roundManager, zone);
             }
 
         while (running)
         {
             roomOptions(player, roundManager, zone, 0);
-            if (roomCleared == true)
-            {  
-                roomCleared = false;
-                running = false;
-                break;
-            }
             
         }
-        player[roundManager].traps = 0;
-        player[roundManager].rooms++;
+        
     }
         
 

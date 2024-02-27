@@ -18,11 +18,12 @@
     - textLoad
     - textMenue
     - textSearch
+    - textTrap 
     - textRising
     - textTitle
     - textEnd 
     - textDeath  
-    -            */
+    */
 
 void textMainMenue()
 {
@@ -180,6 +181,18 @@ void textSearch()
     return;
 }
 
+void textTrap()
+{
+    std::cout << "\033[36m ____             ___     ___                                    \n";
+    std::cout << "/\\  __\\          /\\_ \\   /\\_ \\                                     \n";
+    std::cout << "\\ \\ \\_/     __   \\//\\ \\  \\//\\ \\       __                        \n";
+    std::cout << " \\ \\  _\\  /'__`\\   \\ \\ \\   \\ \\ \\    /'__`\\                    \n";
+    std::cout << "  \\ \\ \\/ /\\ \\L\\.\\_  \\_\\ \\_  \\_\\ \\_ /\\  __/                 \n";
+    std::cout << "   \\ \\_\\ \\ \\__/.\\_\\ /\\____\\ /\\____\\\\ \\____\\                \n";
+    std::cout << "    \\/_/  \\/__/\\/_/ \\/____/ \\/____/ \\/____/                 \033[0m\n";
+    return;
+}
+
 void textRising()
 {
     std::cout << "\033[36m __________ .__         .__                     _________                  __                                  \n";
@@ -248,31 +261,31 @@ void textEnd()
 
 void textDeath()
 {
-    std::cout << "              ####                                                                                   \n";
-    std::cout << "            ########                   --------------------------------------------------------------\n";
-    std::cout << "           ##########                  ---              Leider wurden Sie getoetet!               ---\n";
-    std::cout << "           ##########                  --------------------------------------------------------------\n";
-    std::cout << "             ######                    ---   Oger, Goblins, Orks, Imps und Gewürm fallen ueber    ---\n";
-    std::cout << "         ooo ###### ooo                --- Ihren kalten Leichnam her und was noch von Ihnen uebrig---\n";
-    std::cout << "           o ###### o                  ---   geblieben ist wird von Ihren Gegnern verwurstet und  ---\n";
-    std::cout << "    ####  oo ###### oo  ####           --- abgehangen, um es auch später noch genießen zu koennen!---\n";
-    std::cout << "   #####     ######     #####          ---  Wenigstens haben Sie sich als gute Wurst einen Namen  ---\n";
-    std::cout << " ##############################        ---                        gemacht!                        ---\n"; 
-    std::cout << " ##############################        --------------------------------------------------------------\n";
-    std::cout << "   ##########################                                                                        \n";
-    std::cout << "    ####     ######     ####           --------------------------------------------------------------\n";
-    std::cout << "             ######                    ---                        Statistik                       ---\n";
-    std::cout << "      ooooo  ######  ooooo             --------------------------------------------------------------\n";
-    std::cout << "         oo  ######  oo                --- Spieler Level ------->                                 ---\n";
-    std::cout << "          o  ######  o                 --- Besuchte Raeume ----->                                 ---\n";
-    std::cout << "          o  ######  o                 --- Erbeutetes Gold ----->                                 ---\n";
-    std::cout << "        ooo  ######  ooo               --- Gecraftets Items ---->                                 ---\n";
-    std::cout << "             ######                    --- Getoetete Monster --->                                 ---\n";
-    std::cout << "             ######                    --- Getoetete Bosse ----->                                 ---\n";
-    std::cout << "           ##########                  --------------------------------------------------------------\n";
-    std::cout << "           ##########                  ---       Moechten Sie einen Spielstand laden (J/N)?       ---\n";
-    std::cout << "            ########                   --------------------------------------------------------------\n";
-    std::cout << "              ####                                                                                   \n";
+    std::cout << "\033[31m              ####              \033[0m                                                                      \n";
+    std::cout << "\033[31m            ########            \033[0m       ---------------------------------------------------------------\n";
+    std::cout << "\033[31m           ##########           \033[0m       ---              \033[31mLeider wurden Sie getoetet!\033[0m                ---\n";
+    std::cout << "\033[31m           ##########           \033[0m       ---------------------------------------------------------------\n";
+    std::cout << "\033[31m             ######             \033[0m       ---   Oger, Goblins, Orks, Imps und Gewürm fallen ueber     ---\n";
+    std::cout << "\033[31m         ooo ###### ooo         \033[0m       --- Ihren kalten Leichnam her und was noch von Ihnen uebrig ---\n";
+    std::cout << "\033[31m           o ###### o           \033[0m       ---   geblieben ist wird von Ihren Gegnern verwurstet und   ---\n";
+    std::cout << "\033[31m    ####  oo ###### oo  ####    \033[0m       --- abgehangen, um es auch später noch genießen zu koennen! ---\n";
+    std::cout << "\033[31m   #####     ######     #####   \033[0m       ---  Wenigstens haben Sie sich als gute Wurst einen Namen   ---\n";
+    std::cout << "\033[31m ############################## \033[0m       ---                        gemacht!                         ---\n"; 
+    std::cout << "\033[31m ############################## \033[0m       ---------------------------------------------------------------\n";
+    std::cout << "\033[31m   ##########################   \033[0m                                                                      \n";
+    std::cout << "\033[31m    ####     ######     ####    \033[0m       ---------------------------------------------------------------\n";
+    std::cout << "\033[31m             ######             \033[0m       ---                        \033[32mStatistik\033[0m                        ---\n";
+    std::cout << "\033[31m      ooooo  ######  ooooo      \033[0m       ---------------------------------------------------------------\n";
+    std::cout << "\033[31m         oo  ######  oo         \033[0m       --- Spieler Level ----->                                    ---\n";
+    std::cout << "\033[31m          o  ######  o          \033[0m       --- Besuchte Raeume --->                                    ---\n";
+    std::cout << "\033[31m          o  ######  o          \033[0m       --- Erbeutetes Gold --->                                    ---\n";
+    std::cout << "\033[31m        ooo  ######  ooo        \033[0m       --- Gecraftets Items -->                                    ---\n";
+    std::cout << "\033[31m             ######             \033[0m       --- Getoetete Monster ->                                    ---\n";
+    std::cout << "\033[31m             ######             \033[0m       --- Getoetete Bosse --->                                    ---\n";
+    std::cout << "\033[31m           ##########           \033[0m       --- Tode -------------->                                    ---\n";
+    std::cout << "\033[31m           ##########           \033[0m       ---------------------------------------------------------------\n";
+    std::cout << "\033[31m            ########            \033[0m       ---        \033[31mMoechten Sie einen Spielstand laden (J/N)?\033[0m       ---\n";
+    std::cout << "\033[31m              ####              \033[0m       ---------------------------------------------------------------\n";
     return;
 }
 

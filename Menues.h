@@ -348,4 +348,19 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
     
 }
 
+void death(Player player[], short roundManager)
+{
+    player[roundManager].permaDeath = true;
+    clearScreen();
+    textDeath();
+    position(16, 64); std::cout << player[roundManager].level;
+    position(17, 64); std::cout << player[roundManager].rooms;
+    position(18, 64); std::cout << player[roundManager].gold;
+    position(19, 64); std::cout << player[roundManager].crafted;
+    position(20, 64); std::cout << player[roundManager].monsters;
+    position(21, 64); std::cout << player[roundManager].bosses;
+    position(21, 64); std::cout << player[roundManager].deaths;    
+    return;
+}
+
 #endif

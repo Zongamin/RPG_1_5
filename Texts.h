@@ -55,16 +55,30 @@ void roomTexts(int room)
 
             case 3:
                 
-                position(58, 8);  std::cout << "";
-                position(58, 9);  std::cout << "";
-                position(58, 10); std::cout << "";
-                position(58, 11); std::cout << "";
-                position(58, 12); std::cout << ""; 
-                position(58, 13); std::cout << "";
-                position(58, 14); std::cout << "";
-                position(58, 15); std::cout << "";
-                position(58, 16); std::cout << "";
-                position(58, 17); std::cout << "";
+                position(58, 8);  std::cout << "Eine duester wirkende Passage springt aus dem Nichts in die";
+                position(58, 9);  std::cout << "Wand und beschliesst, dort weiter abzuhaengen. Sicherlich eine";
+                position(58, 10); std::cout << "Untersuchung wert. Eventuell haengt da drin irgendwo eine";
+                position(58, 11); std::cout << "goldene, alte Unterhose eines grossen Hexenmeisters. Kommt es";
+                position(58, 12); std::cout << "hier endlich zum grossen, lange erwartete Fund? Ihre Stimmung"; 
+                position(58, 13); std::cout << "steigert sich schier ins unermessliche! Lediglich die Spinnen";
+                position(58, 14); std::cout << "in den Winkeln der Passage bleiben völlig unbeeindruckt und";
+                position(58, 15); std::cout << "haengen einfach weiter ab. Obwohl es sich hier letztendlich nur";
+                position(58, 16); std::cout << "um eine gewoehnliche Passage handelt gibt es hier noch so viel";
+                position(58, 17); std::cout << "zu entdecken... Was ist das? Oh! Ein vorstehender Stein!";
+                break;
+
+            case 4:
+                
+                position(58, 8);  std::cout << "Eine duester wirkende Passage springt aus dem Nichts in die";
+                position(58, 9);  std::cout << "Wand und beschliesst, dort weiter abzuhaengen. Sicherlich eine";
+                position(58, 10); std::cout << "Untersuchung wert. Eventuell haengt da drin irgendwo eine";
+                position(58, 11); std::cout << "goldene, alte Unterhose eines grossen Hexenmeisters. Kommt es";
+                position(58, 12); std::cout << "hier endlich zum grossen, lange erwartete Fund? Ihre Stimmung"; 
+                position(58, 13); std::cout << "steigert sich schier ins unermessliche! Lediglich die Spinnen";
+                position(58, 14); std::cout << "in den Winkeln der Passage bleiben völlig unbeeindruckt und";
+                position(58, 15); std::cout << "haengen einfach weiter ab. Obwohl es sich hier letztendlich nur";
+                position(58, 16); std::cout << "um eine gewoehnliche Passage handelt gibt es hier noch so viel";
+                position(58, 17); std::cout << "zu entdecken... Was ist das? Oh! Ein vorstehender Stein!";
                 break;
         }
         return;
