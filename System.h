@@ -41,7 +41,8 @@
     - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
     - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
     - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
-    */
+    - trapSearch     -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
+     */
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
 
@@ -801,7 +802,7 @@ void dangerDisplay(short zone)
     switch(zone)
     {
         case 1:
-            std::cout << "\033[30;47m Gefahrenstufe : Sicher \033[0m" << std::endl;
+            std::cout << "\033[30;102m Gefahrenstufe : Sicher \033[0m" << std::endl;
             break;
         case 2:
             std::cout << "\033[30;43m Gefahrenstufe : Unsicher \033[0m" << std::endl;
@@ -878,6 +879,66 @@ void trapCheck(Player player[], short roundManager)
             return;
         }
     }
+}
+
+void trapSearch(Player player[], short roundManager, short danger)
+{
+    short zone = 0;
+    short x = 0;
+    double damage = 0;
+    double vari = 0;
+
+    clearScreen();
+    textTrap();
+    line();
+    std::cout << "Sie begeben sich auf die Such nach Fallen....." << std::endl;
+    line();
+    if (danger == 1)
+    {
+        std::cout << "\nDoch da der Raum \033[30;102m * Sicher * \033[0m ist, gibt es keine Fallen...." << std::endl;
+        getKey();
+        return;
+    }
+    if (player[roundManager].traps < 1)
+    {
+        std::cout << "\nSelbst nach langer Suche koennen Sie keine Fallen entdecken! Koennte es sein, dass Sie bereits alle gefunden haben?" << std::endl;
+        getKey();
+        return;
+    }
+    std::cout << "\nSie begeben sich auf die Suche nach fallen";
+    for (int i = 0; i < 5; i++)
+    {
+        std::cout << ".";
+        Sleep(20);
+    }
+    zone = round(random(1, 100));
+    if (danger == 2){ x = 14;}
+    if (danger >= 2){ x = 25;}
+    if (zone < (50 -x) - player[roundManager].luck & zone > (50 + x) + player[roundManager].luck)
+    {
+        std::cout << "\n\nSie entdecken eine Falle!\n\nDoch beim Entschärfen unterlaeuft Ihnen ein Missgeschick!\n" << std::endl;
+        player[roundManager].traps--;
+        damage = (player[roundManager].health / 100 ) * 10;
+        vari = round((damage / 100) * 10);
+        damage = damage + (round(random(1, vari)) - player[roundManager].luck);
+        std::cout << "\033[37;41m *** Schaden: *** \033[0m \033[31m" << damage << " DMG.\033[0m\n\n" << std::endl;
+        player[roundManager].realHealth -= damage;
+        if (player[roundManager].realHealth < 0)
+        {
+                player[roundManager].realHealth = 0;
+                lifeDisplay(player, roundManager, 0, 16);
+                getKey();
+                death(player, roundManager);
+                return;
+        }
+        lifeDisplay(player, roundManager, 0, 16);
+        getKey();
+        return;
+    }
+    std::cout << "\n\nSie entdecken eine Falle!\n\nUnd Ihr Skill ist hoch genug sie zu entschaerfen!\n\n" << std::endl;
+    player[roundManager].traps -= 1;
+    getKey();
+    return;
 }
 
 #endif

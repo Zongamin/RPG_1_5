@@ -296,7 +296,7 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
                     bool answer = question();
                     if (answer == true)
                     {
-                        std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schlüssel und öffnest die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
+                        std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schlüssel und öffnen die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
                         player[roundManager].key--;
                         getKey();
                         running = false;
@@ -317,6 +317,7 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
             break;
         
         case 3:
+            trapSearch(player, roundManager, danger);
             break;
         
         case 4:
@@ -353,6 +354,7 @@ void death(Player player[], short roundManager)
     player[roundManager].permaDeath = true;
     clearScreen();
     textDeath();
+    line();
     position(16, 64); std::cout << player[roundManager].level;
     position(17, 64); std::cout << player[roundManager].rooms;
     position(18, 64); std::cout << player[roundManager].gold;
@@ -360,6 +362,11 @@ void death(Player player[], short roundManager)
     position(20, 64); std::cout << player[roundManager].monsters;
     position(21, 64); std::cout << player[roundManager].bosses;
     position(21, 64); std::cout << player[roundManager].deaths;    
+    bool answer = question();
+    if (answer == true)
+    {
+        loadGame();
+    } 
     return;
 }
 

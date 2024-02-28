@@ -5,7 +5,7 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
 
 /*Inhaltsverzeichnis:
-    - roomTexts   -- case 0 = Eingang | case 1 = Doppeltür | case 2 = Wand | case 3 = Passage |*/
+    - roomTexts   -- case 0 = Eingang | case 1 = Doppeltür | case 2 = Wand | case 3 = Passage | case 4 - Tuer | case 5 -*/
 
 void roomTexts(int room)
 {
@@ -50,7 +50,7 @@ void roomTexts(int room)
                 position(58, 14); std::cout << "Und die gesparten Kosten, einen ASCII - Artist einzustellen";
                 position(58, 15); std::cout << "erst! Bedenkt man die gesparten Kosten und den gesparten";
                 position(58, 16); std::cout << "Aufwand, so stellt man fest: BAM! So eine Wand gehört voll in";
-                position(58, 17); std::cout << "diesen Dungeon! Fazit --> Hier: Einfach eine Wand.";
+                position(58, 17); std::cout << "dieses Game! Fazit --> Hier: Einfach eine Wand.";
                 break;
 
             case 3:
@@ -69,16 +69,30 @@ void roomTexts(int room)
 
             case 4:
                 
-                position(58, 8);  std::cout << "Eine duester wirkende Passage springt aus dem Nichts in die";
-                position(58, 9);  std::cout << "Wand und beschliesst, dort weiter abzuhaengen. Sicherlich eine";
-                position(58, 10); std::cout << "Untersuchung wert. Eventuell haengt da drin irgendwo eine";
-                position(58, 11); std::cout << "goldene, alte Unterhose eines grossen Hexenmeisters. Kommt es";
-                position(58, 12); std::cout << "hier endlich zum grossen, lange erwartete Fund? Ihre Stimmung"; 
-                position(58, 13); std::cout << "steigert sich schier ins unermessliche! Lediglich die Spinnen";
-                position(58, 14); std::cout << "in den Winkeln der Passage bleiben völlig unbeeindruckt und";
-                position(58, 15); std::cout << "haengen einfach weiter ab. Obwohl es sich hier letztendlich nur";
-                position(58, 16); std::cout << "um eine gewoehnliche Passage handelt gibt es hier noch so viel";
-                position(58, 17); std::cout << "zu entdecken... Was ist das? Oh! Ein vorstehender Stein!";
+                position(58, 8);  std::cout << "Eine morsche Kerkertuer haengt halbherzig in der Mauer. Durch";
+                position(58, 9);  std::cout << "die Gitterstaebe erblicken Sie ein grinsendes Skelett. Die Frage";
+                position(58, 10); std::cout << "ist, ob es mit Ihnen oder ueber Sie lacht. Vielleiucht freut es";
+                position(58, 11); std::cout << "sich auch einfach nur darueber, den Firlefanz im Dungeon nicht";
+                position(58, 12); std::cout << "mehr mitmachen zu muessen. Hinter dem Skelett allerdings fuehrt"; 
+                position(58, 13); std::cout << "eine Passage anscheinend tiefer in den Dungeon... und, wie";
+                position(58, 14); std::cout << "koennte es auch anders sein, natuerlich ist die Kerkertuer ver-";
+                position(58, 15); std::cout << "schlossen. Aber sowas von... Da kann nicht mal das Skelett im";
+                position(58, 16); std::cout << "Inneren keine Hilfestellung leisten... Sie ist nicht zu oeffnen,";
+                position(58, 17); std::cout << "es sei denn, Sie haben einen Schluessel in der Tasche!";
+                break;
+
+            case 5:
+                
+                position(58, 8);  std::cout << "";
+                position(58, 9);  std::cout << "";
+                position(58, 10); std::cout << "";
+                position(58, 11); std::cout << "";
+                position(58, 12); std::cout << ""; 
+                position(58, 13); std::cout << "";
+                position(58, 14); std::cout << "";
+                position(58, 15); std::cout << "";
+                position(58, 16); std::cout << "";
+                position(58, 17); std::cout << "";
                 break;
         }
         return;
