@@ -39,10 +39,11 @@
     - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
     - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
     - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
+    - death          -- Ausgabe des Todes des Spielers
     - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
     - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
     - trapSearch     -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
-     */
+    - takeBreak      -- Ermittelt Werte beim Rasten des Spielers */
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
 
@@ -825,6 +826,29 @@ void capacityColor(Player player[], short roundManager)
     return;
 }
 
+// Ausgabe Tod des Spielers
+
+void death(Player player[], short roundManager)
+{
+    player[roundManager].permaDeath = true;
+    clearScreen();
+    textDeath();
+    line();
+    position(16, 64); std::cout << player[roundManager].level;
+    position(17, 64); std::cout << player[roundManager].rooms;
+    position(18, 64); std::cout << player[roundManager].gold;
+    position(19, 64); std::cout << player[roundManager].crafted;
+    position(20, 64); std::cout << player[roundManager].monsters;
+    position(21, 64); std::cout << player[roundManager].bosses;
+    position(21, 64); std::cout << player[roundManager].deaths;    
+    bool answer = question();
+    if (answer == true)
+    {
+        loadGame();
+    } 
+    return;
+}
+
 void trapCall(Player player[], short roundManager, short zone)
 {
     if (zone == 2) 
@@ -937,6 +961,42 @@ void trapSearch(Player player[], short roundManager, short danger)
     }
     std::cout << "\n\nSie entdecken eine Falle!\n\nUnd Ihr Skill ist hoch genug sie zu entschaerfen!\n\n" << std::endl;
     player[roundManager].traps -= 1;
+    getKey();
+    return;
+}
+
+void takeBreak(Player player[], short roundManager, short danger)
+{
+    short zone = 0;
+    int mana = 0;
+    int health = 0;
+    int x = 0;
+     
+    mana = round(random(((player[roundManager].mana / 100) * 25), ((player[roundManager].mana / 100) * 50)));
+    health = round(random(((player[roundManager].health / 100) * 25), ((player[roundManager].health / 100) * 50)));
+    zone = round(random(1, 100));
+    
+    if (danger == 1){ x = 50; }
+    if (danger == 2){ x = 14; }
+    if (danger >= 2){ x = 25; }
+    if (zone < (50 -x) - player[roundManager].luck & zone > (50 + x) + player[roundManager].luck)
+    {
+        // Kampf und/oder Falle eintragen 
+        return;
+    }
+    clearScreen();
+    textBreak();
+    line();
+    std::cout << "Sie Suchen sich eine stille Ecke um Sich auszuruhen." << std::endl;
+    line();
+    std::cout << "\nBeim Rasten regenerieren Sie:" << std::endl;
+    line();
+    std::cout << "\033[31mLeben: " << health << std::endl;
+    std::cout << "\n\033[34mMana : " << mana << std::endl;
+    line();
+    player[roundManager].health += health;
+    player[roundManager].mana += mana;
+    lifeDisplay(player, roundManager, 0, 23);
     getKey();
     return;
 }

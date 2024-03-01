@@ -5,7 +5,8 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
 
 /*Inhaltsverzeichnis:
-    - roomTexts   -- case 0 = Eingang | case 1 = Doppeltür | case 2 = Wand | case 3 = Passage | case 4 - Tuer | case 5 -*/
+    - roomTexts   -- case 0 = Eingang | case 1 = Doppeltür | case 2 = Wand | case 3 = Passage | case 4 - Tuer | case 5 - Hebel
+                     case 6 - */
 
 void roomTexts(int room)
 {
@@ -83,17 +84,19 @@ void roomTexts(int room)
 
             case 5:
                 
-                position(58, 8);  std::cout << "";
-                position(58, 9);  std::cout << "";
-                position(58, 10); std::cout << "";
-                position(58, 11); std::cout << "";
-                position(58, 12); std::cout << ""; 
-                position(58, 13); std::cout << "";
-                position(58, 14); std::cout << "";
-                position(58, 15); std::cout << "";
-                position(58, 16); std::cout << "";
-                position(58, 17); std::cout << "";
+                position(58, 8);  std::cout << "Ein Hebel an der Wand (euphorisches glucksen)! Es fehlt eigentlich";
+                position(58, 9);  std::cout << "nur noch die Aufschrift: \"Nicht ziehen\" um die Aufmerksamkeit und";
+                position(58, 10); std::cout << "den Drang, den Hebel zu ziehen noch weiter zu steigern! Aber grund-";
+                position(58, 11); std::cout << "saetzlich ist die Einladung den Hebel zu betaetigen da! Die Frage";
+                position(58, 12); std::cout << "ist: Sind Sie der geborene Hebelheber oder nicht? Allerdings spricht"; 
+                position(58, 13); std::cout << "auch die kaum erkenn bare Bodenplatte Baende... Aber dennoch ist nicht";
+                position(58, 14); std::cout << "gesagt, dass es sich hierbei zwangslaeufig um eine Falle handeln muss.";
+                position(58, 15); std::cout << "Auf Ihrer Linken Seite erscheint ein Engelchen und auf der Rechten";
+                position(58, 16); std::cout << "ein Teufelchen. Teufelchen sagt: Zieh den Hebel! Und Engelchen sagt:";
+                position(58, 17); std::cout << "Hast Du nicht gehört? Du sollst den Hebel ziehen! ";
                 break;
+
+            case 6:
         }
         return;
 }

@@ -277,7 +277,7 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
         position(20, 38); colorSwitch(danger); std::cout << "[ 1 ]\033[0m ------> "; textColor(danger); std::cout << "Weiter zum naechsten Raum\033[0m               \033[30;46m[ 5 ]\033[0m ------> \033[36mCharakter \033[0m \n\n";
         position(20, 40); colorSwitch(danger); std::cout << "[ 2 ]\033[0m ------> "; textColor(danger); std::cout << "Umgebung absuchen       \033[0m                \033[30;105m[ 6 ]\033[0m ------> \033[95mInventar \033[0m \n\n";
         position(20, 42); colorSwitch(danger); std::cout << "[ 3 ]\033[0m ------> "; textColor(danger); std::cout << "Nach Fallen suchen      \033[0m                \033[30;104m[ 7 ]\033[0m ------> \033[94mMagie \033[0m \n\n";
-        position(20, 44); colorSwitch(danger); std::cout << "[ 4 ]\033[0m ------> "; textColor(danger); std::cout << "Ausruhen                \033[0m                \033[30;47m[ 8 ]\033[0m ------> Menue \n\n";
+        position(20, 44); colorSwitch(danger); std::cout << "[ 4 ]\033[0m ------> "; textColor(danger); std::cout << "Rasten                  \033[0m                \033[30;47m[ 8 ]\033[0m ------> Menue \n\n";
     
         short input = choice();
 
@@ -321,6 +321,7 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
             break;
         
         case 4:
+            takeBreak(player, roundManager, danger);
             break;
         
         case 5:
@@ -349,25 +350,6 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
     
 }
 
-void death(Player player[], short roundManager)
-{
-    player[roundManager].permaDeath = true;
-    clearScreen();
-    textDeath();
-    line();
-    position(16, 64); std::cout << player[roundManager].level;
-    position(17, 64); std::cout << player[roundManager].rooms;
-    position(18, 64); std::cout << player[roundManager].gold;
-    position(19, 64); std::cout << player[roundManager].crafted;
-    position(20, 64); std::cout << player[roundManager].monsters;
-    position(21, 64); std::cout << player[roundManager].bosses;
-    position(21, 64); std::cout << player[roundManager].deaths;    
-    bool answer = question();
-    if (answer == true)
-    {
-        loadGame();
-    } 
-    return;
-}
+
 
 #endif
