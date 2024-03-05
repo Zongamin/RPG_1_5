@@ -43,7 +43,8 @@
     - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
     - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
     - trapSearch     -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
-    - takeBreak      -- Ermittelt Werte beim Rasten des Spielers */
+    - takeBreak      -- Ermittelt Werte beim Rasten des Spielers 
+    - checkRegen     -- Ermittelt einen boolschen Wert, ob Heilung, Mana oder beides benoetigt wird*/
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
 
@@ -999,6 +1000,39 @@ void takeBreak(Player player[], short roundManager, short danger)
     lifeDisplay(player, roundManager, 0, 23);
     getKey();
     return;
+}
+
+bool checkRegen(Player player[], short roundManager, short sort)
+{
+    switch (sort)
+    {
+        case 0: // Heal
+            if (player[roundManager].realHealth >= player[roundManager].health)
+            {
+                std::cout << "\n\n\033[31mSie benoetigen keine Heilung!" << std::endl;
+                getKey();
+                return false;
+            }
+            return true;
+        
+        case 1: //Mana
+            if (player[roundManager].realMana >= player[roundManager].mana)
+            {
+                std::cout << "\n\n\033[31mSie benoetigen kein Mana!" << std::endl,
+                getKey();
+                return false;
+            }
+            return true;
+
+        case 2: //regen
+            if (player[roundManager].realMana >= player[roundManager].mana && player[roundManager].realHealth >= player[roundManager].health)
+            {
+                std::cout << "\n\n\033[31m Sie benoetigen weder Heilung noch Mana!" << std::endl;
+                getKey();
+                return false;
+            }
+            return true;        
+    }
 }
 
 #endif

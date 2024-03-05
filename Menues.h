@@ -246,6 +246,153 @@ void characterMenue(Player player[], short roundManager)
     return;
 }
 
+void potions(Player player[], short roundManager)
+{
+    bool running = true;
+    bool need = false;
+    double regenH = 0;
+    double regenM = 0;
+    
+    while(running)
+    {
+        clearScreen();
+        textPotion();
+        line();
+        std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+        position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+        line();
+        std::cout << "Heiltraenke ------------> " << player[roundManager].healthPotion; position(40, 7);
+        miniLine(0, 8);
+        std::cout << "Manatraenke ------------> " << player[roundManager].manaPotion; position(40, 9);
+        miniLine(0, 10);
+        std::cout << "Regenerationstraenke ---> " << player[roundManager].regenPotion; position(40, 11);
+        line();
+        position(20, 14); std::cout << "[ 1 ] ------> Heiltrank benutzen   [ 3 ] ------> Regenerationstrank benutzen" << std::endl;
+        position(20, 16); std::cout << "[ 2 ] ------> Manatrank benutzen   [ 4 ] ------> Zurueck" << std::endl;
+                
+        short input = choice();
+
+        switch(input)
+        {
+            case 1:
+                if (player[roundManager].healthPotion < 1)
+                {
+                    std::cout << "\n\n\033[31mSie haben nicht genug Heiltraenke!\033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
+                need = checkRegen(player, roundManager, 0);
+                if (need == false)
+                {
+                    break;
+                }
+                regenH = round(random((player[roundManager].health / 100) * 15, (player[roundManager].health /100) * 25));
+                player[roundManager].healthPotion--;
+                player[roundManager].realHealth += regenH;
+                std::cout << "\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
+                lifeDisplay(player, roundManager, 0, 20);
+                getKey();
+                break; 
+
+            case 2:
+                if (player[roundManager].manaPotion < 1)
+                {
+                    std::cout << "\n\n\033[31mSie haben nicht genug Manatraenke!\033[0m]" << std::endl;
+                    getKey();
+                    break;
+                }
+                need = checkRegen(player, roundManager, 1);
+                if (need == false)
+                {
+                    break;
+                }
+                regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 25));
+                player[roundManager].manaPotion--;
+                player[roundManager].realMana += regenM;
+                std::cout << "\n\n\033[34mSie regenerieren " << regenH << " Manapoints!\033[0m" << std::endl;
+                lifeDisplay(player, roundManager, 0, 20);
+                getKey();
+                break; 
+                
+            case 3:
+                if (player[roundManager].regenPotion < 1)
+                {
+                    std::cout << "\n\n\033[31mSie haben nicht genug Regenerationstraenke!\033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
+                need = checkRegen(player, roundManager, 2);
+                if (need == false)
+                {
+                    break;
+                }
+                regenH = round(random((player[roundManager].health / 100) * 10, (player[roundManager].health /100) * 20));
+                regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 20));
+                player[roundManager].regenPotion--;
+                player[roundManager].realHealth += regenH;
+                player[roundManager].realMana += regenM;
+                std::cout << "\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
+                std::cout << "\n\033[34mSie regenerieren " << regenH << " Manapoints!\033[0m" << std::endl;
+                lifeDisplay(player, roundManager, 0, 22);
+                getKey();
+                break; 
+
+            case 4:
+                running = false;
+                break;
+        }        
+    }
+    return;
+}
+
+void inventory(Player player[], short roundManager)
+{
+    bool running = true;
+
+    while(running)
+    {
+        clearScreen();
+        textInventory();
+        line();
+        std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+        position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+        line();
+        std::cout << "Heiltraenke ------------> " << player[roundManager].healthPotion; position(40, 7); std::cout << "Altmetall --------------> " << player[roundManager].scrapMetal << std::endl;
+        miniLine(0, 8);
+        std::cout << "Manatraenke ------------> " << player[roundManager].manaPotion; position(40, 9); std::cout << "Aluminium --------------> " << player[roundManager].aluminum << std::endl;
+        miniLine(0, 10);
+        std::cout << "Regenerationstraenke ---> " << player[roundManager].regenPotion; position(40, 11); std::cout << "Kupfer -----------------> " << player[roundManager].copper << std::endl;
+        miniLine(0, 12);
+        std::cout << "Ruestungen -------------> " << player[roundManager].armor; position(40, 12); std::cout << "Waffen -----------------> " << player[roundManager].weapons << std::endl;
+        line();
+        position(20, 16); std::cout << "[ 1 ] ------> Traenke              [ 3 ] ------> Metalle" << std::endl;
+        position(20, 18); std::cout << "[ 2 ] ------> Waffen               [ 4 ] ------> Ruestungen" << std::endl;
+        position(20, 20); std::cout << "                 [ 5 ] ------> Zurueck" << std::endl; 
+        
+        short input = choice();
+
+        switch(input)
+        {
+            case 1:
+                potions(player, roundManager);
+                break;
+
+            case 2: // Waffen
+                break;
+
+            case 3:
+                break;
+
+            case 4: // Ruestung
+                break;
+
+        }
+        return;
+    }
+}
+
 void frameWork(Player player[], short roundManager, short zone, int room)
 {
     clearScreen();
@@ -330,7 +477,7 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
         
         case 6:
             break;
-        
+            inventory(player, roundManager);
         case 7:
             break;
         
