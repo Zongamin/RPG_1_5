@@ -68,7 +68,7 @@ int main()
 
         backgroundColor(1);
         clearScreen();
-        gambler();
+        textPlayer();
         getNumber(roundManager);
         line();
         std::cout << "\n\n                                           \033[32;40m *** Spieler " << player[roundManager].getName() << " ist jetzt am Zug! *** " << "\033[102m \n";

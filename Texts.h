@@ -5,8 +5,13 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
 
 /*Inhaltsverzeichnis:
-    - roomTexts   -- case 0 = Eingang | case 1 = Doppeltür | case 2 = Wand | case 3 = Passage | case 4 - Tuer | case 5 - Hebel
-                     case 6 - */
+    - roomTexts   -- case 0 = Eingang
+                  -- case 1 = Doppeltür
+                  -- case 2 = Wand
+                  -- case 3 = Passage  
+                  -- case 4 = Tuer
+                  -- case 5 = Hebel
+                  -- case 6 = */
 
 void roomTexts(int room)
 {
@@ -97,6 +102,7 @@ void roomTexts(int room)
                 break;
 
             case 6:
+                break;
         }
         return;
 }

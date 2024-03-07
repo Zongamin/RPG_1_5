@@ -8,7 +8,7 @@
 
     - textMainMenue 
     - textCharacter
-    - gambler
+    - textPlayer
     - textLevelUp
     - textExpUp
     - textFight
@@ -21,6 +21,7 @@
     - textTrap
     - textBreak 
     - textPoition
+    - textWeapons
     - textRising
     - textTitle
     - textEnd 
@@ -29,7 +30,7 @@
 
 void textMainMenue()
 {
-    std::cout << "\033[94m __  __                                __                                                                                            \n";                                                 
+    std::cout << "\033[36m __  __                                __                                                                                            \n";                                                 
     std::cout << "/\\ \\/\\ \\                              /\\ \\__                                                                                           \n";                                                 
     std::cout << "\\ \\ \\_\\ \\      __     __  __   _____  \\ \\ ,_\\    ___ ___       __     ___     __  __     __                                          \n";   
     std::cout << " \\ \\  _  \\   /'__`\\  /\\ \\/\\ \\ /\\ '__`\\ \\ \\ \\/  /' __` __`\\   /'__`\\  /'_ `\\  /\\ \\/\\ \\  /'__`\\                           \n";
@@ -53,7 +54,7 @@ void textCharacter()
     return;
 }
 
-void gambler()
+void textPlayer()
 {
     std::cout << "    ____                               ___                                          \n";
     std::cout << "   /\\  _`\\               __           /\\_ \\                                      \n";
@@ -217,6 +218,19 @@ void textPotion()
     std::cout << "    \\/_/  \\/___/    \\/__/  \\/_/ \\/___/  \\/_/\\/_/			\033[0m\n";
     return;
 }
+
+void textWeapons()
+{
+    std::cout << "\033[36m __      __                ___     ___                                        \n";
+    std::cout << "/\\ \\  __/\\ \\             /'___\\  /'___\\                  		                \n";
+    std::cout << "\\ \\ \\/\\ \\ \\ \\     __    /\\ \\__/ /\\ \\__/    __     ___    		            \n";
+    std::cout << " \\ \\ \\ \\ \\ \\ \\  /'__`\\  \\ \\ ,__\\ \\ ,__\\ /'__`\\  /' _`\\  		        \n";
+    std::cout << "  \\ \\ \\_/ \\_\\ \\/\\ \\L\\.\\_ \\ \\ \\_/ \\ \\ \\_//\\  __/ /\\ \\/\\ \\ 	    \n";
+    std::cout << "   \\ `\\___x___/\\ \\__/.\\_\\ \\ \\_\\   \\ \\_\\ \\ \\____\\\\ \\_\\ \\_\\		    \n";
+    std::cout << "    '\\/__//__/  \\/__/\\/_/  \\/_/    \\/_/  \\/____/ \\/_/\\/_/		         \033[0m\n";
+    return;
+}
+
 void textRising()
 {
     std::cout << "\033[36m __________ .__         .__                     _________                  __                                  \n";

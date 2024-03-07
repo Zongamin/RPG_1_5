@@ -250,9 +250,8 @@ void potions(Player player[], short roundManager)
 {
     bool running = true;
     bool need = false;
-    double regenH = 0;
-    double regenM = 0;
-    
+    bool have = false;
+        
     while(running)
     {
         clearScreen();
@@ -276,66 +275,33 @@ void potions(Player player[], short roundManager)
         switch(input)
         {
             case 1:
-                if (player[roundManager].healthPotion < 1)
-                {
-                    std::cout << "\n\n\033[31mSie haben nicht genug Heiltraenke!\033[0m" << std::endl;
-                    getKey();
-                    break;
-                }
+                have = potionCheck(player, roundManager, 0);
                 need = checkRegen(player, roundManager, 0);
-                if (need == false)
+                if (need == false | have == false)
                 {
                     break;
                 }
-                regenH = round(random((player[roundManager].health / 100) * 15, (player[roundManager].health /100) * 25));
-                player[roundManager].healthPotion--;
-                player[roundManager].realHealth += regenH;
-                std::cout << "\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
-                lifeDisplay(player, roundManager, 0, 20);
-                getKey();
+                potionDrink(player, roundManager, 0);
                 break; 
 
             case 2:
-                if (player[roundManager].manaPotion < 1)
-                {
-                    std::cout << "\n\n\033[31mSie haben nicht genug Manatraenke!\033[0m]" << std::endl;
-                    getKey();
-                    break;
-                }
+                have = potionCheck(player, roundManager, 1);
                 need = checkRegen(player, roundManager, 1);
-                if (need == false)
+                if (need == false | have == false)
                 {
                     break;
                 }
-                regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 25));
-                player[roundManager].manaPotion--;
-                player[roundManager].realMana += regenM;
-                std::cout << "\n\n\033[34mSie regenerieren " << regenH << " Manapoints!\033[0m" << std::endl;
-                lifeDisplay(player, roundManager, 0, 20);
-                getKey();
+                potionDrink(player, roundManager, 1);
                 break; 
                 
             case 3:
-                if (player[roundManager].regenPotion < 1)
-                {
-                    std::cout << "\n\n\033[31mSie haben nicht genug Regenerationstraenke!\033[0m" << std::endl;
-                    getKey();
-                    break;
-                }
+                have = potionCheck(player, roundManager, 2);
                 need = checkRegen(player, roundManager, 2);
-                if (need == false)
+                if (need == false | have == false)
                 {
                     break;
                 }
-                regenH = round(random((player[roundManager].health / 100) * 10, (player[roundManager].health /100) * 20));
-                regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 20));
-                player[roundManager].regenPotion--;
-                player[roundManager].realHealth += regenH;
-                player[roundManager].realMana += regenM;
-                std::cout << "\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
-                std::cout << "\n\033[34mSie regenerieren " << regenH << " Manapoints!\033[0m" << std::endl;
-                lifeDisplay(player, roundManager, 0, 22);
-                getKey();
+                potionDrink(player, roundManager, 2);
                 break; 
 
             case 4:
@@ -343,6 +309,19 @@ void potions(Player player[], short roundManager)
                 break;
         }        
     }
+    return;
+}
+
+void weapons(Player player[], short roundManager)
+{
+    clearScreen();
+    textWeapons();
+    line();
+    std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+    position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+    capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    line();
+    getKey();
     return;
 }
 
@@ -367,25 +346,33 @@ void inventory(Player player[], short roundManager)
         miniLine(0, 12);
         std::cout << "Ruestungen -------------> " << player[roundManager].armor; position(40, 12); std::cout << "Waffen -----------------> " << player[roundManager].weapons << std::endl;
         line();
-        position(20, 16); std::cout << "[ 1 ] ------> Traenke              [ 3 ] ------> Metalle" << std::endl;
-        position(20, 18); std::cout << "[ 2 ] ------> Waffen               [ 4 ] ------> Ruestungen" << std::endl;
-        position(20, 20); std::cout << "                 [ 5 ] ------> Zurueck" << std::endl; 
+        position(20, 16); std::cout << "[ 1 ] ------> Waffen                   [ 4 ] ------> Metalle" << std::endl;
+        position(20, 18); std::cout << "[ 2 ] ------> Ruestungen               [ 5 ] ------> Entsorgen" << std::endl;
+        position(20, 20); std::cout << "[ 3 ] ------> Traenke                  [ 6 ] ------> Zurueck" << std::endl; 
         
         short input = choice();
 
         switch(input)
         {
             case 1:
-                potions(player, roundManager);
+                weapons(player , roundManager);
                 break;
 
             case 2: // Waffen
                 break;
 
             case 3:
+                potions(player, roundManager);
                 break;
 
             case 4: // Ruestung
+                break;
+
+            case 5:
+                break; // entsorgen
+
+            case 6:
+                running = false;
                 break;
 
         }
@@ -443,7 +430,7 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
                     bool answer = question();
                     if (answer == true)
                     {
-                        std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schlüssel und öffnen die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
+                        std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schluessel und oeffnen die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
                         player[roundManager].key--;
                         getKey();
                         running = false;
@@ -453,7 +440,7 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
                 }
                 if (player[roundManager].key < 1)
                 {
-                    std::cout << "\n\n\033[37;41m *** Sie versuchen die Tuer zu öffnen, aber sie ist verschlossen. Sie durchsuchen Ihre Taschen aber Sie haben leider keinen Schluessel dabei! *** \033[0m" << std::endl;
+                    std::cout << "\n\n\033[37;41m *** Sie versuchen die Tuer zu oeffnen, aber sie ist verschlossen. Sie durchsuchen Ihre Taschen aber Sie haben leider keinen Schluessel dabei! *** \033[0m" << std::endl;
                     getKey();
                     break;
                 }

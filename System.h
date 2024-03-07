@@ -13,38 +13,45 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\player.h>
 
 /*Inhaltsverzeichnis:
-    - assignment     -- Zuweisung der Werte für neue Spieler
-    - charCalc       -- Charkter Rechner zum errechnen neuer Werte bei Skillpunktverteilung
-    - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
-    - getKey         -- press any key - Funktion
-    - error          -- Fehlermeldung : Falsche Eingabe
-    - clearScreen    -- Windows-CMD Screen leeren
-    - position       -- Setzen der Cursor Position
-    - miniLine       -- kleinen Trennstrich einfügen
-    - line           -- Trennstrich einfügen
-    - question       -- Ja/Nein - Abfrage des Spielers
-    - choice         -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe
-    - condition      -- Skillpunkt ermittlung für Charactermenü 
-    - lifeDisplay    -- Lebens- und Manaanzeige der Spieler
-    - colorSwitch    -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
-    - textColor      -- Schriftfarben verändern
-    - backgroundColor-- Verändern der Hintergrund Farbe
-    - levelUp        -- Anheben von Skillpunkten, Spielerlevel & geforderten Level Exp
-    - expUp          -- Anheben der Spieler Exp und Level Umbruch
-    - capacityCheck  -- Überprüfung der Traglast des Spielers mit evtl. Übergabe an Ablagefunktion für Gegenstände
-    - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
-    - loot           -- Funktion für die Suche-Option des Spielers
-    - loadGame       -- Funktion zum Laden von Spielständen
-    - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
-    - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
-    - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
-    - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
-    - death          -- Ausgabe des Todes des Spielers
-    - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
-    - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
-    - trapSearch     -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
-    - takeBreak      -- Ermittelt Werte beim Rasten des Spielers 
-    - checkRegen     -- Ermittelt einen boolschen Wert, ob Heilung, Mana oder beides benoetigt wird*/
+60    - assignment     -- Zuweisung der Werte für neue Spieler
+100   - charCalc       -- Charkter Rechner zum errechnen neuer Werte bei Skillpunktverteilung
+111   - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
+133   - getKey         -- press any key - Funktion
+143   - error          -- Fehlermeldung : Falsche Eingabe
+163   - clearScreen    -- Windows-CMD Screen leeren
+171   - position       -- Setzen der Cursor Position
+182   - miniLine       -- kleinen Trennstrich einfügen
+188   - line           -- Trennstrich einfügen
+196   - question       -- Ja/Nein - Abfrage des Spielers
+228   - choice         -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe
+245   - condition      -- Skillpunkt ermittlung für Charactermenü 
+260   - lifeDisplay    -- Lebens- und Manaanzeige der Spieler
+299   - colorSwitch    -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
+320   - textColor      -- Schriftfarben verändern
+341   - backgroundColor-- Verändern der Hintergrund Farbe
+358   - levelUp        -- Anheben von Skillpunkten, Spielerlevel & geforderten Level Exp
+403   - expUp          -- Anheben der Spieler Exp und Level Umbruch
+444   - capacityCheck  -- Überprüfung der Traglast des Spielers mit evtl. Übergabe an Ablagefunktion für Gegenstände
+456   - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
+477   - loot           -- Funktion für die Suche-Option des Spielers
+704   - loadGame       -- Funktion zum Laden von Spielständen
+713   - one            -- Headline 1
+725   - two            -- Headline 2
+739   - three          -- Headline 3
+753   - four           -- Headline 4
+767   - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
+789   - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
+809   - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
+826   - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
+839   - death          -- Ausgabe des Todes des Spielers
+860   - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
+877   - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
+916   - trapSearch     -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
+976   - takeBreak      -- Ermittelt Werte beim Rasten des Spielers 
+1012  - checkRegen     -- Ermittelt einen boolschen Wert, ob Heilung, Mana oder beides benoetigt wird
+1046  - checkPotion    -- Ermittelt einen boolschen Wert, ob Heiltraenke, Manatraenke oder Regenerationstraenke vorhanden sind 
+1080  - potionDrink    -- Funktion zur Heilung, Manaregeneration oder beidem durch Tränke
+    */
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
 
@@ -397,7 +404,7 @@ void expUp(Player player[], short roundManager)
         std::cout << "| Exp |\033[41m                                                                                                    \033[0m|\n";
         std::cout << "------------------------------------------------------------------------------------------------------------\n";
 
-        position(7, 16);
+        position(7, 15);
     
         if (player[roundManager].realExp > player[roundManager].exp)
         {
@@ -912,29 +919,31 @@ void trapSearch(Player player[], short roundManager, short danger)
     short x = 0;
     double damage = 0;
     double vari = 0;
+    double xp = 0;
 
     clearScreen();
     textTrap();
     line();
-    std::cout << "Sie begeben sich auf die Such nach Fallen....." << std::endl;
+    colorSwitch(danger); std::cout << "Sie begeben sich auf die Such nach Fallen.....\033[0m" << std::endl;
     line();
+    colorSwitch(danger);
     if (danger == 1)
     {
-        std::cout << "\nDoch da der Raum \033[30;102m * Sicher * \033[0m ist, gibt es keine Fallen...." << std::endl;
+        std::cout << "\nDoch da der Raum \033[30;102m * Sicher * "; colorSwitch(danger); std::cout << " ist, gibt es keine Fallen....\033[0m" << std::endl;
         getKey();
         return;
     }
     if (player[roundManager].traps < 1)
     {
-        std::cout << "\nSelbst nach langer Suche koennen Sie keine Fallen entdecken! Koennte es sein, dass Sie bereits alle gefunden haben?" << std::endl;
+        std::cout << "\nSelbst nach langer Suche koennen Sie keine Fallen entdecken! Koennte es sein, dass Sie bereits alle gefunden haben?\033[0m" << std::endl;
         getKey();
         return;
     }
-    std::cout << "\nSie begeben sich auf die Suche nach fallen";
+    std::cout << "\nIhre Suche ergibt" << std::endl;
     for (int i = 0; i < 5; i++)
     {
         std::cout << ".";
-        Sleep(20);
+        Sleep(30);
     }
     zone = round(random(1, 100));
     if (danger == 2){ x = 14;}
@@ -962,7 +971,10 @@ void trapSearch(Player player[], short roundManager, short danger)
     }
     std::cout << "\n\nSie entdecken eine Falle!\n\nUnd Ihr Skill ist hoch genug sie zu entschaerfen!\n\n" << std::endl;
     player[roundManager].traps -= 1;
-    getKey();
+    xp = round(random(40, 50));
+    std::cout << "Sie erhalten: " << xp << " EXP!\033[0m\n\n" << std::endl;
+    player[roundManager].realExp += xp;
+    expUp(player, roundManager); 
     return;
 }
 
@@ -1013,7 +1025,7 @@ bool checkRegen(Player player[], short roundManager, short sort)
                 getKey();
                 return false;
             }
-            return true;
+            break;
         
         case 1: //Mana
             if (player[roundManager].realMana >= player[roundManager].mana)
@@ -1022,7 +1034,7 @@ bool checkRegen(Player player[], short roundManager, short sort)
                 getKey();
                 return false;
             }
-            return true;
+            break;
 
         case 2: //regen
             if (player[roundManager].realMana >= player[roundManager].mana && player[roundManager].realHealth >= player[roundManager].health)
@@ -1031,9 +1043,83 @@ bool checkRegen(Player player[], short roundManager, short sort)
                 getKey();
                 return false;
             }
-            return true;        
+            break;
     }
+    return true;
 }
 
+bool potionCheck (Player player[], short roundManager, short sort)
+{
+    switch (sort)
+    {
+        case 0:
+            if (player[roundManager].healthPotion < 1)
+                {
+                    std::cout << "\n\n\033[31mSie haben nicht genug Heiltraenke!\033[0m" << std::endl;
+                    getKey();
+                    return false;
+                }
+                break;
+        
+        case 1:
+            if (player[roundManager].manaPotion < 1)
+                {
+                    std::cout << "\n\n\033[31mSie haben nicht genug Manatraenke!\033[0m]" << std::endl;
+                    getKey();
+                    return false;
+                }
+                break;
+
+        case 2:
+            if (player[roundManager].regenPotion < 1)
+                {
+                    std::cout << "\n\n\033[31mSie haben nicht genug Regenerationstraenke!\033[0m" << std::endl;
+                    getKey();
+                    return false;
+                }
+                break;
+    }
+    return true;
+}
+
+void potionDrink (Player player[], short roundManager, short sort)
+{
+    double regenH = 0;
+    double regenM = 0;
+
+    switch (sort)
+    {
+        case 0:
+            regenH = round(random((player[roundManager].health / 100) * 15, (player[roundManager].health /100) * 25));
+            player[roundManager].healthPotion--;
+            player[roundManager].realHealth += regenH;
+            std::cout << "\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
+            lifeDisplay(player, roundManager, 0, 20);
+            getKey();
+            break;
+            
+        case 1:
+            regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 25));
+            player[roundManager].manaPotion--;
+            player[roundManager].realMana += regenM;
+            std::cout << "\n\n\033[34mSie regenerieren " << regenH << " Manapoints!\033[0m" << std::endl;
+            lifeDisplay(player, roundManager, 0, 20);
+            getKey();
+            break;
+
+        case 2:
+            regenH = round(random((player[roundManager].health / 100) * 10, (player[roundManager].health /100) * 20));
+            regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 20));
+            player[roundManager].regenPotion--;
+            player[roundManager].realHealth += regenH;
+            player[roundManager].realMana += regenM;
+            std::cout << "\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
+            std::cout << "\n\033[34mSie regenerieren " << regenH << " Manapoints!\033[0m" << std::endl;
+            lifeDisplay(player, roundManager, 0, 22);
+            getKey();
+            break;
+    }
+    return;
+}
 #endif
 
