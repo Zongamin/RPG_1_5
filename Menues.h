@@ -376,8 +376,8 @@ void inventory(Player player[], short roundManager)
                 break;
 
         }
-        return;
     }
+    return;
 }
 
 void frameWork(Player player[], short roundManager, short zone, int room)
