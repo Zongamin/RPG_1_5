@@ -463,8 +463,9 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
             break;
         
         case 6:
-            break;
             inventory(player, roundManager);
+            break;
+            
         case 7:
             break;
         
