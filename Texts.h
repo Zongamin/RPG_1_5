@@ -11,7 +11,8 @@
                   -- case 3 = Passage  
                   -- case 4 = Tuer
                   -- case 5 = Hebel
-                  -- case 6 = */
+                  -- case 6 = Truhe
+                  -- case 7 = Treppe nach oben*/
 
 void roomTexts(int room)
 {
@@ -102,6 +103,60 @@ void roomTexts(int room)
                 break;
 
             case 6:
+                
+                position(58, 8);  std::cout << "Da steht sie... Prächtig und doch irgendwie random....";
+                position(58, 9);  std::cout << "Quasi ein klassisches Element in jedem Dungeon - Abenteuer! Ein \"Muss\"";
+                position(58, 10); std::cout << "in jedem Spiel, dass auch nur ansatzweise was auf sich haelt! Ganz so";
+                position(58, 11); std::cout << "schuechternd wie eine Jungfrau ueber ihre Jungfraeulichkeit ist sie ";
+                position(58, 12); std::cout << "selbstverstaendlich verschlossen.... Die Frage ist: Haben Sie das er-"; 
+                position(58, 13); std::cout << "forderliche Geschick, die Truhe zur Oeffnung zu ueberreden, oder einfach";
+                position(58, 14); std::cout << "nur einen Schluessel im Gepaeck. So oder so sollten beide Optionen dazu";
+                position(58, 15); std::cout << "fuehren, die Truhe oeffnen zu koennen.";
+                position(58, 16); std::cout << "Was spricht dagegen, dass Geheimnis der Truhe loesen zu wollen? Die Ant-";
+                position(58, 17); std::cout << "wort ist: Nichts! Ausser, Sie haben keinen Schluessel!";
+                break;
+
+            case 7:
+
+                position(58, 8);  std::cout << "Is this the stairway to heaven? Eher weniger! Natuerlich ist es ein sehr";
+                position(58, 9);  std::cout << "seltsames Gefuehl in einem Dungeon des Boesen, der offensichtlich in die";
+                position(58, 10); std::cout << "Tiefe fuehren sollte, nach oben zu gehen! Es sei dem, Sie sind zuvor be-";
+                position(58, 11); std::cout << "reits mehrmals nach unten gegangen. Leider laesst sich das nicht genau ";
+                position(58, 12); std::cout << "vorraus sagen, denn schliesslich ist dieser Dungeon ja zufaellig aufgebaut"; 
+                position(58, 13); std::cout << "und es liegt durchaus im Bereich des Moeglichen, dass Sie bereits mehrmals";
+                position(58, 14); std::cout << "nach oben gegangen sind... Sollte dies der Fall sein, so bittet der Dev";
+                position(58, 15); std::cout << "mehrmals um Verzeihung und Ihr Verstaendnis, dass er keinen tiefen Einfluss";
+                position(58, 16); std::cout << "auf solche Nebensaechlichkeiten haben kann und so wie Sie, den Umstaenden";
+                position(58, 17); std::cout << "schutzlos ausgeliefert ist!";
+                break;
+
+            case 8:
+                                
+                position(58, 8);  std::cout << "Oha, wer haette das nur Gedacht? Es geht nach unten. Tiefer in den Dungeon";
+                position(58, 9);  std::cout << "hinein! Es wird tatsaechlich Zeit vom hohen Ross abzusteigen und tiefer in";
+                position(58, 10); std::cout << "den endlosen Dungeon hinabzusteigen! Es gibt noch so viele Ogersocken und";
+                position(58, 11); std::cout << "Unterhosen zu finden und zu entdecken, dass Sie jetzt nicht einfach auf-";
+                position(58, 12); std::cout << "geben koennen! Wer weiss schon so genau, wo diese Untiefen noch hinfuehren"; 
+                position(58, 13); std::cout << "koennen und ob nicht doch eventuell schon ein goldenes Haeufchen eines";
+                position(58, 14); std::cout << "Drachens unter dieser nichtssagenden Treppe liegt! Checken Sie lieber mal";
+                position(58, 15); std::cout << "die Gegend ab, bevor Sie weiterziehen! Desweiteren ist es bestimmt auch mal";
+                position(58, 16); std::cout << "angenehm, in einem Dungeon mal weiter nach unten zu gehen. Sollte es so";
+                position(58, 17); std::cout << "sein, dass der Zufall sie zuvor immer wieder nach oben gefuehrt hat...";
+                break;
+            
+            case 9:
+
+                
+                position(58, 8);  std::cout << "";
+                position(58, 9);  std::cout << "";
+                position(58, 10); std::cout << "";
+                position(58, 11); std::cout << "";
+                position(58, 12); std::cout << ""; 
+                position(58, 13); std::cout << "";
+                position(58, 14); std::cout << "";
+                position(58, 15); std::cout << "";
+                position(58, 16); std::cout << "";
+                position(58, 17); std::cout << "";
                 break;
         }
         return;
