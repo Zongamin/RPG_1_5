@@ -81,6 +81,8 @@ void assignment(Player player[], short numberOfPlayers)
             player[index].realMana = player[index].mana;
             player[index].luck = (player[index].endurance * 0.01) + (player[index].dexterity * 0.1);
             player[index].capacity = (player[index].strength * 15) + (player[index].endurance * 5);
+            player[index].weaponDmg = 0;
+            player[index].armorDmgReduce = 0;
             player[index].regenerationOn = 0;
             player[index].fireAura = 0;
             player[index].key = 0;
@@ -445,7 +447,7 @@ void expUp(Player player[], short roundManager)
 
 void arraySort(Player player[], short roundManager, std::string type)
 {
-    if (type == "weapon")
+    if (type == "weapons")
     {
         int arraySize = sizeof(player[roundManager].weapons) / sizeof(player[roundManager].weapons[0]);
         std::sort(player[roundManager].weapons, player[roundManager].weapons + arraySize, std::greater<int>());

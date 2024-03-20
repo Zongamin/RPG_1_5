@@ -44,7 +44,8 @@ class Player
         double resurrectionPoition{};
         double weapons[500];
         double armor[500];
-        
+        double weaponDmg{};
+        double armorDmgReduce{};
 
         // Buffs
 
