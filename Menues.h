@@ -5,6 +5,7 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Main.cpp>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Texts.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
 
 /*  Inhaltsverzeichnis
     16      - gameMenue         Das Gamemenü ist das Hauptmenue des Spiels und ist verantwortlich für Spieleranzahl,
@@ -328,6 +329,12 @@ void weapons(Player player[], short roundManager)
 void inventory(Player player[], short roundManager)
 {
     bool running = true;
+    int weapon = 0;
+    int armor = 0;
+    
+
+    for (int index = 0; player[roundManager].weapons[index] = !0; index++){weapon++; break;}
+    for (int index = 0; player[roundManager].armor[index] = !0; index++){armor++; break;}
 
     while(running)
     {
@@ -335,20 +342,17 @@ void inventory(Player player[], short roundManager)
         textInventory();
         line();
         std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
-        capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+        position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
-        std::cout << "Heiltraenke ------------> " << player[roundManager].healthPotion; position(40, 7); std::cout << "Altmetall --------------> " << player[roundManager].scrapMetal << std::endl;
-        miniLine(0, 8);
-        std::cout << "Manatraenke ------------> " << player[roundManager].manaPotion; position(40, 9); std::cout << "Aluminium --------------> " << player[roundManager].aluminum << std::endl;
-        miniLine(0, 10);
-        std::cout << "Regenerationstraenke ---> " << player[roundManager].regenPotion; position(40, 11); std::cout << "Kupfer -----------------> " << player[roundManager].copper << std::endl;
-        miniLine(0, 12);
-        std::cout << "Ruestungen -------------> " << player[roundManager].armor; position(40, 12); std::cout << "Waffen -----------------> " << player[roundManager].weapons << std::endl;
+        std::cout << "\n\033[31mHeiltraenke\033[0m ------------> " << player[roundManager].healthPotion; position(50, 15); std::cout << "\033[90mAltmetall\033[0m --------------> " << player[roundManager].scrapMetal << std::endl;
+        std::cout << "\n\033[34mManatraenke\033[0m ------------> " << player[roundManager].manaPotion; position(50, 17); std::cout << "\033[0mAluminium\033[0m --------------> " << player[roundManager].aluminum << std::endl;
+        std::cout << "\n\033[95mRegenerationstraenke\033[0m ---> " << player[roundManager].regenPotion; position(50, 19); std::cout << "\033[31mKupfer\033[0m -----------------> " << player[roundManager].copper << std::endl;
+        std::cout << "\n\033[90mRuestungen\033[0m -------------> " << armor; position(50, 21); std::cout << "\033[0mWaffen\033[0m -----------------> " << weapon << "\n" << std::endl;
         line();
-        position(20, 16); std::cout << "[ 1 ] ------> Waffen                   [ 4 ] ------> Metalle" << std::endl;
-        position(20, 18); std::cout << "[ 2 ] ------> Ruestungen               [ 5 ] ------> Entsorgen" << std::endl;
-        position(20, 20); std::cout << "[ 3 ] ------> Traenke                  [ 6 ] ------> Zurueck" << std::endl; 
+        position(20, 25); std::cout << "\033[47;30m[ 1 ]\033[0m ------> Waffen                   \033[100;30m[ 4 ]\033[0m ------> \033[90mMetalle\033[0m" << std::endl;
+        position(20, 27); std::cout << "\033[100;30m[ 2 ]\033[0m ------> \033[90mRuestungen\033[0m               \033[41;37m[ 5 ]\033[0m ------> \033[31mEntsorgen\033[0m" << std::endl;
+        position(20, 29); std::cout << "\033[101m[ 3 ]\033[0m ------> \033[91mTraenke                  \033[47;30m[ 6 ]\033[0m ------> Zurueck" << std::endl; 
         
         short input = choice();
 

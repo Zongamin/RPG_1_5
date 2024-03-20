@@ -441,6 +441,27 @@ void expUp(Player player[], short roundManager)
     return;
 }
 
+// Sortierung und Nachrutschen von Arrays
+
+void arraySort(Player player[], short roundManager, std::string type)
+{
+    if (type == "weapon")
+    {
+        int arraySize = sizeof(player[roundManager].weapons) / sizeof(player[roundManager].weapons[0]);
+        std::sort(player[roundManager].weapons, player[roundManager].weapons + arraySize, std::greater<int>());
+        return;
+    }
+    else if (type == "armor")
+    {
+        int arraySize = sizeof(player[roundManager].armor) / sizeof(player[roundManager].armor[0]);
+        std::sort(player[roundManager].armor, player[roundManager].armor + arraySize, std::greater<int>());
+        return;
+    }
+    std::cout << "Error!" << std::endl;
+    getKey();
+    return;
+}
+
 void capacityColor(Player player[], short roundManager)
 {
     double range{};
@@ -452,35 +473,137 @@ void capacityColor(Player player[], short roundManager)
     return;
 }
 
+// Anzahl zu entsorgender Waffen bestimmen
+
+void disposeWeapons(Player player[], short roundManager)
+{
+    std::cout << "\n[ 0 ] -----> Zurueck" << std::endl;
+
+    for (int index = 0; player[roundManager].weapons[index] = !0; index++) 
+    {
+        std::cout << "\n[ " << index + 1 << " ] -----> " << player[roundManager].weapons[index] << " DMG" << std::endl;
+    }
+    std::cout << "\nWelche Waffe moechten Sie entsorgen?";
+}
+
+// Anzahl zu entsorgender Gegenstände bestimmen
+
+double disposeAmount (Player player[], short roundManager, std::string sortOf, double maxAmount)
+{
+    double amount = 0;
+    bool answer = false;
+
+    std::cout << "\n\nSie moechten " << sortOf << " entsorgen. Wie viele Einheiten sollen entsorgt werden? (0 - " << maxAmount << ") "; std::cin >> amount;
+                    if (amount > maxAmount || amount < 0){std::cout << "\n\033[31mDas ist nicht moeglich!"; getKey(); return -1;}
+                    if (amount == 0) {return -1;}
+                    std::cout << "\nSind Sie sicher? (J/N)" << std::endl;
+                    answer = question();
+                    if (answer == false) {return -1;} 
+                    std::cout << "\nSie haben " << amount << " Einheiten " << sortOf << " entsorgt!" << std::endl;
+                    return amount;
+}
+
 // Gegenstände entsorgen
 
-bool disposal(Player player[], short roundManager, double weight, std::string typeOf)
+bool disposal(Player player[], short roundManager, double weight)
 {
+    short input = 0;
     bool running = true;
+    bool answer = false;
     double numberOfWeapons = 0;
     double numberOfArmor = 0;
+    double amount = 0;
+    double needWeight = 0;
 
     while(running)
     {
-    for(int index; player[roundManager].weapons[index] = !0; index++) {numberOfWeapons = index;}
-    for(int index; player[roundManager].armor[index] = !0; index++) {numberOfArmor = index;}
+        needWeight = (player[roundManager].realCapacity + weight) - player[roundManager].capacity;
+        if (needWeight < 0) {needWeight = 0;}
 
-    clearScreen();
-    textDisposal();
-    line();
-    capacityColor(player, roundManager); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
-    line();
-    std::cout << "                                   Gewicht pro Einheit           Anzahl              Gesamtgewicht";
-    std::cout << "[ 1 ] -----> Altmetall                   0,3  kg"; position(7, 65); std::cout << player[roundManager].scrapMetal; position(7, 85); std::cout << player[roundManager].scrapMetal * 0.3; 
-    std::cout << "[ 2 ] -----> Aluminum                    0,1  kg"; position(9, 65); std::cout << player[roundManager].aluminum; position(9, 85); std::cout << player[roundManager].aluminum * 0.1;
-    std::cout << "[ 3 ] -----> Kupfer                      0,2  kg"; position(11, 65); std::cout << player[roundManager].copper; position(11, 85); std::cout << player[roundManager].copper * 0.2;
-    std::cout << "[ 4 ] -----> Heiltraenke                 0,25 kg"; position(13, 65); std::cout << player[roundManager].healthPotion; position(13, 85); std::cout << player[roundManager].healthPotion * 0.25;
-    std::cout << "[ 5 ] -----> Manatraenke                 0,25 kg"; position(15, 65); std::cout << player[roundManager].manaPotion; position(15, 85); std::cout << player[roundManager].manaPotion * 0.25;
-    std::cout << "[ 6 ] -----> Regenerationstraenke        0,25 kg"; position(17, 65); std::cout << player[roundManager].regenPotion; position(17, 85); std::cout << player[roundManager].regenPotion * 0.25;
-    std::cout << "[ 7 ] -----> Waffen                      2,5  kg"; position(19, 65); std::cout << numberOfWeapons; position(19, 85); std::cout << numberOfWeapons * 2.5;
-    std::cout << "[ 8 ] -----> Ruestungen                  2,25 kg"; position(21, 65); std::cout << numberOfArmor; position(21, 85); std::cout << numberOfArmor * 2.25;
-    line();
-    std::cout << "\033[31mWas moechten Sie entsorgen?" << std::endl;
+        for(int index; player[roundManager].weapons[index] = !0; index++) {numberOfWeapons = index;}
+        for(int index; player[roundManager].armor[index] = !0; index++) {numberOfArmor = index;}
+
+        clearScreen();
+        textDisposal();
+        line();
+        capacityColor(player, roundManager); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << " Sie muessen noch " << needWeight << " kg ablegen." << std::endl;
+        line();
+        std::cout << "                                   Gewicht pro Einheit           Anzahl              Gesamtgewicht";
+        std::cout << "[ 1 ] -----> Altmetall                   0,3  kg"; position(7, 65); std::cout << player[roundManager].scrapMetal; position(7, 85); std::cout << player[roundManager].scrapMetal * 0.3; 
+        std::cout << "[ 2 ] -----> Aluminum                    0,1  kg"; position(9, 65); std::cout << player[roundManager].aluminum; position(9, 85); std::cout << player[roundManager].aluminum * 0.1;
+        std::cout << "[ 3 ] -----> Kupfer                      0,2  kg"; position(11, 65); std::cout << player[roundManager].copper; position(11, 85); std::cout << player[roundManager].copper * 0.2;
+        std::cout << "[ 4 ] -----> Heiltraenke                 0,25 kg"; position(13, 65); std::cout << player[roundManager].healthPotion; position(13, 85); std::cout << player[roundManager].healthPotion * 0.25;
+        std::cout << "[ 5 ] -----> Manatraenke                 0,25 kg"; position(15, 65); std::cout << player[roundManager].manaPotion; position(15, 85); std::cout << player[roundManager].manaPotion * 0.25;
+        std::cout << "[ 6 ] -----> Regenerationstraenke        0,25 kg"; position(17, 65); std::cout << player[roundManager].regenPotion; position(17, 85); std::cout << player[roundManager].regenPotion * 0.25;
+        std::cout << "[ 7 ] -----> Waffen                      2,5  kg"; position(19, 65); std::cout << numberOfWeapons; position(19, 85); std::cout << numberOfWeapons * 2.5;
+        std::cout << "[ 8 ] -----> Ruestungen                  2,25 kg"; position(21, 65); std::cout << numberOfArmor; position(21, 85); std::cout << numberOfArmor * 2.25;
+        std::cout << "[ 0 ] -----> Zurueck";
+        line();
+        std::cout << "\033[31mWas moechten Sie entsorgen?" << std::endl;
+        input = choice();
+        switch (input)
+            {
+                case 0:
+                    running = false;
+                    break;
+
+                case 1:
+                    amount = disposeAmount(player, roundManager, "Altmetall", player[roundManager].scrapMetal);
+                    if (amount == -1) {break;}
+                    player[roundManager].scrapMetal -= amount;
+                    player[roundManager].realCapacity -= (amount * 0.3);
+                    getKey();
+                    break;
+
+                case 2:
+                    amount = disposeAmount(player, roundManager, "Aluminium", player[roundManager].aluminum);
+                    if (amount == -1) {break;}
+                    player[roundManager].aluminum -= amount;
+                    player[roundManager].realCapacity -= (amount * 0.1);
+                    getKey();
+                    break;
+                
+                case 3:
+                    amount = disposeAmount(player, roundManager, "Kupfer", player[roundManager].copper);
+                    if (amount == -1) {break;}
+                    player[roundManager].copper -= amount;
+                    player[roundManager].realCapacity -= (amount * 0.2);
+                    getKey();
+                    break;
+                    
+                case 4:
+                    amount = disposeAmount(player, roundManager, "Heiltraenke", player[roundManager].healthPotion);
+                    if (amount == -1) {break;}
+                    player[roundManager].healthPotion -= amount;
+                    player[roundManager].realCapacity -= (amount * 0.25);
+                    getKey();
+                    break;
+                
+                case 5:
+                    amount = disposeAmount(player, roundManager, "Manatraenke", player[roundManager].manaPotion);
+                    if (amount == -1) {break;}
+                    player[roundManager].manaPotion -= amount;
+                    player[roundManager].realCapacity -= (amount * 0.25);
+                    getKey();
+                    break;
+                
+                case 6:
+                    amount = disposeAmount(player, roundManager, "Regenerationstaenke", player[roundManager].regenPotion);
+                    if (amount == -1) {break;}
+                    player[roundManager].regenPotion -= amount;
+                    player[roundManager].realCapacity -= (amount * 0.25);
+                    getKey();
+                    break;
+
+                case 7:
+                    break;
+
+                case 8:
+                    break;
+                
+                default:
+                    break;
+            }
     }
     getKey();
     return false;
@@ -504,7 +627,7 @@ bool capacityCheck(Player player[], short roundManager, double weight, short num
         switch (answer)
         {
             case true:
-                enoughWeight = disposal(player, roundManager, weight, typeOf);
+                enoughWeight = disposal(player, roundManager, weight);
                 if (enoughWeight = false) {return false;}
                 break;
 
@@ -513,27 +636,6 @@ bool capacityCheck(Player player[], short roundManager, double weight, short num
         }
     }
     return true;
-}
-
-// Sortierung und Nachrutschen von Arrays
-
-void arraySort(Player player[], short roundManager, std::string type)
-{
-    if (type == "weapon")
-    {
-        int arraySize = sizeof(player[roundManager].weapons) / sizeof(player[roundManager].weapons[0]);
-        std::sort(player[roundManager].weapons, player[roundManager].weapons + arraySize, std::greater<int>());
-        return;
-    }
-    else if (type == "armor")
-    {
-        int arraySize = sizeof(player[roundManager].armor) / sizeof(player[roundManager].armor[0]);
-        std::sort(player[roundManager].armor, player[roundManager].armor + arraySize, std::greater<int>());
-        return;
-    }
-    std::cout << "Error!" << std::endl;
-    getKey();
-    return;
 }
 
 // looten nach erfolgreicher Suche
@@ -995,7 +1097,7 @@ void trapSearch(Player player[], short roundManager, short danger)
     textColor(danger);
     if (danger == 1)
     {
-        std::cout << "\nDoch da der Raum \033[30;102m * Sicher * "; textColor(danger); std::cout << " ist, gibt es keine Fallen....\033[0m" << std::endl;
+        std::cout << "\nDoch da der Raum \033[30;102m * Sicher * \033[0m"; textColor(danger); std::cout << " ist, gibt es keine Fallen....\033[0m" << std::endl;
         getKey();
         return;
     }
