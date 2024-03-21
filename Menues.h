@@ -259,17 +259,17 @@ void potions(Player player[], short roundManager)
         textPotion();
         line();
         std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
-        capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+        position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
-        std::cout << "Heiltraenke ------------> " << player[roundManager].healthPotion; position(40, 7);
-        miniLine(0, 8);
-        std::cout << "Manatraenke ------------> " << player[roundManager].manaPotion; position(40, 9);
-        miniLine(0, 10);
-        std::cout << "Regenerationstraenke ---> " << player[roundManager].regenPotion; position(40, 11);
+        std::cout << "\n\033[31mHeiltraenke\033[0m ------------> \033[31m" << player[roundManager].healthPotion << "\033[0m" << std::endl; 
+        miniLine(0, 16);
+        std::cout << "\n\033[34mManatraenke\033[0m ------------> \033[34m" << player[roundManager].manaPotion << "\033[0m" << std::endl;
+        miniLine(0, 18);
+        std::cout << "\n\033[35mRegenerationstraenke\033[0m ---> \033[35m" << player[roundManager].regenPotion << "\033[0m" << std::endl; 
         line();
-        position(20, 14); std::cout << "[ 1 ] ------> Heiltrank benutzen   [ 3 ] ------> Regenerationstrank benutzen" << std::endl;
-        position(20, 16); std::cout << "[ 2 ] ------> Manatrank benutzen   [ 4 ] ------> Zurueck" << std::endl;
+        position(20, 25); std::cout << "\033[41;97m[ 1 ]\033[0m ------> \033[31mHeiltrank benutzen\033[0m   \033[45;97m[ 3 ]\033[0m ------> \033[35mRegenerationstrank benutzen\033[0m" << std::endl;
+        position(20, 27); std::cout << "\033[44;97m[ 2 ]\033[0m ------> \033[34mManatrank benutzen\033[0m   \033[47;30m[ 4 ]\033[0m ------> Zurueck" << std::endl;
                 
         short input = choice();
 
@@ -315,6 +315,31 @@ void potions(Player player[], short roundManager)
 
 void metals(Player player[], short roundManager)
 {
+    bool running = true;
+
+    while (running)
+    {
+        clearScreen();
+        textMetal();
+        line();
+        std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+        position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+        line();
+        std::cout << "\nAltmetall ------> " << player[roundManager].scrapMetal << " (" << player[roundManager].scrapMetal * 0.3 << " kg)" << std::endl;
+        std::cout << "\nAluminium ------> " << player[roundManager].aluminum << " (" << player[roundManager].aluminum * 0.1 << " kg)" << std::endl;
+        std::cout << "\nKupfer ---------> " << player[roundManager].copper << " (" << player[roundManager].copper * 0.2 << " kg)" << std::endl;
+        line();
+        if (player[roundManager].currentRoom = 10) // Schmiede als currentRoom einfügen!!!!!! <-------
+        { 
+            std::cout << "\n\nSie befinden sich derzeit an einer Schmiede, diese kann über die Spezial-Option in den Raumoptionen betreten werden.";
+                      
+        }
+        getKey();
+        running = false;  
+        break;
+
+    }
     return;
 }
 
@@ -322,7 +347,9 @@ void armors(Player player[], short roundManager)
 {
     bool running = true;
     int input = 0;
-    int arraySize = sizeof(player[roundManager].armor) + 1;
+    int arraySize = 0;
+    
+    for (int dex = 0; player[roundManager].armor[dex] > 0; dex++) {arraySize++; break;}
 
     while (running)
     {
@@ -330,10 +357,10 @@ void armors(Player player[], short roundManager)
         textArmor();
         line();
         std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
-        capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+        position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
-        if (player[roundManager].armor[0] = 0)
+        if (player[roundManager].armor[0] == 0)
         {
             std::cout << "\n\033[31mSie haben keine Ruestungen im Inventar!\033[0m" << std::endl;
             getKey();
@@ -341,16 +368,17 @@ void armors(Player player[], short roundManager)
             break;
         }
         std::cout << "\n\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
-        for (int index = 0; player[roundManager].armor[index] = !0; index++)
+        for (int index = 0; player[roundManager].armor[index] != 0; index++)
         {
-            std::cout << "\n\033[100;30m[ " << index + 1 <<" ]\033[90m ------> " << player[roundManager].armor[index] << " DMG\033[0m" << std::endl;
+            std::cout << "\n\033[100;30m[ " << index + 1 <<" ]\033[0m ------> \033[90m" << player[roundManager].armor[index] << " DMG\033[0m" << std::endl;
+            break;
         }
         std::cout << "\nIhre derzeitige Ruestung hat einen Wert von " << player[roundManager].armorDmgReduce << " RST." << std::endl;
-        std::cout << "\nWelche Ruestung moechten Sie anlegen (0 - " << arraySize << ") ?"; std::cin >> input;
-        if (input -1 > arraySize) {std::cout << "\n\033[31mDas geht nicht!\033[0m"; getKey(); break;}
+        std::cout << "\nWelche Ruestung moechten Sie anlegen (0 - " << arraySize + 1 << ") ?"; std::cin >> input;
         if (input = 0) {running = false; break;}
+        if (input -1 > arraySize) {std::cout << "\n\033[31mDas geht nicht!\033[0m"; getKey(); break;}
         player[roundManager].armorDmgReduce = player[roundManager].armor[input - 1];
-        player[roundManager].armor[input - 1] = 0;
+        player[roundManager].armor[(input - 1)] = 0;
         arraySort(player, roundManager, "armor");
         std::cout << "\n\033[32mDie Ruestung wurde angelegt!\033[0m" << std::endl;
         std::cout << "\nMoechten Sie weiter im Ruestungsinventar stoebern ? (J/N)" << std::endl;
@@ -373,7 +401,9 @@ void weapons(Player player[], short roundManager)
 {
     bool running = true;
     int input = 0;
-    int arraySize = sizeof(player[roundManager].weapons) + 1;
+    int arraySize = 0;
+
+    for (int dex = 0; player[roundManager].armor[dex] > 0; dex++) {arraySize++; break;}
 
     while (running)
     {
@@ -381,10 +411,10 @@ void weapons(Player player[], short roundManager)
         textWeapons();
         line();
         std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
-        capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+        position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
-        if (player[roundManager].weapons[0] = 0)
+        if (player[roundManager].weapons[0] == 0)
         {
             std::cout << "\n\033[31mSie haben keine Waffen im Inventar!\033[0m" << std::endl;
             getKey();
@@ -392,16 +422,18 @@ void weapons(Player player[], short roundManager)
             break;
         }
         std::cout << "\n\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
-        for (int index = 0; player[roundManager].weapons[index] = !0; index++)
+        for (int index = 0; player[roundManager].weapons[index] != 0; index++)
         {
-            std::cout << "\n\033[100;30m[ " << index + 1 <<" ]\033[90m ------> " << player[roundManager].weapons[index] << " DMG\033[0m" << std::endl;
+            std::cout << "\n\033[100;30m[ " << index + 1 <<" ]\033[0m ------> \033[90m" << player[roundManager].weapons[index] << " DMG\033[0m" << std::endl;
+            break;
         }
+        line();
         std::cout << "\nIhre derzeitige Waffe hat einen Wert von " << player[roundManager].weaponDmg << " DMG." << std::endl;
-        std::cout << "\nWelche Waffe moechten Sie anlegen (0 - " << arraySize << ") ?"; std::cin >> input;
-        if (input -1 > arraySize) {std::cout << "\n\033[31mDas geht nicht!\033[0m"; getKey(); break;}
+        std::cout << "\nWelche Waffe moechten Sie anlegen (0 - " << arraySize + 1 << ") ?"; std::cin >> input;
         if (input = 0) {running = false; break;}
+        if ((input - 1) > arraySize) {std::cout << "\n\033[31mDas geht nicht!\033[0m"; getKey(); break;}
         player[roundManager].weaponDmg = player[roundManager].weapons[input - 1];
-        player[roundManager].weapons[input - 1] = 0;
+        player[roundManager].weapons[(input - 1)] = 0;
         arraySort(player, roundManager, "weapons");
         std::cout << "\n\033[32mDie Waffe wurde angelegt!\033[0m" << std::endl;
         std::cout << "\nMoechten Sie weiter im Waffeninventar stoebern ? (J/N)" << std::endl;
@@ -444,9 +476,9 @@ void inventory(Player player[], short roundManager)
         std::cout << "\n\033[95mRegenerationstraenke\033[0m ---> " << player[roundManager].regenPotion; position(50, 19); std::cout << "\033[31mKupfer\033[0m -----------------> " << player[roundManager].copper << std::endl;
         std::cout << "\n\033[90mRuestungen\033[0m -------------> " << armor; position(50, 21); std::cout << "\033[0mWaffen\033[0m -----------------> " << weapon << "\n" << std::endl;
         line();
-        position(15, 25); std::cout << "\033[47;30m[ 1 ]\033[0m ------> Waffen                   \033[100;30m[ 4 ]\033[0m ------> \033[90mMetalle\033[0m" << std::endl;
-        position(15, 27); std::cout << "\033[100;30m[ 2 ]\033[0m ------> \033[90mRuestungen\033[0m               \033[41;37m[ 5 ]\033[0m ------> \033[31mEntsorgen\033[0m" << std::endl;
-        position(15, 29); std::cout << "\033[44;97m[ 3 ]\033[0m ------> \033[91mTraenke                  \033[47;30m[ 6 ]\033[0m ------> Zurueck" << std::endl; 
+        position(15, 26); std::cout << "\033[47;30m[ 1 ]\033[0m ------> Waffen                   \033[100;30m[ 4 ]\033[0m ------> \033[90mMetalle\033[0m" << std::endl;
+        position(15, 28); std::cout << "\033[100;30m[ 2 ]\033[0m ------> \033[90mRuestungen\033[0m               \033[41;37m[ 5 ]\033[0m ------> \033[31mEntsorgen\033[0m" << std::endl;
+        position(15, 30); std::cout << "\033[44;97m[ 3 ]\033[0m ------> \033[34mTraenke                  \033[47;30m[ 6 ]\033[0m ------> Zurueck" << std::endl; 
         
         short input = choice();
 
@@ -469,6 +501,7 @@ void inventory(Player player[], short roundManager)
                 break;
 
             case 5: // Entsorgen
+                disposal(player, roundManager, 0);
                 break; 
 
             case 6: // Zurück

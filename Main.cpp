@@ -104,6 +104,7 @@ bool playGame = true;
                 
                 while (running)
                     {
+                        
                         running = false;
                         break;
                     }

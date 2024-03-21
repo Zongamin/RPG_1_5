@@ -66,6 +66,7 @@ void assignment(Player player[], short numberOfPlayers)
 {
     for (int index = 0; index < numberOfPlayers; index++)
         {
+            player[index].currentRoom = 0;
             player[index].strength = 5;
             player[index].intelligence = 5;
             player[index].endurance = 5;
@@ -98,6 +99,8 @@ void assignment(Player player[], short numberOfPlayers)
             player[index].bosses = 0;
             player[index].deaths = 0;
             player[index].permaDeath = false;
+            for (int dex = 0; dex < 500; dex++) {player[index].weapons[dex]= 0; break;}
+            for (int dex = 0; dex < 500; dex++) {player[index].armor[dex] = 0; break;} 
         }
     return;
 }

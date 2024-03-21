@@ -31,6 +31,8 @@ class Player
 
         // Inventar
 
+        int weapons[500];
+        int armor[500];
         short key{};
         double capacity{};
         double realCapacity{};
@@ -42,8 +44,6 @@ class Player
         double healthPotion{};
         double regenPotion{};
         double resurrectionPoition{};
-        double weapons[500];
-        double armor[500];
         double weaponDmg{};
         double armorDmgReduce{};
 
@@ -56,6 +56,7 @@ class Player
 
         // Statistics
 
+        double currentRoom{};
         double rooms{};
         double monsters{};
         double bosses{};
