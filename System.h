@@ -32,6 +32,8 @@
 358   - levelUp        -- Anheben von Skillpunkten, Spielerlevel & geforderten Level Exp
 403   - expUp          -- Anheben der Spieler Exp und Level Umbruch
       - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
+      - weaponDispose   -- Menue zur Entsorgung von Ruestungen
+      - armorDispose  -- Menue zur Entsorgung von Waffen
       - disposal       -- Funktion zur Entsorgung von Gegenständen für den Spieler
 444   - capacityCheck  -- Überprüfung und hinzufügen der Traglast des Spielers mit evtl. Übergabe an Entsorgungsfunktion für Gegenstände
 456   - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
@@ -191,7 +193,7 @@ void position(int x, int y)
 
 void miniLine(int posX, int posY)
 {
-    position(posX, posY); std::cout << "-------------------------------------------------------------\n\n";
+    position(posX, posY); std::cout << "-------------------------------------------------------------" << std:: endl;
     return;
 }
 
@@ -298,7 +300,7 @@ void lifeDisplay(Player player[] , short roundManager,int posX, int posY)
     round(range = 100 *(player[roundManager].realExp / player[roundManager].exp));
     for (int i = 0; i < range; i++)
     {
-        std::cout << "\033[43m ";
+        std::cout << "\033[103m ";
     }
     std::cout << "\n\033[0m " << std::endl;
     return;
@@ -450,18 +452,20 @@ void expUp(Player player[], short roundManager)
 
 void arraySort(Player player[], short roundManager, std::string type)
 {
-    if (type == "weapons")
+    if (type == "weapon")
     {
         int arraySize = sizeof(player[roundManager].weapons) / sizeof(player[roundManager].weapons[0]);
         std::sort(player[roundManager].weapons, player[roundManager].weapons + arraySize, std::greater<int>());
         return;
     }
-    else if (type == "armor")
+    
+    if (type == "armor")
     {
         int arraySize = sizeof(player[roundManager].armor) / sizeof(player[roundManager].armor[0]);
         std::sort(player[roundManager].armor, player[roundManager].armor + arraySize, std::greater<int>());
         return;
     }
+    
     std::cout << "Error!" << std::endl;
     getKey();
     return;
@@ -480,7 +484,7 @@ void capacityColor(Player player[], short roundManager)
 
 // Anzahl zu entsorgender Waffen bestimmen
 
-void disposeWeapons(Player player[], short roundManager)
+void weaponDispose(Player player[], short roundManager)
 {
     std::cout << "\n[ 0 ] -----> Zurueck" << std::endl;
 
@@ -522,29 +526,37 @@ bool disposal(Player player[], short roundManager, double weight)
 
     while(running)
     {
-        needWeight = (player[roundManager].realCapacity + weight) - player[roundManager].capacity;
-        if (needWeight < 0) {needWeight = 0;}
+        if (weight > 0)
+        {
+            needWeight = (player[roundManager].realCapacity + weight) - player[roundManager].capacity;
+            if (needWeight < 0) {needWeight = 0;}
+        }
 
-        for(int index; player[roundManager].weapons[index] = !0; index++) {numberOfWeapons = index;}
-        for(int index; player[roundManager].armor[index] = !0; index++) {numberOfArmor = index;}
+        for(int index; player[roundManager].weapons[index] > 0; index++) {numberOfWeapons = index; break;}
+        for(int index; player[roundManager].armor[index] > 0; index++) {numberOfArmor = index; break;}
+        if (player[roundManager].weaponDmg > 0){numberOfWeapons += 1;}
+        if (player[roundManager].armorDmgReduce > 0){numberOfWeapons += 1;}
 
         clearScreen();
         textDisposal();
         line();
-        capacityColor(player, roundManager); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << " Sie muessen noch " << needWeight << " kg ablegen." << std::endl;
+        std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+        position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
-        std::cout << "                                   Gewicht pro Einheit           Anzahl              Gesamtgewicht";
-        std::cout << "[ 1 ] -----> Altmetall                   0,3  kg"; position(7, 65); std::cout << player[roundManager].scrapMetal; position(7, 85); std::cout << player[roundManager].scrapMetal * 0.3; 
-        std::cout << "[ 2 ] -----> Aluminum                    0,1  kg"; position(9, 65); std::cout << player[roundManager].aluminum; position(9, 85); std::cout << player[roundManager].aluminum * 0.1;
-        std::cout << "[ 3 ] -----> Kupfer                      0,2  kg"; position(11, 65); std::cout << player[roundManager].copper; position(11, 85); std::cout << player[roundManager].copper * 0.2;
-        std::cout << "[ 4 ] -----> Heiltraenke                 0,25 kg"; position(13, 65); std::cout << player[roundManager].healthPotion; position(13, 85); std::cout << player[roundManager].healthPotion * 0.25;
-        std::cout << "[ 5 ] -----> Manatraenke                 0,25 kg"; position(15, 65); std::cout << player[roundManager].manaPotion; position(15, 85); std::cout << player[roundManager].manaPotion * 0.25;
-        std::cout << "[ 6 ] -----> Regenerationstraenke        0,25 kg"; position(17, 65); std::cout << player[roundManager].regenPotion; position(17, 85); std::cout << player[roundManager].regenPotion * 0.25;
-        std::cout << "[ 7 ] -----> Waffen                      2,5  kg"; position(19, 65); std::cout << numberOfWeapons; position(19, 85); std::cout << numberOfWeapons * 2.5;
-        std::cout << "[ 8 ] -----> Ruestungen                  2,25 kg"; position(21, 65); std::cout << numberOfArmor; position(21, 85); std::cout << numberOfArmor * 2.25;
+        std::cout << "                                   Gewicht pro Einheit           Anzahl              Gesamtgewicht" << std::endl;
+        std::cout << "[ 1 ] -----> Altmetall                   0,3  kg"; position(65, 15); std::cout << player[roundManager].scrapMetal; position(85, 15); std::cout << player[roundManager].scrapMetal * 0.3 << std::endl; 
+        std::cout << "[ 2 ] -----> Aluminum                    0,1  kg"; position(65, 16); std::cout << player[roundManager].aluminum; position(85, 16); std::cout << player[roundManager].aluminum * 0.1 << std::endl;
+        std::cout << "[ 3 ] -----> Kupfer                      0,2  kg"; position(65, 17); std::cout << player[roundManager].copper; position(85, 17); std::cout << player[roundManager].copper * 0.2 << std::endl;
+        std::cout << "[ 4 ] -----> Heiltraenke                 0,25 kg"; position(65, 18); std::cout << player[roundManager].healthPotion; position(85, 18); std::cout << player[roundManager].healthPotion * 0.25 << std::endl;
+        std::cout << "[ 5 ] -----> Manatraenke                 0,25 kg"; position(65, 19); std::cout << player[roundManager].manaPotion; position(85, 19); std::cout << player[roundManager].manaPotion * 0.25 << std::endl;
+        std::cout << "[ 6 ] -----> Regenerationstraenke        0,25 kg"; position(65, 20); std::cout << player[roundManager].regenPotion; position(85, 20); std::cout << player[roundManager].regenPotion * 0.25 << std::endl;
+        std::cout << "[ 7 ] -----> Waffen                      2,5  kg"; position(65, 21); std::cout << numberOfWeapons; position(85, 21); std::cout << numberOfWeapons * 2.5 << std::endl;
+        std::cout << "[ 8 ] -----> Ruestungen                  2,25 kg"; position(65, 22); std::cout << numberOfArmor; position(85, 22); std::cout << numberOfArmor * 2.25 << std::endl;
         std::cout << "[ 0 ] -----> Zurueck";
         line();
-        std::cout << "\033[31mWas moechten Sie entsorgen?" << std::endl;
+        if (weight > 0) {std::cout << " Sie muessen noch " << needWeight << " kg ablegen." << std::endl; line();}
+        std::cout << "\n\033[31mWas moechten Sie entsorgen?" << std::endl;
         input = choice();
         switch (input)
             {
@@ -610,7 +622,7 @@ bool disposal(Player player[], short roundManager, double weight)
                     break;
             }
     }
-    getKey();
+    if (needWeight == 0) {return true;}
     return false;
 }
 

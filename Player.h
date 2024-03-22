@@ -31,8 +31,6 @@ class Player
 
         // Inventar
 
-        int weapons[500];
-        int armor[500];
         short key{};
         double capacity{};
         double realCapacity{};
@@ -46,6 +44,8 @@ class Player
         double resurrectionPoition{};
         double weaponDmg{};
         double armorDmgReduce{};
+        double weapons[500];
+        double armor[500];
 
         // Buffs
 
