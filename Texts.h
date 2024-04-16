@@ -145,7 +145,20 @@ void roomTexts(int room)
                 break;
             
             case 9:
+                
+                position(58, 8);  std::cout << "Auch im tiefsten Dungeon kann man hier und da mal auf ein kleines Licht";
+                position(58, 9);  std::cout << "oder halt eben auch auf ein groesseres Feuer in einem Ofen oder eben einer";
+                position(58, 10); std::cout << "Schmiede treffen.... Die Glut im Schmelzofen scheint noch schoen heiß zu";
+                position(58, 11); std::cout << "sein. Gerade richtig um Ihre Metalle darin schmelzen zu koennen und das ein";
+                position(58, 12); std::cout << "oder andere brauchbare oder eben auch nicht brauchbare Schwert oder Schild"; 
+                position(58, 13); std::cout << "herzustellen. Bei dieser Gelegenheit zuecken Sie lieber schnell Ihre Metalle,";
+                position(58, 14); std::cout << "denn wer weiss schon ob und wann Sie in einem Zufallsgenerierten Dungeon mal";
+                position(58, 15); std::cout << "wieder an einer Schmiede vorbeikommen! Auch lassen sich Waffen und Ruestungen";
+                position(58, 16); std::cout << "wesentlich besser verkaufen als ein paar unanschauliche Brocken von Altmetall,";
+                position(58, 17); std::cout << "Aluminium oder Kupfer.... Auf gehts!";
+                break;
 
+            case 10:
                 
                 position(58, 8);  std::cout << "";
                 position(58, 9);  std::cout << "";

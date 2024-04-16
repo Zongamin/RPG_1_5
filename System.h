@@ -428,7 +428,7 @@ void expUp(Player player[], short roundManager)
             levelUp(player , roundManager);
             player[roundManager].realExp = 0;
             player[roundManager].realExp += remainingExp;
-            break;
+            continue;
         }
         else
         {
@@ -603,10 +603,13 @@ bool disposal(Player player[], short roundManager, double weight)
             if (needWeight < 0) {needWeight = 0;}
         }
 
+        numberOfWeapons = 0;
+        numberOfArmor = 0;
+
         for(int index; player[roundManager].weapons[index] > 0; index++) {numberOfWeapons = index; break;}
         for(int index; player[roundManager].armor[index] > 0; index++) {numberOfArmor = index; break;}
         if (player[roundManager].weaponDmg > 0){numberOfWeapons += 1;}
-        if (player[roundManager].armorDmgReduce > 0){numberOfWeapons += 1;}
+        if (player[roundManager].armorDmgReduce > 0){numberOfArmor += 1;}
 
         clearScreen();
         textDisposal();
@@ -622,9 +625,9 @@ bool disposal(Player player[], short roundManager, double weight)
         std::cout << "\n\033[101;37m[ 4 ]\033[0m -----> \033[91mHeiltraenke                 0,25 kg"; position(65, 23); std::cout << player[roundManager].healthPotion; position(85, 23); std::cout << player[roundManager].healthPotion * 0.25 << std::endl;
         std::cout << "\n\033[44;37m[ 5 ]\033[0m -----> \033[34mManatraenke                 0,25 kg"; position(65, 25); std::cout << player[roundManager].manaPotion; position(85, 25); std::cout << player[roundManager].manaPotion * 0.25 << std::endl;
         std::cout << "\n\033[45;37m[ 6 ]\033[0m -----> \033[35mRegenerationstraenke        0,25 kg"; position(65, 27); std::cout << player[roundManager].regenPotion; position(85, 27); std::cout << player[roundManager].regenPotion * 0.25 << std::endl;
-        std::cout << "\n\033[47;30m[ 7 ]\033[0m -----> Waffen                      2,5  kg"; position(65, 29); std::cout << numberOfWeapons; position(85, 29); std::cout << numberOfWeapons * 2.5 << std::endl;
+        std::cout << "\n\033[47;30m[ 7 ]\033[0m -----> \033[0mWaffen                      2,5  kg"; position(65, 29); std::cout << numberOfWeapons; position(85, 29); std::cout << numberOfWeapons * 2.5 << std::endl;
         std::cout << "\n\033[100;30m[ 8 ]\033[0m -----> \033[90mRuestungen                  2,25 kg"; position(65, 31); std::cout << numberOfArmor; position(85, 31); std::cout << numberOfArmor * 2.25 << std::endl;
-        std::cout << "\n\033[47;30m[ 0 ]\033[0m -----> Zurueck" << std::endl;
+        std::cout << "\n\033[47;30m[ 0 ]\033[0m -----> \033[0mZurueck" << std::endl;
         line();
         if (weight > 0) {std::cout << "\033[31mSie muessen noch " << needWeight << " kg ablegen.\033[0m" << std::endl; line();}
         std::cout << "\n\033[31mWas moechten Sie entsorgen?" << std::endl;
@@ -896,7 +899,7 @@ void loot(Player player[], short roundManager)
                 }
                 break;
             
-            case 8: //
+            case 8: // Waffen
                 experience = 0;
                 chance = 0; chance = random(1,100);
                 if (chance > 0 & chance < 26 || chance > 49 & chance < 76)
@@ -912,11 +915,11 @@ void loot(Player player[], short roundManager)
                         dispose = capacityCheck(player, roundManager, findItem , 2.5 , "Waffe");
                         tempExp += experience;
                         if (dispose = false) { break; }
-                        for (int i = 0; player[roundManager].weapons[i] = !0; i++)
+                        for (int i = 0; player[roundManager].weapons[i] > 0; i++)
                         {
-                            player[roundManager].weapons[i] += findItem;
+                            player[roundManager].weapons[i] = findItem;
                             arraySort(player, roundManager, "weapon");
-                            player[roundManager].realCapacity += findItem * 2.5;
+                            player[roundManager].realCapacity += (1 * 2.5);
                             break;
                         }
                         
@@ -941,11 +944,11 @@ void loot(Player player[], short roundManager)
                         dispose = capacityCheck(player, roundManager, findItem , 2.25 , "Ruestung");
                         tempExp += experience;
                         if (dispose = false) { break; }
-                        for (int i = 0; player[roundManager].armor[i] = !0; i++)
+                        for (int i = 0; player[roundManager].armor[i] > 0; i++)
                         {
-                            player[roundManager].armor[i] += findItem;
+                            player[roundManager].armor[i] = findItem;
                             arraySort(player, roundManager, "armor");
-                            player[roundManager].realCapacity += findItem * 2.25;
+                            player[roundManager].realCapacity += (1 * 2.25);
                             break; 
                         }
                     }
