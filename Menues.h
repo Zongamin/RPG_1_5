@@ -12,9 +12,16 @@
                                 Spielernamen, Spielstand laden, Spiel starten oder beenden.
     109     - characterMenue    Das Charactermenü ist sowohl eine einfache Anzeige der Charakterwerte, als auch (sofern
                                 Skillpunkte vorhanden sind) ein Menü zur Verteilung von Skillpunkten.
-    235     - roomOptions       Das Spielmenü des Spielers beinhaltet alle Optionen des Spiels. Sämtliche Ingamehand-
+            - potions           Menü zur Einnahme des Spieler von diversen Tränken.
+            - metals            Menü zur Anzeige aller mitgeführten Crafting Metalle und deren Gewicht.
+            - armors            Menü zur Ansicht und dem Anlegen von Rüstungen.
+            - weapons           Menü zur Ansicht und dem Anlegen von Waffen.
+            - inventory         Menü zum Inventar des Spielers zur Weiterleitung zu Untermenüs wie poition, metals, armors
+                                weapons und disposal
+            - frameWork         Unterfunktion zum Aufbau des Bildes (erstellt mit übergabe der Raumdaten und der Gefahren-
+                                zone den Aufbau des korrekten Bildes, der Gefahrenanzeige und des Spezial Buttons.)
+            - roomOptions       Das Spielmenü des Spielers beinhaltet alle Optionen des Spiels. Sämtliche Ingamehand-
                                 lungen des Spielers werden von hier aus zugewiesen.
-
 */
 
 int gameMenue(Player player[], short& numberOfPlayers)
@@ -555,10 +562,10 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
     while(running)
     {
         frameWork(player, roundManager, danger, room);
-        position(20, 38); colorSwitch(danger); std::cout << "[ 1 ]\033[0m ------> "; textColor(danger); std::cout << "Weiter zum naechsten Raum\033[0m               \033[30;46m[ 5 ]\033[0m ------> \033[36mCharakter \033[0m \n\n";
-        position(20, 40); colorSwitch(danger); std::cout << "[ 2 ]\033[0m ------> "; textColor(danger); std::cout << "Umgebung absuchen       \033[0m                \033[30;105m[ 6 ]\033[0m ------> \033[95mInventar \033[0m \n\n";
-        position(20, 42); colorSwitch(danger); std::cout << "[ 3 ]\033[0m ------> "; textColor(danger); std::cout << "Nach Fallen suchen      \033[0m                \033[30;104m[ 7 ]\033[0m ------> \033[94mMagie \033[0m \n\n";
-        position(20, 44); colorSwitch(danger); std::cout << "[ 4 ]\033[0m ------> "; textColor(danger); std::cout << "Rasten                  \033[0m                \033[30;47m[ 8 ]\033[0m ------> Menue \n\n";
+        position(20, 39); colorSwitch(danger); std::cout << "[ 1 ]\033[0m ------> "; textColor(danger); std::cout << "Weiter zum naechsten Raum\033[0m               \033[30;46m[ 5 ]\033[0m ------> \033[36mCharakter \033[0m \n\n";
+        position(20, 41); colorSwitch(danger); std::cout << "[ 2 ]\033[0m ------> "; textColor(danger); std::cout << "Umgebung absuchen       \033[0m                \033[30;105m[ 6 ]\033[0m ------> \033[95mInventar \033[0m \n\n";
+        position(20, 43); colorSwitch(danger); std::cout << "[ 3 ]\033[0m ------> "; textColor(danger); std::cout << "Nach Fallen suchen      \033[0m                \033[30;104m[ 7 ]\033[0m ------> \033[94mMagie \033[0m \n\n";
+        position(20, 45); colorSwitch(danger); std::cout << "[ 4 ]\033[0m ------> "; textColor(danger); std::cout << "Rasten                  \033[0m                \033[30;47m[ 8 ]\033[0m ------> Menue \n\n";
     
         short input = choice();
 
