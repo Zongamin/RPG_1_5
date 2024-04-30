@@ -39,7 +39,7 @@ int main()
     enemy[3].setName("Oger");
     enemy[4].setName("Killer Karnickel");
     enemy[5].setName("Drache");
-            
+    
     // Title
    
     clearScreen();

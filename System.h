@@ -476,9 +476,9 @@ void capacityColor(Player player[], short roundManager)
 {
     double range{};
     round(range = 100 * (player[roundManager].realCapacity / player[roundManager].capacity));
-    if (range <= 25)  {std::cout << "\033[92m"; return;}
-    if (range <= 50)  {std::cout << "\033[32m"; return;}
-    if (range <= 75)  {std::cout << "\033[43m"; return;}
+    if(range <= 25){std::cout << "\033[92m"; return;}
+    if(range <= 50){std::cout << "\033[32m"; return;}
+    if(range <= 75){std::cout << "\033[43m"; return;}
     std::cout << "\033[31m"; 
     return;
 }
@@ -1122,13 +1122,13 @@ void trapCall(Player player[], short roundManager, short zone)
 {
     if (zone == 2) 
     {
-        player[roundManager].traps = round(random(1, 5));
+        player[roundManager].traps = round(random(1, 3));
         round(player[roundManager].traps -= player[roundManager].luck);
         if (player[roundManager].traps < 1) {player[roundManager].traps = 0;}
     }
     if (zone >= 3)
     {
-        player[roundManager].traps = round(random(1, 10));
+        player[roundManager].traps = round(random(1, 5));
         round(player[roundManager].traps -= player[roundManager].luck);
         if (player[roundManager].traps < 1) {player[roundManager].traps = 1;}
     }
@@ -1141,7 +1141,7 @@ void trapCheck(Player player[], short roundManager)
     double vari = 0;
     short rand = round(random(1, 100));
 
-    if (rand > 0 & rand < 26 + player[roundManager].luck || rand > 49 & rand < 76 + player[roundManager].luck)
+    if (rand >= 0 && rand <= 25 + player[roundManager].luck || rand >= 50 && rand <= 75 + player[roundManager].luck)
     {
         if (player[roundManager].traps > 0)
         {
@@ -1208,7 +1208,7 @@ void trapSearch(Player player[], short roundManager, short danger)
     }
     zone = round(random(1, 100));
     if (danger == 2){ x = 14;}
-    if (danger >= 2){ x = 25;}
+    if (danger >= 3){ x = 25;}
     if (zone < (50 -x) - player[roundManager].luck & zone > (50 + x) + player[roundManager].luck)
     {
         std::cout << "\n\nSie entdecken eine Falle!\n\nDoch beim Entschärfen unterlaeuft Ihnen ein Missgeschick!\n" << std::endl;

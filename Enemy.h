@@ -6,6 +6,7 @@
 
 class Enemy
 {
+
     private:
         std::string enemyName = "Enemyname";
 
