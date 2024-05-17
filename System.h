@@ -9,6 +9,7 @@
 #include <fstream>
 #include <windows.h>
 #include <algorithm>
+#include <random>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\player.h>
 
@@ -123,22 +124,20 @@ void charCalc(Player player[], short index)
 
 int random(int min, int max)
 {
-    bool running = true;
-    int random = 0;
+   static std::random_device rd;
+   static std::mt19937 gen(rd());
 
-    while(running)
-    {
-    srand(static_cast<unsigned int>(time(nullptr)));
-    random = rand() % (max - min + 1) + min;
-    if (random == repeater)
-    {
-        break;
-    }
-    running = false;
-    break;
-    }
-    repeater = random;
-    return random;
+   std::uniform_int_distribution<> distr(min, max);
+
+   int random;
+   do
+   {
+        random = distr(gen);
+   } 
+   while (random == repeater);
+
+   repeater = random;
+   return random; 
 }
 
 // Press any key 
@@ -768,11 +767,11 @@ void loot(Player player[], short roundManager)
                 break;
             
             case 1: // Schlüssel
-                if (round(player[roundManager].key <= 1 + player[roundManager].luck))
+                if (round(player[roundManager].key <= (1 + player[roundManager].luck)))
                 {
                     experience = 0;
                     chance = 0; chance = round(random(1,100));
-                    if (chance > 0 && chance < 26 || chance > 49 && chance < 76)
+                    if (chance >= 1 && chance <= 25 || chance >= 50 && chance <= 75)
                     {
                         findItem = 1;
                         experience = round((findItem * 20) * (player[roundManager].level * 1.25));
@@ -788,7 +787,7 @@ void loot(Player player[], short roundManager)
 
             case 2: // Scrapmetal
                 experience = 0;
-                chance = round(random(1,100));
+                chance = 0; chance = round(random(1,100));
                 if ((chance >= 1 && chance <= 25) || (chance >= 50 && chance <= 75))
                 {
                     findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
@@ -849,6 +848,7 @@ void loot(Player player[], short roundManager)
                 if ((chance >= 1 && chance <= 25) || (chance >= 50 && chance <= 75))
                 {
                     findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
+                    if (findItem < 1) {findItem = 1;}
                     experience = round((findItem * 10) * (player[roundManager].level * 1.25));
                     std::cout << "\033[91mHeiltraenke\033[0m -------------> " << findItem << " / " << experience << " Exp." << std::endl;
                     std::cout << "---------------------------------------------------" << std::endl;

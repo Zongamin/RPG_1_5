@@ -55,7 +55,8 @@ int main()
 
     for (; roundManager < numberOfPlayers; roundManager++)
     {
-    characterMenue(player, roundManager); 
+    characterMenue(player, roundManager);
+    break; 
     }
     roundManager = 0;
 
@@ -71,7 +72,7 @@ int main()
         textPlayer();
         getNumber(roundManager);
         line();
-        std::cout << "\n\n                                 \033[32;40m *** Spieler " << player[roundManager].getName() << " ist jetzt am Zug! *** " << "\033[102m \n";
+        std::cout << "\n\n                             \033[32;40m *** Spieler " << player[roundManager].getName() << " ist jetzt am Zug! *** " << "\033[102m \n";
         getKey();
         backgroundColor(0);
         
@@ -83,7 +84,8 @@ int main()
         while (running)
         {
             roomOptions(player, roundManager, zone, 0);
-            
+            running = false;
+            break;
         }
         
     }
