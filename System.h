@@ -621,11 +621,12 @@ bool disposal(Player player[], short roundManager, double weight)
         std::cout << "\n\n\033[47;30m[ 1 ]\033[0m -----> Altmetall                   0,3  kg"; position(65, 17); std::cout << player[roundManager].scrapMetal; position(85, 17); std::cout << player[roundManager].scrapMetal * 0.3 << std::endl; 
         std::cout << "\n\033[100;30m[ 2 ]\033[0m -----> \033[90mAluminum                    0,1  kg"; position(65, 19); std::cout << player[roundManager].aluminum; position(85, 19); std::cout << player[roundManager].aluminum * 0.1 << std::endl;
         std::cout << "\n\033[41;37m[ 3 ]\033[0m -----> \033[31mKupfer                      0,2  kg"; position(65, 21); std::cout << player[roundManager].copper; position(85, 21); std::cout << player[roundManager].copper * 0.2 << std::endl;
-        std::cout << "\n\033[101;37m[ 4 ]\033[0m -----> \033[91mHeiltraenke                 0,25 kg"; position(65, 23); std::cout << player[roundManager].healthPotion; position(85, 23); std::cout << player[roundManager].healthPotion * 0.25 << std::endl;
-        std::cout << "\n\033[44;37m[ 5 ]\033[0m -----> \033[34mManatraenke                 0,25 kg"; position(65, 25); std::cout << player[roundManager].manaPotion; position(85, 25); std::cout << player[roundManager].manaPotion * 0.25 << std::endl;
-        std::cout << "\n\033[45;37m[ 6 ]\033[0m -----> \033[35mRegenerationstraenke        0,25 kg"; position(65, 27); std::cout << player[roundManager].regenPotion; position(85, 27); std::cout << player[roundManager].regenPotion * 0.25 << std::endl;
-        std::cout << "\n\033[47;30m[ 7 ]\033[0m -----> \033[0mWaffen                      2,5  kg"; position(65, 29); std::cout << numberOfWeapons; position(85, 29); std::cout << numberOfWeapons * 2.5 << std::endl;
-        std::cout << "\n\033[100;30m[ 8 ]\033[0m -----> \033[90mRuestungen                  2,25 kg"; position(65, 31); std::cout << numberOfArmor; position(85, 31); std::cout << numberOfArmor * 2.25 << std::endl;
+        std::cout << "\n\033[102;30m[ 4 ]\033[0m -----> \033[92mKraeuter                    0,1 kg"; position(65, 23); std::cout << player[roundManager].herbs; position(85, 23); std::cout << player[roundManager].herbs * 0.1 << std::endl;
+        std::cout << "\n\033[101;37m[ 5 ]\033[0m -----> \033[91mHeiltraenke                 0,25 kg"; position(65, 25); std::cout << player[roundManager].healthPotion; position(85, 25); std::cout << player[roundManager].healthPotion * 0.25 << std::endl;
+        std::cout << "\n\033[44;37m[ 6 ]\033[0m -----> \033[34mManatraenke                 0,25 kg"; position(65, 27); std::cout << player[roundManager].manaPotion; position(85, 27); std::cout << player[roundManager].manaPotion * 0.25 << std::endl;
+        std::cout << "\n\033[45;37m[ 7 ]\033[0m -----> \033[35mRegenerationstraenke        0,25 kg"; position(65, 29); std::cout << player[roundManager].regenPotion; position(85, 29); std::cout << player[roundManager].regenPotion * 0.25 << std::endl;
+        std::cout << "\n\033[47;30m[ 8 ]\033[0m -----> \033[0mWaffen                      2,5  kg"; position(65, 31); std::cout << numberOfWeapons; position(85, 31); std::cout << numberOfWeapons * 2.5 << std::endl;
+        std::cout << "\n\033[100;30m[ 9 ]\033[0m -----> \033[90mRuestungen                  2,25 kg"; position(65, 33); std::cout << numberOfArmor; position(85, 33); std::cout << numberOfArmor * 2.25 << std::endl;
         std::cout << "\n\033[47;30m[ 0 ]\033[0m -----> \033[0mZurueck" << std::endl;
         line();
         if (weight > 0) {std::cout << "\033[31mSie muessen noch " << needWeight << " kg ablegen.\033[0m" << std::endl; line();}
@@ -746,7 +747,7 @@ void loot(Player player[], short roundManager)
     std::cout << "Sie begeben sich auf die Suche und finden:" << std::endl;
     line();
     
-    for (int index = 0; index < 10; index++)
+    for (int index = 0; index < 11; index++)
     {
         switch (index)
         {
@@ -797,7 +798,7 @@ void loot(Player player[], short roundManager)
                     std::cout << "---------------------------------------------------" << std::endl;
                     dispose = capacityCheck(player, roundManager, 0.3, findItem, "Altmetall");
                     tempExp += experience;
-                    if (dispose = false) { break; }
+                    if (dispose = false) { std::cout << "\033[91mDas Material wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; }
                     player[roundManager].scrapMetal += findItem;
                     player[roundManager].realCapacity += findItem * 0.3;
                     break;
@@ -816,7 +817,7 @@ void loot(Player player[], short roundManager)
                     std::cout << "---------------------------------------------------" << std::endl;
                     dispose = capacityCheck(player, roundManager, 0.1, findItem, "Aluminium");
                     tempExp += experience;
-                    if (dispose = false) { break; }
+                    if (dispose = false) { std::cout << "\033[91mDas Material wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; }
                     player[roundManager].aluminum += findItem;
                     player[roundManager].realCapacity += findItem * 0.1;
                     break;
@@ -835,14 +836,33 @@ void loot(Player player[], short roundManager)
                     std::cout << "---------------------------------------------------" << std::endl;
                     dispose = capacityCheck(player, roundManager, 0.2, findItem, "Kupfer");
                     tempExp += experience;
-                    if (dispose = false) { break; }
+                    if (dispose = false) { std::cout << "\033[91mDas Material wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; }
                     player[roundManager].copper += findItem;
                     player[roundManager].realCapacity += findItem * 0.2;
                     break;
                 }
                 break;
+
+            case 5: // Herbs
+                experience = 0;
+                chance = 0; chance = random(1,100);
+                if ((chance >= 1 && chance <= 25) || (chance >= 50 && chance <= 75))
+                {
+                    findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
+                    if (findItem < 1 ) {findItem = 1;} 
+                    experience = round((findItem * 5) * (player[roundManager].level * 1.25));
+                    std::cout << "\033[92mKraeuter\033[0m ----------------> " << findItem << " / " << experience << " Exp." << std::endl;
+                    std::cout << "---------------------------------------------------" << std::endl;
+                    dispose = capacityCheck(player, roundManager, 0.1, findItem, "Kraut");
+                    tempExp += experience;
+                    if (dispose = false) { std::cout << "\033[91mDas Material wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; }
+                    player[roundManager].copper += findItem;
+                    player[roundManager].realCapacity += findItem * 0.1;
+                    break;
+                }
+                break;
             
-            case 5: // Healpotion
+            case 6: // Healpotion
                 experience = 0;
                 chance = 0; chance = random(1,100);
                 if ((chance >= 1 && chance <= 25) || (chance >= 50 && chance <= 75))
@@ -854,14 +874,14 @@ void loot(Player player[], short roundManager)
                     std::cout << "---------------------------------------------------" << std::endl;
                     dispose = capacityCheck(player, roundManager, 0.25, findItem, "Heiltraenke");
                     tempExp += experience;
-                    if (dispose = false) { break; }
+                    if (dispose = false) { std::cout << "\033[91mDer Trank wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; }
                     player[roundManager].healthPotion += findItem;
                     player[roundManager].realCapacity += findItem * 0.25;
                     break;
                 }
                 break;
             
-            case 6: // Manapotion
+            case 7: // Manapotion
                 experience = 0;
                 chance = 0; chance = random(1,100);
                 if ((chance >= 1 && chance <= 25) || (chance >= 50 && chance <= 75))
@@ -873,14 +893,14 @@ void loot(Player player[], short roundManager)
                     std::cout << "---------------------------------------------------" << std::endl;
                     dispose = capacityCheck(player, roundManager, 0.25, findItem, "Manatraenke");
                     tempExp += experience;
-                    if (dispose = false) { break; }
+                    if (dispose = false) { std::cout << "\033[91mDer Trank wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; }
                     player[roundManager].manaPotion += findItem;
                     player[roundManager].realCapacity += findItem * 0.25;
                     break;
                 }
                 break;
             
-            case 7: // Regenerationpotion
+            case 8: // Regenerationpotion
                 experience = 0;
                 chance = 0; chance = random(1,100);
                 if ((chance >= 1 && chance <= 25) || (chance >= 50 && chance <= 75))
@@ -892,14 +912,14 @@ void loot(Player player[], short roundManager)
                     std::cout << "---------------------------------------------------" << std::endl;
                     dispose = capacityCheck(player, roundManager, 0.25, findItem, "Regenerationstraenke");
                     tempExp += experience;
-                    if (dispose = false) { break; }
+                    if (dispose = false) { std::cout << "\033[91mDer Trank wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; }
                     player[roundManager].regenPotion += findItem;
                     player[roundManager].realCapacity += findItem * 0.25;
                     break;
                 }
                 break;
             
-            case 8: // Waffen
+            case 9: // Waffen
                 experience = 0;
                 chance = 0; chance = random(1,100);
                 if ((chance >= 1 && chance <= 25) || (chance >= 50 && chance <= 75))
@@ -908,27 +928,31 @@ void loot(Player player[], short roundManager)
                     if (chance >= (45 - player[roundManager].luck) && chance <= (55 + player[roundManager].luck))
                     {
                         findItem = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
-                        if (findItem < 1) {findItem = 1;}
+                        findItem++;
                         experience = round((findItem * 100) * (player[roundManager].level * 1.25));
                         std::cout << "\033[0mWaffe\033[0m -------------------> " << findItem << " DMG / " << experience << " Exp." << std::endl;
                         std::cout << "---------------------------------------------------" << std::endl;
-                        dispose = capacityCheck(player, roundManager, findItem , 2.5 , "Waffe");
+                        dispose = capacityCheck(player, roundManager, 2.5, 1, "Waffe");
                         tempExp += experience;
-                        if (dispose = false) { break; }
-                        for (int i = 0; player[roundManager].weapons[i] > 0; i++)
+                        if (dispose = false) { std::cout << "\033[91mDie Waffe wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; }
+                        if (player[roundManager].weapons[0] == 0) {player[roundManager].weapons[0] = findItem;}
+                        for (int i = 0; i < sizeof(player[roundManager].weapons) / sizeof(player[roundManager].weapons[0]); i++)
                         {
-                            player[roundManager].weapons[i] = findItem;
-                            arraySort(player, roundManager, "weapon");
-                            player[roundManager].realCapacity += (1 * 2.5);
-                            break;
-                        }
+                            if (player[roundManager].weapons[i] == 0) 
+                            {
+                                player[roundManager].weapons[i] = findItem;
+                                arraySort(player, roundManager, "weapon");
+                                player[roundManager].realCapacity += (1 * 2.5);
+                                break;
+                            }
                         
+                        }
                     }
                     break;
-                }
+                    }
                 break;
 
-            case 9: // Rüstung
+            case 10: // Rüstung
                 experience = 0;
                 chance = 0; chance = random(1,100);
                 if ((chance >= 1 && chance <= 25) || (chance >= 50 && chance <= 75))
@@ -941,25 +965,26 @@ void loot(Player player[], short roundManager)
                         experience = round((findItem * 100) * (player[roundManager].level * 1.25));
                         std::cout << "\033[90mRuestung\033[0m ----------------> " << findItem << " RST / " << experience << " Exp." << std::endl;
                         std::cout << "---------------------------------------------------" << std::endl;
-                        dispose = capacityCheck(player, roundManager, findItem , 2.25 , "Ruestung");
+                        dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
                         tempExp += experience;
-                        if (dispose = false) { break; }
-                        for (int i = 0; player[roundManager].armor[i] > 0; i++)
+                        if (dispose = false) { if (dispose = false) { std::cout << "\033[91mDie Ruestung wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; } }
+                        if (player[roundManager].weapons[0] == 0) {player[roundManager].weapons[0] = findItem;}
+                        for (int i = 0; i < sizeof(player[roundManager].armor) / sizeof(player[roundManager].armor[0]); i++)
                         {
-                            player[roundManager].armor[i] = findItem;
-                            arraySort(player, roundManager, "armor");
-                            player[roundManager].realCapacity += (1 * 2.25);
-                            break; 
+                            if (player[roundManager].armor[i] == 0) 
+                            {
+                                player[roundManager].armor[i] = findItem;
+                                arraySort(player, roundManager, "armor");
+                                player[roundManager].realCapacity += (1 * 2.25);
+                                break;
+                            }
                         }
                     }
                     break;
                 }
                 break;
-                
-                
+            }
         }
-  
-    }
     if (tempExp < 1)
     {
         std::cout << "\n\nNichts!\n\n";
@@ -1141,7 +1166,7 @@ void trapCheck(Player player[], short roundManager)
     double vari = 0;
     short rand = round(random(1, 100));
 
-    if (rand >= 0 && rand <= 25 + player[roundManager].luck || rand >= 50 && rand <= 75 + player[roundManager].luck)
+    if (rand >= 1 && rand <= round(25 - player[roundManager].luck) || rand >= 50 && rand <= round(75 - player[roundManager].luck))
     {
         if (player[roundManager].traps > 0)
         {
@@ -1154,8 +1179,8 @@ void trapCheck(Player player[], short roundManager)
             player[roundManager].traps--;
             damage = (player[roundManager].health / 100 ) * 10;
             vari = round((damage / 100) * 10);
-            damage = damage + (round(random(1, vari)) - player[roundManager].luck);
-            std::cout << "Als Sie, natuerlich Ihren Geschaeften nachgehend, ziellos... aehm... zielstrebig durch die Gegend wandern, erwischt Sie eine Falle!\n" << std::endl;
+            damage = round(damage + ((random(1, vari)) - player[roundManager].luck));
+            std::cout << "\nAls Sie, natuerlich Ihren Geschaeften nachgehend, ziellos... aehm... zielstrebig durch die Gegend wandern, erwischt Sie eine Falle!\n" << std::endl;
             line();
             std::cout << "\033[37;41m *** Schaden: *** \033[0m \033[31m" << damage << " DMG.\033[0m\n\n" << std::endl;
             player[roundManager].realHealth -= damage;
@@ -1177,7 +1202,7 @@ void trapCheck(Player player[], short roundManager)
 void trapSearch(Player player[], short roundManager, short danger)
 {
     short zone = 0;
-    short x = 0;
+    float x = 0;
     double damage = 0;
     double vari = 0;
     double xp = 0;
@@ -1200,33 +1225,33 @@ void trapSearch(Player player[], short roundManager, short danger)
         getKey();
         return;
     }
-    std::cout << "\nIhre Suche ergibt" << std::endl;
+    std::cout << "\nIhre Suche ergibt";
     for (int i = 0; i < 5; i++)
     {
         std::cout << ".";
         Sleep(30);
     }
     zone = round(random(1, 100));
-    if (danger == 2){ x = 14;}
-    if (danger >= 3){ x = 25;}
-    if (zone < (50 -x) - player[roundManager].luck & zone > (50 + x) + player[roundManager].luck)
+    if (danger == 2){ x = 12.5;}
+    if (danger >= 3){ x = 17.5;}
+    if (zone >= round((25 - x) - player[roundManager].luck) && zone <= round((25 + x) + player[roundManager].luck) || zone >= round((50 - x) - player[roundManager].luck) && zone <= round((50 + x) + player[roundManager].luck))
     {
-        std::cout << "\n\nSie entdecken eine Falle!\n\nDoch beim Entschärfen unterlaeuft Ihnen ein Missgeschick!\n" << std::endl;
+        std::cout << "\n\nSie entdecken eine Falle!\n\nDoch beim Entschaerfen unterlaeuft Ihnen ein Missgeschick!\n" << std::endl;
         player[roundManager].traps--;
         damage = (player[roundManager].health / 100 ) * 10;
         vari = round((damage / 100) * 10);
-        damage = damage + (round(random(1, vari)) - player[roundManager].luck);
+        damage = round(damage + ((random(1, vari)) - player[roundManager].luck));
         std::cout << "\033[37;41m *** Schaden: *** \033[0m \033[31m" << damage << " DMG.\033[0m\n\n" << std::endl;
         player[roundManager].realHealth -= damage;
         if (player[roundManager].realHealth < 0)
         {
                 player[roundManager].realHealth = 0;
-                lifeDisplay(player, roundManager, 0, 16);
+                lifeDisplay(player, roundManager, 0, 24);
                 getKey();
                 death(player, roundManager);
                 return;
         }
-        lifeDisplay(player, roundManager, 0, 16);
+        lifeDisplay(player, roundManager, 0, 24);
         getKey();
         return;
     }
@@ -1245,25 +1270,28 @@ void takeBreak(Player player[], short roundManager, short danger)
     short zone = 0;
     int mana = 0;
     int health = 0;
-    int x = 0;
+    float x = 0;
      
     mana = round(random(((player[roundManager].mana / 100) * 25), ((player[roundManager].mana / 100) * 50)));
     health = round(random(((player[roundManager].health / 100) * 25), ((player[roundManager].health / 100) * 50)));
     zone = round(random(1, 100));
-    
-    if (danger == 1){ x = 50; }
-    if (danger == 2){ x = 14; }
-    if (danger >= 2){ x = 25; }
-    if (zone < (50 -x) - player[roundManager].luck & zone > (50 + x) + player[roundManager].luck)
-    {
-        // Kampf und/oder Falle eintragen 
-        return;
-    }
+        
     clearScreen();
     textBreak();
     line();
     textColor(danger); std::cout << "Sie Suchen sich eine stille Ecke um Sich auszuruhen.\033[0m" << std::endl;
     line();
+    if (danger >= 2)
+    { 
+        if (danger == 2) { x = 12.5; }
+        if (danger == 3) { x = 17.5; }
+        if (zone >= round((25 - x) - player[roundManager].luck) && zone <= round((25 + x) + player[roundManager].luck) || zone >= round((50 - x) - player[roundManager].luck) && zone <= round((50 + x) + player[roundManager].luck))
+        {
+            std::cout << "Kampf oder Falle wird ausgeloest!" << std::endl;
+            getKey(); 
+            return;
+        }
+    }
     textColor(danger); std::cout << "Beim Rasten regenerieren Sie:\033[0m" << std::endl;
     line();
     std::cout << "\033[31mLeben: " << health << std::endl;

@@ -30,6 +30,17 @@ int main()
     player[2].setName("Hans Wurst");
     player[3].setName("Lasmiranda Densivilla");
 
+    // Initialisierung Waffen- und Ruestungs - Arrays der Spieler
+
+    for (int dex = 0; dex == 3; dex++)
+    {
+        for (int index = 0; index == 499; index++)
+        {
+            player[dex].weapons[index] = 0;
+            player[dex].armor[index] = 0;
+        }
+    }
+    
     // Initialisierung Enemy
 
     Enemy enemy[6];

@@ -35,6 +35,7 @@ class Player
         double capacity{};
         double realCapacity{};
         double gold{};
+        double herbs{};
         double scrapMetal{};
         double aluminum{};
         double copper{};
@@ -73,7 +74,7 @@ class Player
             std::cout << "Tod";
             return 0;
         }
-        return 0;
+        return;
     }
 
     double heal(double heal)

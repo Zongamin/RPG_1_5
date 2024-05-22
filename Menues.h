@@ -320,7 +320,7 @@ void potions(Player player[], short roundManager)
     return;
 }
 
-void metals(Player player[], short roundManager)
+void materials(Player player[], short roundManager)
 {
     bool running = true;
 
@@ -338,6 +338,8 @@ void metals(Player player[], short roundManager)
         std::cout << "\033[0mAluminium\033[0m ------> " << player[roundManager].aluminum << " (" << player[roundManager].aluminum * 0.1 << " kg)\033[0m";
         miniLine(0, 17);
         std::cout << "\033[31mKupfer\033[0m ---------> " << player[roundManager].copper << " (" << player[roundManager].copper * 0.2 << " kg)" << std::endl;
+        miniLine(0, 19);
+        std::cout << "\033[92mKraeuter\033[0m -------> " << player[roundManager].herbs << " (" << player[roundManager].herbs * 0.1 << " kg)" << std::endl;
         line();
         if (player[roundManager].currentRoom == 10) // Schmiede als currentRoom einfügen!!!!!! <-------
         { 
@@ -361,7 +363,7 @@ void armors(Player player[], short roundManager)
     
     while (running)
     {
-        for (int dex = 0; player[roundManager].armor[dex] > 0; dex++) {arraySize++; break;}
+        for (int dex = 0; player[roundManager].armor[dex] > 0; dex++) {arraySize++;}
         clearScreen();
         textArmor();
         line();
@@ -419,7 +421,7 @@ void weapons(Player player[], short roundManager)
 
     while (running)
     {
-        for (int dex = 0; player[roundManager].weapons[dex] > 0; dex++) {arraySize++; break;}
+        for (int dex = 0; player[roundManager].weapons[dex] > 0; dex++) {arraySize++;}
         clearScreen();
         textWeapons();
         line();
@@ -480,8 +482,8 @@ void inventory(Player player[], short roundManager)
         weapon = 0;
         armor = 0;
 
-        for (int index = 0; player[roundManager].weapons[index] > 0; index++){weapon++; break;} 
-        for (int index = 0; player[roundManager].armor[index] > 0; index++){armor++; break;}
+        for (int index = 0; player[roundManager].weapons[index] > 0; index++){weapon++;} 
+        for (int index = 0; player[roundManager].armor[index] > 0; index++){armor++;}
         if (player[roundManager].weaponDmg > 0) {weapon += 1;}
         if (player[roundManager].armorDmgReduce > 0) {armor += 1;}
 
@@ -495,9 +497,10 @@ void inventory(Player player[], short roundManager)
         std::cout << "\n\033[31mHeiltraenke\033[0m ------------> " << player[roundManager].healthPotion; position(50, 15); std::cout << "\033[90mAltmetall\033[0m --------------> " << player[roundManager].scrapMetal << std::endl;
         std::cout << "\n\033[34mManatraenke\033[0m ------------> " << player[roundManager].manaPotion; position(50, 17); std::cout << "\033[0mAluminium\033[0m --------------> " << player[roundManager].aluminum << std::endl;
         std::cout << "\n\033[95mRegenerationstraenke\033[0m ---> " << player[roundManager].regenPotion; position(50, 19); std::cout << "\033[31mKupfer\033[0m -----------------> " << player[roundManager].copper << std::endl;
-        std::cout << "\n\033[90mRuestungen\033[0m -------------> " << armor; position(50, 21); std::cout << "\033[0mWaffen\033[0m -----------------> " << weapon << "\n" << std::endl;
+        std::cout << "\n\033[92mKraeuter\033[0m ---------------> " << player[roundManager].herbs;
+        std::cout << "\n\033[90mRuestungen\033[0m -------------> " << armor; position(50, 23); std::cout << "\033[0mWaffen\033[0m -----------------> " << weapon << "\n" << std::endl;
         line();
-        position(15, 26); std::cout << "\033[47;30m[ 1 ]\033[0m ------> Waffen                   \033[100;30m[ 4 ]\033[0m ------> \033[90mMetalle\033[0m" << std::endl;
+        position(15, 26); std::cout << "\033[47;30m[ 1 ]\033[0m ------> Waffen                   \033[100;30m[ 4 ]\033[0m ------> \033[90mMaterial\033[0m" << std::endl;
         position(15, 28); std::cout << "\033[100;30m[ 2 ]\033[0m ------> \033[90mRuestungen\033[0m               \033[41;37m[ 5 ]\033[0m ------> \033[31mEntsorgen\033[0m" << std::endl;
         position(15, 30); std::cout << "\033[44;97m[ 3 ]\033[0m ------> \033[34mTraenke                  \033[47;30m[ 6 ]\033[0m ------> Zurueck" << std::endl; 
         
@@ -518,7 +521,7 @@ void inventory(Player player[], short roundManager)
                 break;
 
             case 4: // Metalle
-                metals(player, roundManager);
+                materials(player, roundManager);
                 break;
 
             case 5: // Entsorgen
