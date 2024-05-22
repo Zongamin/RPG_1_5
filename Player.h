@@ -65,26 +65,27 @@ class Player
         double deaths{};
         
         
-    double damage(double damage)
+    void damage(double damage)
     {
         this->realHealth -= damage;
         
         if (this->realHealth < this->health)
         {
             std::cout << "Tod";
-            return 0;
+            return;
         }
         return;
     }
 
-    double heal(double heal)
+    void heal(double heal)
     {
         this->realHealth += heal;
         if (this->realHealth > this->health)
         {
             this->realHealth = this->health;
-
+            return;
         }
+        return;
     }
 
     void setName(std::string playerName)

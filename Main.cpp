@@ -52,7 +52,7 @@ int main()
     enemy[5].setName("Drache");
     
     // Title
-   
+
     clearScreen();
     textTitle();
     textRising();
