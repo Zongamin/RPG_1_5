@@ -38,8 +38,10 @@
       - disposal       -- Funktion zur Entsorgung von Gegenständen für den Spieler
 444   - capacityCheck  -- Überprüfung und hinzufügen der Traglast des Spielers mit evtl. Übergabe an Entsorgungsfunktion für Gegenstände
 456   - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
-477   - loot           -- Funktion für die Suche-Option des Spielers
 704   - loadGame       -- Funktion zum Laden von Spielständen
+839   - death          -- Ausgabe des Todes des Spielers
+877   - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
+477   - loot           -- Funktion für die Suche-Option des Spielers
 713   - one            -- Headline 1
 725   - two            -- Headline 2
 739   - three          -- Headline 3
@@ -47,9 +49,7 @@
 767   - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
 789   - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
 809   - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
-839   - death          -- Ausgabe des Todes des Spielers
 860   - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
-877   - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
 916   - trapSearch     -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
 976   - takeBreak      -- Ermittelt Werte beim Rasten des Spielers 
 1012  - checkRegen     -- Ermittelt einen boolschen Wert, ob Heilung, Mana oder beides benoetigt wird
@@ -399,7 +399,7 @@ void expUp(Player player[], short roundManager)
 
     if (player[roundManager].realExp > player[roundManager].exp)
     {
-        std::cout << "Expierience : " << player[roundManager].realExp - player[roundManager].realExp << "/" << round(player[roundManager].exp * 1.2) << "\n\n";
+        std::cout << "Expierience : " << player[roundManager].exp << "/" << player[roundManager].exp << "\n\n";
     }
     else
     {
@@ -474,12 +474,12 @@ void arraySort(Player player[], short roundManager, std::string type)
 
 void capacityColor(Player player[], short roundManager)
 {
-    double range{};
-    round(range = 100 * (player[roundManager].realCapacity / player[roundManager].capacity));
+    short range{};
+    range = round(100 * (player[roundManager].realCapacity / player[roundManager].capacity));
     if(range <= 25){std::cout << "\033[92m"; return;}
-    if(range <= 50){std::cout << "\033[93m"; return;}
-    if(range <= 75){std::cout << "\033[91m"; return;}
-    std::cout << "\033[31m"; 
+    if(range <= 50){std::cout << "\033[32m"; return;}
+    if(range <= 75){std::cout << "\033[93m"; return;}
+    if(range > 75) {std::cout << "\033[31m"; return;}
     return;
 }
 
@@ -740,6 +740,80 @@ bool capacityCheck(Player player[], short roundManager, double weight, short num
     return true;
 }
 
+void loadGame()
+{
+    clearScreen();
+    textLoad();
+    line();
+    getKey();
+    return;
+}
+
+// Ausgabe Tod des Spielers
+
+void death(Player player[], short roundManager)
+{
+    player[roundManager].permaDeath = true;
+    clearScreen();
+    textDeath();
+    line();
+    position(16, 64); std::cout << player[roundManager].level;
+    position(17, 64); std::cout << player[roundManager].rooms;
+    position(18, 64); std::cout << player[roundManager].gold;
+    position(19, 64); std::cout << player[roundManager].crafted;
+    position(20, 64); std::cout << player[roundManager].monsters;
+    position(21, 64); std::cout << player[roundManager].bosses;
+    position(21, 64); std::cout << player[roundManager].deaths;    
+    bool answer = question();
+    if (answer == true)
+    {
+        loadGame();
+    } 
+    return;
+}
+
+void trapCheck(Player player[], short roundManager, std::string room)
+{
+    double damage = 0;
+    double vari = 0;
+    short rand = round(random(1, 100));
+
+    if (rand >= 1 && rand <= round(25 - player[roundManager].luck) || rand >= 50 && rand <= round(75 - player[roundManager].luck))
+    {
+        if (player[roundManager].traps > 0)
+        {
+        
+            clearScreen();
+            textTrap();
+            line();
+            std::cout << "Um es mit den Worten Admiral Ackbars zu sagen: \033[37;41m *** Das ist eine Falle! *** \033[0m" << std::endl;
+            line();
+            player[roundManager].traps--;
+            damage = (player[roundManager].health / 100 ) * 10;
+            vari = round((damage / 100) * 10);
+            damage = round(damage + ((random(1, vari)) - player[roundManager].luck));
+            std::cout << "\nAls Sie, natuerlich Ihren Geschaeften nachgehend, ziellos... aehm... zielstrebig durch die Gegend wandern, erwischt Sie eine Falle!\n" << std::endl;
+            std::cout << "\033[37;41m *** Schaden: *** \033[0m \033[31m" << damage << " DMG.\033[0m\n" << std::endl;
+            line();
+            player[roundManager].realHealth -= damage;
+            if (player[roundManager].realHealth < 0)
+            {
+                player[roundManager].realHealth = 0;
+                lifeDisplay(player, roundManager, 0, 22);
+                getKey();
+                death(player, roundManager);
+                return;
+            }
+            lifeDisplay(player, roundManager, 0, 22);
+            line();
+            if (room == "loot") { std::cout << "Nichtsdestotrotz begeben Sie sich auf die Suche.....";}
+            if (room == "sleep") { std::cout << "Dennoch suchen Sie sich ein Plaetzchen zum Ausruhen.....";}
+            getKey();
+            return;
+        }
+    }
+}
+
 // looten nach erfolgreicher Suche
 
 void loot(Player player[], short roundManager)
@@ -750,6 +824,8 @@ void loot(Player player[], short roundManager)
     double findItem = 0;
     double experience = 0;
         
+    trapCheck(player, roundManager, "loot");
+
     clearScreen();
     textSearch();
     line();
@@ -976,7 +1052,7 @@ void loot(Player player[], short roundManager)
                         dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
                         tempExp += experience;
                         if (dispose = false) { if (dispose = false) { std::cout << "\033[91mDie Ruestung wurde liegengelassen!\n" <<  "---------------------------------------------------" << std::endl; break; } }
-                        if (player[roundManager].weapons[0] == 0) {player[roundManager].weapons[0] = findItem; break;}
+                        if (player[roundManager].armor[0] == 0) {player[roundManager].armor[0] = findItem; break;}
                         for (int i = 0; i < 500; i++)
                         {
                             if (player[roundManager].armor[i] == 0) 
@@ -1007,15 +1083,6 @@ void loot(Player player[], short roundManager)
     getKey();
     expUp(player, roundManager);
     std::cout << "\n\n" << std::endl;
-    return;
-}
-
-void loadGame()
-{
-    clearScreen();
-    textLoad();
-    line();
-    getKey();
     return;
 }
 
@@ -1099,11 +1166,9 @@ short dangerZone()
     while(running)
     {
         zone = round(random(1, 3));
-        if (zone == dangerRepeater) {danger++;} else {danger = 0;}
-        if (danger >= 2) {continue;}
+        if (zone == dangerRepeater) { continue; }
         dangerRepeater = zone;
         running = false;
-        danger = 0;
         break;
     }
     return zone;
@@ -1119,35 +1184,12 @@ void dangerDisplay(short zone)
             std::cout << "\033[30;102m Gefahrenstufe : Sicher \033[0m" << std::endl;
             break;
         case 2:
-            std::cout << "\033[30;43m Gefahrenstufe : Unsicher \033[0m" << std::endl;
+            std::cout << "\033[30;103m Gefahrenstufe : Unsicher \033[0m" << std::endl;
             break;
         case 3:
             std::cout << "\033[97;41m Gefahrenstufe : Gefahr \033[0m" << std::endl;
             break;
     }
-    return;
-}
-
-// Ausgabe Tod des Spielers
-
-void death(Player player[], short roundManager)
-{
-    player[roundManager].permaDeath = true;
-    clearScreen();
-    textDeath();
-    line();
-    position(16, 64); std::cout << player[roundManager].level;
-    position(17, 64); std::cout << player[roundManager].rooms;
-    position(18, 64); std::cout << player[roundManager].gold;
-    position(19, 64); std::cout << player[roundManager].crafted;
-    position(20, 64); std::cout << player[roundManager].monsters;
-    position(21, 64); std::cout << player[roundManager].bosses;
-    position(21, 64); std::cout << player[roundManager].deaths;    
-    bool answer = question();
-    if (answer == true)
-    {
-        loadGame();
-    } 
     return;
 }
 
@@ -1166,45 +1208,6 @@ void trapCall(Player player[], short roundManager, short zone)
         if (player[roundManager].traps < 1) {player[roundManager].traps = 1;}
     }
     return;
-}
-
-void trapCheck(Player player[], short roundManager)
-{
-    double damage = 0;
-    double vari = 0;
-    short rand = round(random(1, 100));
-
-    if (rand >= 1 && rand <= round(25 - player[roundManager].luck) || rand >= 50 && rand <= round(75 - player[roundManager].luck))
-    {
-        if (player[roundManager].traps > 0)
-        {
-        
-            clearScreen();
-            textTrap();
-            line();
-            std::cout << "Um es mit den Worten Admiral Ackbars zu sagen: \033[37;41m *** Das ist eine Falle! *** \033[0m" << std::endl;
-            line();
-            player[roundManager].traps--;
-            damage = (player[roundManager].health / 100 ) * 10;
-            vari = round((damage / 100) * 10);
-            damage = round(damage + ((random(1, vari)) - player[roundManager].luck));
-            std::cout << "\nAls Sie, natuerlich Ihren Geschaeften nachgehend, ziellos... aehm... zielstrebig durch die Gegend wandern, erwischt Sie eine Falle!\n" << std::endl;
-            line();
-            std::cout << "\033[37;41m *** Schaden: *** \033[0m \033[31m" << damage << " DMG.\033[0m\n\n" << std::endl;
-            player[roundManager].realHealth -= damage;
-            if (player[roundManager].realHealth < 0)
-            {
-                player[roundManager].realHealth = 0;
-                lifeDisplay(player, roundManager, 0, 16);
-                getKey();
-                death(player, roundManager);
-                return;
-            }
-            lifeDisplay(player, roundManager, 0, 16);
-            getKey();
-            return;
-        }
-    }
 }
 
 void trapSearch(Player player[], short roundManager, short danger)
@@ -1283,23 +1286,22 @@ void takeBreak(Player player[], short roundManager, short danger)
     mana = round(random(((player[roundManager].mana / 100) * 25), ((player[roundManager].mana / 100) * 50)));
     health = round(random(((player[roundManager].health / 100) * 25), ((player[roundManager].health / 100) * 50)));
     zone = round(random(1, 100));
-        
+
+    if (danger >= 2)
+    { 
+        if (danger == 2) { x = 12.5; }
+        if (danger == 3) { x = 17.5; }
+        if (zone >= round((25 - x) - player[roundManager].luck) && zone <= round((25 + x) + player[roundManager].luck) || zone >= round((75 - x) - player[roundManager].luck) && zone <= round((75 + x) + player[roundManager].luck))
+        {
+            trapCheck(player, roundManager, "sleep");
+        }
+    }
+
     clearScreen();
     textBreak();
     line();
     textColor(danger); std::cout << "Sie Suchen sich eine stille Ecke um Sich auszuruhen.\033[0m" << std::endl;
     line();
-    if (danger >= 2)
-    { 
-        if (danger == 2) { x = 12.5; }
-        if (danger == 3) { x = 17.5; }
-        if (zone >= round((25 - x) - player[roundManager].luck) && zone <= round((25 + x) + player[roundManager].luck) || zone >= round((50 - x) - player[roundManager].luck) && zone <= round((50 + x) + player[roundManager].luck))
-        {
-            std::cout << "Kampf oder Falle wird ausgeloest!" << std::endl;
-            getKey(); 
-            return;
-        }
-    }
     textColor(danger); std::cout << "Beim Rasten regenerieren Sie:\033[0m" << std::endl;
     line();
     std::cout << "\033[31mLeben: " << health << std::endl;
@@ -1309,7 +1311,7 @@ void takeBreak(Player player[], short roundManager, short danger)
     player[roundManager].realMana += mana;
     if(player[roundManager].realHealth > player[roundManager].health) {player[roundManager].realHealth = player[roundManager].health;}
     if(player[roundManager].realMana > player[roundManager].mana) {player[roundManager].realMana = player[roundManager].mana;}
-    lifeDisplay(player, roundManager, 0, 23);
+    lifeDisplay(player, roundManager, 0, 24);
     getKey();
     return;
 }

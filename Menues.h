@@ -144,6 +144,8 @@ void characterMenue(Player player[], short roundManager)
         std::cout << "\033[94mMana\033[0m ------------> \033[94m" << player[roundManager].mana << "\033[0m" << std::endl;
         std::cout << "\033[92mGlueck\033[0m ----------> \033[92m" << player[roundManager].luck << "\033[0m" << std::endl;
         std::cout << "\033[37mTragekapazitaet\033[0m -> \033[37m" << player[roundManager].capacity << "\033[0m" << std::endl;
+        std::cout << "\033[0mWaffenschaden\033[0m ---> \033[0m" << player[roundManager].weaponDmg << "\033[0m" << std::endl;
+        std::cout << "\033[90mRuestungswert\033[0m ---> \033[90m" << player[roundManager].armorDmgReduce << "\033[0m" << std::endl;
         line();
         std::cout << "\033[35mSkillpunkte\033[0m -------> \033[35m" << player[roundManager].skillPoints << "\033[0m" << std::endl;
         line();
@@ -152,20 +154,22 @@ void characterMenue(Player player[], short roundManager)
         
         if (attitude == true) 
         { 
-            position(35, 15); std::cout << " (" << strength << ") (Staerke beeinflusst die Angriffsstaerke und das Leben.) \033[0m";
-            position(35, 16); std::cout << " (" << intelligence << ") (Intelligenz beeinflusst die Zauberintensitaet und das Mana.)\033[0m";
-            position(35, 17); std::cout << " (" << endurance << ") (Ausdauer beeinflusst sowohl Leben, Mana als auch Glueck.)\033[0m";
-            position(35, 18); std::cout << " (" << dexterity << ") (Geschick beeinflusst das Glueck.)\033[0m";
+            position(35, 15); std::cout << " (" << strength << ") (Staerke beeinflusst die Angriffsstaerke, die Tragekapazitaet und das Leben.) \033[0m";
+            position(35, 16); std::cout << " (" << intelligence << ") (Intelligenz beeinflusst die Zauberintensitaet, verfuegbare Zauber und das Mana.)\033[0m";
+            position(35, 17); std::cout << " (" << endurance << ") (Ausdauer beeinflusst sowohl das Leben, das Mana als auch das Glueck.)\033[0m";
+            position(35, 18); std::cout << " (" << dexterity << ") (Geschick beeinflusst das Glueck, die Qualitaet gefundener Beute und die Kritischen Treffer.)\033[0m";
             position(35, 22); std::cout << " (Leben wird durch die Werte Staerke und Ausdauer beeinflusst.)\033[0m";
             position(35, 23); std::cout << " (Mana wird durch die Werte Intelligenz und Ausdauer beeinflusst.)\033[0m";
-            position(35, 24); std::cout << " (Glueck beeinflusst die Kritische Trefferquote und die Beute.)\033[0m";
-            position(35, 25); std::cout << " (Tragekapazitaet wird durch Staerke und Auddauer beeinflusst.)\033[0m";
-            position(0, 33);    
-            std::cout << " \033[30;102m* 1 *\033[0m ------> \033[31mStaerke (+)\033[0m                              \033[41;97m* 5 *\033[0m ------> \033[31mStaerke (-)\033[0m \n\n";
-            std::cout << " \033[30;102m* 2 *\033[0m ------> \033[34mIntelligenz (+)\033[0m                          \033[41;97m* 6 *\033[0m ------> \033[34mIntelligenz (-)\033[0m \n\n";
-            std::cout << " \033[30;102m* 3 *\033[0m ------> \033[33mAusdauer (+)\033[0m                             \033[41;97m* 7 *\033[0m ------> \033[33mAusdauer (-)\033[0m \n\n";
-            std::cout << " \033[30;102m* 4 *\033[0m ------> \033[32mGeschick (+)\033[0m                             \033[41;97m* 8 *\033[0m ------> \033[32mGeschick (-)\033[0m \n\n";
-            std::cout << " \033[30;47m* 9 *\033[0m ------> Fertig\n";
+            position(35, 24); std::cout << " (Glueck beeinflusst die Kritische Trefferquote und die Beute und kann durch Geschick erhoeht werden.)\033[0m";
+            position(35, 25); std::cout << " (Tragekapazitaet wird durch die Staerke und die Ausdauer beeinflusst.)\033[0m";
+            position(35, 26); std::cout << " (Der Waffenschaden wird durch anlegen von Waffen beeinflusst und steigert den ausgeteilten Schaden.)\033[0m";
+            position(35, 27); std::cout << " (Der Ruestwert wird durch das Tragen von Ruestungen beeinflusst und reduziert erlittenen Schaden.)\033[0m";
+            position(0, 35);    
+            std::cout << " \033[30;102m[ 1 ]\033[0m ------> \033[31mStaerke     (+)\033[0m                          \033[41;97m[ 5 ]\033[0m ------> \033[31mStaerke     (-)\033[0m \n\n";
+            std::cout << " \033[30;102m[ 2 ]\033[0m ------> \033[34mIntelligenz (+)\033[0m                          \033[41;97m[ 6 ]\033[0m ------> \033[34mIntelligenz (-)\033[0m \n\n";
+            std::cout << " \033[30;102m[ 3 ]\033[0m ------> \033[33mAusdauer    (+)\033[0m                          \033[41;97m[ 7 ]\033[0m ------> \033[33mAusdauer    (-)\033[0m \n\n";
+            std::cout << " \033[30;102m[ 4 ]\033[0m ------> \033[32mGeschick    (+)\033[0m                          \033[41;97m[ 8 ]\033[0m ------> \033[32mGeschick    (-)\033[0m \n\n";
+            std::cout << " \033[30;47m[ 9 ]\033[0m ------> Fertig\n";
 
             short input = choice();
                        
@@ -593,6 +597,29 @@ void frameWork(Player player[], short roundManager, short zone, int room)
     return;
 }
 
+// Magie - Menü
+
+void magicMenue(Player player[], short roundManager)
+{
+    bool running = true;
+
+    while(running)
+    {
+        clearScreen();
+        textMagic();
+        line();
+        std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+        position(40, 16); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 16); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+        line();
+        lifeDisplay(player, roundManager, 0, 20);
+        line();
+        std::cout << "Ihre magischen Fähigkeiten liegen derzeit bei: " << player[roundManager].intelligence << " Intelligenz" << std::endl;
+        line();
+        getKey();
+    }
+}
+
 // Ingame Hauptmenü
 
 void roomOptions(Player player[], short roundManager, short danger, short room)
@@ -661,6 +688,7 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
             break;
             
         case 7:
+            magicMenue(player, roundManager);
             break;
         
         case 8:
