@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <limits>
 #include <conio.h>
 #include <ctime>
 #include <cmath>
@@ -420,7 +421,7 @@ void expUp(Player player[], short roundManager)
         for (int i = 0; i < range; i++)
         {
             std::cout << "\033[103m ";
-            Sleep(10);
+            Sleep(5);
             std::cout << "\033[0m";
         }
             std::cout << "\n\n" << std::endl;
@@ -437,7 +438,7 @@ void expUp(Player player[], short roundManager)
             for (int i = 0; i < range; i++)
             {
                 std::cout << "\033[103m ";
-                Sleep(10);
+                Sleep(5);
                 std::cout << "\033[0m";
             }
 
@@ -502,7 +503,7 @@ void weaponArmorDispose(Player player[], short roundManager, std::string sortOf)
         line();
         if (sortOf == "weapon")
         {
-            if (player[roundManager].weapons[0] == 0)
+            if (player[roundManager].weapons[0] == 0 && player[roundManager].weaponDmg == 0)
             {
                 std::cout << "\n\033[31mSie haben keine Waffen im Inventar!\033[0m" << std::endl;
                 getKey();
@@ -510,17 +511,35 @@ void weaponArmorDispose(Player player[], short roundManager, std::string sortOf)
                 break;
             }
             std::cout << "\n\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
-            for (int index = 0; player[roundManager].weapons[index] > 0; index++)
+            if(player[roundManager].weaponDmg > 0) {std::cout << "\n\033[100;30m[-1 ]\033[0m ------> \033[90m" << player[roundManager].weaponDmg << " DMG (Vorsicht: Angelegte Waffe!)\033[0m" << std::endl;}
+            for (int index = 0; index < 500; index++)
             {
+                if(player[roundManager].weapons[index] == 0) { break; }
                 std::cout << "\n\033[100;30m[ " << index + 1 <<" ]\033[0m ------> \033[90m" << player[roundManager].weapons[index] << " DMG\033[0m" << std::endl;
                 arraySize++;
-                break;
             }
             line();
-            
             std::cout << "\nWelche Waffe moechten Sie entsorgen?"; std::cin >> input;
-            if (input - 1 > arraySize || input - 1 < 0) {std::cout << "\n\033[31mDas geht nicht !\033[0m"; getKey(); break;}
+            if (std::cin.fail())
+            {
+                std::cin.clear(); 
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                error(0);
+                break;
+            }
             if (input == 0) {running = false; break;}
+            if (player[roundManager].weaponDmg > 0 && input == -1) 
+            {
+                std::cout << "\n\033[41;37m[Angelegte Waffe!]\033[0;31m Sind sie sicher? (J/N)";
+                bool answer = question;
+                if (answer == false) { break; }
+                player[roundManager].weaponDmg = 0;
+                player[roundManager].realCapacity -= 2.5;
+                std::cout << "\n\033[31mDie Waffe wurde entsorgt. Moechten Sie noch eine Ruestung entsorgen? (J/N)"; answer = question();
+                if (answer = false) {running = false; break;}
+                break; 
+            }
+            if (input - 1 > arraySize || input - 1 < 0) {std::cout << "\n\033[31mDas geht nicht !\033[0m"; getKey(); break;}
             std::cout << "\n\033[31mSind sie sicher? (J/N)";
             bool answer = question();
             if (answer == false) {break;}
@@ -533,7 +552,7 @@ void weaponArmorDispose(Player player[], short roundManager, std::string sortOf)
         }
         if (sortOf == "armor")
         {
-            if (player[roundManager].armor[0] == 0)
+            if (player[roundManager].armor[0] == 0 && player[roundManager].armorDmgReduce == 0)
             {
                 std::cout << "\n\033[31mSie haben keine Ruestungen im Inventar!\033[0m" << std::endl;
                 getKey();
@@ -541,22 +560,40 @@ void weaponArmorDispose(Player player[], short roundManager, std::string sortOf)
                 break;
             }
             std::cout << "\n\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
-            for (int index = 0; player[roundManager].armor[index] > 0; index++)
+            if(player[roundManager].armorDmgReduce > 0) {std::cout << "\n\033[100;30m[-1 ]\033[0m ------> \033[90m" << player[roundManager].armorDmgReduce << " RST (Vorsicht: Angelegte Ruestung!)\033[0m" << std::endl;}
+            for (int index = 0; index < 500; index++)
             {
+                if(player[roundManager].armor[index] == 0) { break; }
                 std::cout << "\n\033[100;30m[ " << index + 1 <<" ]\033[0m ------> \033[90m" << player[roundManager].armor[index] << " RST\033[0m" << std::endl;
                 arraySize++;
-                break;
             }
             line();
-            
             std::cout << "\nWelche Ruestung moechten Sie entsorgen?"; std::cin >> input;
-            if (input - 1 > arraySize || input - 1 < 0) {std::cout << "\n\033[31mDas geht nicht !\033[0m"; getKey(); break;}
+            if (std::cin.fail())
+            {
+                std::cin.clear(); 
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                error(0);
+                break;
+            }
             if (input == 0) {running = false; break;}
+            if (player[roundManager].armorDmgReduce > 0 && input == -1) 
+            {
+                std::cout << "\n\033[41;37m[Angelegte Ruestung!]\033[0;31m Sind sie sicher? (J/N)";
+                bool answer = question;
+                if (answer == false) { break; }
+                player[roundManager].armorDmgReduce = 0;
+                player[roundManager].realCapacity -= 2.25;
+                std::cout << "\n\033[31mDie Ruestung wurde entsorgt. Moechten Sie noch eine Ruestung entsorgen? (J/N)"; answer = question();
+                if (answer = false) {running = false; break;}
+                break; 
+            }
+            if (input - 1 > arraySize || input - 1 < 0) {std::cout << "\n\033[31mDas geht nicht !\033[0m"; getKey(); break;}
             std::cout << "\n\033[31mSind sie sicher? (J/N)";
             bool answer = question();
             if (answer == false) {break;}
             player[roundManager].armor[input - 1] = 0;
-            player[roundManager].realCapacity -= 2.5;
+            player[roundManager].realCapacity -= 2.25;
             arraySort(player, roundManager, "armor");
             std::cout << "\n\033[31mDie Ruestung wurde entsorgt. Moechten Sie noch eine Ruestung entsorgen? (J/N)"; answer = question();
             if (answer = false) {running = false; break;}
@@ -597,19 +634,33 @@ bool disposal(Player player[], short roundManager, double weight)
 
     while(running)
     {
+        numberOfWeapons = 0;
+        numberOfArmor = 0;
+
         if (weight > 0)
         {
             needWeight = (player[roundManager].realCapacity + weight) - player[roundManager].capacity;
             if (needWeight < 0) {needWeight = 0;}
         }
 
-        numberOfWeapons = 0;
-        numberOfArmor = 0;
-
-        for(int index; player[roundManager].weapons[index] > 0; index++) {numberOfWeapons = index; break;}
-        for(int index; player[roundManager].armor[index] > 0; index++) {numberOfArmor = index; break;}
-        if (player[roundManager].weaponDmg > 0){numberOfWeapons += 1;}
-        if (player[roundManager].armorDmgReduce > 0){numberOfArmor += 1;}
+        for(int index = 0; index < 500; index++) 
+        {
+            if (player[roundManager].weapons[index] == 0)
+            {
+                break;
+            }
+            numberOfWeapons++;
+        }
+        for(int index = 0; index < 500; index++) 
+        {
+            if(player[roundManager].armor[index] == 0)
+            {
+                break;
+            }
+            numberOfArmor++; 
+        }
+        if (player[roundManager].weaponDmg > 0) { numberOfWeapons++; }
+        if (player[roundManager].armorDmgReduce > 0) { numberOfArmor++; }
 
         clearScreen();
         textDisposal();

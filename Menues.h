@@ -74,18 +74,31 @@ int gameMenue(Player player[], short& numberOfPlayers)
                     }
 
                 case 3:
-                    
                     for (int index = 0; index < numberOfPlayers; index++)
                     {
-                        std::string playerName;
+                        bool running = true;
 
-                        std::cout << "\nBitte geben Sie Ihren Spielernamen ein Spieler " << index + 1 << " : \n";
-                        std::cin >> playerName;
-                        player[index].setName(playerName);
-                        std::cout << "\nDer Name von Spieler " << index + 1 << " wurde in " << player[index].getName() << " geaendert!" << std::endl;
+                        while(running)
+                        {
+                            std::string playerName;
+                            std::cout << "\nBitte geben Sie Ihren Spielernamen ein Spieler " << index + 1 << " (max. 25 Zeichen): \n";
+                            std::getline(std::cin, playerName);
+                            if(playerName.length() <= 25)
+                            {
+                                player[index].setName(playerName);
+                                std::cout << "\nDer Name von Spieler " << index + 1 << " wurde in " << player[index].getName() << " geaendert!" << std::endl;
+                                running = false;
+                            } 
+                            else
+                            {
+                                std::cout << "\nDer Name ist zu lang!" << std::endl;
+                            }
+                        }
                     }
                     getKey();
                     break;
+                    
+                    
 
                 case 4:
             
@@ -143,7 +156,7 @@ void characterMenue(Player player[], short roundManager)
         std::cout << "\033[91mLeben\033[0m -----------> \033[91m" << player[roundManager].health << "\033[0m" << std::endl;
         std::cout << "\033[94mMana\033[0m ------------> \033[94m" << player[roundManager].mana << "\033[0m" << std::endl;
         std::cout << "\033[92mGlueck\033[0m ----------> \033[92m" << player[roundManager].luck << "\033[0m" << std::endl;
-        std::cout << "\033[37mTragekapazitaet\033[0m -> \033[37m" << player[roundManager].capacity << "\033[0m" << std::endl;
+        std::cout << "\033[36mTragekapazitaet\033[0m -> \033[36m" << player[roundManager].capacity << "\033[0m" << std::endl;
         std::cout << "\033[0mWaffenschaden\033[0m ---> \033[0m" << player[roundManager].weaponDmg << "\033[0m" << std::endl;
         std::cout << "\033[90mRuestungswert\033[0m ---> \033[90m" << player[roundManager].armorDmgReduce << "\033[0m" << std::endl;
         line();
@@ -398,11 +411,15 @@ void armors(Player player[], short roundManager)
             break;
         }
         std::cout << "\n\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
-        for (int index = 0; player[roundManager].armor[index] > 0; index++)
+        for (int index = 0; index < 500; index++)
         {
+            if (player[roundManager].armor[index] == 0)
+            {
+                break;
+            }
             std::cout << "\n\033[100;30m[ " << index +1 <<" ]\033[0m ------> \033[90m" << player[roundManager].armor[index] << " RST\033[0m" << std::endl;
-            break;
         }
+        line();
         std::cout << "\nWelche Ruestung moechten Sie anlegen (0 - " << arraySize << ") ?"; std::cin >> input;
         if (input == 0) {running = false; break;}
         if (input > arraySize) {std::cout << "\n\033[31mDas geht nicht!\033[0m"; getKey(); break;}
@@ -466,10 +483,13 @@ void weapons(Player player[], short roundManager)
             break;
         }
         std::cout << "\n\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
-        for (int index = 0; player[roundManager].weapons[index] <=  arraySize; index++)
+        for (int index = 0; index < 500; index++)
         {
+            if(player[roundManager].weapons[index] == 0)
+            {
+                break;
+            }
             std::cout << "\n\033[100;30m[ " << index + 1 <<" ]\033[0m ------> \033[90m" << player[roundManager].weapons[index] << " DMG\033[0m" << std::endl;
-            break;
         }
         line();
         std::cout << "\nWelche Waffe moechten Sie anlegen (0 - " << arraySize << ") ?"; std::cin >> input;
