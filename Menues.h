@@ -175,7 +175,7 @@ void characterMenue(Player player[], short roundManager)
             position(35, 23); std::cout << " (Mana wird durch die Werte Intelligenz und Ausdauer beeinflusst.)\033[0m";
             position(35, 24); std::cout << " (Glueck beeinflusst die Kritische Trefferquote und die Beute und kann durch Geschick erhoeht werden.)\033[0m";
             position(35, 25); std::cout << " (Tragekapazitaet wird durch die Staerke und die Ausdauer beeinflusst.)\033[0m";
-            position(35, 26); std::cout << " (Der Waffenschaden wird durch anlegen von Waffen beeinflusst und steigert den ausgeteilten Schaden.)\033[0m";
+            position(35, 26); std::cout << " (Der Waffenschaden wird durch Anlegen von Waffen beeinflusst und steigert den ausgeteilten Schaden.)\033[0m";
             position(35, 27); std::cout << " (Der Ruestwert wird durch das Tragen von Ruestungen beeinflusst und reduziert erlittenen Schaden.)\033[0m";
             position(0, 35);    
             std::cout << " \033[30;102m[ 1 ]\033[0m ------> \033[31mStaerke     (+)\033[0m                          \033[41;97m[ 5 ]\033[0m ------> \033[31mStaerke     (-)\033[0m \n\n";
@@ -283,7 +283,7 @@ void potions(Player player[], short roundManager)
         textPotion();
         line();
         std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        position(40, 10); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
         capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
         std::cout << "\033[31mHeiltraenke\033[0m ------------> \033[31m" << player[roundManager].healthPotion << "\033[0m"; 
@@ -347,7 +347,7 @@ void materials(Player player[], short roundManager)
         textMetal();
         line();
         std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        position(40, 10); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
         capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
         std::cout << "\033[90mAltmetall\033[0m ------> " << player[roundManager].scrapMetal; position(40,14); std::cout << " (" << player[roundManager].scrapMetal * 0.3 << " kg)";
@@ -397,7 +397,7 @@ void armors(Player player[], short roundManager)
         textArmor();
         line();
         std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 12); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        position(40, 12); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
         capacityColor(player, roundManager); position(80, 12); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
         std::cout << "\033[90mIhre derzeitige Ruestung: ";
@@ -469,7 +469,7 @@ void weapons(Player player[], short roundManager)
         textWeapons();
         line();
         std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        position(40, 10); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
         capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
         std::cout << "\033[90mDerzeitiger Waffenschaden: ";
@@ -552,7 +552,7 @@ void inventory(Player player[], short roundManager)
         textInventory();
         line();
         std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+        position(40, 10); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
         capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
         std::cout << "\n\033[31mHeiltraenke\033[0m ------------> " << player[roundManager].healthPotion; position(50, 15); std::cout << "\033[90mAltmetall\033[0m --------------> " << player[roundManager].scrapMetal << std::endl;
@@ -603,7 +603,7 @@ void frameWork(Player player[], short roundManager, short zone, int room)
     clearScreen();
     line();
     std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-    position(40, 3); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+    position(40, 3); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
     capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
     line();
     roomPictures(0);
@@ -628,16 +628,24 @@ void magicMenue(Player player[], short roundManager)
         clearScreen();
         textMagic();
         line();
-        std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-        position(40, 16); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
-        capacityColor(player, roundManager); position(80, 16); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+        std::cout << "\033[36mSpieler: " << player[roundManager].getName() << "\033[0m";
+        position(40, 11); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
+        capacityColor(player, roundManager); position(80, 11); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
         line();
-        lifeDisplay(player, roundManager, 0, 20);
+        lifeDisplay(player, roundManager, 0, 15);
         line();
-        std::cout << "Ihre magischen Fähigkeiten liegen derzeit bei: " << player[roundManager].intelligence << " Intelligenz" << std::endl;
+        std::cout << "\033[34mIhre magischen Faehigkeiten liegen derzeit bei: " << player[roundManager].intelligence << " Intelligenz\033[0m" << std::endl;
         line();
+        position(20,30); std::cout << "\033[42;37m[ 1 ]\033[0m ------> \033[32mHeilung   (I)\033[0m"; position(65,30); std::cout << "\033[102;30m[ 5 ]\033[0m ------> \033[92m Heilung   (II)\033[0m";
+        position(20,32); std::cout << "\033[41;37m[ 2 ]\033[0m ------> \033[31mFeuerball (I)\033[0m"; position(65,32); std::cout << "\033[101;30m[ 6 ]\033[0m ------> \033[91m Feuerball (II)\033[0m";
+        position(20,34); std::cout << "\033[44;37m[ 3 ]\033[0m ------> \033[34mEispfeil  (I)\033[0m"; position(65,34); std::cout << "\033[104;30m[ 7 ]\033[0m ------> \033[94m Eispfeil  (II)\033[0m";
+        position(20,36); std::cout << "\033[45;37m[ 4 ]\033[0m ------> \033[35mGiftwolke (I)\033[0m"; position(65,36); std::cout << "\033[105;30m[ 8 ]\033[0m ------> \033[95m Giftwolke (II)\033[0m";
+        position(20,38); std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\033[0m";
         getKey();
+        running = false;
+        break;
     }
+    return;
 }
 
 // Ingame Hauptmenü
@@ -719,7 +727,6 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
 
         default:
             error(0);
-            getKey();
             break;        
     }
     }

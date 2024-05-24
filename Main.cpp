@@ -34,7 +34,7 @@ int main()
 
     for (int dex = 0; dex == 3; dex++)
     {
-        for (int index = 0; index == 499; index++)
+        for (int index = 0; index < 500; index++)
         {
             player[dex].weapons[index] = 0;
             player[dex].armor[index] = 0;
