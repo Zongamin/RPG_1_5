@@ -703,13 +703,13 @@ void magicMenue(Player player[], short roundManager)
                 break;
             
             case 1:
-                double heal = 0;
-                double vari = 0;
-                heal = round(((player[roundManager].health / 100) * 10));
-                vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
-                heal += vari;
                 if (player[roundManager].realMana < 15)
                 {
+                    double heal = 0;
+                    double vari = 0;
+                    heal = round(((player[roundManager].health / 100) * 10));
+                    vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                    heal += vari;
                     std::cout << "\n\n\033[31mSie haben nicht genug Mana!\033[0m" << std::endl;
                     std::cout << "\033[32mIhre durchschnittliche \033[42;37* Heilung *\033[0;32m betraegt: " << heal << " HP. Dabei werden 15 Mana verbraucht.\033[0m" << std::endl;
                     getKey();
@@ -717,6 +717,11 @@ void magicMenue(Player player[], short roundManager)
                 }
                 else if (player[roundManager].realHealth == player[roundManager].health)
                 {
+                    double heal = 0;
+                    double vari = 0;
+                    heal = round(((player[roundManager].health / 100) * 10));
+                    vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                    heal += vari;
                     std::cout << "\n\n\033[31mSie benoetigen keine Heilung!" << std::endl;
                     std::cout << "\033[32mIhre durchschnittliche \033[42;37* Heilung *\033[0;32m betraegt: " << heal << " HP. Dabei werden 15 Mana verbraucht.\033[0m" << std::endl;
                     getKey();
@@ -724,6 +729,11 @@ void magicMenue(Player player[], short roundManager)
                 }
                 else
                 {
+                    double heal = 0;
+                    double vari = 0;
+                    heal = round(((player[roundManager].health / 100) * 10));
+                    vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                    heal += vari;
                     player[roundManager].health + heal;
                     player[roundManager].realMana -= 15;
                     if (player[roundManager].realHealth > player[roundManager].health) {player[roundManager].realHealth = player[roundManager].health;}
