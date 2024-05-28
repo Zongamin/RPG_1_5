@@ -939,7 +939,7 @@ void magicMenue(Player player[], short roundManager)
 
 // Spielmenü zum Speichern und beenden
 
-int menue (Player player[], short roundManager)
+void menue (Player player[], short roundManager)
 {
     bool running = true;
 
@@ -1028,40 +1028,38 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
                 }
                 break;
 
-        case 2:
-            loot(player, roundManager);
-            break;
-        
-        case 3:
-            trapSearch(player, roundManager, danger);
-            break;
-        
-        case 4:
-            takeBreak(player, roundManager, danger);
-            break;
-        
-        case 5:
-            characterMenue(player, roundManager);
-            break;
-        
-        case 6:
-            inventory(player, roundManager);
-            break;
+            case 2:
+                loot(player, roundManager);
+                break;
             
-        case 7:
-            magicMenue(player, roundManager);
-            break;
-        
-        case 8:
-            break;
+            case 3:
+                trapSearch(player, roundManager, danger);
+                break;
+            
+            case 4:
+                takeBreak(player, roundManager, danger);
+                break;
+            
+            case 5:
+                characterMenue(player, roundManager);
+                break;
+            
+            case 6:
+                inventory(player, roundManager);
+                break;
+                
+            case 7:
+                magicMenue(player, roundManager);
+                break;
+            
+            case 8:
+                menue(player, roundManager);
+                break;
 
-        case 9:
-            break;
-
-        default:
-            error(0);
-            break;        
-    }
+            default:
+                error(0);
+                break;        
+        }
     }
     return;
     

@@ -160,11 +160,39 @@ void roomTexts(int room)
 
             case 10:
                 
+                position(58, 8);  std::cout << "Wer haette das in einem Dungeon erwartet.... es ist ein An- und Verkauf. Davor";
+                position(58, 9);  std::cout << "steht ein listig dreinblickender Goblin, der sich grinsend die Haende reibt.";
+                position(58, 10); std::cout << "\"Willkommen bei Duester Deals, wir haben Vieles was Sie suchen und vielleicht";
+                position(58, 11); std::cout << "sogar gar nicht erst suchen! Unsere Waffen sind garantiert nur manchmal ver-";
+                position(58, 12); std::cout << "flucht und die Fallen, die Sie hier sehen sind groesstenteils nur Ausstellungs-"; 
+                position(58, 13); std::cout << "stuecke. Treten Sie naeher und finden Sie es heraus! Wir kaufen uebrigens Alles,";
+                position(58, 14); std::cout << "was Sie loswerden moechten, denn sollten Sie hinter der naechsten Ecke sterben,";
+                position(58, 15); std::cout << "plündern wir uns das Gold sowieso wieder zurueck! Hätten Sie eventuell Interesse";
+                position(58, 16); std::cout << "an diesem unsichtbaren Umhang? Man spuert tatsaechlich ueberhaupt nicht, dass man";
+                position(58, 17); std::cout << "ihn traegt.\", sagt der Goblin mit verwegenem Grinsen. Na dann mal shoppen gehen!";
+                break;
+
+            case 11:
+
+                position(58, 8);  std::cout << "Unfassbar was sich der Programmierer dieses Spiels noch alles ausdenkt, was hier";
+                position(58, 9);  std::cout << "so in einem Dungeon rum kreuchen und fleuchen soll! Langsam wird es Zeit mich mal";
+                position(58, 10); std::cout << "bei Rising Systems zu beschweren! Das kann ich doch als Geschichtenschreiber, bzw.";
+                position(58, 11); std::cout << "Erzähler hier gar nicht mehr glaubwuerdig an den Mann bringen!";
+                position(58, 12); std::cout << "Aber bitte: Mitten in einer stillen Ecke des Dungeons finden Sie Glorg den Ork. Er";
+                position(58, 13); std::cout << "ist der einzige Ork hier unten, der versucht die Herrschafft des Dungeons mittels";
+                position(58, 14); std::cout << "Glücksspiel an sich zu reissen! Sein grimmiger Blick sagt Ihnen zwar, dass Sie es";
+                position(58, 15); std::cout << "lieber bleibenlassen sollten, aber seine mit Gold gefüllten Taschen sagen Ihnen,";
+                position(58, 16); std::cout << "dass Sie es auch gerne versuchen wuerden, es ihm genau aus den Selbigen zu entfer-";
+                position(58, 17); std::cout << "nen und in Ihre eigenen wandern zu lassen.... Wollen Sie es versuchen?";
+                break;
+
+            case 12:
+
                 position(58, 8);  std::cout << "";
                 position(58, 9);  std::cout << "";
                 position(58, 10); std::cout << "";
                 position(58, 11); std::cout << "";
-                position(58, 12); std::cout << ""; 
+                position(58, 12); std::cout << "";
                 position(58, 13); std::cout << "";
                 position(58, 14); std::cout << "";
                 position(58, 15); std::cout << "";
