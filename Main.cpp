@@ -28,7 +28,7 @@ int main()
     player[0].setName("Max Mustermann");
     player[1].setName("Maxine Mustermann");
     player[2].setName("Hans Wurst");
-    player[3].setName("Lasmiranda Densivilla");
+    player[3].setName("Lasmiranda Densivillia");
 
     // Initialisierung Waffen- und Ruestungs - Arrays der Spieler
 

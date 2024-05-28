@@ -802,12 +802,55 @@ bool capacityCheck(Player player[], short roundManager, double weight, short num
     return true;
 }
 
+void saveGame() 
+{
+    clearScreen();
+    textSave();
+    line();
+    std::cout << "\n\033[47;30m[ 1 ]\033[0m ------> Spielstand 1 :" << std::endl;
+    line();
+    std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand 2 :" << std::endl;
+    line();
+    std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spielstand 3 :" << std::endl;
+    line();
+    std::cout << "\n\033[47;30m[ 4 ]\033[0m ------> Zurueck" << std::endl;
+    short input = choice();
+    switch(input)
+    {
+        case 1:
+        
+        case 4:
+            return;
+        
+        default:
+            error(0);
+    }
+    return;
+}
+
 void loadGame()
 {
     clearScreen();
     textLoad();
     line();
-    getKey();
+    std::cout << "\n\033[47;30m[ 1 ]\033[0m ------> Spielstand 1 :" << std::endl;
+    line();
+    std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand 2 :" << std::endl;
+    line();
+    std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spielstand 3 :" << std::endl;
+    line();
+    std::cout << "\n\033[47;30m[ 4 ]\033[0m ------> Zurueck" << std::endl;
+    short input = choice();
+    switch(input)
+    {
+        case 1:
+        
+        case 4:
+            return;
+        
+        default:
+            error(0);
+    }
     return;
 }
 

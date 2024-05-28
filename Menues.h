@@ -651,7 +651,7 @@ void magicMenue(Player player[], short roundManager)
         }
         else
         {
-            position(20,34); "\033[31mMinimum Intelligenz: \033[34m 15 Int\033[0m";
+            position(20,34); std::cout << "\033[31mMinimum Intelligenz: \033[34m 15 Int\033[0m";
         }
         if (player[roundManager].intelligence >= 20) 
         {
@@ -693,7 +693,7 @@ void magicMenue(Player player[], short roundManager)
         {
             position(65,36); std::cout << "\033[31mMinimum Intelligenz: \033[34m 40 Int.\033[0m";
         }
-        position(20,38); std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\033[0m";
+        position(20,38); std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\033[0m" << std::endl;
 
         short input = choice();
         switch(input)
@@ -710,8 +710,10 @@ void magicMenue(Player player[], short roundManager)
                     heal = round(((player[roundManager].health / 100) * 10));
                     vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                     heal += vari;
+                    line();
                     std::cout << "\n\n\033[31mSie haben nicht genug Mana!\033[0m" << std::endl;
-                    std::cout << "\033[32mIhre durchschnittliche \033[42;37* Heilung *\033[0;32m betraegt: " << heal << " HP. Dabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                    std::cout << "\033[32mIhre durchschnittliche \033[42;37m* Heilung *\033[0;32m betraegt: " << heal << " HP. Dabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                    line();
                     getKey();
                     continue;                    
                 }
@@ -722,8 +724,10 @@ void magicMenue(Player player[], short roundManager)
                     heal = round(((player[roundManager].health / 100) * 10));
                     vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                     heal += vari;
+                    line();
                     std::cout << "\n\n\033[31mSie benoetigen keine Heilung!" << std::endl;
-                    std::cout << "\033[32mIhre durchschnittliche \033[42;37* Heilung *\033[0;32m betraegt: " << heal << " HP. Dabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                    std::cout << "\033[32mIhre durchschnittliche \033[42;37m* Heilung *\033[0;32m betraegt: " << heal << " HP. Dabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                    line();
                     getKey();
                     continue;
                 }
@@ -734,12 +738,14 @@ void magicMenue(Player player[], short roundManager)
                     heal = round(((player[roundManager].health / 100) * 10));
                     vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                     heal += vari;
-                    player[roundManager].health + heal;
+                    player[roundManager].realHealth + heal;
                     player[roundManager].realMana -= 15;
                     if (player[roundManager].realHealth > player[roundManager].health) {player[roundManager].realHealth = player[roundManager].health;}
+                    line();
                     std::cout << "\n\n\033[32mSie haben sich um " << heal << " HP geheilt." << std::endl;
                     std::cout << "\n\033[31mDabei wurden 15 Mana verbraucht." << std::endl;
-                    std::cout << "\n\033[32mIhre durchschnittliche \033[42;37* Heilung *\033[0;32m betraegt: " << heal << " HP.\033[0m" << std::endl;
+                    std::cout << "\n\033[32mIhre durchschnittliche \033[42;37m* Heilung *\033[0;32m betraegt: " << heal << " HP.\033[0m" << std::endl;
+                    line();
                     getKey();
                     continue;
                 }
@@ -758,7 +764,9 @@ void magicMenue(Player player[], short roundManager)
                 dmg = round((player[roundManager].health / 100) * 10);
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 dmg += vari;
-                std::cout << "\n\n\033[31mIhr durchschnittlicher Schaden fuer \033[41;37m* Feuerball *\033[0;31m betraegt " << dmg << " DMG.\nDabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                line();
+                std::cout << "\n\033[31mIhr durchschnittlicher Schaden fuer \033[41;37m* Feuerball *\033[0;31m betraegt " << dmg << " DMG.\nDabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                line();
                 getKey();
                 continue;
                 }
@@ -777,7 +785,9 @@ void magicMenue(Player player[], short roundManager)
                 dmg = round((player[roundManager].health / 100) * 12);
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 dmg += vari;
-                std::cout << "\n\n\033[34mIhr durchschnittlicher Schaden fuer \033[44;37m* Eispfeil *\033[0;34m betraegt " << dmg << " DMG.\nDabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                line();
+                std::cout << "\n\033[34mIhr durchschnittlicher Schaden fuer \033[44;37m* Eispfeil *\033[0;34m betraegt " << dmg << " DMG.\nDabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                line();
                 getKey();
                 continue;
                 }
@@ -796,8 +806,10 @@ void magicMenue(Player player[], short roundManager)
                 dmg = round((player[roundManager].health / 100) * 15);
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 dmg += vari;
-                std::cout << "\n\n\033[35mIhr durchschnittlicher Schaden fuer \033[45;37m* Giftwolke *\033[0;35m betraegt " << dmg << " DMG.\nDabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                line();
+                std::cout << "\n\033[35mIhr durchschnittlicher Schaden fuer \033[45;37m* Giftwolke *\033[0;35m betraegt " << dmg << " DMG.\nDabei werden 15 Mana verbraucht.\033[0m" << std::endl;
                 std::cout << "\033[35mEs besteht die durchschnittliche Chance von " << vari << " %, den Gegner zu vergiften.\033[0m.";
+                line();
                 getKey();
                 continue;
                 }
@@ -817,26 +829,32 @@ void magicMenue(Player player[], short roundManager)
                     heal += vari;
                     if (player[roundManager].realMana < 25)
                     {
-                        std::cout << "\n\n\033[31mSie haben nicht genug Mana!\033[0m" << std::endl;
+                        line();
+                        std::cout << "\n\033[31mSie haben nicht genug Mana!\033[0m" << std::endl;
                         std::cout << "\n\033[92mIhre durchschnittliche \033[102;30m* Heilung (II) *\033[0;92m betraegt: " << heal << " HP. Dabei werden 25 Mana verbraucht.\033[0m" << std::endl;
+                        line();
                         getKey();
                         continue;                    
                     }
                     else if (player[roundManager].realHealth == player[roundManager].health)
                     {
-                        std::cout << "\n\n\033[31mSie benoetigen keine Heilung!" << std::endl;
+                        line();
+                        std::cout << "\n\033[31mSie benoetigen keine Heilung!" << std::endl;
                         std::cout << "\n\033[92mIhre durchschnittliche \033[102;30m* Heilung (II) *\033[0;92m betraegt: " << heal << " HP. Dabei werden 25 Mana verbraucht.\033[0m" << std::endl;
+                        line();
                         getKey();
                         continue;
                     }
                     else
                     {
-                        player[roundManager].health + heal;
+                        player[roundManager].realHealth + heal;
                         player[roundManager].realMana -= 25;
                         if (player[roundManager].realHealth > player[roundManager].health) {player[roundManager].realHealth = player[roundManager].health;}
-                        std::cout << "\n\n\033[32mSie haben sich um " << heal << " HP geheilt." << std::endl;
+                        line();
+                        std::cout << "\n\033[32mSie haben sich um " << heal << " HP geheilt." << std::endl;
                         std::cout << "\n\033[31mDabei wurden 25 Mana verbraucht." << std::endl;
                         std::cout << "\n\033[92mIhre durchschnittliche \033[102;30m* Heilung (II) *\033[0;92m betraegt: " << heal << " HP.\033[0m" << std::endl;
+                        line();
                         getKey();
                         continue;
                     }
@@ -857,8 +875,10 @@ void magicMenue(Player player[], short roundManager)
                     dmg = round((player[roundManager].health / 100) * 20);
                     vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                     dmg += vari;
-                    std::cout << "\n\n\033[91mIhr durchschnittlicher Schaden fuer \033[101;30m* Feuerball (II) *\033[0;91m betraegt " << dmg << " DMG.\nDabei werden 25 Mana verbraucht.\033[0m" << std::endl;
+                    line();
+                    std::cout << "\n\033[91mIhr durchschnittlicher Schaden fuer \033[101;30m* Feuerball (II) *\033[0;91m betraegt " << dmg << " DMG.\nDabei werden 25 Mana verbraucht.\033[0m" << std::endl;
                     std::cout << "\033[91mEs besteht die durchschnittliche Chance von " << vari << " %, den Gegner zu verbrennen.\033[0m.";
+                    line();
                     getKey();
                     continue;
                 }
@@ -877,8 +897,10 @@ void magicMenue(Player player[], short roundManager)
                     dmg = round((player[roundManager].health / 100) * 20);
                     vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                     dmg += vari;
-                    std::cout << "\n\n\033[94mIhr durchschnittlicher Schaden fuer \033[104;30m* Feuerball (II) *\033[0;94m betraegt " << dmg << " DMG.\nDabei werden 25 Mana verbraucht.\033[0m" << std::endl;
+                    line();
+                    std::cout << "\n\033[94mIhr durchschnittlicher Schaden fuer \033[104;30m* Eispfeil (II) *\033[0;94m betraegt " << dmg << " DMG.\nDabei werden 25 Mana verbraucht.\033[0m" << std::endl;
                     std::cout << "\033[94mEs besteht die durchschnittliche Chance von " << vari << " %, den Gegner einzufrieren.\033[0m.";
+                    line();
                     getKey();
                     continue;
                 }
@@ -897,8 +919,10 @@ void magicMenue(Player player[], short roundManager)
                     dmg = round((player[roundManager].health / 100) * 25);
                     vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                     dmg += vari;
-                    std::cout << "\n\n\033[95mIhr durchschnittlicher Schaden fuer \033[105;37m* Giftwolke (II) *\033[0;95m betraegt " << dmg << " DMG.\nDabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                    line();
+                    std::cout << "\n\033[95mIhr durchschnittlicher Schaden fuer \033[105;37m* Giftwolke (II) *\033[0;95m betraegt " << dmg << " DMG.\nDabei werden 30 Mana verbraucht.\033[0m" << std::endl;
                     std::cout << "\033[95mEs besteht die durchschnittliche Chance von " << vari << " %, den Gegner zu vergiften.\033[0m.";
+                    line();
                     getKey();
                     continue;
                 }
@@ -909,6 +933,50 @@ void magicMenue(Player player[], short roundManager)
         }
         running = false;
         break;
+    }
+    return;
+}
+
+// Spielmenü zum Speichern und beenden
+
+int menue (Player player[], short roundManager)
+{
+    bool running = true;
+
+    while(running)
+    {
+        clearScreen();
+        textMenue();
+        line();
+        std::cout << "\n\033[47;30m[ 1 ]\033[0m ------> Spielstand speichern" << std::endl;
+        std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand laden" << std::endl;
+        std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spiel beenden" << std::endl;
+        std::cout << "\n\033[47;30m[ 4 ]\033[0m ------> Zurueck zum Spiel" << std::endl;
+        short input = choice();
+        switch(input)
+        {
+            case 1:
+                saveGame();
+                continue;
+
+            case 2:
+                loadGame();
+                continue;
+            
+            case 3:
+                std::cout << "\n\033[31mSind Sie sicher, dass Sie das Spiel beenden moechten? (J/N)\033[0m" << std::endl;
+                bool answer = question();
+                if (answer == true) {std::cout << "\nHaben Sie noch einen schoenen Tag! Auf Wiedersehen :)" << std::endl; getKey(); exit(0);}
+                continue;
+            
+            case 4:
+                running = false;
+                break;
+
+            default:
+                error(0);
+                continue;
+        }
     }
     return;
 }
