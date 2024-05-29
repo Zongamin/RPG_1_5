@@ -230,19 +230,33 @@ void roomTexts(int room)
 
             case 15:
 
-                position(58, 8);  std::cout << "Sie finden sich selbst in einen Altarraum wieder.";
-                position(58, 9);  std::cout << "";
-                position(58, 10); std::cout << "";
-                position(58, 11); std::cout << "";
-                position(58, 12); std::cout << "";
-                position(58, 13); std::cout << "";
-                position(58, 14); std::cout << "";
-                position(58, 15); std::cout << "";
-                position(58, 16); std::cout << "";
-                position(58, 17); std::cout << "";
+                position(58, 8);  std::cout << "Sie finden sich selbst in einen heiligen Altarraum wieder. Man munkelt, man könne";
+                position(58, 9);  std::cout << "hier die Götter des Level-Ups anbeten um deren Segen zu bekommen. Auch werden Gold-";
+                position(58, 10); std::cout << "opfer gerne gesehen, nur Kreditkarte wird hier nicht genommen und wer weiss schon";
+                position(58, 11); std::cout << "genau ob das ganze überhaupt was bringt...schliesslich ist auf die meisten Goetter";
+                position(58, 12); std::cout << "hier im Dungeon sowieso kein Verlass mehr. Dennoch haengt an der Seite des Altars";
+                position(58, 13); std::cout << "ein Schild auf dem darum gebeten wird, die Gebete laut vorzutragen, da die XP-";
+                position(58, 14); std::cout << "Goetter aufgrund ihres Alters ueber die Jahre ein wenig taub geworden sind. Ganz";
+                position(58, 15); std::cout << "nebenbei bemerkt ist die kleine Schuessel mit den Opfergaben auch nicht gerade";
+                position(58, 16); std::cout << "leer... Nur um dem kleinen Teufelchen in Euch ein wenig Zunder zu geben ;) Und wer";
+                position(58, 17); std::cout << "will schliesslich auch den Frevel begehen, die Goetter des Level-Ups zu bestehlen?";
                 break;
 
             case 16:
+
+                position(58, 8);  std::cout << "Kuess die Hand der Kerkermeister.... Herzlich willkommen in der gemuetlichsten Ecke";
+                position(58, 9);  std::cout << "des endlosen Dungeons! Der beruehmt-beruechtigten \"Honeydoom-Suite\"! Diese luxurioese";
+                position(58, 10); std::cout << "Kerkerzelle bietet alles, was das Herz begehrt: Rostige Gitterstaebe, einen fast neu-";
+                position(58, 11); std::cout << "wertigen Pranger und eine steinharte Schlafbank, deren Haertegrad H4 bei Weitem ueber-";
+                position(58, 12); std::cout << "steigt. Jeder Tag hier ist ein Feiertag! Nur halt ohne Feier und das Licht des Tages.";
+                position(58, 13); std::cout << "Pain und Schmerz werden hier nicht noch gross geschrieben und stehen an der Tagesordung!";
+                position(58, 14); std::cout << "Die Spinnweben und Blutspritzer, welche von vorherigen Insassen hinterlassen wurden";
+                position(58, 15); std::cout << "sind hier unangefochten das Highlight der Dekoration! Die Authentizität der trostlosen";
+                position(58, 16); std::cout << "Umgebeung bietet fuer jeden Anlass den gewuenschten Effekt! Buchen auch Sie noch heute";
+                position(58, 17); std::cout << "die Honeydoom-Suite und vergessen Ihren Eintrag im Gaestebuch bitte nicht!";
+                break;
+
+            case 17:
 
                 position(58, 8);  std::cout << "";
                 position(58, 9);  std::cout << "";
