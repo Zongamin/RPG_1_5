@@ -188,6 +188,62 @@ void roomTexts(int room)
 
             case 12:
 
+                position(58, 8);  std::cout << "Ein Loch ist im Eimer Karl Otto.... In diesem Fall ist es aber eher in der Wand oO";
+                position(58, 9);  std::cout << "Obwohl der Dungeon dahinter ganz normal weiterzuverlaufen scheint, hinterlaesst das";
+                position(58, 10); std::cout << "Loch nichtsdestotrotz ein seltsames Gefuehl von Beklemmung und boesen Vorahnungen.";
+                position(58, 11); std::cout << "Etwas furchtbar boeses koennte darin lauern... wie zum Beispiel eine gelangweilte";
+                position(58, 12); std::cout << "Fledermaus, die Ihr gerade beim Mittagsschlaf gestoert habt, oder schlimmer: Oglahr,";
+                position(58, 13); std::cout << "der Dungeon-Hausmeister, der gerade seine Mittagspause machen will. Die Situation";
+                position(58, 14); std::cout << "riecht geradezu förmlich nach Gefahr.... Eventuell ist es aber auch nur die Oger-";
+                position(58, 15); std::cout << "Socke die dort in der Ecke liegt. Genau weiss man es wohl nur, wenn man es genauer";
+                position(58, 16); std::cout << "ueberpruefen wuerde, die Frage ist: Haben Sie den Schneid dazu, oder lassen Sie es";
+                position(58, 17); std::cout << "vorerst lieber bleiben und trinken erst mal eine lauwarme Cervesia zum runterkommen.";
+                break;
+
+            case 13:
+
+                position(58, 8);  std::cout << "Willkommen beim duesteren Baum der Gesetzlosigkeit... er ist so gesetzlos, dass";
+                position(58, 9);  std::cout << "er sich nicht mal den Gesetzen der Botanik unterwirft und einfachso komplett ohne";
+                position(58, 10); std::cout << "jegliches Sonnenlicht wächst. Sein Geheimnis liegt wohl in den versteckt angebrachten";
+                position(58, 11); std::cout << "UV-Lampen die ebenfalls gesetzlos sind, da Strom erst in ca. 1000 Jahren oder so er-";
+                position(58, 12); std::cout << "funden wird. Aber sie werden von dem Magier Akkuz Batterius angetrieben, der schon";
+                position(58, 13); std::cout << "mal einen Nostradamus-maessigen Blick in die strahlende Zukunft der Kernkraftwerke";
+                position(58, 14); std::cout << "geworfen hat... Man sagt der Baum haette viel Humor und wuerde sehr viel Spass ver-";
+                position(58, 15); std::cout << "stehen , aber man sollte ihm allerdings keine leuchtenden Gegenstaende zeigen, da";
+                position(58, 16); std::cout << "er sich dadurch beleidigt fuehlen koennte. Man sagt ihm allerdings auch vitalisierende";
+                position(58, 17); std::cout << "Kraefte nach, die Frage ist, ob man es denn auch versuchen will ihn zu beruehren...";
+                break;
+
+            case 14:
+
+                position(58, 8);  std::cout << "Eiiiiiiiine Bushaltestelle.... Geeeeenau! Ja, Sie sehen richtig.... und genau wie ich";
+                position(58, 9);  std::cout << "als Geschichtenerzaehler hier, werden Sie wohl auch Ihren Augen nicht trauen... Unfassbar";
+                position(58, 10); std::cout << "was ich hier alles noch in einem Dungeon an den Mann bringen soll! Eins steht jedoch";
+                position(58, 11); std::cout << "fuer mich klipp und klar fest: Ich werde total unterbezahlt fuer den Mist den ich hier";
+                position(58, 12); std::cout << "verzapfen soll.... Mal ehrlich, Sie glauben mir das doch auch schon nicht mehr, oder?";
+                position(58, 13); std::cout << "Aber hey: Job ist Job, also: Sie stehen vor einer Bushaltestelle der Linie \"Tiefes D\"";
+                position(58, 14); std::cout << "Der Fahrplan sagt, dass der Bus sehr bald abfahren wird. Nachdem Sie den Busfahrer mehr-";
+                position(58, 15); std::cout << "mals nach seinem Fuehrerschein gefragt haben und Sie sich jetzt sicher sind das der nette";
+                position(58, 16); std::cout << "Oger auch tatsaechlich fahren kann, sind Sie ein wenig enttaeuscht zu hoeren, dass der";
+                position(58, 17); std::cout << "Fahrer lediglich hartes Gold und keine Kartoffelschalen fuer den Transport akzepiert!";
+                break;
+
+            case 15:
+
+                position(58, 8);  std::cout << "Sie finden sich selbst in einen Altarraum wieder.";
+                position(58, 9);  std::cout << "";
+                position(58, 10); std::cout << "";
+                position(58, 11); std::cout << "";
+                position(58, 12); std::cout << "";
+                position(58, 13); std::cout << "";
+                position(58, 14); std::cout << "";
+                position(58, 15); std::cout << "";
+                position(58, 16); std::cout << "";
+                position(58, 17); std::cout << "";
+                break;
+
+            case 16:
+
                 position(58, 8);  std::cout << "";
                 position(58, 9);  std::cout << "";
                 position(58, 10); std::cout << "";
