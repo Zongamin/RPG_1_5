@@ -258,6 +258,20 @@ void roomTexts(int room)
 
             case 17:
 
+                position(58, 8);  std::cout << "Eine krakelige Leiter fuehrt nach oben scheinbar in ein Stockwerk darueber. Sie";
+                position(58, 9);  std::cout << "scheint uralt zu sein. An einer Sprosse scheint auch noch ein Dinosaurierer Kau-";
+                position(58, 10); std::cout << "gummi zu kleben. Das Material aus dem sie gemacht ist durch das darauf wachsende";
+                position(58, 11); std::cout << "Moos undefinierbar. Die Dungeon-Versicherung uebernimmt bei Abstuerzen und/oder";
+                position(58, 12); std::cout << "weiteren Dungeon-Unfaellen keine Haftung! Haben Sie ueberhaupt eine abgeschlossen";
+                position(58, 13); std::cout << "bevor Sie hier unten hereingestuermt sind?";
+                position(58, 14); std::cout << "Ich auch nicht, denn die Beitraege sind eine wahre Unverschaemtheit! Doch ob Sie";
+                position(58, 15); std::cout << "dieses alte, glitschige Ding betreten wollen liegt allerdings voll und ganz bei";
+                position(58, 16); std::cout << "Ihnen. Doch bloss nicht abrutschen und runterfallen, schliesslich brauchen Sie " ;
+                position(58, 17); std::cout << "Ihre Knochen und Gelenke noch!";
+                break;
+
+            case 18:
+
                 position(58, 8);  std::cout << "";
                 position(58, 9);  std::cout << "";
                 position(58, 10); std::cout << "";
