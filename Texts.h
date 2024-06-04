@@ -272,6 +272,34 @@ void roomTexts(int room)
 
             case 18:
 
+                position(58, 8);  std::cout << "Ein Loch im Boden... mit einer rostigen, abbruchreifen Leiter darin. Es geht hier";
+                position(58, 9);  std::cout << "definitiv nach unten. Von unten steigt Ihnen ein expliziter Geruch nach frischer";
+                position(58, 10); std::cout << "Kanalisation in die Nase. Lecker, man muss hier einfach seiner Nase folgen und";
+                position(58, 11); std::cout << "nach unten steigen. Jeder Sprossenabschnitt dieser antiken Leiter ist nicht nur";
+                position(58, 12); std::cout << "ein Schritt in eine ungewisse Zukunft, sondern auch eine Einladung zu olfaktorischen";
+                position(58, 13); std::cout << "Abenteurn! Ein wahres Fest für alle die, die keinen Geruchssinn mehr haben, ober";
+                position(58, 14); std::cout << "zufällig zuvor bei einer Ork-Leiche eine Nasenklammer oder einen Duftbaum gepluendert";
+                position(58, 15); std::cout << "haben! Da will ich mal das Beste fuer Sie hoffen, denn wenn ich selbst einen Wunsch";
+                position(58, 16); std::cout << "frei haette, so waere das Herabsteigen dieser Leiter garantiert auf dem letzten";
+                position(58, 17); std::cout << "Platz. Dennoch: The show must go on.... Also Nase zu und durch!";
+                break;
+
+            case 19:
+
+                position(58, 8);  std::cout << "Herzlich willkommen bei der Toilette des Gluecks. Das grosse Glueck besteht";
+                position(58, 9);  std::cout << "hauptsaechlich darin, sie gefunden zu haben. Wenn man schon mal hier vorbei";
+                position(58, 10); std::cout << "kommt, sollte man auf die Verunreinigungen und das zerfledderte Toilettenpapier";
+                position(58, 11); std::cout << "pfeifen und auch die Gelegenheit nutzen mal ordentlich einen ueber den Balken";
+                position(58, 12); std::cout << "zu donnern! ;D Schliesslich gilt: Wichtig ist was hinten raus kommt...";
+                position(58, 13); std::cout << "Kann ja durchaus auch sehr hilfreich sein, hier auf den Marmor-Thron zu steigen";
+                position(58, 14); std::cout << "und sich ein bisschen befreiter in dieser beklemmenden Umgebung zu fuehlen...";
+                position(58, 15); std::cout << "Wer weiss auch schon genau, warum diese Toilette diesen Namen traegt und";
+                position(58, 16); std::cout << "was genau bei Benutzung geschehen wird. Und den Leitspruch nicht vergessen:";
+                position(58, 17); std::cout << "\"Benutzt Toilettenpapier beidseitig und der Erfolg liegt auf der Hand!\"";
+                break;
+
+            case 20:
+
                 position(58, 8);  std::cout << "";
                 position(58, 9);  std::cout << "";
                 position(58, 10); std::cout << "";
@@ -283,6 +311,7 @@ void roomTexts(int room)
                 position(58, 16); std::cout << "";
                 position(58, 17); std::cout << "";
                 break;
+
         }
         return;
 }
