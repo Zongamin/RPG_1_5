@@ -300,6 +300,20 @@ void roomTexts(int room)
 
             case 20:
 
+                position(58, 8);  std::cout << "Das Grabmal des geschaendeten Kriegers... Die Inschrift besagt, dass hier die Gebeine";
+                position(58, 9);  std::cout << "von Grogar dem Schrecklichen ruhen. Die Frage ist, ob Sie nicht bereits seine Ruhe";
+                position(58, 10); std::cout << "durch Ihre blanke Anwesenheit stoeren. Weiter besagt die Inschrift, dass er selbst aus";
+                position(58, 11); std::cout << "dem Grab raus jeden vernichten wird, der vor hat sein Grab zu pluendern! Das er auferstehen";
+                position(58, 12); std::cout << "wird um seine Pluenderer auf ewig zu verfluchen und diese als Geist heimzusuchen... ";
+                position(58, 13); std::cout << "Sagen Sie mal, Sie haben nicht zufaellig eine Schaufel dabei, oder? Ein bisschen Grabraub";
+                position(58, 14); std::cout << "statt Ork-Leichen zu pluendern fehlt Ihnen ja eventuell noch auf der To-do-Liste...";
+                position(58, 15); std::cout << "Und ausserdem schien Grogar zu Lebzeiten ein sehr freundlicher und aufgeschlossener Mensch";
+                position(58, 16); std::cout << "gewesen zu sein! Es ist gerade so, als wuerde er Sie persoenlich aus dem Grabe heraus darum";
+                position(58, 17); std::cout << "bitten, seine Besitztuemer frohgemutes an sich zu nehmen...";
+                break; 
+
+            case 21:
+
                 position(58, 8);  std::cout << "";
                 position(58, 9);  std::cout << "";
                 position(58, 10); std::cout << "";

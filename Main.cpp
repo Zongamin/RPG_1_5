@@ -18,10 +18,11 @@ int main()
 {   
     // Globale Variablen
 
+    const int roomNumbers = 20;
+    const int specialRooms[] = {5, 6, 9, 10, 11, 12, 13, 14, 15, 19, 20};
     short numberOfPlayers = 1;
     short roundManager = 0;
-    bool roomCleared = false;
-
+    
     // Initialisierung Player
     
     Player player[4];
@@ -73,7 +74,7 @@ int main()
 
     // Eingangsraum
       
-    for(; roundManager < numberOfPlayers; roundManager++)
+    for (; roundManager < numberOfPlayers; roundManager++)
     {
         bool running = true;
         short zone = dangerZone();
@@ -94,35 +95,69 @@ int main()
 
         while (running)
         {
-            roomOptions(player, roundManager, zone, 0);
+            roomOptions(player, roundManager, zone, 0, numberOfPlayers);
             running = false;
+            player[roundManager].roomCleared = false;
+            player[roundManager].realActionPoints = player[roundManager].actionPoints;
             break;
         }
-        
+        break;
     }
-        
+    roundManager = 0;    
+    player[roundManager].currentRoom = random(1, roomNumbers);
 
     // Endlosspiel
 
 bool playGame = true;
 
     while (playGame)
+    {
+        if (numberOfPlayers > 1 && player[roundManager].realActionPoints == 0)
         {
-            if(roundManager > numberOfPlayers)
+            player[roundManager].realActionPoints = player[roundManager].actionPoints;
+            roundManager++;
+            continue;
+        }
+
+        if (player[roundManager].roomCleared == true) 
+        {
+            player[roundManager].roomCleared = false;
+            player[roundManager].currentRoom = random(1, roomNumbers);
+            player[roundManager].traps = 0;
+            roundManager++;
+            continue;
+        }
+
+        if(roundManager >= numberOfPlayers)
+        {
+            roundManager = 0;
+            continue;
+        }
+                    
+        short zone = dangerZone();
+
+        backgroundColor(1);
+        clearScreen();
+        textPlayer();
+        getNumber(roundManager);
+        line();
+        std::cout << "\n\n                             \033[32;40m *** Spieler " << player[roundManager].getName() << " ist jetzt am Zug! *** " << "\033[102m \n";
+        getKey();
+        backgroundColor(0);
+        
+        if (zone > 1) 
+        {
+            trapCall(player, roundManager, zone);
+        }
+        bool running = true;
+            
+        while (running)
             {
-                roundManager = 0;
+                roomOptions(player, roundManager, zone, player[roundManager].currentRoom, numberOfPlayers);
+                running = false;
                 break;
             }
-            bool running = true;
-                
-                while (running)
-                    {
-                        
-                        running = false;
-                        break;
-                    }
-        }
-    
+    }
     return 0;
 }
 

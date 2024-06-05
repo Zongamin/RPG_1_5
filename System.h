@@ -105,6 +105,9 @@ void assignment(Player player[], short numberOfPlayers)
             player[index].bosses = 0;
             player[index].deaths = 0;
             player[index].permaDeath = false;
+            player[index].roomCleared = false;
+            player[index].actionPoints = 5;
+            player[index].realActionPoints = player[index].actionPoints;
             for (int dex = 0; dex < 500; dex++) {player[index].weapons[dex]= 0; break;}
             for (int dex = 0; dex < 500; dex++) {player[index].armor[dex] = 0; break;} 
         }
@@ -1526,6 +1529,11 @@ void potionDrink (Player player[], short roundManager, short sort)
             getKey();
             break;
     }
+    return;    
+}
+
+void specialRoom()
+{
     return;
 }
 #endif

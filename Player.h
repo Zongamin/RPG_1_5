@@ -27,7 +27,9 @@ class Player
         double dexterity{};
         double luck{};
         double endurance{};
-        int skillPoints{};
+        double skillPoints{};
+        int actionPoints{};
+        int realActionPoints{};
 
         // Inventar
 
@@ -57,6 +59,7 @@ class Player
 
         // Statistics
 
+        bool roomCleared{};
         double currentRoom{};
         double rooms{};
         double monsters{};

@@ -2,6 +2,7 @@
 #define MENUES_H
 
 #include <iostream>
+#include <algorithm>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Main.cpp>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Texts.h>
@@ -23,6 +24,21 @@
             - roomOptions       Das Spielmenü des Spielers beinhaltet alle Optionen des Spiels. Sämtliche Ingamehand-
                                 lungen des Spielers werden von hier aus zugewiesen.
 */
+const int validRooms[] = {5, 6, 9, 10, 11, 12, 13, 14, 15, 19, 20};
+
+bool isRoomValid(int room) 
+{
+    size_t size = sizeof(validRooms) / sizeof(validRooms[0]);
+
+    for (int index = 0; index > size; index++) 
+    {
+        if (validRooms[index] == room) 
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
 int gameMenue(Player player[], short& numberOfPlayers)
 {
@@ -115,7 +131,7 @@ int gameMenue(Player player[], short& numberOfPlayers)
                         clearScreen();
                         textEnd();
                         getKey();
-                        return 0;
+                        exit(0);
                     }
                     else
                     {
@@ -606,12 +622,16 @@ void frameWork(Player player[], short roundManager, short zone, int room)
     position(40, 3); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
     capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
     line();
-    roomPictures(0);
-    roomTexts(0);            
+    roomPictures(room);
+    roomTexts(room);
     miniLine(58, 19);
     position(76, 21); dangerDisplay(zone);
     miniLine(58, 23);
     position(0, 26); line();
+    if (isRoomValid(room))
+    {
+        position(70, 25); std::cout << "\033[46;30m[ 0 ]\033[0m ------> \033[36mSpezial\033[0m" << std::endl; 
+    }           
     lifeDisplay(player, roundManager, 4, 29);
     line();
     return;
@@ -942,7 +962,8 @@ void magicMenue(Player player[], short roundManager)
 void menue (Player player[], short roundManager)
 {
     bool running = true;
-
+    bool answer;
+    
     while(running)
     {
         clearScreen();
@@ -952,7 +973,9 @@ void menue (Player player[], short roundManager)
         std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand laden" << std::endl;
         std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spiel beenden" << std::endl;
         std::cout << "\n\033[47;30m[ 4 ]\033[0m ------> Zurueck zum Spiel" << std::endl;
+        
         short input = choice();
+        
         switch(input)
         {
             case 1:
@@ -965,7 +988,7 @@ void menue (Player player[], short roundManager)
             
             case 3:
                 std::cout << "\n\033[31mSind Sie sicher, dass Sie das Spiel beenden moechten? (J/N)\033[0m" << std::endl;
-                bool answer = question();
+                answer = question();
                 if (answer == true) {std::cout << "\nHaben Sie noch einen schoenen Tag! Auf Wiedersehen :)" << std::endl; getKey(); exit(0);}
                 continue;
             
@@ -983,13 +1006,23 @@ void menue (Player player[], short roundManager)
 
 // Ingame Hauptmenü
 
-void roomOptions(Player player[], short roundManager, short danger, short room)
+void roomOptions(Player player[], short roundManager, short danger, short room, short numberOfPlayers)
 {
     bool running = true;
+    bool answer = false;
     
     while(running)
     {
         frameWork(player, roundManager, danger, room);
+        
+        if (numberOfPlayers > 1 && player[roundManager].realActionPoints == 0)
+        {
+            position(20, 39); std::cout << "\033[101;30m*** Sie haben leider keine Aktionspunkte mehr! ***\033[0m" << std::endl;
+            getKey();
+            running = false;
+            break;
+        }
+
         position(20, 39); colorSwitch(danger); std::cout << "[ 1 ]\033[0m ------> "; textColor(danger); std::cout << "Weiter zum naechsten Raum\033[0m               \033[30;46m[ 5 ]\033[0m ------> \033[36mCharakter \033[0m \n\n";
         position(20, 41); colorSwitch(danger); std::cout << "[ 2 ]\033[0m ------> "; textColor(danger); std::cout << "Umgebung absuchen       \033[0m                \033[30;105m[ 6 ]\033[0m ------> \033[95mInventar \033[0m \n\n";
         position(20, 43); colorSwitch(danger); std::cout << "[ 3 ]\033[0m ------> "; textColor(danger); std::cout << "Nach Fallen suchen      \033[0m                \033[30;104m[ 7 ]\033[0m ------> \033[94mMagie \033[0m \n\n";
@@ -1000,33 +1033,50 @@ void roomOptions(Player player[], short roundManager, short danger, short room)
         switch (input)
         {
             case 0:
-                if (room == 1)
+                if (isRoomValid(room))
                 {
+                    specialRoom();
                     break;
                 }
+                error(0);
+                break;
         
             case 1:
-                if (player[roundManager].key >= 1) 
+                if (room == 0 || room == 1 || room == 4)
                 {
-                    std::cout << "\n\n Sind Sie sicher, dass Sie den Raum verlassen moechten? (J/N)" << std::endl;
-                    bool answer = question();
-                    if (answer == true)
+                    if (player[roundManager].key >= 1) 
                     {
-                        std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schluessel und oeffnen die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
-                        player[roundManager].key--;
+                        std::cout << "\n\n Sind Sie sicher, dass Sie den Raum verlassen moechten? (J/N)" << std::endl;
+                        answer = question();
+                        if (answer == true)
+                        {
+                            std::cout << "\n\n\033[30;102m *** Sie benutzen einen Schluessel und oeffnen die Tuer. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
+                            player[roundManager].key--;
+                            player[roundManager].roomCleared = true;
+                            getKey();
+                            running = false;
+                            break;
+                        }
+                        break;                
+                    }
+                    if (player[roundManager].key < 1)
+                    {
+                        std::cout << "\n\n\033[37;41m *** Sie versuchen die Tuer zu oeffnen, aber sie ist verschlossen. Sie durchsuchen Ihre Taschen aber Sie haben leider keinen Schluessel dabei! *** \033[0m" << std::endl;
                         getKey();
-                        running = false;
                         break;
                     }
-                    break;                
-                }
-                if (player[roundManager].key < 1)
-                {
-                    std::cout << "\n\n\033[37;41m *** Sie versuchen die Tuer zu oeffnen, aber sie ist verschlossen. Sie durchsuchen Ihre Taschen aber Sie haben leider keinen Schluessel dabei! *** \033[0m" << std::endl;
-                    getKey();
                     break;
                 }
-                break;
+                std::cout << "\n\n Sind Sie sicher, dass Sie den Raum verlassen moechten? (J/N)" << std::endl;
+                        answer = question();
+                        if (answer == true)
+                        {
+                            std::cout << "\n\n\033[30;102m *** Sie verlassen den Raum. Ihr Zug endet hier aber in der naechsten Runde geht es weiter im naechsten Raum! *** \033[0m" << std::endl;
+                            player[roundManager].roomCleared = true;
+                            getKey();
+                            running = false;
+                            break;                            
+                        }
 
             case 2:
                 loot(player, roundManager);
