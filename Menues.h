@@ -9,33 +9,32 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
 
 /*  Inhaltsverzeichnis
-    16      - gameMenue         Das Gamemenü ist das Hauptmenue des Spiels und ist verantwortlich für Spieleranzahl,
+            - isRoomValid       Validierung von Speziellen Räumen für Sonderaktionen
+            - gameMenue         Das Gamemenü ist das Hauptmenue des Spiels und ist verantwortlich für Spieleranzahl,
                                 Spielernamen, Spielstand laden, Spiel starten oder beenden.
-    109     - characterMenue    Das Charactermenü ist sowohl eine einfache Anzeige der Charakterwerte, als auch (sofern
+            - characterMenue    Das Charactermenü ist sowohl eine einfache Anzeige der Charakterwerte, als auch (sofern
                                 Skillpunkte vorhanden sind) ein Menü zur Verteilung von Skillpunkten.
             - potions           Menü zur Einnahme des Spieler von diversen Tränken.
-            - metals            Menü zur Anzeige aller mitgeführten Crafting Metalle und deren Gewicht.
+            - materials         Menü zur Anzeige aller mitgeführten Crafting Metalle und deren Gewicht.
             - armors            Menü zur Ansicht und dem Anlegen von Rüstungen.
             - weapons           Menü zur Ansicht und dem Anlegen von Waffen.
             - inventory         Menü zum Inventar des Spielers zur Weiterleitung zu Untermenüs wie poition, metals, armors
                                 weapons und disposal
             - frameWork         Unterfunktion zum Aufbau des Bildes (erstellt mit übergabe der Raumdaten und der Gefahren-
                                 zone den Aufbau des korrekten Bildes, der Gefahrenanzeige und des Spezial Buttons.)
+            - magicMenue        Menü für die magischen Fertigkeiten des Spielers
+            - menue             Ingame "Pause" - Menü zum Laden, Speichern und Beenden 
             - roomOptions       Das Spielmenü des Spielers beinhaltet alle Optionen des Spiels. Sämtliche Ingamehand-
                                 lungen des Spielers werden von hier aus zugewiesen.
 */
-const int validRooms[] = {5, 6, 9, 10, 11, 12, 13, 14, 15, 19, 20};
+
+// Spezielle Räume: 5, 6, 9, 10, 11, 12, 13, 14, 15, 19, 20
 
 bool isRoomValid(int room) 
 {
-    size_t size = sizeof(validRooms) / sizeof(validRooms[0]);
-
-    for (int index = 0; index > size; index++) 
+    if (room == 5 || room == 6 || room == 9 || room == 10 || room == 11 || room == 12 || room == 13 || room == 14 || room == 15 || room == 19 || room == 20)
     {
-        if (validRooms[index] == room) 
-        {
-            return true;
-        }
+        return true;
     }
     return false;
 }
@@ -630,7 +629,7 @@ void frameWork(Player player[], short roundManager, short zone, int room)
     position(0, 26); line();
     if (isRoomValid(room))
     {
-        position(70, 25); std::cout << "\033[46;30m[ 0 ]\033[0m ------> \033[36mSpezial\033[0m" << std::endl; 
+        position(76, 25); std::cout << "\033[46;30m[ 0 ]\033[0m ------> \033[36mSpezial\033[0m" << std::endl; 
     }           
     lifeDisplay(player, roundManager, 4, 29);
     line();

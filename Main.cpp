@@ -11,7 +11,6 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Texts.h>
 
-
 // Main Game
             
 int main() 
@@ -19,7 +18,6 @@ int main()
     // Globale Variablen
 
     const int roomNumbers = 20;
-    const int specialRooms[] = {5, 6, 9, 10, 11, 12, 13, 14, 15, 19, 20};
     short numberOfPlayers = 1;
     short roundManager = 0;
     
@@ -112,6 +110,14 @@ bool playGame = true;
 
     while (playGame)
     {
+        if (player[roundManager].permaDeath == true)
+        {
+            std::cout << "Spieler: " << player[roundManager].getName() << " ist leider gerade Tod!" << std::endl;
+            getKey();
+            roundManager++;
+            continue;
+        }
+        
         if (numberOfPlayers > 1 && player[roundManager].realActionPoints == 0)
         {
             player[roundManager].realActionPoints = player[roundManager].actionPoints;
@@ -121,6 +127,7 @@ bool playGame = true;
 
         if (player[roundManager].roomCleared == true) 
         {
+            player[roundManager].rooms++;
             player[roundManager].roomCleared = false;
             player[roundManager].currentRoom = random(1, roomNumbers);
             player[roundManager].traps = 0;

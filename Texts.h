@@ -5,14 +5,14 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\System.h>
 
 /*Inhaltsverzeichnis:
-    - roomTexts   -- case 0 = Eingang
-                  -- case 1 = Doppeltür
-                  -- case 2 = Wand
-                  -- case 3 = Passage  
-                  -- case 4 = Tuer
-                  -- case 5 = Hebel
-                  -- case 6 = Truhe
-                  -- case 7 = Treppe nach oben*/
+    - roomTexts   -- case 0 = Eingang               -- case 8 = Treppe nach unten       -- case 16 = Kerker
+                  -- case 1 = Doppeltür             -- case 9 = Schmiede                -- case 17 = Leiter nach oben
+                  -- case 2 = Wand                  -- case 10 = Shop                   -- case 18 = Leiter nach unten
+                  -- case 3 = Passage               -- case 11 = Casino                 -- case 19 = Toilette 
+                  -- case 4 = Tuer                  -- case 12 = Wandloch               -- case 20 = Grabmal
+                  -- case 5 = Hebel                 -- case 13 = Dunkler Baum
+                  -- case 6 = Truhe                 -- case 14 = Bushaltestelle
+                  -- case 7 = Treppe nach oben      -- case 15 = Altarraum              */
 
 void roomTexts(int room)
 {
@@ -50,13 +50,13 @@ void roomTexts(int room)
                 
                 position(58, 8);  std::cout << "Dies ist eine Wand. Sie scheint endlos zu sein, genau wie der";
                 position(58, 9);  std::cout << "Dungeon. Wenn man genau darueber nachdenkt ist es eigentlich";
-                position(58, 10); std::cout << "absolut sinnlos ein solches Bild in so´n Game reinzupacken!";
+                position(58, 10); std::cout << "absolut sinnlos ein solches Bild in so ein Game reinzupacken!";
                 position(58, 11); std::cout << "Doch der Dev des Games hat sich wohl gedacht, dass das voll";
                 position(58, 12); std::cout << "Sinn macht! Denken Sie nur mal an die gesparte Arbeit etwas "; 
                 position(58, 13); std::cout << "halbwegs anstaendiges mit ASCII hinzubekommen!";
                 position(58, 14); std::cout << "Und die gesparten Kosten, einen ASCII - Artist einzustellen";
-                position(58, 15); std::cout << "erst! Bedenkt man die gesparten Kosten und den gesparten";
-                position(58, 16); std::cout << "Aufwand, so stellt man fest: BAM! So eine Wand gehört voll in";
+                position(58, 15); std::cout << "erst! Bedenkt man die gesparten Kosten und den gesparten Auf-";
+                position(58, 16); std::cout << "wand, so stellt man fest: BAM! So eine Wand gehoert voll in";
                 position(58, 17); std::cout << "dieses Game! Fazit --> Hier: Einfach eine Wand.";
                 break;
 
@@ -68,7 +68,7 @@ void roomTexts(int room)
                 position(58, 11); std::cout << "goldene, alte Unterhose eines grossen Hexenmeisters. Kommt es";
                 position(58, 12); std::cout << "hier endlich zum grossen, lange erwartete Fund? Ihre Stimmung"; 
                 position(58, 13); std::cout << "steigert sich schier ins unermessliche! Lediglich die Spinnen";
-                position(58, 14); std::cout << "in den Winkeln der Passage bleiben völlig unbeeindruckt und";
+                position(58, 14); std::cout << "in den Winkeln der Passage bleiben voellig unbeeindruckt und";
                 position(58, 15); std::cout << "haengen einfach weiter ab. Obwohl es sich hier letztendlich nur";
                 position(58, 16); std::cout << "um eine gewoehnliche Passage handelt gibt es hier noch so viel";
                 position(58, 17); std::cout << "zu entdecken... Was ist das? Oh! Ein vorstehender Stein!";
@@ -204,7 +204,7 @@ void roomTexts(int room)
 
                 position(58, 8);  std::cout << "Willkommen beim duesteren Baum der Gesetzlosigkeit... er ist so gesetzlos, dass";
                 position(58, 9);  std::cout << "er sich nicht mal den Gesetzen der Botanik unterwirft und einfachso komplett ohne";
-                position(58, 10); std::cout << "jegliches Sonnenlicht wächst. Sein Geheimnis liegt wohl in den versteckt angebrachten";
+                position(58, 10); std::cout << "jegliches Sonnenlicht waechst. Sein Geheimnis liegt wohl in den versteckt angebrachten";
                 position(58, 11); std::cout << "UV-Lampen die ebenfalls gesetzlos sind, da Strom erst in ca. 1000 Jahren oder so er-";
                 position(58, 12); std::cout << "funden wird. Aber sie werden von dem Magier Akkuz Batterius angetrieben, der schon";
                 position(58, 13); std::cout << "mal einen Nostradamus-maessigen Blick in die strahlende Zukunft der Kernkraftwerke";
@@ -230,10 +230,10 @@ void roomTexts(int room)
 
             case 15:
 
-                position(58, 8);  std::cout << "Sie finden sich selbst in einen heiligen Altarraum wieder. Man munkelt, man könne";
-                position(58, 9);  std::cout << "hier die Götter des Level-Ups anbeten um deren Segen zu bekommen. Auch werden Gold-";
+                position(58, 8);  std::cout << "Sie finden sich selbst in einen heiligen Altarraum wieder. Man munkelt, man koenne";
+                position(58, 9);  std::cout << "hier die Goetter des Level-Ups anbeten um deren Segen zu bekommen. Auch werden Gold-";
                 position(58, 10); std::cout << "opfer gerne gesehen, nur Kreditkarte wird hier nicht genommen und wer weiss schon";
-                position(58, 11); std::cout << "genau ob das ganze überhaupt was bringt...schliesslich ist auf die meisten Goetter";
+                position(58, 11); std::cout << "genau ob das ganze ueberhaupt was bringt...schliesslich ist auf die meisten Goetter";
                 position(58, 12); std::cout << "hier im Dungeon sowieso kein Verlass mehr. Dennoch haengt an der Seite des Altars";
                 position(58, 13); std::cout << "ein Schild auf dem darum gebeten wird, die Gebete laut vorzutragen, da die XP-";
                 position(58, 14); std::cout << "Goetter aufgrund ihres Alters ueber die Jahre ein wenig taub geworden sind. Ganz";

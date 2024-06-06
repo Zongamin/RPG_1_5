@@ -4,30 +4,13 @@
 #include <iostream>
 
 /* Inhaltsverzeichnis:
-    Schriftzugdatei. Funktionen als Überschriften selbsterklärend
+     Schriftzugdatei. Funktionen als Überschriften selbsterklärend
 
-    - textMainMenue 
-    - textCharacter
-    - textPlayer
-    - textLevelUp
-    - textExpUp
-    - textFight
-    - textInventory
-    - textMagic
-    - textSave
-    - textLoad
-    - textMenue
-    - textSearch
-    - textTrap
-    - textBreak 
-    - textPotion
-    - textMetal
-    - textArmor
-    - textWeapons
-    - textRising
-    - textTitle
-    - textEnd 
-    - textDeath  
+    - textMainMenue     - textFight         - textMenue     - textMetal     - textTitle
+    - textCharacter     - textInventory     - textSearch    - textArmor     - textEnd
+    - textPlayer        - textMagic         - textTrap      - textWeapons   - textDeath
+    - textLevelUp       - textSave          - textBreak     - textDisposal
+    - textExpUp         - textLoad          - textPotion    - textRising
     */
 
 void textMainMenue()
@@ -169,7 +152,7 @@ void textMenue()
     std::cout << "/\\      \\      __     ___     __  __     __                              \n";
     std::cout << "\\ \\ \\__\\ \\   /'__`\\ /' _ `\\  /\\ \\/\\ \\  /'__`\\                  \n";
     std::cout << " \\ \\ \\_/\\ \\ /\\  __/ /\\ \\/\\ \\ \\ \\ \\_\\ \\/\\  __/              \n";
-    std::cout << "  \\ \\_\\ \\_\\ \\____\\ \\_\\ \\_\\ \\ \\____/\\ \\____\\                \n";
+    std::cout << "  \\ \\_\\\\ \\_\\ \\____\\ \\_\\ \\_\\ \\ \\____/\\ \\____\\              \n";
     std::cout << "   \\/_/ \\/_/ \\/____/ \\/_/\\/_/  \\/___/  \\/____/               \033[0m\n";
     return;
 }
@@ -346,10 +329,10 @@ void textDeath()
     std::cout << "\033[31m            ########            \033[0m       ---------------------------------------------------------------\n";
     std::cout << "\033[31m           ##########           \033[0m       ---              \033[31mLeider wurden Sie getoetet!\033[0m                ---\n";
     std::cout << "\033[31m           ##########           \033[0m       ---------------------------------------------------------------\n";
-    std::cout << "\033[31m             ######             \033[0m       ---   Oger, Goblins, Orks, Imps und Gewürm fallen ueber     ---\n";
+    std::cout << "\033[31m             ######             \033[0m       ---   Oger, Goblins, Orks, Imps und Gewuerm fallen ueber    ---\n";
     std::cout << "\033[31m         ooo ###### ooo         \033[0m       --- Ihren kalten Leichnam her und was noch von Ihnen uebrig ---\n";
     std::cout << "\033[31m           o ###### o           \033[0m       ---   geblieben ist wird von Ihren Gegnern verwurstet und   ---\n";
-    std::cout << "\033[31m    ####  oo ###### oo  ####    \033[0m       --- abgehangen, um es auch später noch genießen zu koennen! ---\n";
+    std::cout << "\033[31m    ####  oo ###### oo  ####    \033[0m       --- abgehangen, um es auch spaeter noch genießen zu koennen!---\n";
     std::cout << "\033[31m   #####     ######     #####   \033[0m       ---  Wenigstens haben Sie sich als gute Wurst einen Namen   ---\n";
     std::cout << "\033[31m ############################## \033[0m       ---                        gemacht!                         ---\n"; 
     std::cout << "\033[31m ############################## \033[0m       ---------------------------------------------------------------\n";
@@ -357,13 +340,13 @@ void textDeath()
     std::cout << "\033[31m    ####     ######     ####    \033[0m       ---------------------------------------------------------------\n";
     std::cout << "\033[31m             ######             \033[0m       ---                        \033[32mStatistik\033[0m                        ---\n";
     std::cout << "\033[31m      ooooo  ######  ooooo      \033[0m       ---------------------------------------------------------------\n";
-    std::cout << "\033[31m         oo  ######  oo         \033[0m       --- Spieler Level ----->                                    ---\n";
-    std::cout << "\033[31m          o  ######  o          \033[0m       --- Besuchte Raeume --->                                    ---\n";
-    std::cout << "\033[31m          o  ######  o          \033[0m       --- Erbeutetes Gold --->                                    ---\n";
-    std::cout << "\033[31m        ooo  ######  ooo        \033[0m       --- Gecraftets Items -->                                    ---\n";
-    std::cout << "\033[31m             ######             \033[0m       --- Getoetete Monster ->                                    ---\n";
-    std::cout << "\033[31m             ######             \033[0m       --- Getoetete Bosse --->                                    ---\n";
-    std::cout << "\033[31m           ##########           \033[0m       --- Tode -------------->                                    ---\n";
+    std::cout << "\033[31m         oo  ######  oo         \033[0m       --- \033[35mSpieler Level\033[0m ----->                                    ---\n";
+    std::cout << "\033[31m          o  ######  o          \033[0m       --- \033[36mBesuchte Raeume\033[0m --->                                    ---\n";
+    std::cout << "\033[31m          o  ######  o          \033[0m       --- \033[93mErbeutetes Gold\033[0m --->                                    ---\n";
+    std::cout << "\033[31m        ooo  ######  ooo        \033[0m       --- \033[90mGecraftete Items\033[0m -->                                    ---\n";
+    std::cout << "\033[31m             ######             \033[0m       --- \033[92mGetoetete Monster\033[0m ->                                    ---\n";
+    std::cout << "\033[31m             ######             \033[0m       --- \033[32mGetoetete Bosse\033[0m --->                                    ---\n";
+    std::cout << "\033[31m           ##########           \033[0m       --- \033[31mTode\033[0m -------------->                                    ---\n";
     std::cout << "\033[31m           ##########           \033[0m       ---------------------------------------------------------------\n";
     std::cout << "\033[31m            ########            \033[0m       ---        \033[31mMoechten Sie einen Spielstand laden (J/N)?\033[0m       ---\n";
     std::cout << "\033[31m              ####              \033[0m       ---------------------------------------------------------------\n";

@@ -15,47 +15,49 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\player.h>
 
 /*Inhaltsverzeichnis:
-60    - assignment     -- Zuweisung der Werte für neue Spieler
-100   - charCalc       -- Charakter Rechner zum Errechnen neuer Werte bei Skillpunktverteilung
-111   - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
-133   - getKey         -- press any key - Funktion
-143   - error          -- Fehlermeldung : Falsche Eingabe
-163   - clearScreen    -- Windows-CMD Screen leeren
-171   - position       -- Setzen der Cursor Position
-182   - miniLine       -- kleinen Trennstrich einfügen
-188   - line           -- Trennstrich einfügen
-196   - question       -- Ja/Nein - Abfrage des Spielers
-228   - choice         -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe
-245   - condition      -- Skillpunkt ermittlung für Charactermenü 
-260   - lifeDisplay    -- Lebens- und Manaanzeige der Spieler
-299   - colorSwitch    -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
-320   - textColor      -- Schriftfarben verändern
-341   - backgroundColor-- Verändern der Hintergrund Farbe
-358   - levelUp        -- Anheben von Skillpunkten, Spielerlevel & geforderten Level Exp
-403   - expUp          -- Anheben der Spieler Exp und Level Umbruch
+      - assignment     -- Zuweisung der Werte für neue Spieler
+      - charCalc       -- Charakter Rechner zum Errechnen neuer Werte bei Skillpunktverteilung
+      - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
+      - getKey         -- press any key - Funktion
+      - error          -- Fehlermeldung : Falsche Eingabe
+      - clearScreen    -- Windows-CMD Screen leeren
+      - position       -- Setzen der Cursor Position
+      - miniLine       -- kleinen Trennstrich einfügen
+      - line           -- Trennstrich einfügen
+      - question       -- Ja/Nein - Abfrage des Spielers
+      - choice         -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe
+      - condition      -- Skillpunkt ermittlung für Charactermenü 
+      - lifeDisplay    -- Lebens- und Manaanzeige der Spieler
+      - colorSwitch    -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
+      - textColor      -- Schriftfarben verändern
+      - backgroundColor-- Verändern der Hintergrund Farbe
+      - levelUp        -- Anheben von Skillpunkten, Spielerlevel & geforderten Level Exp
+      - expUp          -- Anheben der Spieler Exp und Level Umbruch
+      - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
       - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
-      - weaponDispose  -- Menue zur Entsorgung von Ruestungen
-      - armorDispose   -- Menue zur Entsorgung von Waffen
+      - weaponArmorDispose-- Menue zur Entsorgung von Ruestungen und Waffen
+      - disposeAmount  -- Menue zur Ermittlung der Anzahl der zu wegwerfenden Gegenstände
       - disposal       -- Funktion zur Entsorgung von Gegenständen für den Spieler
-444   - capacityCheck  -- Überprüfung und hinzufügen der Traglast des Spielers mit evtl. Übergabe an Entsorgungsfunktion für Gegenstände
-456   - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
-704   - loadGame       -- Funktion zum Laden von Spielständen
-839   - death          -- Ausgabe des Todes des Spielers
-877   - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
-477   - loot           -- Funktion für die Suche-Option des Spielers
-713   - one            -- Headline 1
-725   - two            -- Headline 2
-739   - three          -- Headline 3
-753   - four           -- Headline 4
-767   - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
-789   - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
-809   - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
-860   - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
-916   - trapSearch     -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
-976   - takeBreak      -- Ermittelt Werte beim Rasten des Spielers 
-1012  - checkRegen     -- Ermittelt einen boolschen Wert, ob Heilung, Mana oder beides benoetigt wird
-1046  - checkPotion    -- Ermittelt einen boolschen Wert, ob Heiltraenke, Manatraenke oder Regenerationstraenke vorhanden sind 
-1080  - potionDrink    -- Funktion zur Heilung, Manaregeneration oder beidem durch Tränke
+      - capacityCheck  -- Überprüfung und hinzufügen der Traglast des Spielers mit evtl. Übergabe an Entsorgungsfunktion für Gegenstände
+      - saveGame       -- Menü zum Speichern des Spielstandes 
+      - loadGame       -- Funktion zum Laden von Spielständen
+      - death          -- Ausgabe des Todes des Spielers
+      - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
+      - loot           -- Funktion für die Suche-Option des Spielers
+      - textOne        -- Headline 1
+      - textTwo        -- Headline 2
+      - textThree      -- Headline 3
+      - textFour       -- Headline 4
+      - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
+      - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
+      - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
+      - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
+      - trapSearch     -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
+      - takeBreak      -- Ermittelt Werte beim Rasten des Spielers 
+      - checkRegen     -- Ermittelt einen boolschen Wert, ob Heilung, Mana oder beides benoetigt wird
+      - potionCheck    -- Ermittelt einen boolschen Wert, ob Heiltraenke, Manatraenke oder Regenerationstraenke vorhanden sind 
+      - potionDrink    -- Funktion zur Heilung, Manaregeneration oder beidem durch Tränke
+      - specialRoom    -- Funktion zur Ermittlung des derzeitigen Spezialraums   
     */
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
@@ -865,13 +867,13 @@ void death(Player player[], short roundManager)
     clearScreen();
     textDeath();
     line();
-    position(16, 64); std::cout << player[roundManager].level;
-    position(17, 64); std::cout << player[roundManager].rooms;
-    position(18, 64); std::cout << player[roundManager].gold;
-    position(19, 64); std::cout << player[roundManager].crafted;
-    position(20, 64); std::cout << player[roundManager].monsters;
-    position(21, 64); std::cout << player[roundManager].bosses;
-    position(21, 64); std::cout << player[roundManager].deaths;    
+    position(64, 15); std::cout << "\033[35m" << player[roundManager].level << "\033[0m";
+    position(64, 16); std::cout << "\033[36m" << player[roundManager].rooms << "\033[0m";
+    position(64, 17); std::cout << "\033[93m" << player[roundManager].gold << "\033[0m";
+    position(64, 18); std::cout << "\033[90m" << player[roundManager].crafted << "\033[0m";
+    position(64, 19); std::cout << "\033[92m" << player[roundManager].monsters << "\033[0m";
+    position(64, 20); std::cout << "\033[32m" << player[roundManager].bosses << "\033[0m";
+    position(64, 21); std::cout << "\033[31m" << player[roundManager].deaths << "\033[0m";    
     bool answer = question();
     if (answer == true)
     {
