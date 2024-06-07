@@ -1543,8 +1543,17 @@ void specialHeader(int room)
     clearScreen();
     textSpecial();
     line();
-    if (room == 5) {std::cout << "\033[36mHebel\033[0m" << std::endl; }
-    if (room == 6) {std::cout << "\033[36mTruhe\033[0m" << std::endl;}
+    if (room == 5) { std::cout << "\033[36mHebel\033[0m" << std::endl; }
+    if (room == 6) { std::cout << "\033[36mTruhe\033[0m" << std::endl; }
+    if (room == 9) { std::cout << "\033[36mSchmiede\033[0m" << std::endl; }
+    if (room == 10){ std::cout << "\033[36mGeschaeft\033[0m" << std::endl; }
+    if (room == 11){ std::cout << "\033[36mCasino\033[0m" << std::endl; }
+    if (room == 12){ std::cout << "\033[36mLoch in der Wand\033[0m" << std::endl; }
+    if (room == 13){ std::cout << "\033[36mDunkler Baum\033[0m" << std::endl; }
+    if (room == 14){ std::cout << "\033[36mBushaltestelle\033[0m" << std::endl; }
+    if (room == 15){ std::cout << "\033[36mAltarraum\033[0m" << std::endl; }
+    if (room == 19){ std::cout << "\033[36mToilette des Gluecks\033[0m" << std::endl; }
+    if (room == 20){ std::cout << "\033[36mGrabstaette des Kriegers\033[0m" << std::endl; }
     line();
     return;
 }
@@ -1556,7 +1565,7 @@ void lever(Player player[], short roundManager, int room)
     bool answer = question();
     if (answer == true)
     {
-        if (numberOfPlayers > 1) {player[roundManager].realActionPoints--; }
+        if (numberOfPlayers > 1) { player[roundManager].realActionPoints--; }
         int event = random(1,100);
         if (event >= 1 && event <= 25)
         {
@@ -1757,48 +1766,57 @@ void chest(Player player[], short roundManager, int room, short danger)
     return;
 }
 
-void forge(Player player[], short roundManager)
+void forge(Player player[], short roundManager, short room)
 {
+    specialHeader(room);
     return;
 }
 
-void shop(Player player[], short roundManager)
+void shop(Player player[], short roundManager, short room)
 {
+    specialHeader(room);
     return;
 }
 
-void casinoRoyal(Player player[], short roundManager)
+void casinoRoyal(Player player[], short roundManager, short room)
 {
+    specialHeader(room);
     return;
 }
 
-void wallHole(Player player[], short roundManager)
+void wallHole(Player player[], short roundManager, short room)
 {
+    specialHeader(room);
     return;
 }
 
-void darkTree(Player player[], short roundManager)
+void darkTree(Player player[], short roundManager, short room)
 {
+    specialHeader(room);
     return;
 }
 
-void busStop(Player player[], short roundManager)
+void busStop(Player player[], short roundManager, short room)
 {
+    specialHeader(room);
     return;
 }
 
-void chancel(Player player[], short roundManager)
+void chancel(Player player[], short roundManager, short room)
 {
+    specialHeader(room);
     return;
 }
 
-void toiletOfLuck(Player player[], short roundManager)
+void toiletOfLuck(Player player[], short roundManager, short room)
 {
+    specialHeader(room);
     return;
 }
 
-void grave(Player player[], short roundManager)
+void grave(Player player[], short roundManager, short room)
 {
+    specialHeader(room);
     return;
 }
 
@@ -1806,15 +1824,15 @@ void specialRoom(Player player[], short roundManager, int room, short danger)
 {
     if (room == 5) { lever(player, roundManager, room); return; }
     if (room == 6) { chest(player, roundManager, room, danger); return; }
-    if (room == 9) { forge(player, roundManager); return; }
-    if (room == 10){ shop(player, roundManager); return; }
-    if (room == 11){ casinoRoyal(player, roundManager); return; }
-    if (room == 12){ wallHole(player, roundManager); return; }
-    if (room == 13){ darkTree(player, roundManager); return; }
-    if (room == 14){ busStop(player, roundManager); return; }
-    if (room == 15){ chancel(player, roundManager); return; }
-    if (room == 19){ toiletOfLuck(player, roundManager); return; }
-    if (room == 20){ grave(player, roundManager); return; }
+    if (room == 9) { forge(player, roundManager, room); return; }
+    if (room == 10){ shop(player, roundManager, room); return; }
+    if (room == 11){ casinoRoyal(player, roundManager, room); return; }
+    if (room == 12){ wallHole(player, roundManager, room); return; }
+    if (room == 13){ darkTree(player, roundManager, room); return; }
+    if (room == 14){ busStop(player, roundManager, room); return; }
+    if (room == 15){ chancel(player, roundManager, room); return; }
+    if (room == 19){ toiletOfLuck(player, roundManager, room); return; }
+    if (room == 20){ grave(player, roundManager, room); return; }
     error(0);
     return;
 }
