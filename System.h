@@ -11,6 +11,7 @@
 #include <windows.h>
 #include <algorithm>
 #include <random>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Main.cpp>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\player.h>
 
@@ -62,6 +63,8 @@
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
 
+extern const int roomNumbers; 
+extern short numberOfPlayers;
 short repeater{};
 short dangerRepeater{};
 short danger{};
@@ -874,6 +877,7 @@ void death(Player player[], short roundManager)
     position(64, 19); std::cout << "\033[92m" << player[roundManager].monsters << "\033[0m";
     position(64, 20); std::cout << "\033[32m" << player[roundManager].bosses << "\033[0m";
     position(64, 21); std::cout << "\033[31m" << player[roundManager].deaths << "\033[0m";    
+    position(0, 50);
     bool answer = question();
     if (answer == true)
     {
@@ -1534,8 +1538,123 @@ void potionDrink (Player player[], short roundManager, short sort)
     return;    
 }
 
-void specialRoom()
+void specialHeader(int room)
 {
+    clearScreen();
+    textSpecial();
+    line();
+    if (room == 5) {std::cout << "\033[36mHebel\033[0m" << std::endl; }
+    if (room == 6) {std::cout << "\033[36mTruhe\033[0m" << std::endl;}
+    line();
+    return;
+}
+
+void lever(Player player[], short roundManager, int room)
+{
+    specialHeader(room);
+    std::cout << "\nSind Sie sich sicher, das Sie den Hebel betaetigen moechten? (J/N)" << std::endl;
+    bool answer = question();
+    if (answer == true)
+    {
+        if (numberOfPlayers > 1) {player[roundManager].realActionPoints--; }
+        int event = random(1,100);
+        if (event >= 1 && event <= 25)
+        {
+            std::cout << "\n\033[33mSie vernehmen ein seltsames Klicken in der Wand....\033[0m" << std::endl;
+
+            short chance = random(1,100);
+            if (chance >= 1 && chance <=25 || chance >= 50 && chance <=75)
+            {
+                std::cout << "\n\033[33m....gefolgt von einem gewaltigen Rollgeraeusch!....\033[0m" << std::endl;
+                std::cout << "\n\033[33mEin riesiger Felsen rollt, ganz in Indiana Jones Manier, auf Sie zu!...." << std::endl;
+                chance = 0; chance = random(1,100);
+                if (chance >= 1 && chance <=25 + player[roundManager].luck || chance >= 50 && chance <=75 + player[roundManager].luck)
+                {
+                    std::cout << "\n\033[32mDoch Ihren Katzenartigen Reflexen ist es zu verdanken, dass Sie es schaffen rechtzeitig auszuweichen!" << std::endl;
+                    getKey();
+                    return;
+                }
+                else
+                {
+                    std::cout << "\n\033[31mAber Sie werden so ueberrascht, dass Sie von der Situation (und vom Felsen) quasi ueberrollt werden!...." << std::endl;
+                    double damage = random(1, round((player[roundManager].health / 50) - player[roundManager].luck));
+                    std::cout << "\n\033[31mSie nehmen \033[41;37m* " << damage << " Schaden *\033[0m" << std::endl;
+                    player[roundManager].realHealth -= damage;
+                    if (player[roundManager].realHealth < 0) {player[roundManager].realHealth = 0;}
+                    if (player[roundManager].realHealth <= 0) 
+                    {
+                        std::cout << "\n\033[31mSie sind bei dieser Aktion leider gestorben!" << std::endl;
+                        lifeDisplay(player, roundManager, 0, 30);
+                        getKey();
+                        death(player, roundManager);
+                        return;
+                    }
+                    lifeDisplay(player, roundManager, 0, 30);
+                    getKey();
+                    return;
+                }
+            }
+            std::cout << "\n\033[32m...Dennoch scheint nichts zu geschehen... nochmal Glück gehabt?\033[0m" << std::endl;
+            getKey();
+            return; 
+        }
+        if (event > 25 && event <= 50)
+        {
+            std::cout << "\n\033[33mDirekt unter Ihren Fuessen oeffnet sich eine Klappe und Sie stehen ploetzlich fuer einen Augenblick in der Luft!" << std::endl;
+            std::cout << "\nNach einem kurzen Moment sausen Sie nach unten.... in den naechsten Raum....\033[0m" << std::endl;
+            double damage = random(1, round((player[roundManager].realHealth / 10) - player[roundManager].luck));
+            player[roundManager].currentRoom = random(1,roomNumbers);
+            std::cout << "\n\033[31mDabei nehmen Sie \033[41;37m* " << damage << " Schaden *\033[0m" << std::endl;
+            player[roundManager].realHealth -= damage;
+            lifeDisplay(player, roundManager, 0, 30);
+            getKey();
+            return;
+        } 
+        if (event > 50 && event <= 75)
+        {
+            std::cout << "\n\033[33mSie vernehmen ein seltsames Klicken in der Wand....\033[0m" << std::endl;
+            double gold = random(round((player[roundManager].level * 10) + player[roundManager].luck), round((player[roundManager].level * 25) + player[roundManager].luck));
+            double experience = round((gold * 0.125) * (player[roundManager].level * 1));
+            std::cout << "\n\033[32m....Und es rasselt Gold von der Decke!" << std::endl;
+            std::cout << "\n\033[32mSie finden \033[33m" << gold << "\033[32m und erhalten " << experience << " EXP dafuer." << std::endl;
+            player[roundManager].gold += gold;
+            player[roundManager].realExp += experience;
+            getKey();
+            expUp(player, roundManager);
+            return;
+        }
+        std::cout << "Sie betaetigen den Hebel, doch es geschieht nichts! Die Frage ist: Glück, oder Pech gehabt?" << std::endl;
+        getKey();
+        return;
+    }
+    return;
+}
+
+void chest(Player player[], short roundManager, int room, short danger)
+{
+    specialHeader(room);
+    std::cout << "\nMoechten Sie die Truhe oeffnen? (J/N)" << std::endl;
+    bool answer = question();
+    if (answer == true;)
+    {
+        
+        return;
+    }
+    return;
+}
+
+void specialRoom(Player player[], short roundManager, int room, short danger)
+{
+    if (room == 5) 
+    {
+        lever(player, roundManager, room);
+        return;
+    }
+    if (room == 6)
+    {
+        chest(player, roundManager, room, danger);
+        return;
+    }
     return;
 }
 #endif

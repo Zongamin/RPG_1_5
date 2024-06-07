@@ -1014,6 +1014,14 @@ void roomOptions(Player player[], short roundManager, short danger, short room, 
     {
         frameWork(player, roundManager, danger, room);
         
+         if (player[roundManager].permaDeath == true)
+        {
+            std::cout << "\n\033[31mLeider weilen Sie derzeit nicht unter den Lebenden....\033[0m" << std::endl;
+            player[roundManager].roomCleared == true;
+            getKey();
+            return;
+        }
+
         if (numberOfPlayers > 1 && player[roundManager].realActionPoints == 0)
         {
             position(20, 39); std::cout << "\033[101;30m*** Sie haben leider keine Aktionspunkte mehr! ***\033[0m" << std::endl;
@@ -1034,7 +1042,7 @@ void roomOptions(Player player[], short roundManager, short danger, short room, 
             case 0:
                 if (isRoomValid(room))
                 {
-                    specialRoom();
+                    specialRoom(player, roundManager, room, danger);
                     break;
                 }
                 error(0);
