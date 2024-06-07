@@ -1614,7 +1614,7 @@ void lever(Player player[], short roundManager, int room)
         {
             std::cout << "\n\033[33mSie vernehmen ein seltsames Klicken in der Wand....\033[0m" << std::endl;
             double gold = random(round((player[roundManager].level * 10) + player[roundManager].luck), round((player[roundManager].level * 25) + player[roundManager].luck));
-            double experience = round((gold * 0.125) * (player[roundManager].level * 1));
+            double experience = round(gold * 0.125);
             std::cout << "\n\033[32m....Und es rasselt Gold von der Decke!" << std::endl;
             std::cout << "\n\033[32mSie finden \033[33m" << gold << "\033[32m und erhalten " << experience << " EXP dafuer." << std::endl;
             player[roundManager].gold += gold;
@@ -1630,31 +1630,192 @@ void lever(Player player[], short roundManager, int room)
     return;
 }
 
+void openChest(Player player[], short roundManager)
+{
+    double exp = 0;
+    
+    std::cout << "\n\033[32m....und oeffnen diese!" << std::endl;
+    std::cout << "\n\033[32mSie finden:\033[0m" << std::endl;
+    line();
+    double gold = random(round((player[roundManager].level * 20) + player[roundManager].luck), round((player[roundManager].level * 30) + player[roundManager].luck));
+    double experience = round(gold * 0.125);
+    std::cout << "\033[93mGold\033[0m --------------------> " << gold << " / " << experience << " Exp." << std::endl;
+    std::cout << "---------------------------------------------------" << std::endl;
+    player[roundManager].gold += gold;
+    exp += experience;
+
+    short opportunity = random(1,100);
+    if (opportunity >=1 && opportunity <= 50)
+    {
+        double armor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2)); 
+        armor++;
+        experience = 0; experience = round(armor * 100);
+        std::cout << "\033[90mRuestung\033[0m ----------------> " << armor << " RST / " << experience << " Exp." << std::endl;
+        exp += experience;
+        bool dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
+        if (dispose == false) { std::cout << "\033[91mDie Ruestung wurde liegengelassen!\n" << "---------------------------------------------------" << std::endl;} 
+        std::cout << "---------------------------------------------------" << std::endl;
+        if (player[roundManager].armor[0] == 0) {player[roundManager].armor[0] = armor;}
+        for (int i = 0; i < 500; i++)
+        {
+            if (player[roundManager].armor[i] == 0) 
+            {
+                player[roundManager].armor[i] = armor;
+                arraySort(player, roundManager, "armor");
+                player[roundManager].realCapacity += (1 * 2.25);
+                break;
+            }
+        }
+    }
+    
+    opportunity = 0; opportunity = random(1,100);
+    if (opportunity >=1 && opportunity <= 50)
+    {
+        double weapon = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
+        weapon++;
+        experience = round(weapon * 100);
+        std::cout << "\033[0mWaffe\033[0m -------------------> " << weapon << " DMG / " << experience << " Exp." << std::endl;
+        exp += experience;
+        bool dispose = capacityCheck(player, roundManager, 2.5, 1, "Waffe");
+        if (dispose == false) { std::cout << "\033[91mDie Waffe wurde liegengelassen!\n" << "---------------------------------------------------" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        if (player[roundManager].weapons[0] == 0) {player[roundManager].weapons[0] = weapon;}
+        for (int i = 0; i < 500; i++)
+        {
+            if (player[roundManager].weapons[i] == 0) 
+            {
+                player[roundManager].weapons[i] = weapon;
+                arraySort(player, roundManager, "weapon");
+                player[roundManager].realCapacity += (1 * 2.5);
+                break;
+            }                        
+        }
+    }
+    std::cout << "---------------------------------------------------" << std::endl;
+    std::cout << "Gesamt EXP --------------> " << exp << " EXP" << std::endl;
+    std::cout << "---------------------------------------------------" << std::endl;
+    player[roundManager].realExp += exp;
+    getKey();
+    expUp(player, roundManager);
+    std::cout << "\n\n" << std::endl;
+    return;
+}
+
+void chestFight(Player player[], short roundManager)
+{
+    std::cout << "\n\033[31mDoch als Sie sich der Truhe naehern verwandelt sich diese in einen Mimik und es kommt zum Kampf!\033[0m";
+                getKey();                
+                //Kampf implementieren
+                if (player[roundManager].permaDeath == false)
+                {
+                std::cout << "\n\033[32mDa Sie souveraen ueberlebt haben, koennen Sie sich jetzt auch noch ueber den Inhalt der Truhe freuen! Sie treten heran....\033[0m";
+                openChest(player, roundManager);
+                return;
+                }
+                return;
+}
+
 void chest(Player player[], short roundManager, int room, short danger)
 {
     specialHeader(room);
     std::cout << "\nMoechten Sie die Truhe oeffnen? (J/N)" << std::endl;
     bool answer = question();
-    if (answer == true;)
+    if (answer == true)
     {
-        
+        std::cout << "\n\033[33mSie naehern sich der Truhe....\033[0m" << std::endl;
+
+        if (danger == 1)
+        {
+            openChest(player, roundManager);
+            return;
+        }
+
+        if (danger == 2)
+        {
+            short chance = random(1, 100);
+            if (chance >= 1 && chance <= 25 || chance >= 50 && chance <= 75)
+            {
+                chestFight(player, roundManager);
+                return;
+            }
+            openChest(player, roundManager);
+            return;
+        }
+
+        if (danger == 3)
+        {
+            short chance = random(1, 100);
+            if (chance >= 1 && chance <= 35 || chance >= 50 && chance <= 85)
+            {
+                chestFight(player, roundManager);
+                return;
+            }
+        }
+        error(0);
         return;
     }
     return;
 }
 
+void forge(Player player[], short roundManager)
+{
+    return;
+}
+
+void shop(Player player[], short roundManager)
+{
+    return;
+}
+
+void casinoRoyal(Player player[], short roundManager)
+{
+    return;
+}
+
+void wallHole(Player player[], short roundManager)
+{
+    return;
+}
+
+void darkTree(Player player[], short roundManager)
+{
+    return;
+}
+
+void busStop(Player player[], short roundManager)
+{
+    return;
+}
+
+void chancel(Player player[], short roundManager)
+{
+    return;
+}
+
+void toiletOfLuck(Player player[], short roundManager)
+{
+    return;
+}
+
+void grave(Player player[], short roundManager)
+{
+    return;
+}
+
 void specialRoom(Player player[], short roundManager, int room, short danger)
 {
-    if (room == 5) 
-    {
-        lever(player, roundManager, room);
-        return;
-    }
-    if (room == 6)
-    {
-        chest(player, roundManager, room, danger);
-        return;
-    }
+    if (room == 5) { lever(player, roundManager, room); return; }
+    if (room == 6) { chest(player, roundManager, room, danger); return; }
+    if (room == 9) { forge(player, roundManager); return; }
+    if (room == 10){ shop(player, roundManager); return; }
+    if (room == 11){ casinoRoyal(player, roundManager); return; }
+    if (room == 12){ wallHole(player, roundManager); return; }
+    if (room == 13){ darkTree(player, roundManager); return; }
+    if (room == 14){ busStop(player, roundManager); return; }
+    if (room == 15){ chancel(player, roundManager); return; }
+    if (room == 19){ toiletOfLuck(player, roundManager); return; }
+    if (room == 20){ grave(player, roundManager); return; }
+    error(0);
     return;
 }
 #endif
