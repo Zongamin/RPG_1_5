@@ -1766,9 +1766,187 @@ void chest(Player player[], short roundManager, int room, short danger)
     return;
 }
 
-void forge(Player player[], short roundManager, short room)
+void forgeMenue(Player player[], short roundManager, short room)
 {
     specialHeader(room);
+    std::cout << player[roundManager].getName() << ", Ihre Ressourcen:" << std::endl;
+    line();
+    std::cout << "Altmetall ---> " << player[roundManager].scrapMetal << std::endl;
+    std::cout << "Kupfer ------> " << player[roundManager].copper << std::endl;
+    std::cout << "Aluminium ---> " << player[roundManager].aluminum << std::endl;
+    line();
+    return;
+}
+
+void needMaterial(std::string name)
+{
+    std::cout << "Sie haben zu wenig "<< name << "!" << std::endl;
+    getKey();
+    return;
+}
+
+void forgeArmor(Player player[], short roundManager, short room)
+{
+    bool running = true;
+    while(running)
+    {
+        forgeMenue(player, roundManager, room);
+        std::cout << "Zur Herstellung einer normalen Ruestung benoetigen Sie auf Ihrem derzeitigen Level:" << std::endl;
+        double neededScrap = (round((player[roundManager].level * 5) - player[roundManager].luck));
+        double neededCopper = (round((player[roundManager].level * 3) - player[roundManager].luck));
+        double neededAluminum = (round((player[roundManager].level * 2) - player[roundManager].luck));
+        std::cout << "Altmetall: " << neededScrap << " | Kupfer: " << neededCopper << " | Aluminium: " << neededAluminum << std::endl;
+        line();
+        std::cout << "Zur Herstellungen einer besonderen Ruestung benoetigen Sie auf Ihrem derzeitigen Level:" << std::endl;
+        double goodScrap = (round((player[roundManager].level * 7.5) - player[roundManager].luck));
+        double goodCopper = (round((player[roundManager].level * 4.25) - player[roundManager].luck));
+        double goodAluminum = (round((player[roundManager].level * 3.5) - player[roundManager].luck));
+        std::cout << "Altmetall: " << goodScrap << " | Kupfer: " << goodCopper << " | Aluminium: " << goodAluminum << std::endl;
+        line();
+        std::cout << "Zur Herstellung der best moeglichen Ruestung benoetigen Sie auf Ihrem derzeitigen Level:" << std::endl;
+        double bestScrap = (round((player[roundManager].level * 12.5) - player[roundManager].luck));
+        double bestCopper = (round((player[roundManager].level * 7.5) - player[roundManager].luck));
+        double bestAluminum = (round((player[roundManager].level * 5) - player[roundManager].luck));
+        std::cout << "Altmetall: " << bestScrap << " | Kupfer: " << bestCopper << " | Aluminium: " << bestAluminum << std::endl;
+        line();
+        std::cout << "Welche Ruestungsart moechten Sie herstellen?" << std::endl;
+        line();
+        std::cout << "[ 0 ] ------> Zurueck" << std::endl;
+        std::cout << "[ 1 ] ------> Normal" << std::endl;
+        std::cout << "[ 2 ] ------> Besonders" << std::endl;
+        std::cout << "[ 3 ] ------> Bestmoeglich" << std::endl;
+        short input = choice();
+        switch(input)
+        {
+            case 0:
+                return;
+            
+            case 1:
+                if (player[roundManager].scrapMetal < neededScrap) { needMaterial("Altmetall"); break;}
+                if (player[roundManager].copper < neededCopper) { needMaterial("Kupfer"); break;}
+                if (player[roundManager].aluminum < neededAluminum) {needMaterial("Aluminium"); break;}
+                player[roundManager].scrapMetal -= neededScrap; 
+                player[roundManager].realCapacity -= (neededScrap * 0.3);
+                player[roundManager].copper -= neededCopper;
+                player[roundManager].realCapacity -= (neededCopper * 0.2);
+                player[roundManager].aluminum -= neededAluminum;
+                player[roundManager].realCapacity -= (neededAluminum * 0.1);
+                player[roundManager].crafted++;
+                double craftedArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
+                std::cout << "Sie haben eine normale Ruestung mit dem Wert: " << craftedArmor<< " RST hergestellt." << std::endl;
+                bool dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
+                if (dispose == false) { std::cout << "\033[91mSie koennen die Ruestung nicht mitnehmen!\n" << std::endl; } 
+                if (player[roundManager].armor[0] == 0) {player[roundManager].armor[0] = craftedArmor; break;}
+                        for (int i = 0; i < 500; i++)
+                        {
+                            if (player[roundManager].armor[i] == 0) 
+                            {
+                                player[roundManager].armor[i] = craftedArmor;
+                                arraySort(player, roundManager, "armor");
+                                player[roundManager].realCapacity += 2.25;
+                                std::cout << "Die Ruestung wurde Ihrem Inventar hinzugefuegt!" << std::endl;
+                                getKey();
+                                break;
+                            }
+                        }
+
+            case 2:
+                if (player[roundManager].scrapMetal < goodScrap) { needMaterial("Altmetall"); break;}
+                if (player[roundManager].copper < goodCopper) { needMaterial("Kupfer"); break;}
+                if (player[roundManager].aluminum < goodAluminum) {needMaterial("Aluminium"); break;}
+                player[roundManager].scrapMetal -= goodScrap; 
+                player[roundManager].realCapacity -= (goodScrap * 0.3);
+                player[roundManager].copper -= neededCopper;
+                player[roundManager].realCapacity -= (goodCopper * 0.2);
+                player[roundManager].aluminum -= neededAluminum;
+                player[roundManager].realCapacity -= (goodAluminum * 0.1);
+                player[roundManager].crafted++;
+                double craftedArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
+                craftedArmor++;
+                std::cout << "Sie haben eine normale Ruestung mit dem Wert: " << craftedArmor<< " RST hergestellt." << std::endl;
+                bool dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
+                if (dispose == false) { std::cout << "\033[91mSie koennen die Ruestung nicht mitnehmen!\n" << std::endl; } 
+                if (player[roundManager].armor[0] == 0) {player[roundManager].armor[0] = craftedArmor; break;}
+                        for (int i = 0; i < 500; i++)
+                        {
+                            if (player[roundManager].armor[i] == 0) 
+                            {
+                                player[roundManager].armor[i] = craftedArmor;
+                                arraySort(player, roundManager, "armor");
+                                player[roundManager].realCapacity += 2.25;
+                                std::cout << "Die Ruestung wurde Ihrem Inventar hinzugefuegt!" << std::endl;
+                                getKey();
+                                break;
+                            }
+                        }
+            
+            case 3:
+                if (player[roundManager].scrapMetal < bestScrap) { needMaterial("Altmetall"); break;}
+                if (player[roundManager].copper < bestCopper) { needMaterial("Kupfer"); break;}
+                if (player[roundManager].aluminum < bestAluminum) {needMaterial("Aluminium"); break;}
+                player[roundManager].scrapMetal -= bestScrap; 
+                player[roundManager].realCapacity -= (bestScrap * 0.3);
+                player[roundManager].copper -= bestCopper;
+                player[roundManager].realCapacity -= (bestCopper * 0.2);
+                player[roundManager].aluminum -= bestAluminum;
+                player[roundManager].realCapacity -= (bestAluminum * 0.1);
+                player[roundManager].crafted++;
+                double craftedArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
+                craftedArmor += 2;
+                std::cout << "Sie haben eine normale Ruestung mit dem Wert: " << craftedArmor<< " RST hergestellt." << std::endl;
+                bool dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
+                if (dispose == false) { std::cout << "\033[91mSie koennen die Ruestung nicht mitnehmen!\n" << std::endl; } 
+                if (player[roundManager].armor[0] == 0) {player[roundManager].armor[0] = craftedArmor; break;}
+                        for (int i = 0; i < 500; i++)
+                        {
+                            if (player[roundManager].armor[i] == 0) 
+                            {
+                                player[roundManager].armor[i] = craftedArmor;
+                                arraySort(player, roundManager, "armor");
+                                player[roundManager].realCapacity += 2.25;
+                                std::cout << "Die Ruestung wurde Ihrem Inventar hinzugefuegt!" << std::endl;
+                                getKey();
+                                break;
+                            }
+                        }
+            default:
+                error(0);
+                break;
+
+        }
+        getKey();
+        running = false;
+        break;
+    }
+    return;
+}
+
+void forge(Player player[], short roundManager, short room)
+{
+    bool running = true;
+
+    while(running)
+    {
+        forgeMenue(player, roundManager, room);
+        std::cout << "Was moechten Sie herstellen?" << std::endl;
+        line();
+        std::cout << "[ 0 ] ------> Zurueck" << std::endl;
+        std::cout << "[ 1 ] ------> Ruestung" << std::endl;
+        std::cout << "[ 2 ] ------> Waffe" << std::endl;
+        short input = choice();
+        switch (input)
+        {
+            case 0:
+                running = false;
+                break;
+            
+            case 1:
+                forgeArmor(player, roundManager, room);
+                break;
+        }
+        running = false;
+        break;
+    }
     return;
 }
 

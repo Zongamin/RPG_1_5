@@ -71,4 +71,9 @@ class Weapon: public Item
         Weapon() : Item("Schwert", 2.5) {}
 };
 
+class Armor: public Item
+{
+    Armor() : Item("Ruestung", 4.0) {}
+};
+
 #endif
