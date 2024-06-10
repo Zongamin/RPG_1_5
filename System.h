@@ -2039,34 +2039,149 @@ void headShop(Player player[], short roundManager)
     return;
 }
 
-void shop(Player player[], short roundManager, short room)
+void shopBuy(Player player[], short roundManager)
+{
+    return;
+}
+
+void shopSell(Player player[], short roundManager)
 {
     bool running = true;
-    
-    while(running)
+    bool answer = false;
+    double counter = 0;
+
+    while (running)
     {
-        specialHeader(room);
+        specialHeader(player[roundManager].currentRoom);
         headShop(player, roundManager);
-        std::cout << "Was moechten Sie tun?" << std::endl;
+        std::cout << "Was moechten Sie verkaufen? Ihr Inventar:" << std::endl;
         line();
+        std::cout << "[ 1 ] ------> Altmetall -------------> " << player[roundManager].scrapMetal << " Einheiten (10 Gold / Einheit)" << std::endl;
+        std::cout << "[ 2 ] ------> Kupfer ----------------> " << player[roundManager].copper << " Einheiten (15 Gold / Einheit)" << std::endl;
+        std::cout << "[ 3 ] ------> Aluminium -------------> " << player[roundManager].aluminum << " Einheiten (20 Gold / Einheit)" << std::endl;
+        std::cout << "[ 4 ] ------> Kraeuter --------------> " << player[roundManager].herbs << " Einheiten (25 Gold / Einheit)" << std::endl;
+        std::cout << "[ 5 ] ------> Heiltraenke -----------> " << player[roundManager].healthPotion << " Einheiten (15 Gold / Einheit) " << std::endl;
+        std::cout << "[ 6 ] ------> Manatraenke -----------> " << player[roundManager].manaPotion << " Einheiten (20 Gold / Einheit)" << std::endl;
+        std::cout << "[ 7 ] ------> Regenerationstraenke --> " << player[roundManager].regenPotion << " Einheiten (25 Gold / Einheit)" << std::endl;
+        std::cout << "[ 8 ] ------> Waffen ----------------> " << player[roundManager].weapons << " Einheiten (Preis nach Schaden)" << std::endl;
+        std::cout << "[ 9 ] ------> Ruestungen ------------> " << player[roundManager].armor << " Einheiten (Preis nach Ruestwert)" << std::endl;
         std::cout << "[ 0 ] ------> Zurueck" << std::endl;
-        std::cout << "[ 1 ] ------> Kaufen" << std::endl;
-        std::cout << "[ 2 ] ------> Verkaufen" << std::endl;
+        line();
         short input = choice();
-        switch(input)
+        switch (input)
         {
             case 0:
                 running = false;
                 break;
 
             case 1:
-                
-        } 
+                std::cout << "Wie viele Einheiten Altmetall sollen verkauft werden? (0 - " << player[roundManager].scrapMetal << ")"; std::cin >> counter;
+                if (counter <= 0) { continue; }
+                if (counter > player[roundManager].scrapMetal) { std::cout << "Das geht nicht!"; getKey(); continue; }
+                player[roundManager].scrapMetal -= counter;
+                player[roundManager].gold += (counter * 10);
+                std::cout << "Sie haben " << counter << " Einheiten Altmetall fuer insgesamt " << (counter * 10) << " Gold verkauft." << std::endl;
+                std::cout << "Moechten Sie noch weitere Gegenstaende verkaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                if (answer == true) { continue; }
+                error(0);
+
+            case 2:
+                std::cout << "Wie viele Einheiten Kupfer sollen verkauft werden? (0 - " << player[roundManager].copper << ")"; std::cin >> counter;
+                if (counter <= 0) { continue; }
+                if (counter > player[roundManager].copper) { std::cout << "Das geht nicht!"; getKey(); continue; }
+                player[roundManager].copper -= counter;
+                player[roundManager].gold += (counter * 15);
+                std::cout << "Sie haben " << counter << " Einheiten Kupfer fuer insgesamt " << (counter * 15) << " Gold verkauft." << std::endl;
+                std::cout << "Moechten Sie noch weitere Gegenstaende verkaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                if (answer == true) { continue; }
+                error(0);
+            
+            case 3:
+                std::cout << "Wie viele Einheiten Aluminium sollen verkauft werden? (0 - " << player[roundManager].aluminum << ")"; std::cin >> counter;
+                if (counter <= 0) { continue; }
+                if (counter > player[roundManager].aluminum) { std::cout << "Das geht nicht!"; getKey(); continue; }
+                player[roundManager].aluminum -= counter;
+                player[roundManager].gold += (counter * 20);
+                std::cout << "Sie haben " << counter << " Einheiten Aluminium fuer insgesamt " << (counter * 20) << " Gold verkauft." << std::endl;
+                std::cout << "Moechten Sie noch weitere Gegenstaende verkaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                if (answer == true) { continue; }
+                error(0);
+            
+            case 4:
+                std::cout << "Wie viele Einheiten Kraeuter sollen verkauft werden? (0 - " << player[roundManager].herbs << ")"; std::cin >> counter;
+                if (counter <= 0) { continue; }
+                if (counter > player[roundManager].herbs) { std::cout << "Das geht nicht!"; getKey(); continue; }
+                player[roundManager].herbs -= counter;
+                player[roundManager].gold += (counter * 25);
+                std::cout << "Sie haben " << counter << " Einheiten Kraeuter fuer insgesamt " << (counter * 25) << " Gold verkauft." << std::endl;
+                std::cout << "Moechten Sie noch weitere Gegenstaende verkaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                if (answer == true) { continue; }
+                error(0);
+            
+            case 5:
+                std::cout << "Wie viele Heiltraenke sollen verkauft werden? (0 - " << player[roundManager].healthPotion << ")"; std::cin >> counter;
+                if (counter <= 0) { continue; }
+                if (counter > player[roundManager].healthPotion) { std::cout << "Das geht nicht!"; getKey(); continue; }
+                player[roundManager].healthPotion -= counter;
+                player[roundManager].gold += (counter * 15);
+                std::cout << "Sie haben " << counter << " Heiltraenke fuer insgesamt " << (counter * 15) << " Gold verkauft." << std::endl;
+                std::cout << "Moechten Sie noch weitere Gegenstaende verkaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                if (answer == true) { continue; }
+                error(0);
+
+            case 6:
+                std::cout << "Wie viele Manatraenke sollen verkauft werden? (0 - " << player[roundManager].manaPotion << ")"; std::cin >> counter;
+                if (counter <= 0) { continue; }
+                if (counter > player[roundManager].manaPotion) { std::cout << "Das geht nicht!"; getKey(); continue; }
+                player[roundManager].manaPotion -= counter;
+                player[roundManager].gold += (counter * 20);
+                std::cout << "Sie haben " << counter << " Manatraenke fuer insgesamt " << (counter * 20) << " Gold verkauft." << std::endl;
+                std::cout << "Moechten Sie noch weitere Gegenstaende verkaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                if (answer == true) { continue; }
+                error(0);
+
+        }
         running = false;
         break;
     }
-    return;
+}
 
+void shop(Player player[], short roundManager, short room)
+{
+    specialHeader(room);
+    headShop(player, roundManager);
+    std::cout << "Was moechten Sie tun?" << std::endl;
+    line();
+    std::cout << "[ 0 ] ------> Zurueck" << std::endl;
+    std::cout << "[ 1 ] ------> Kaufen" << std::endl;
+    std::cout << "[ 2 ] ------> Verkaufen" << std::endl;
+    short input = choice();
+    switch(input)
+    {
+        case 0:
+            return;
+
+        case 1:
+            shopBuy(player, roundManager);
+            return;
+
+        case 2:
+            shopSell(player, roundManager);
+            return;
+    } 
+    return;        
 }
 
 void casinoRoyal(Player player[], short roundManager, short room)
