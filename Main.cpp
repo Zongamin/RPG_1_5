@@ -17,7 +17,7 @@ int main()
 {   
     // Globale Variablen
 
-    const int roomNumbers = 20;
+    const int roomNumbers = 21;
     short numberOfPlayers = 1;
     short roundManager = 0;
     
@@ -93,7 +93,7 @@ int main()
 
         while (running)
         {
-            roomOptions(player, roundManager, zone, 0, numberOfPlayers);
+            roomOptions(player, roundManager, zone, numberOfPlayers);
             running = false;
             player[roundManager].roomCleared = false;
             player[roundManager].realActionPoints = player[roundManager].actionPoints;
@@ -160,7 +160,7 @@ bool playGame = true;
             
         while (running)
             {
-                roomOptions(player, roundManager, zone, player[roundManager].currentRoom, numberOfPlayers);
+                roomOptions(player, roundManager, zone, numberOfPlayers);
                 running = false;
                 break;
             }

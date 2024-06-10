@@ -163,7 +163,7 @@ void roomTexts(int room)
                 position(58, 8);  std::cout << "Wer haette das in einem Dungeon erwartet.... es ist ein An- und Verkauf. Davor";
                 position(58, 9);  std::cout << "steht ein listig dreinblickender Goblin, der sich grinsend die Haende reibt.";
                 position(58, 10); std::cout << "\"Willkommen bei Duester Deals, wir haben Vieles was Sie suchen und vielleicht";
-                position(58, 11); std::cout << "sogar gar nicht erst suchen! Unsere Waffen sind garantiert nur manchmal ver-";
+                position(58, 11); std::cout << "sogar gar nicht erst brauchen! Unsere Waffen sind garantiert nur manchmal ver-";
                 position(58, 12); std::cout << "flucht und die Fallen, die Sie hier sehen sind groesstenteils nur Ausstellungs-"; 
                 position(58, 13); std::cout << "stuecke. Treten Sie naeher und finden Sie es heraus! Wir kaufen uebrigens Alles,";
                 position(58, 14); std::cout << "was Sie loswerden moechten, denn sollten Sie hinter der naechsten Ecke sterben,";

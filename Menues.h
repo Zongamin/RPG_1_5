@@ -1005,14 +1005,14 @@ void menue (Player player[], short roundManager)
 
 // Ingame Hauptmenü
 
-void roomOptions(Player player[], short roundManager, short danger, short room, short numberOfPlayers)
+void roomOptions(Player player[], short roundManager, short danger, short numberOfPlayers)
 {
     bool running = true;
     bool answer = false;
     
     while(running)
     {
-        frameWork(player, roundManager, danger, room);
+        frameWork(player, roundManager, danger, player[roundManager].currentRoom);
         
          if (player[roundManager].permaDeath == true)
         {
@@ -1040,16 +1040,16 @@ void roomOptions(Player player[], short roundManager, short danger, short room, 
         switch (input)
         {
             case 0:
-                if (isRoomValid(room))
+                if (isRoomValid(player[roundManager].currentRoom))
                 {
-                    specialRoom(player, roundManager, room, danger);
+                    specialRoom(player, roundManager, player[roundManager].currentRoom, danger, numberOfPlayers);
                     break;
                 }
                 error(0);
                 break;
         
             case 1:
-                if (room == 0 || room == 1 || room == 4)
+                if (player[roundManager].currentRoom == 0 || player[roundManager].currentRoom == 1 || player[roundManager].currentRoom == 4)
                 {
                     if (player[roundManager].key >= 1) 
                     {

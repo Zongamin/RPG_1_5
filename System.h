@@ -63,8 +63,7 @@
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
 
-extern const int roomNumbers; 
-extern short numberOfPlayers;
+const int roomNumbers = 21; 
 short repeater{};
 short dangerRepeater{};
 short danger{};
@@ -1554,11 +1553,12 @@ void specialHeader(int room)
     if (room == 15){ std::cout << "\033[36mAltarraum\033[0m" << std::endl; }
     if (room == 19){ std::cout << "\033[36mToilette des Gluecks\033[0m" << std::endl; }
     if (room == 20){ std::cout << "\033[36mGrabstaette des Kriegers\033[0m" << std::endl; }
+    if (room == 21){ std::cout << "\033[36mBrunnen des Un... Oehoem... Gluecks\033[0m" << std::endl;}
     line();
     return;
 }
 
-void lever(Player player[], short roundManager, int room)
+void lever(Player player[], short roundManager, int room, short numberOfPlayers)
 {
     specialHeader(room);
     std::cout << "\nSind Sie sich sicher, das Sie den Hebel betaetigen moechten? (J/N)" << std::endl;
@@ -1625,14 +1625,14 @@ void lever(Player player[], short roundManager, int room)
             double gold = random(round((player[roundManager].level * 10) + player[roundManager].luck), round((player[roundManager].level * 25) + player[roundManager].luck));
             double experience = round(gold * 0.125);
             std::cout << "\n\033[32m....Und es rasselt Gold von der Decke!" << std::endl;
-            std::cout << "\n\033[32mSie finden \033[33m" << gold << "\033[32m und erhalten " << experience << " EXP dafuer." << std::endl;
+            std::cout << "\n\033[32mSie finden \033[33m" << gold << " Gold\033[32m und erhalten " << experience << " EXP dafuer." << std::endl;
             player[roundManager].gold += gold;
             player[roundManager].realExp += experience;
             getKey();
             expUp(player, roundManager);
             return;
         }
-        std::cout << "Sie betaetigen den Hebel, doch es geschieht nichts! Die Frage ist: Glück, oder Pech gehabt?" << std::endl;
+        std::cout << "Sie betaetigen den Hebel, doch es geschieht nichts! Die Frage ist: Glueck, oder Pech gehabt?" << std::endl;
         getKey();
         return;
     }
@@ -1759,6 +1759,8 @@ void chest(Player player[], short roundManager, int room, short danger)
                 chestFight(player, roundManager);
                 return;
             }
+            openChest(player, roundManager);
+            return;
         }
         error(0);
         return;
@@ -1771,8 +1773,8 @@ void forgeMenue(Player player[], short roundManager, short room)
     specialHeader(room);
     std::cout << player[roundManager].getName() << ", Ihre Ressourcen:" << std::endl;
     line();
-    std::cout << "Altmetall ---> " << player[roundManager].scrapMetal << std::endl;
-    std::cout << "Kupfer ------> " << player[roundManager].copper << std::endl;
+    std::cout << "\033[90mAltmetall\033[0m ---> \033[90m" << player[roundManager].scrapMetal << "\033[0m" << std::endl;
+    std::cout << "\033[91mKupfer\033[0m ------> \033[91m" << player[roundManager].copper << "\033[0m" << std::endl;
     std::cout << "Aluminium ---> " << player[roundManager].aluminum << std::endl;
     line();
     return;
@@ -1780,44 +1782,47 @@ void forgeMenue(Player player[], short roundManager, short room)
 
 void needMaterial(std::string name)
 {
-    std::cout << "Sie haben zu wenig "<< name << "!" << std::endl;
-    getKey();
+    std::cout << "\033[31mSie haben zu wenig "<< name << "!\033[0m" << std::endl;
     return;
 }
 
-void forgeArmor(Player player[], short roundManager, short room)
+void forgeWeaponArmor(Player player[], short roundManager, short room, std::string sortOf)
 {
     bool running = true;
+    bool dispose = false;
+    double craftedWeaponArmor = 0;
+
     while(running)
     {
         forgeMenue(player, roundManager, room);
-        std::cout << "Zur Herstellung einer normalen Ruestung benoetigen Sie auf Ihrem derzeitigen Level:" << std::endl;
+        std::cout << "Zur Herstellung einer normalen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:" << std::endl;
         double neededScrap = (round((player[roundManager].level * 5) - player[roundManager].luck));
         double neededCopper = (round((player[roundManager].level * 3) - player[roundManager].luck));
         double neededAluminum = (round((player[roundManager].level * 2) - player[roundManager].luck));
         std::cout << "Altmetall: " << neededScrap << " | Kupfer: " << neededCopper << " | Aluminium: " << neededAluminum << std::endl;
-        line();
-        std::cout << "Zur Herstellungen einer besonderen Ruestung benoetigen Sie auf Ihrem derzeitigen Level:" << std::endl;
+        std::cout << "\n\033[94mZur Herstellungen einer besonderen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:\033[0m" << std::endl;
         double goodScrap = (round((player[roundManager].level * 7.5) - player[roundManager].luck));
         double goodCopper = (round((player[roundManager].level * 4.25) - player[roundManager].luck));
         double goodAluminum = (round((player[roundManager].level * 3.5) - player[roundManager].luck));
         std::cout << "Altmetall: " << goodScrap << " | Kupfer: " << goodCopper << " | Aluminium: " << goodAluminum << std::endl;
-        line();
-        std::cout << "Zur Herstellung der best moeglichen Ruestung benoetigen Sie auf Ihrem derzeitigen Level:" << std::endl;
+        std::cout << "\n\033[92mZur Herstellung der bestmoeglichen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:\033[0m" << std::endl;
         double bestScrap = (round((player[roundManager].level * 12.5) - player[roundManager].luck));
         double bestCopper = (round((player[roundManager].level * 7.5) - player[roundManager].luck));
         double bestAluminum = (round((player[roundManager].level * 5) - player[roundManager].luck));
         std::cout << "Altmetall: " << bestScrap << " | Kupfer: " << bestCopper << " | Aluminium: " << bestAluminum << std::endl;
         line();
-        std::cout << "Welche Ruestungsart moechten Sie herstellen?" << std::endl;
+        if (sortOf == "Ruestung") { std::cout << "Welche Ruestungsart moechten Sie herstellen?" << std::endl; }
+        if (sortOf == "Waffe") { std::cout << "Welche Waffenart moechten Sie herstellen?" << std::endl; }
         line();
-        std::cout << "[ 0 ] ------> Zurueck" << std::endl;
-        std::cout << "[ 1 ] ------> Normal" << std::endl;
-        std::cout << "[ 2 ] ------> Besonders" << std::endl;
-        std::cout << "[ 3 ] ------> Bestmoeglich" << std::endl;
+        std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
+        std::cout << "\033[47;30m[ 1 ]\033[0m ------> Normal" << std::endl;
+        std::cout << "\033[104;30m[ 2 ]\033[0m ------> \033[94mBesonders\033[0m" << std::endl;
+        std::cout << "\033[102;30m[ 3 ]\033[0m ------> \033[92mBestmoeglich\033[0m" << std::endl;
+
         short input = choice();
         switch(input)
         {
+        
             case 0:
                 return;
             
@@ -1832,23 +1837,46 @@ void forgeArmor(Player player[], short roundManager, short room)
                 player[roundManager].aluminum -= neededAluminum;
                 player[roundManager].realCapacity -= (neededAluminum * 0.1);
                 player[roundManager].crafted++;
-                double craftedArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
-                std::cout << "Sie haben eine normale Ruestung mit dem Wert: " << craftedArmor<< " RST hergestellt." << std::endl;
-                bool dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
-                if (dispose == false) { std::cout << "\033[91mSie koennen die Ruestung nicht mitnehmen!\n" << std::endl; } 
-                if (player[roundManager].armor[0] == 0) {player[roundManager].armor[0] = craftedArmor; break;}
-                        for (int i = 0; i < 500; i++)
+                craftedWeaponArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
+                if (craftedWeaponArmor < 1) { craftedWeaponArmor = 1; }
+                std::cout << "Sie haben eine normale " << sortOf << " mit dem Wert: " << craftedWeaponArmor << " hergestellt." << std::endl; 
+                if (sortOf == "Ruestung") { dispose = capacityCheck(player, roundManager, 2.25, 1, sortOf); }
+                if (sortOf == "Waffe"){ dispose = capacityCheck(player, roundManager, 2.5, 1, sortOf);}
+                if (dispose == false) { std::cout << "\033[91mSie koennen die " << sortOf << " nicht mitnehmen!\n" << std::endl; } 
+                if (sortOf == "Ruestung")
+                {
+                    if (player[roundManager].armor[0] == 0) { player[roundManager].armor[0] = craftedWeaponArmor; craftedWeaponArmor = 0;}
+                }
+                if (sortOf == "Waffe")
+                {
+                    if (player[roundManager].weapons[0] == 0) { player[roundManager].weapons[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
+                }
+                for (int i = 0; i < 500; i++)
+                {
+                    if (sortOf == "Ruestung")
+                    {
+                        if (player[roundManager].armor[i] == 0) 
                         {
-                            if (player[roundManager].armor[i] == 0) 
-                            {
-                                player[roundManager].armor[i] = craftedArmor;
-                                arraySort(player, roundManager, "armor");
-                                player[roundManager].realCapacity += 2.25;
-                                std::cout << "Die Ruestung wurde Ihrem Inventar hinzugefuegt!" << std::endl;
-                                getKey();
-                                break;
-                            }
+                            player[roundManager].armor[i] = craftedWeaponArmor;
+                            arraySort(player, roundManager, "armor");
+                            player[roundManager].realCapacity += 2.25;
                         }
+                    
+                    }
+                    if (sortOf == "Waffe")
+                    {
+                        if (player[roundManager].weapons[i] == 0) 
+                        {
+                            player[roundManager].weapons[i] = craftedWeaponArmor;
+                            arraySort(player, roundManager, "weapon");
+                            player[roundManager].realCapacity += 2.5;
+                        }
+                    
+                    }
+                    std::cout << "Die " << sortOf << " wurde Ihrem Inventar hinzugefuegt!" << std::endl;
+                    getKey();
+                    break;
+                }
 
             case 2:
                 if (player[roundManager].scrapMetal < goodScrap) { needMaterial("Altmetall"); break;}
@@ -1861,25 +1889,48 @@ void forgeArmor(Player player[], short roundManager, short room)
                 player[roundManager].aluminum -= neededAluminum;
                 player[roundManager].realCapacity -= (goodAluminum * 0.1);
                 player[roundManager].crafted++;
-                double craftedArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
-                craftedArmor++;
-                std::cout << "Sie haben eine normale Ruestung mit dem Wert: " << craftedArmor<< " RST hergestellt." << std::endl;
-                bool dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
-                if (dispose == false) { std::cout << "\033[91mSie koennen die Ruestung nicht mitnehmen!\n" << std::endl; } 
-                if (player[roundManager].armor[0] == 0) {player[roundManager].armor[0] = craftedArmor; break;}
-                        for (int i = 0; i < 500; i++)
+                craftedWeaponArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
+                if (craftedWeaponArmor < 1){ craftedWeaponArmor = 1; }
+                craftedWeaponArmor++;
+                std::cout << "\033[94mSie haben eine besondere " << sortOf << " mit dem Wert: " << craftedWeaponArmor<< " hergestellt.\033[0m" << std::endl;
+                if (sortOf == "Ruestung") { dispose = capacityCheck(player, roundManager, 2.25, 1, sortOf); }
+                if (sortOf == "Waffe"){ dispose = capacityCheck(player, roundManager, 2.5, 1, sortOf);}
+                if (dispose == false) { std::cout << "\033[91mSie koennen die " << sortOf << " nicht mitnehmen!\n" << std::endl; } 
+                if (sortOf == "Ruestung")
+                {
+                    if (player[roundManager].armor[0] == 0) { player[roundManager].armor[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
+                }
+                if (sortOf == "Waffe")
+                {
+                    if (player[roundManager].weapons[0] == 0) { player[roundManager].weapons[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
+                }
+                for (int i = 0; i < 500; i++)
+                {
+                    if (sortOf == "Ruestung")
+                    {
+                        if (player[roundManager].armor[i] == 0) 
                         {
-                            if (player[roundManager].armor[i] == 0) 
-                            {
-                                player[roundManager].armor[i] = craftedArmor;
-                                arraySort(player, roundManager, "armor");
-                                player[roundManager].realCapacity += 2.25;
-                                std::cout << "Die Ruestung wurde Ihrem Inventar hinzugefuegt!" << std::endl;
-                                getKey();
-                                break;
-                            }
+                            player[roundManager].armor[i] = craftedWeaponArmor;
+                            arraySort(player, roundManager, "armor");
+                            player[roundManager].realCapacity += 2.25;
                         }
-            
+                    
+                    }
+                    if (sortOf == "Waffe")
+                    {
+                        if (player[roundManager].weapons[i] == 0) 
+                        {
+                            player[roundManager].weapons[i] = craftedWeaponArmor;
+                            arraySort(player, roundManager, "weapon");
+                            player[roundManager].realCapacity += 2.5;
+                        }
+                    
+                    }
+                    std::cout << "Die " << sortOf << " wurde Ihrem Inventar hinzugefuegt!" << std::endl;
+                    getKey();
+                    break;
+                }
+                
             case 3:
                 if (player[roundManager].scrapMetal < bestScrap) { needMaterial("Altmetall"); break;}
                 if (player[roundManager].copper < bestCopper) { needMaterial("Kupfer"); break;}
@@ -1891,36 +1942,57 @@ void forgeArmor(Player player[], short roundManager, short room)
                 player[roundManager].aluminum -= bestAluminum;
                 player[roundManager].realCapacity -= (bestAluminum * 0.1);
                 player[roundManager].crafted++;
-                double craftedArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
-                craftedArmor += 2;
-                std::cout << "Sie haben eine normale Ruestung mit dem Wert: " << craftedArmor<< " RST hergestellt." << std::endl;
-                bool dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
-                if (dispose == false) { std::cout << "\033[91mSie koennen die Ruestung nicht mitnehmen!\n" << std::endl; } 
-                if (player[roundManager].armor[0] == 0) {player[roundManager].armor[0] = craftedArmor; break;}
-                        for (int i = 0; i < 500; i++)
+                craftedWeaponArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
+                if (craftedWeaponArmor < 1) { craftedWeaponArmor= 1; }
+                craftedWeaponArmor += 2;
+                std::cout << "\033[92mSie haben die bestmoegliche " << sortOf << " mit dem Wert: " << craftedWeaponArmor<< " hergestellt.\033[0m" << std::endl;
+                if (sortOf == "Ruestung") { dispose = capacityCheck(player, roundManager, 2.25, 1, sortOf); }
+                if (sortOf == "Waffe"){ dispose = capacityCheck(player, roundManager, 2.5, 1, sortOf);}
+                if (dispose == false) { std::cout << "\033[91mSie koennen die " << sortOf << " nicht mitnehmen!\n" << std::endl; } 
+                if (sortOf == "Ruestung")
+                {
+                    if (player[roundManager].armor[0] == 0) { player[roundManager].armor[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
+                }
+                if (sortOf == "Waffe")
+                {
+                    if (player[roundManager].weapons[0] == 0) { player[roundManager].weapons[0] = craftedWeaponArmor; craftedWeaponArmor = 0;}
+                }
+                for (int i = 0; i < 500; i++)
+                {
+                    if (sortOf == "Ruestung")
+                    {
+                        if (player[roundManager].armor[i] == 0) 
                         {
-                            if (player[roundManager].armor[i] == 0) 
-                            {
-                                player[roundManager].armor[i] = craftedArmor;
-                                arraySort(player, roundManager, "armor");
-                                player[roundManager].realCapacity += 2.25;
-                                std::cout << "Die Ruestung wurde Ihrem Inventar hinzugefuegt!" << std::endl;
-                                getKey();
-                                break;
-                            }
+                            player[roundManager].armor[i] = craftedWeaponArmor;
+                            arraySort(player, roundManager, "armor");
+                            player[roundManager].realCapacity += 2.25;
                         }
+                    
+                    }
+                    if (sortOf == "Waffe")
+                    {
+                        if (player[roundManager].weapons[i] == 0) 
+                        {
+                            player[roundManager].weapons[i] = craftedWeaponArmor;
+                            arraySort(player, roundManager, "weapon");
+                            player[roundManager].realCapacity += 2.5;
+                        }
+                    
+                    }
+                    std::cout << "Die " << sortOf << " wurde Ihrem Inventar hinzugefuegt!" << std::endl;
+                    getKey();
+                    break;
+                }
+        
             default:
                 error(0);
                 break;
-
         }
-        getKey();
         running = false;
         break;
     }
-    return;
 }
-
+        
 void forge(Player player[], short roundManager, short room)
 {
     bool running = true;
@@ -1941,7 +2013,15 @@ void forge(Player player[], short roundManager, short room)
                 break;
             
             case 1:
-                forgeArmor(player, roundManager, room);
+                forgeWeaponArmor(player, roundManager, room, "Ruestung");
+                break;
+            
+            case 2: 
+                forgeWeaponArmor(player, roundManager, room, "Waffe");
+                break;
+            
+            default:
+                error(0);
                 break;
         }
         running = false;
@@ -1950,10 +2030,43 @@ void forge(Player player[], short roundManager, short room)
     return;
 }
 
+void headShop(Player player[], short roundManager)
+{
+    std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+    position(40, 15); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
+    capacityColor(player, roundManager); position(80, 15); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    line();
+    return;
+}
+
 void shop(Player player[], short roundManager, short room)
 {
-    specialHeader(room);
+    bool running = true;
+    
+    while(running)
+    {
+        specialHeader(room);
+        headShop(player, roundManager);
+        std::cout << "Was moechten Sie tun?" << std::endl;
+        line();
+        std::cout << "[ 0 ] ------> Zurueck" << std::endl;
+        std::cout << "[ 1 ] ------> Kaufen" << std::endl;
+        std::cout << "[ 2 ] ------> Verkaufen" << std::endl;
+        short input = choice();
+        switch(input)
+        {
+            case 0:
+                running = false;
+                break;
+
+            case 1:
+                
+        } 
+        running = false;
+        break;
+    }
     return;
+
 }
 
 void casinoRoyal(Player player[], short roundManager, short room)
@@ -1998,9 +2111,15 @@ void grave(Player player[], short roundManager, short room)
     return;
 }
 
-void specialRoom(Player player[], short roundManager, int room, short danger)
+void spring(Player player[], short roundManager, short room)
 {
-    if (room == 5) { lever(player, roundManager, room); return; }
+    specialHeader(room);
+    return;
+}
+
+void specialRoom(Player player[], short roundManager, int room, short danger, short numberOfPlayers)
+{
+    if (room == 5) { lever(player, roundManager, room, numberOfPlayers); return; }
     if (room == 6) { chest(player, roundManager, room, danger); return; }
     if (room == 9) { forge(player, roundManager, room); return; }
     if (room == 10){ shop(player, roundManager, room); return; }
@@ -2011,6 +2130,7 @@ void specialRoom(Player player[], short roundManager, int room, short danger)
     if (room == 15){ chancel(player, roundManager, room); return; }
     if (room == 19){ toiletOfLuck(player, roundManager, room); return; }
     if (room == 20){ grave(player, roundManager, room); return; }
+    if (room == 21){ spring(player, roundManager, room); return;}
     error(0);
     return;
 }
