@@ -129,6 +129,7 @@ bool playGame = true;
         {
             player[roundManager].rooms++;
             player[roundManager].roomCleared = false;
+            player[roundManager].specialRoom = false;
             player[roundManager].currentRoom = random(1, roomNumbers);
             player[roundManager].traps = 0;
             roundManager++;

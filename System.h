@@ -177,6 +177,15 @@ void error(short error)
         case 3: 
             std::cout << "\n\n\033[31mNicht genuegend Intelligenz!\033[0m" << std::endl;
             break;
+        case 4:
+            std::cout << "\n\n\033[31mDer Haendler hat diese Ressource ist nicht mehr Vorraetig!\033[0m" << std::endl;
+            break;
+        case 5:
+            std::cout << "\n\n\033[31mSie haben nicht genug Gold!\033[0m" << std::endl;
+            break;
+        default:
+            std::cout << "\n\n\033[31mUnbekannter Fehler!\033[0m" << std::endl;
+            break;
     }
     getKey();
     return;
@@ -1126,7 +1135,7 @@ void loot(Player player[], short roundManager)
                     if (chance >= (45 - player[roundManager].luck) && chance <= (55 + player[roundManager].luck))
                     {
                         findItem = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
-                        findItem++;
+                        if (findItem < 1) { findItem = 1; }
                         experience = round((findItem * 100) * (player[roundManager].level * 1.25));
                         std::cout << "\033[0mWaffe\033[0m -------------------> " << findItem << " DMG / " << experience << " Exp." << std::endl;
                         tempExp += experience;
@@ -1158,7 +1167,7 @@ void loot(Player player[], short roundManager)
                     if (chance >= (45 - player[roundManager].luck) & chance <=  (55 + player[roundManager].luck))
                     {
                         findItem = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2)); 
-                        findItem++;
+                        if (findItem < 1) { findItem = 1; }
                         experience = round((findItem * 100) * (player[roundManager].level * 1.25));
                         std::cout << "\033[90mRuestung\033[0m ----------------> " << findItem << " RST / " << experience << " Exp." << std::endl;
                         tempExp += experience;
@@ -2039,8 +2048,353 @@ void headShop(Player player[], short roundManager)
     return;
 }
 
+int shopOffer(Player player[], short roundManager)
+{
+    int offer = 0;
+    offer = random(0, player[roundManager].level);
+    if (offer > 10) { offer = 10; } 
+    return offer;
+}
+
+double shopWeaponArmor(Player player[], short roundManager)
+{
+    double damage = 0;
+    short factor = 0;
+    factor = random(0, 2);
+    damage = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
+    if (damage < 1) { damage = 1; }
+    return damage;
+}
+
 void shopBuy(Player player[], short roundManager)
 {
+    bool running = true;
+    bool answer = false;
+    bool dispose = false;
+    short counter = 0;
+    static short dealerScrap;
+    static short dealerCopper;
+    static short dealerAluminum;
+    static short dealerHerbs;
+    static short dealerHealth;
+    static short dealerMana;
+    static short dealerRegen;
+    static short dealerWeapon;
+    static short dealerArmor;
+
+    if (player[roundManager].specialRoom == false)
+    {
+    dealerScrap = shopOffer(player, roundManager);
+    dealerCopper = shopOffer(player, roundManager);
+    dealerAluminum = shopOffer(player, roundManager);
+    dealerHerbs = shopOffer(player, roundManager);
+    dealerHealth = shopOffer(player, roundManager);
+    dealerMana = shopOffer(player, roundManager);
+    dealerRegen = shopOffer(player, roundManager);
+    dealerWeapon = shopWeaponArmor(player, roundManager);
+    dealerArmor = shopWeaponArmor(player, roundManager);
+    player[roundManager].specialRoom = true;
+    }
+    while(running)
+    {
+        specialHeader(player[roundManager].currentRoom);
+        headShop(player, roundManager);
+        std::cout << "Der Haendler hat folgende Angebote:" << std::endl;
+        line();
+        std::cout << "\033[100;30m[ 1 ]\033[0m ------> \033[90mAltmetall\033[0m ------------- Anzahl: " << dealerScrap << " \033[93m30 Gold\033[0m / Einheit" << std::endl;
+        std::cout << "\033[41;37m[ 2 ]\033[0m ------> \033[31mKupfer\033[0m ---------------- Anzahl: " << dealerCopper << " \033[93m45 Gold\033[0m / Einheit" << std::endl;
+        std::cout << "\033[47;30m[ 3 ]\033[0m ------> Aluminium ------------- Anzahl: " << dealerAluminum << " \033[93m60 Gold\033[0m / Einheit" << std::endl;
+        std::cout << "\033[42;37m[ 4 ]\033[0m ------> \033[32mKraeuter\033[0m -------------- Anzahl: " << dealerHerbs << " \033[93m75 Gold\033[0m / Einheit" << std::endl;
+        std::cout << "\033[101;37m[ 5 ]\033[0m ------> \033[91mHeiltraenke\033[0m ----------- Anzahl: " << dealerHealth << " \033[93m45 Gold\033[0m / Einheit" << std::endl;
+        std::cout << "\033[44;37m[ 6 ]\033[0m ------> \033[44mManatraenke\033[0m ----------- Anzahl: " << dealerMana << " \033[93m60 Gold\033[0m / Einheit" << std::endl;
+        std::cout << "\033[45;37m[ 7 ]\033[0m ------> \033[35mRegenerationstraenke\033[0m -- Anzahl: " << dealerRegen << " \033[93m75 Gold\033[0m / Einheit" << std::endl;
+        std::cout << "\033[100;30m[ 8 ]\033[0m ------> \033[90mWaffe\033[0m ----------------- DMG   : " << dealerWeapon << " \033[93m" << (dealerWeapon * 150) << " Gold\033[0m" << std::endl;
+        std::cout << "\033[47;30m[ 9 ]\033[0m ------> Ruestung -------------- RST   : " << dealerArmor << " \033[93m" << (dealerArmor * 150) << " Gold\033[0m" << std::endl;
+        std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
+        line();
+        short input = choice();
+        switch (input)
+        {
+            case 0:
+                running = false;
+                break;
+
+            case 1:
+                if (dealerScrap < 1) { error(4); break; }
+                std::cout << "Wie viele Einheiten Altmetall moechten Sie kaufen? (0 - " << dealerScrap << ") ";
+                while (!(std::cin >> counter) || counter < 0 || counter > dealerScrap) 
+                {
+                if (counter == 0) { break; }
+                error(0);
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Wie viele Einheiten Altmetall moechten Sie kaufen? (0 - " << dealerScrap << ") ";
+                }
+                if ((counter * 30) > player[roundManager].gold) { error(5); break; }
+                dispose = capacityCheck(player, roundManager, 0.3, counter, "Altmetall");
+                if (dispose == false) 
+                {
+                    std::cout << "\033[91m\nAus Platzmangel koennen Sie das Altmetall nicht kaufen!\033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
+                std::cout << "\033[92m\nSie haben " << counter << " Einheiten Altmetall fuer \033[93m" << (counter * 30) << " Gold\033[92m gekauft.\033[0m" << std::endl;
+                dealerScrap -= counter;
+                player[roundManager].scrapMetal += counter;
+                player[roundManager].gold -= (counter * 30);
+                player[roundManager].realCapacity += (counter * 0.3);
+                std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                break;
+
+            case 2:
+                if (dealerCopper < 1) { error(4); break; }
+                std::cout << "Wie viele Einheiten Kupfer moechten Sie kaufen? (0 - " << dealerCopper << ") ";
+                while (!(std::cin >> counter) || counter < 0 || counter > dealerCopper) 
+                {
+                if (counter == 0) { break; }
+                error(0);
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Wie viele Einheiten Kupfer moechten Sie kaufen? (0 - " << dealerCopper << ") ";
+                }
+                if ((counter * 45) > player[roundManager].gold) { error(5); break; }
+                dispose = capacityCheck(player, roundManager, 0.2, counter, "Kupfer");
+                if (dispose == false) 
+                {
+                    std::cout << "\033[91m\nAus Platzmangel koennen Sie das Kupfer nicht kaufen!\033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
+                std::cout << "\033[92m\nSie haben " << counter << " Einheiten Kupfer fuer \033[93m" << (counter * 45) << " Gold\033[92m gekauft.\033[0m" << std::endl;
+                dealerCopper -= counter;
+                player[roundManager].copper += counter;
+                player[roundManager].gold -= (counter * 45);
+                player[roundManager].realCapacity += (counter * 0.2);
+                std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                break;
+
+            case 3:
+                if (dealerAluminum < 1) { error(4); break; }
+                std::cout << "Wie viele Einheiten Aluminium moechten Sie kaufen? (0 - " << dealerAluminum << ") ";
+                while (!(std::cin >> counter) || counter < 0 || counter > dealerAluminum) 
+                {
+                if (counter == 0) { break; }
+                error(0);
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Wie viele Einheiten Aluminium moechten Sie kaufen? (0 - " << dealerAluminum << ") ";
+                }
+                if ((counter * 60) > player[roundManager].gold) { error(5); break; }
+                dispose = capacityCheck(player, roundManager, 0.1, counter, "Aluminium");
+                if (dispose == false) 
+                {
+                    std::cout << "\033[91m\nAus Platzmangel koennen Sie das Aluminium nicht kaufen!\033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
+                std::cout << "\033[92m\nSie haben " << counter << " Einheiten Aluminium fuer \033[93m" << (counter * 60) << " Gold\033[92m gekauft.\033[0m" << std::endl;
+                dealerAluminum -= counter;
+                player[roundManager].aluminum += counter;
+                player[roundManager].gold -= (counter * 60);
+                player[roundManager].realCapacity += (counter * 0.1);
+                std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                break;
+
+            case 4:
+                if (dealerHerbs < 1) { error(4); break; }
+                std::cout << "Wie viele Einheiten Kraeuter moechten Sie kaufen? (0 - " << dealerHerbs << ") ";
+                while (!(std::cin >> counter) || counter < 0 || counter > dealerHerbs) 
+                {
+                if (counter == 0) { break; }
+                error(0);
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Wie viele Einheiten Kraeuter moechten Sie kaufen? (0 - " << dealerHerbs << ") ";
+                }
+                if ((counter * 75) > player[roundManager].gold) { error(5); break; }
+                dispose = capacityCheck(player, roundManager, 0.3, counter, "Kraut");
+                if (dispose == false) 
+                {
+                    std::cout << "\033[91m\nAus Platzmangel koennen Sie die Kraeuter nicht kaufen!\033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
+                std::cout << "\033[92m\nSie haben " << counter << " Einheiten Kraeuter fuer \033[93m" << (counter * 75) << " Gold\033[92m gekauft.\033[0m" << std::endl;
+                dealerHerbs -= counter;
+                player[roundManager].herbs += counter;
+                player[roundManager].gold -= (counter * 75);
+                player[roundManager].realCapacity += (counter * 0.1);
+                std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                break;
+            
+            case 5:
+                if (dealerHealth < 1) { error(4); break; }
+                std::cout << "Wie viele Einheiten Heiltraenke moechten Sie kaufen? (0 - " << dealerHealth << ") ";
+                while (!(std::cin >> counter) || counter < 0 || counter > dealerHealth) 
+                {
+                if (counter == 0) { break; }
+                error(0);
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Wie viele Einheiten Heiltraenke moechten Sie kaufen? (0 - " << dealerHealth << ") ";
+                }
+                if ((counter * 45) > player[roundManager].gold) { error(5); break; }
+                dispose = capacityCheck(player, roundManager, 0.25, counter, "Heiltraenke");
+                if (dispose == false) 
+                {
+                    std::cout << "\033[91m\nAus Platzmangel koennen Sie die Heiltraenke nicht kaufen!\033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
+                std::cout << "\033[92m\nSie haben " << counter << " Einheiten Heiltraenke fuer \033[93m" << (counter * 45) << " Gold\033[92m gekauft.\033[0m" << std::endl;
+                dealerHealth -= counter;
+                player[roundManager].healthPotion += counter;
+                player[roundManager].gold -= (counter * 45);
+                player[roundManager].realCapacity += (counter * 0.25);
+                std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                break;
+
+            case 6:
+                if (dealerMana < 1) { error(4); break; }
+                std::cout << "Wie viele Einheiten Manatraenke moechten Sie kaufen? (0 - " << dealerMana << ") ";
+                while (!(std::cin >> counter) || counter < 0 || counter > dealerMana) 
+                {
+                if (counter == 0) { break; }
+                error(0);
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Wie viele Einheiten Manatraenke moechten Sie kaufen? (0 - " << dealerMana << ") ";
+                }
+                if ((counter * 60) > player[roundManager].gold) { error(5); break; }
+                dispose = capacityCheck(player, roundManager, 0.25, counter, "Manatraenke");
+                if (dispose == false) 
+                {
+                    std::cout << "\033[91m\nAus Platzmangel koennen Sie die Manatraenke nicht kaufen!\033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
+                std::cout << "\033[92m\nSie haben " << counter << " Einheiten Manatraenke fuer \033[93m" << (counter * 60) << " Gold\033[92m gekauft.\033[0m" << std::endl;
+                dealerMana -= counter;
+                player[roundManager].manaPotion += counter;
+                player[roundManager].gold -= (counter * 60);
+                player[roundManager].realCapacity += (counter * 0.25);
+                std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                break;
+            
+            case 7:
+                if (dealerRegen < 1) { error(4); break; }
+                std::cout << "Wie viele Einheiten Regenerationstraenke moechten Sie kaufen? (0 - " << dealerRegen << ") ";
+                while (!(std::cin >> counter) || counter < 0 || counter > dealerRegen) 
+                {
+                if (counter == 0) { break; }
+                error(0);
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cout << "Wie viele Einheiten Regenerations moechten Sie kaufen? (0 - " << dealerRegen << ") ";
+                }
+                if ((counter * 75) > player[roundManager].gold) { error(5); break; }
+                dispose = capacityCheck(player, roundManager, 0.25, counter, "Regenerationstraenke");
+                if (dispose == false) 
+                {
+                    std::cout << "\033[91m\nAus Platzmangel koennen Sie die Regenerationstraenke nicht kaufen!\033[0m" << std::endl;
+                    getKey();
+                    break;
+                }
+                std::cout << "\033[92m\nSie haben " << counter << " Einheiten Regenerationstraenke fuer \033[93m" << (counter * 75) << " Gold\033[92m gekauft.\033[0m" << std::endl;
+                dealerRegen -= counter;
+                player[roundManager].regenPotion += counter;
+                player[roundManager].gold -= (counter * 75);
+                player[roundManager].realCapacity += (counter * 0.25);
+                std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { running = false; break; }
+                break;
+            
+            case 8:
+                if (dealerWeapon < 1) { error(6); break; }
+                std::cout << "Sind Sie sicher, dass Sie die Waffe kaufen moechten? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { break; }
+                if ((dealerWeapon * 150) > player[roundManager].gold) { error(5); break; }
+                dispose = capacityCheck(player, roundManager, 2.5, 1, "Waffe");
+                if (dispose == false) { std::cout << "\033[91mSie koennen die Waffe nicht kaufen, da Sie nicht genuegend Inventarplatz haben!\033[0m" << std::endl; break; }
+                if (player[roundManager].weapons[0] == 0) 
+                {
+                    player[roundManager].weapons[0] = dealerWeapon;
+                    dealerWeapon = 0;
+                    player[roundManager].gold -= (dealerWeapon * 150);
+                    player[roundManager].realCapacity += 2.5;
+                    arraySort(player, roundManager, "weapon");
+                    std::cout << "\033[92mDie Waffe wurde fuer \033[93m" << (dealerWeapon * 150) << " Gold\033[92m Ihrem Inventar hinzugefuegt!\033[0m" << std::endl;
+                    std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
+                    answer = question();
+                    if (answer == false) { running = false; break; }
+                    break;
+                }
+                for (int i = 0; i < 500; i++)
+                {
+                    if (player[roundManager].weapons[i] == 0) 
+                    {
+                        player[roundManager].weapons[i] = dealerWeapon;
+                        dealerWeapon = 0;
+                        player[roundManager].gold -= (dealerWeapon * 150);
+                        arraySort(player, roundManager, "weapon");
+                        player[roundManager].realCapacity += 2.5;
+                        break;
+                    }                        
+                }
+
+            case 9:
+                if (dealerArmor < 1) { error(6); break; }
+                std::cout << "Sind Sie sicher, dass Sie die Armor kaufen moechten? (J/N)" << std::endl;
+                answer = question();
+                if (answer == false) { break; }
+                if ((dealerArmor * 150) > player[roundManager].gold) { error(5); break; }
+                dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
+                if (dispose == false) { std::cout << "\033[91mSie koennen die Ruestung nicht kaufen, da Sie nicht genuegend Inventarplatz haben!\n" << std::endl; break; }
+                if (player[roundManager].armor[0] == 0) 
+                {
+                    player[roundManager].armor[0] = dealerArmor;
+                    dealerWeapon = 0;
+                    player[roundManager].gold -= (dealerArmor * 150);
+                    player[roundManager].realCapacity += 2.25;
+                    arraySort(player, roundManager, "armor");
+                    std::cout << "\033[92mDie Ruestung wurde fuer \033[93m" << (dealerWeapon * 150) << " Gold\033[92m Ihrem Inventar hinzugefuegt!\033[0m" << std::endl;
+                    std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
+                    answer = question();
+                    if (answer == false) { running = false; break; }
+                    break;
+                }
+                for (int i = 0; i < 500; i++)
+                {
+                    if (player[roundManager].armor[i] == 0) 
+                    {
+                        player[roundManager].armor[i] = dealerArmor;
+                        dealerArmor = 0;
+                        player[roundManager].gold -= (dealerArmor * 150);
+                        arraySort(player, roundManager, "armor");
+                        player[roundManager].realCapacity += 2.25;
+                        break;
+                    }                        
+                }
+
+            default:
+                error(0);
+                break;    
+        } 
+    }
     return;
 }
 

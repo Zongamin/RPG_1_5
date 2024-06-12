@@ -56,6 +56,7 @@ class Player
         int regenerationOn{};
         int traps{};
         bool permaDeath{};
+        bool specialRoom{};
 
         // Statistics
 
