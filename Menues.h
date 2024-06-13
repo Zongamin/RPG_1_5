@@ -732,6 +732,7 @@ void magicMenue(Player player[], short roundManager)
                     line();
                     std::cout << "\n\n\033[31mSie haben nicht genug Mana!\033[0m" << std::endl;
                     std::cout << "\033[32mIhre durchschnittliche \033[42;37m* Heilung *\033[0;32m betraegt: " << heal << " HP. Dabei werden 15 Mana verbraucht.\033[0m" << std::endl;
+                    
                     line();
                     getKey();
                     continue;                    
@@ -757,7 +758,7 @@ void magicMenue(Player player[], short roundManager)
                     heal = round(((player[roundManager].health / 100) * 10));
                     vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                     heal += vari;
-                    player[roundManager].realHealth + heal;
+                    player[roundManager].realHealth += heal;
                     player[roundManager].realMana -= 15;
                     if (player[roundManager].realHealth > player[roundManager].health) {player[roundManager].realHealth = player[roundManager].health;}
                     line();
@@ -866,7 +867,7 @@ void magicMenue(Player player[], short roundManager)
                     }
                     else
                     {
-                        player[roundManager].realHealth + heal;
+                        player[roundManager].realHealth += heal;
                         player[roundManager].realMana -= 25;
                         if (player[roundManager].realHealth > player[roundManager].health) {player[roundManager].realHealth = player[roundManager].health;}
                         line();

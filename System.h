@@ -178,10 +178,13 @@ void error(short error)
             std::cout << "\n\n\033[31mNicht genuegend Intelligenz!\033[0m" << std::endl;
             break;
         case 4:
-            std::cout << "\n\n\033[31mDer Haendler hat diese Ressource ist nicht mehr Vorraetig!\033[0m" << std::endl;
+            std::cout << "\n\n\033[31mDer Haendler hat diese Ressource nicht mehr Vorraetig!\033[0m" << std::endl;
             break;
         case 5:
             std::cout << "\n\n\033[31mSie haben nicht genug Gold!\033[0m" << std::endl;
+            break;
+        case 6:
+            std::cout << "\n\n\033[31mDer Haendler hat diesen Ausruestungsgegenstand nicht mehr Vorraetig!\033[0m" << std::endl;
             break;
         default:
             std::cout << "\n\n\033[31mUnbekannter Fehler!\033[0m" << std::endl;
@@ -933,7 +936,9 @@ void trapCheck(Player player[], short roundManager, std::string room)
             getKey();
             return;
         }
+        return;
     }
+    return;
 }
 
 // looten nach erfolgreicher Suche
@@ -965,7 +970,7 @@ void loot(Player player[], short roundManager)
                 if ((chance >= 1 && chance <= 35) || (chance >= 50 && chance <= 85))
                 {
                     findItem = random(round(player[roundManager].level * 5), round(player[roundManager].level * 25) + round(player[roundManager].luck));
-                    experience = round((findItem * 0.125) * (player[roundManager].level * 1.25));
+                    experience = round(findItem * 0.125);
                     std::cout << "\033[93mGold\033[0m --------------------> " << findItem << " / " << experience << " Exp." << std::endl;
                     std::cout << "---------------------------------------------------" << std::endl;
                     player[roundManager].gold += findItem;
@@ -982,7 +987,7 @@ void loot(Player player[], short roundManager)
                     if (chance >= 1 && chance <= 35 || chance >= 40 && chance <= 75)
                     {
                         findItem = 1;
-                        experience = round((findItem * 20) * (player[roundManager].level * 1.25));
+                        experience = round(findItem * (20 + player[roundManager].luck));
                         std::cout << "\033[36mSchluessel\033[0m --------------> " << findItem << " / " << experience << " Exp." << std::endl;
                         std::cout << "---------------------------------------------------" << std::endl;
                         player[roundManager].key += findItem;
@@ -1000,7 +1005,7 @@ void loot(Player player[], short roundManager)
                 {
                     findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
                     if (findItem < 1) {findItem = 1;} 
-                    experience = round((findItem * 10) * (player[roundManager].level * 1.25));
+                    experience = round(findItem * (10 + player[roundManager].luck));
                     std::cout << "\033[90mAltmetall\033[0m ---------------> " << findItem << " / " << experience << " Exp." << std::endl;
                     tempExp += experience;
                     dispose = capacityCheck(player, roundManager, 0.3, findItem, "Altmetall");
@@ -1019,7 +1024,7 @@ void loot(Player player[], short roundManager)
                 {
                     findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
                     if (findItem < 1) {findItem = 1;}
-                    experience = round((findItem * 7.5) * (player[roundManager].level * 1.25));
+                    experience = round(findItem * (7.5 + player[roundManager].luck));
                     std::cout << "\033[0mAluminium\033[0m ---------------> " << findItem << " / " << experience << " Exp." << std::endl;
                     tempExp += experience;
                     dispose = capacityCheck(player, roundManager, 0.1, findItem, "Aluminium");
@@ -1038,7 +1043,7 @@ void loot(Player player[], short roundManager)
                 {
                     findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
                     if (findItem < 1 ) {findItem = 1;} 
-                    experience = round((findItem * 5) * (player[roundManager].level * 1.25));
+                    experience = round(findItem * (5 + player[roundManager].luck));
                     std::cout << "\033[31mKupfer\033[0m ------------------> " << findItem << " / " << experience << " Exp." << std::endl;
                     tempExp += experience;
                     dispose = capacityCheck(player, roundManager, 0.2, findItem, "Kupfer");
@@ -1057,7 +1062,7 @@ void loot(Player player[], short roundManager)
                 {
                     findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
                     if (findItem < 1 ) {findItem = 1;} 
-                    experience = round((findItem * 5) * (player[roundManager].level * 1.25));
+                    experience = round(findItem * (5 + player[roundManager].luck));
                     std::cout << "\033[92mKraeuter\033[0m ----------------> " << findItem << " / " << experience << " Exp." << std::endl;
                     tempExp += experience;
                     dispose = capacityCheck(player, roundManager, 0.1, findItem, "Kraut");
@@ -1076,7 +1081,7 @@ void loot(Player player[], short roundManager)
                 {
                     findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
                     if (findItem < 1) {findItem = 1;}
-                    experience = round((findItem * 10) * (player[roundManager].level * 1.25));
+                    experience = round(findItem * (10 + player[roundManager].luck));
                     std::cout << "\033[91mHeiltraenke\033[0m -------------> " << findItem << " / " << experience << " Exp." << std::endl;
                     tempExp += experience;
                     dispose = capacityCheck(player, roundManager, 0.25, findItem, "Heiltraenke");
@@ -1095,7 +1100,7 @@ void loot(Player player[], short roundManager)
                 {
                     findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
                     if (findItem < 1 ) {findItem = 1;}
-                    experience = round((findItem * 15) * (player[roundManager].level * 1.25));
+                    experience = round(findItem * (15 + player[roundManager].luck));
                     std::cout << "\033[94mManatraenke\033[0m -------------> " << findItem << " / " << experience << " Exp." << std::endl;
                     tempExp += experience;
                     dispose = capacityCheck(player, roundManager, 0.25, findItem, "Manatraenke");
@@ -1114,7 +1119,7 @@ void loot(Player player[], short roundManager)
                 {
                     findItem = random(round((player[roundManager].level * 0.125)), round(player[roundManager].level * 0.25) + round(player[roundManager].luck));
                     if (findItem < 1) {findItem = 1;}
-                    experience = round((findItem * 20) * (player[roundManager].level * 1.25));
+                    experience = round(findItem * (20 + player[roundManager].luck));
                     std::cout << "\033[95mRegenerationstraenke\033[0m ----> " << findItem << " / " << experience << " Exp." << std::endl;
                     tempExp += experience;
                     dispose = capacityCheck(player, roundManager, 0.25, findItem, "Regenerationstraenke");
@@ -1136,7 +1141,7 @@ void loot(Player player[], short roundManager)
                     {
                         findItem = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
                         if (findItem < 1) { findItem = 1; }
-                        experience = round((findItem * 100) * (player[roundManager].level * 1.25));
+                        experience = round(findItem * (100 + player[roundManager].luck));
                         std::cout << "\033[0mWaffe\033[0m -------------------> " << findItem << " DMG / " << experience << " Exp." << std::endl;
                         tempExp += experience;
                         dispose = capacityCheck(player, roundManager, 2.5, 1, "Waffe");
@@ -1168,7 +1173,7 @@ void loot(Player player[], short roundManager)
                     {
                         findItem = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2)); 
                         if (findItem < 1) { findItem = 1; }
-                        experience = round((findItem * 100) * (player[roundManager].level * 1.25));
+                        experience = round(findItem * (100 + player[roundManager].luck));
                         std::cout << "\033[90mRuestung\033[0m ----------------> " << findItem << " RST / " << experience << " Exp." << std::endl;
                         tempExp += experience;
                         dispose = capacityCheck(player, roundManager, 2.25, 1, "Ruestung");
@@ -1317,6 +1322,10 @@ void dangerDisplay(short zone)
 
 void trapCall(Player player[], short roundManager, short zone)
 {
+    if (zone == 1)
+    {
+        player[roundManager].traps = 0;
+    }
     if (zone == 2) 
     {
         player[roundManager].traps = round(random(1, 3));
@@ -1335,7 +1344,7 @@ void trapCall(Player player[], short roundManager, short zone)
 void trapSearch(Player player[], short roundManager, short danger)
 {
     short zone = 0;
-    float x = 0;
+    double x = 0;
     double damage = 0;
     double vari = 0;
     double xp = 0;
@@ -1517,8 +1526,10 @@ void potionDrink (Player player[], short roundManager, short sort)
             regenH = round(random((player[roundManager].health / 100) * 15, (player[roundManager].health /100) * 25));
             player[roundManager].healthPotion--;
             player[roundManager].realHealth += regenH;
-            std::cout << "\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
-            lifeDisplay(player, roundManager, 0, 20);
+            if (player[roundManager].realHealth > player[roundManager].health) { player[roundManager].realHealth = player[roundManager].health; }
+            std::cout << "\n\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
+            player[roundManager].realCapacity -= 0.25;
+            lifeDisplay(player, roundManager, 0, 21);
             getKey();
             break;
             
@@ -1526,8 +1537,10 @@ void potionDrink (Player player[], short roundManager, short sort)
             regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 25));
             player[roundManager].manaPotion--;
             player[roundManager].realMana += regenM;
-            std::cout << "\n\n\033[34mSie regenerieren " << regenH << " Manapoints!\033[0m" << std::endl;
-            lifeDisplay(player, roundManager, 0, 20);
+            if (player[roundManager].realMana > player[roundManager].mana) { player[roundManager].realMana = player[roundManager].mana; }
+            std::cout << "\n\n\n\033[34mSie regenerieren " << regenM << " Manapoints!\033[0m" << std::endl;
+            player[roundManager].realCapacity -= 0.25;
+            lifeDisplay(player, roundManager, 0, 21);
             getKey();
             break;
 
@@ -1537,8 +1550,11 @@ void potionDrink (Player player[], short roundManager, short sort)
             player[roundManager].regenPotion--;
             player[roundManager].realHealth += regenH;
             player[roundManager].realMana += regenM;
-            std::cout << "\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
-            std::cout << "\n\033[34mSie regenerieren " << regenH << " Manapoints!\033[0m" << std::endl;
+            if (player[roundManager].realHealth > player[roundManager].health) { player[roundManager].realHealth = player[roundManager].health; }
+            if (player[roundManager].realMana > player[roundManager].mana) { player[roundManager].realMana = player[roundManager].mana; }
+            std::cout << "\n\n\n\033[92mSie regenerieren " << regenH << " Hitpoints!\033[0m" << std::endl;
+            std::cout << "\n\033[34mSie regenerieren " << regenM << " Manapoints!\033[0m" << std::endl;
+            player[roundManager].realCapacity -= 0.25;
             lifeDisplay(player, roundManager, 0, 22);
             getKey();
             break;
@@ -2042,8 +2058,8 @@ void forge(Player player[], short roundManager, short room)
 void headShop(Player player[], short roundManager)
 {
     std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-    position(40, 15); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
-    capacityColor(player, roundManager); position(80, 15); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    position(40, 16); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
+    capacityColor(player, roundManager); position(80, 16); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
     line();
     return;
 }
@@ -2101,15 +2117,15 @@ void shopBuy(Player player[], short roundManager)
         headShop(player, roundManager);
         std::cout << "Der Haendler hat folgende Angebote:" << std::endl;
         line();
-        std::cout << "\033[100;30m[ 1 ]\033[0m ------> \033[90mAltmetall\033[0m ------------- Anzahl: " << dealerScrap << " \033[93m30 Gold\033[0m / Einheit" << std::endl;
-        std::cout << "\033[41;37m[ 2 ]\033[0m ------> \033[31mKupfer\033[0m ---------------- Anzahl: " << dealerCopper << " \033[93m45 Gold\033[0m / Einheit" << std::endl;
-        std::cout << "\033[47;30m[ 3 ]\033[0m ------> Aluminium ------------- Anzahl: " << dealerAluminum << " \033[93m60 Gold\033[0m / Einheit" << std::endl;
-        std::cout << "\033[42;37m[ 4 ]\033[0m ------> \033[32mKraeuter\033[0m -------------- Anzahl: " << dealerHerbs << " \033[93m75 Gold\033[0m / Einheit" << std::endl;
-        std::cout << "\033[101;37m[ 5 ]\033[0m ------> \033[91mHeiltraenke\033[0m ----------- Anzahl: " << dealerHealth << " \033[93m45 Gold\033[0m / Einheit" << std::endl;
-        std::cout << "\033[44;37m[ 6 ]\033[0m ------> \033[44mManatraenke\033[0m ----------- Anzahl: " << dealerMana << " \033[93m60 Gold\033[0m / Einheit" << std::endl;
-        std::cout << "\033[45;37m[ 7 ]\033[0m ------> \033[35mRegenerationstraenke\033[0m -- Anzahl: " << dealerRegen << " \033[93m75 Gold\033[0m / Einheit" << std::endl;
-        std::cout << "\033[100;30m[ 8 ]\033[0m ------> \033[90mWaffe\033[0m ----------------- DMG   : " << dealerWeapon << " \033[93m" << (dealerWeapon * 150) << " Gold\033[0m" << std::endl;
-        std::cout << "\033[47;30m[ 9 ]\033[0m ------> Ruestung -------------- RST   : " << dealerArmor << " \033[93m" << (dealerArmor * 150) << " Gold\033[0m" << std::endl;
+        std::cout << "\033[100;30m[ 1 ]\033[0m ------> \033[90mAltmetall\033[0m ------------- Anzahl: " << dealerScrap << " \033[93m30 Gold\033[0m / Einheit\n" << std::endl;
+        std::cout << "\033[41;37m[ 2 ]\033[0m ------> \033[31mKupfer\033[0m ---------------- Anzahl: " << dealerCopper << " \033[93m45 Gold\033[0m / Einheit\n" << std::endl;
+        std::cout << "\033[47;30m[ 3 ]\033[0m ------> Aluminium ------------- Anzahl: " << dealerAluminum << " \033[93m60 Gold\033[0m / Einheit\n" << std::endl;
+        std::cout << "\033[42;37m[ 4 ]\033[0m ------> \033[32mKraeuter\033[0m -------------- Anzahl: " << dealerHerbs << " \033[93m75 Gold\033[0m / Einheit\n" << std::endl;
+        std::cout << "\033[101;37m[ 5 ]\033[0m ------> \033[91mHeiltraenke\033[0m ----------- Anzahl: " << dealerHealth << " \033[93m45 Gold\033[0m / Einheit\n" << std::endl;
+        std::cout << "\033[44;37m[ 6 ]\033[0m ------> \033[34mManatraenke\033[0m ----------- Anzahl: " << dealerMana << " \033[93m60 Gold\033[0m / Einheit\n" << std::endl;
+        std::cout << "\033[45;37m[ 7 ]\033[0m ------> \033[35mRegenerationstraenke\033[0m -- Anzahl: " << dealerRegen << " \033[93m75 Gold\033[0m / Einheit\n" << std::endl;
+        std::cout << "\033[100;30m[ 8 ]\033[0m ------> \033[90mWaffe\033[0m ----------------- DMG   : " << dealerWeapon << " \033[93m" << (dealerWeapon * 150) << " Gold\033[0m\n" << std::endl;
+        std::cout << "\033[47;30m[ 9 ]\033[0m ------> Ruestung -------------- RST   : " << dealerArmor << " \033[93m" << (dealerArmor * 150) << " Gold\033[0m\n" << std::endl;
         std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
         line();
         short input = choice();
@@ -2124,12 +2140,12 @@ void shopBuy(Player player[], short roundManager)
                 std::cout << "Wie viele Einheiten Altmetall moechten Sie kaufen? (0 - " << dealerScrap << ") ";
                 while (!(std::cin >> counter) || counter < 0 || counter > dealerScrap) 
                 {
-                if (counter == 0) { break; }
                 error(0);
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Wie viele Einheiten Altmetall moechten Sie kaufen? (0 - " << dealerScrap << ") ";
                 }
+                if (counter == 0) { continue; }
                 if ((counter * 30) > player[roundManager].gold) { error(5); break; }
                 dispose = capacityCheck(player, roundManager, 0.3, counter, "Altmetall");
                 if (dispose == false) 
@@ -2333,11 +2349,11 @@ void shopBuy(Player player[], short roundManager)
                 if (player[roundManager].weapons[0] == 0) 
                 {
                     player[roundManager].weapons[0] = dealerWeapon;
-                    dealerWeapon = 0;
                     player[roundManager].gold -= (dealerWeapon * 150);
                     player[roundManager].realCapacity += 2.5;
                     arraySort(player, roundManager, "weapon");
                     std::cout << "\033[92mDie Waffe wurde fuer \033[93m" << (dealerWeapon * 150) << " Gold\033[92m Ihrem Inventar hinzugefuegt!\033[0m" << std::endl;
+                    dealerWeapon = 0;
                     std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
                     answer = question();
                     if (answer == false) { running = false; break; }
@@ -2358,7 +2374,7 @@ void shopBuy(Player player[], short roundManager)
 
             case 9:
                 if (dealerArmor < 1) { error(6); break; }
-                std::cout << "Sind Sie sicher, dass Sie die Armor kaufen moechten? (J/N)" << std::endl;
+                std::cout << "Sind Sie sicher, dass Sie die Ruestung kaufen moechten? (J/N)" << std::endl;
                 answer = question();
                 if (answer == false) { break; }
                 if ((dealerArmor * 150) > player[roundManager].gold) { error(5); break; }
@@ -2367,11 +2383,11 @@ void shopBuy(Player player[], short roundManager)
                 if (player[roundManager].armor[0] == 0) 
                 {
                     player[roundManager].armor[0] = dealerArmor;
-                    dealerWeapon = 0;
                     player[roundManager].gold -= (dealerArmor * 150);
                     player[roundManager].realCapacity += 2.25;
                     arraySort(player, roundManager, "armor");
                     std::cout << "\033[92mDie Ruestung wurde fuer \033[93m" << (dealerWeapon * 150) << " Gold\033[92m Ihrem Inventar hinzugefuegt!\033[0m" << std::endl;
+                    dealerArmor = 0;
                     std::cout << "Moechten Sie noch etwas kaufen? (J/N)" << std::endl;
                     answer = question();
                     if (answer == false) { running = false; break; }
@@ -2415,40 +2431,40 @@ void shopSellWeaponsArmor(Player player[], short roundManager, std::string sortO
             sellingPrice = 0;
             if (sortOf == "Waffe") { sellingPrice = round((player[roundManager].weaponDmg * 50) + player[roundManager].luck); }
             if (sortOf == "Ruestung") { sellingPrice = round((player[roundManager].armorDmgReduce * 50) + player[roundManager].luck); }
-            std::cout << "[-1 ] ------> Angelegte " << sortOf << " ------> " << player[roundManager].weaponDmg;
-            if (sortOf == "Waffe") { std::cout << " DMG ------> Verkaufspreis: " << sellingPrice << " Gold" << std::endl; }
-            if (sortOf == "Ruestung") { std::cout << " RST ------> Verkaufspreis: " << sellingPrice << " Gold" << std::endl; }
+            std::cout << "\033[100;30m[-1 ]\033[0m ------> \033[90mAngelegte " << sortOf << "\033[0m ------> ";
+            if (sortOf == "Waffe") { std::cout << player[roundManager].weaponDmg << " DMG ------> Verkaufspreis: \033[93m" << sellingPrice << " Gold\033[0m" << std::endl; }
+            if (sortOf == "Ruestung") { std::cout << player[roundManager].armorDmgReduce << " RST ------> Verkaufspreis: \033[93m" << sellingPrice << " Gold\033[0m" << std::endl; }
         }
-        std::cout << "[ 0 ] ------> Zurueck" << std::endl;
+        std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
         if (player[roundManager].weapons[0] > 0 && sortOf == "Waffe" || player[roundManager].armor[0] > 0 && sortOf == "Ruestung")
         {
             sellingPrice = 0;
             if (sortOf == "Waffe") { sellingPrice = round((player[roundManager].weapons[0] * 50) + player[roundManager].luck); }
             if (sortOf == "Ruestung") { sellingPrice = round((player[roundManager].armor[0] * 50) + player[roundManager].luck); }
-            std::cout << "[ 1 ] ------> " << sortOf << " ------> " << player[roundManager].weapons[0];
-            if (sortOf == "Waffe") { std::cout << " DMG ------> Verkaufspreis: " << sellingPrice << " Gold" << std::endl; }
-            if (sortOf == "Ruestung") { std::cout << " RST ------> Verkaufspreis: " << sellingPrice << " Gold" << std::endl; }
+            std::cout << "\033[100;30m[ 1 ]\033[0m ------> \033[90m" << sortOf << "\033[0m ------> ";
+            if (sortOf == "Waffe") { std::cout << player[roundManager].weapons[0] << " DMG ------> Verkaufspreis: \033[93m" << sellingPrice << " Gold\033[0m" << std::endl; }
+            if (sortOf == "Ruestung") { std::cout << player[roundManager].armor[0] << " RST ------> Verkaufspreis: \033[93m" << sellingPrice << " Gold\033[0m" << std::endl; }
         }
         counter = 0;
         if (sortOf == "Waffe")
         {
-            for (int index = 0; player[roundManager].weapons[index] == 0; index++)
+            for (int index = 0; index < 500; index++)
             {
                 if (player[roundManager].weapons[index] == 0) { break; }
                 sellingPrice = 0;
                 sellingPrice = round((player[roundManager].weapons[index] * 50) + player[roundManager].luck);
-                std::cout << "[ " << index + 1 << " ] ------> Waffe ------> " << player[roundManager].weapons[index] << " DMG ------> Verkaufspreis: " << sellingPrice << " Gold" << std::endl;
+                std::cout << "\033[100;30m[ " << index + 1 << " ]\033[0m ------> \033[90mWaffe\033[0m ------> " << player[roundManager].weapons[index] << " DMG ------> Verkaufspreis: \033[93m" << sellingPrice << " Gold\033[0m" << std::endl;
                 counter++;
             }
         }
         if (sortOf == "Ruestung")
         {
-            for (int index = 0; player[roundManager].armor[index] == 0; index++)
+            for (int index = 0; index < 500; index++)
             {
                 if (player[roundManager].armor[index] == 0) { break; }
                 sellingPrice = 0;
                 sellingPrice = round((player[roundManager].armor[index] * 50) + player[roundManager].luck);
-                std::cout << "[ " << index + 1 << " ] ------> Ruestung ------> " << player[roundManager].armor[index] << " RST ------> Verkaufspreis: " << sellingPrice << " Gold" << std::endl;
+                std::cout << "\033[100;30m[ " << index + 1 << " ]\033[0m ------> \033[90mRuestung\033[0m ------> " << player[roundManager].armor[index] << " RST ------> Verkaufspreis: \033[93m" << sellingPrice << " Gold\033[0m" << std::endl;
                 counter++;
             }
         }
@@ -2538,16 +2554,16 @@ void shopSell(Player player[], short roundManager)
         headShop(player, roundManager);
         std::cout << "Was moechten Sie verkaufen? Ihr Inventar:" << std::endl;
         line();
-        std::cout << "[ 1 ] ------> Altmetall -------------> " << player[roundManager].scrapMetal << " Einheiten (10 Gold / Einheit)" << std::endl;
-        std::cout << "[ 2 ] ------> Kupfer ----------------> " << player[roundManager].copper << " Einheiten (15 Gold / Einheit)" << std::endl;
-        std::cout << "[ 3 ] ------> Aluminium -------------> " << player[roundManager].aluminum << " Einheiten (20 Gold / Einheit)" << std::endl;
-        std::cout << "[ 4 ] ------> Kraeuter --------------> " << player[roundManager].herbs << " Einheiten (25 Gold / Einheit)" << std::endl;
-        std::cout << "[ 5 ] ------> Heiltraenke -----------> " << player[roundManager].healthPotion << " Einheiten (15 Gold / Einheit) " << std::endl;
-        std::cout << "[ 6 ] ------> Manatraenke -----------> " << player[roundManager].manaPotion << " Einheiten (20 Gold / Einheit)" << std::endl;
-        std::cout << "[ 7 ] ------> Regenerationstraenke --> " << player[roundManager].regenPotion << " Einheiten (25 Gold / Einheit)" << std::endl;
-        std::cout << "[ 8 ] ------> Waffen ----------------> " << player[roundManager].weapons << " Einheiten (Preis nach Schaden)" << std::endl;
-        std::cout << "[ 9 ] ------> Ruestungen ------------> " << player[roundManager].armor << " Einheiten (Preis nach Ruestwert)" << std::endl;
-        std::cout << "[ 0 ] ------> Zurueck" << std::endl;
+        std::cout << "\033[100;30m[ 1 ]\033[0m ------> \033[90mAltmetall -------------> " << player[roundManager].scrapMetal << " Einheiten (\033[93m10 Gold\033[0m / Einheit)\n" << std::endl;
+        std::cout << "\033[41;37m[ 2 ]\033[0m ------> \033[31mKupfer ----------------> " << player[roundManager].copper << " Einheiten (\033[93m15 Gold\033[0m / Einheit)\n" << std::endl;
+        std::cout << "\033[47;30m[ 3 ]\033[0m ------> Aluminium -------------> " << player[roundManager].aluminum << " Einheiten (\033[93m20 Gold\033[0m / Einheit)\n" << std::endl;
+        std::cout << "\033[42;37m[ 4 ]\033[0m ------> \033[32mKraeuter --------------> " << player[roundManager].herbs << " Einheiten (\033[93m25 Gold\033[0m / Einheit)\n" << std::endl;
+        std::cout << "\033[101;37m[ 5 ]\033[0m ------> \033[91mHeiltraenke -----------> " << player[roundManager].healthPotion << " Einheiten (\033[93m15 Gold\033[0m / Einheit)\n" << std::endl;
+        std::cout << "\033[44;37m[ 6 ]\033[0m ------> \033[34mManatraenke -----------> " << player[roundManager].manaPotion << " Einheiten (\033[93m20 Gold\033[0m / Einheit)\n" << std::endl;
+        std::cout << "\033[45;37m[ 7 ]\033[0m ------> \033[35mRegenerationstraenke --> " << player[roundManager].regenPotion << " Einheiten (\033[93m25 Gold\033[0m / Einheit)\n" << std::endl;
+        std::cout << "\033[100;30m[ 8 ]\033[0m ------> \033[90mWaffen ----------------> " << player[roundManager].weapons << " Einheiten (Preis nach Schaden)\n" << std::endl;
+        std::cout << "\033[47;30m[ 9 ]\033[0m ------> Ruestungen ------------> " << player[roundManager].armor << " Einheiten (Preis nach Ruestwert)\n" << std::endl;
+        std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
         line();
         short input = choice();
         switch (input)
@@ -2674,9 +2690,9 @@ void shop(Player player[], short roundManager, short room)
     headShop(player, roundManager);
     std::cout << "Was moechten Sie tun?" << std::endl;
     line();
-    std::cout << "[ 0 ] ------> Zurueck" << std::endl;
-    std::cout << "[ 1 ] ------> Kaufen" << std::endl;
-    std::cout << "[ 2 ] ------> Verkaufen" << std::endl;
+    std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\n" << std::endl;
+    std::cout << "\033[37;102m[ 1 ]\033[0m ------> \033[92mKaufen\033[0m\n" << std::endl;
+    std::cout << "\033[37;101m[ 2 ]\033[0m ------> \033[91mVerkaufen\033[0m\n" << std::endl;
     short input = choice();
     switch(input)
     {

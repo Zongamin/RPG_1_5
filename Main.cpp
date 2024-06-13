@@ -97,6 +97,7 @@ int main()
             running = false;
             player[roundManager].roomCleared = false;
             player[roundManager].realActionPoints = player[roundManager].actionPoints;
+            player[roundManager].traps = 0;
             break;
         }
         break;
@@ -127,11 +128,11 @@ bool playGame = true;
 
         if (player[roundManager].roomCleared == true) 
         {
+            player[roundManager].traps = 0;
             player[roundManager].rooms++;
             player[roundManager].roomCleared = false;
             player[roundManager].specialRoom = false;
             player[roundManager].currentRoom = random(1, roomNumbers);
-            player[roundManager].traps = 0;
             roundManager++;
             continue;
         }
@@ -153,7 +154,7 @@ bool playGame = true;
         getKey();
         backgroundColor(0);
         
-        if (zone > 1) 
+        if (zone >= 2) 
         {
             trapCall(player, roundManager, zone);
         }
