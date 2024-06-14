@@ -1645,7 +1645,7 @@ void lever(Player player[], short roundManager, int room, short numberOfPlayers)
                     return;
                 }
             }
-            std::cout << "\n\033[32m...Dennoch scheint nichts zu geschehen... nochmal Glück gehabt?\033[0m" << std::endl;
+            std::cout << "\n\033[32m...Dennoch scheint nichts zu geschehen... nochmal Glueck gehabt?\033[0m" << std::endl;
             getKey();
             return; 
         }
@@ -1820,7 +1820,7 @@ void forgeMenue(Player player[], short roundManager, short room)
     std::cout << player[roundManager].getName() << ", Ihre Ressourcen:" << std::endl;
     line();
     std::cout << "\033[90mAltmetall\033[0m ---> \033[90m" << player[roundManager].scrapMetal << "\033[0m" << std::endl;
-    std::cout << "\033[31mKupfer\033[0m ------> \033[91m" << player[roundManager].copper << "\033[0m" << std::endl;
+    std::cout << "\033[31mKupfer\033[0m ------> \033[31m" << player[roundManager].copper << "\033[0m" << std::endl;
     std::cout << "Aluminium ---> " << player[roundManager].aluminum << std::endl;
     line();
     return;
@@ -1837,7 +1837,9 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
 {
     bool running = true;
     bool dispose = false;
+    bool answer = false;
     double craftedWeaponArmor = 0;
+    double experience = 0;
 
     while(running)
     {
@@ -1852,23 +1854,24 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
         double goodCopper = (round((player[roundManager].level * 4.25) - player[roundManager].luck));
         double goodAluminum = (round((player[roundManager].level * 3.5) - player[roundManager].luck));
         std::cout << "Altmetall: " << goodScrap << " | Kupfer: " << goodCopper << " | Aluminium: " << goodAluminum << std::endl;
-        std::cout << "\n\033[35mZur Herstellung der bestmoeglichen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:\033[0m" << std::endl;
+        std::cout << "\n\033[95mZur Herstellung der bestmoeglichen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:\033[0m" << std::endl;
         double bestScrap = (round((player[roundManager].level * 12.5) - player[roundManager].luck));
         double bestCopper = (round((player[roundManager].level * 7.5) - player[roundManager].luck));
         double bestAluminum = (round((player[roundManager].level * 5) - player[roundManager].luck));
         std::cout << "Altmetall: " << bestScrap << " | Kupfer: " << bestCopper << " | Aluminium: " << bestAluminum << std::endl;
         line();
-        position(38, 15); std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\n" << std::endl;
-        position(40, 15); std::cout << "\033[100;30m[ 1 ]\033[0m ------> \033[90mNormal\n" << std::endl;
-        position(38, 45); std::cout << "\033[104;30m[ 2 ]\033[0m ------> \033[94mBesonders\033[0m\n" << std::endl;
-        position(40, 45); std::cout << "\033[95;30m[ 3 ]\033[0m ------> \033[92mBestmoeglich\033[0m\n" << std::endl;
+        position(10, 38); std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\n" << std::endl;
+        position(10, 40); std::cout << "\033[100;30m[ 1 ]\033[0m ------> \033[90mNormal\n" << std::endl;
+        position(45, 38); std::cout << "\033[104;30m[ 2 ]\033[0m ------> \033[94mBesonders\033[0m\n" << std::endl;
+        position(45, 40); std::cout << "\033[105;30m[ 3 ]\033[0m ------> \033[95mBestmoeglich\033[0m\n" << std::endl;
 
         short input = choice();
         switch(input)
         {
         
             case 0:
-                return;
+                running = false;
+                break; 
             
             case 1:
                 if (player[roundManager].scrapMetal < neededScrap) { needMaterial("Altmetall"); continue; }
@@ -1884,18 +1887,23 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                 craftedWeaponArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
                 if (craftedWeaponArmor < 1) { craftedWeaponArmor = 1; }
                 std::cout << "Sie haben eine normale " << sortOf << " mit dem Wert: " << craftedWeaponArmor << " hergestellt." << std::endl; 
+                experience = craftedWeaponArmor * (25 + player[roundManager].luck);
+                std::cout << "dafuer erhalten Sie " << experience << " Erfahrungspunkte." << std::endl;
+                player[roundManager].realExp + experience;
+
                 if (sortOf == "Ruestung") { dispose = capacityCheck(player, roundManager, 2.25, 1, sortOf); }
                 if (sortOf == "Waffe"){ dispose = capacityCheck(player, roundManager, 2.5, 1, sortOf);}
-                if (dispose == false) { std::cout << "\033[91mSie koennen die " << sortOf << " nicht mitnehmen!\n" << std::endl; } 
-                if (sortOf == "Ruestung")
-                {
-                    if (player[roundManager].armor[0] == 0) { player[roundManager].armor[0] = craftedWeaponArmor; craftedWeaponArmor = 0;}
-                }
-                if (sortOf == "Waffe")
-                {
-                    if (player[roundManager].weapons[0] == 0) { player[roundManager].weapons[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
-                }
-                for (int i = 0; i < 500; i++)
+                if (dispose == false) 
+                { 
+                    std::cout << "\033[91mSie koennen die " << sortOf << " nicht mitnehmen! Aber die Erfahrungspunkte werden Ihnen dennoch gutgeschrieben.\n" << std::endl;
+                    expUp(player, roundManager);
+                    std::cout << "\nMoechten Sie noch etwas herstellen? (J/N)" << std::endl;
+                    if(answer == false) { running = false; break; }
+                    continue;
+                } 
+                if (sortOf == "Ruestung" && player[roundManager].armor[0]) { player[roundManager].armor[0] = craftedWeaponArmor; craftedWeaponArmor = 0;}
+                if (sortOf == "Waffe" && player[roundManager].weapons[0] == 0) { player[roundManager].weapons[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
+                for(int i = 0; i < 500; i++)
                 {
                     if (sortOf == "Ruestung")
                     {
@@ -1918,9 +1926,10 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                     
                     }
                     std::cout << "Die " << sortOf << " wurde Ihrem Inventar hinzugefuegt!" << std::endl;
-                    getKey();
-                    std::cout << "\n";
-                    break;
+                    std::cout << "\nMoechten Sie noch etwas herstellen? (J/N)" << std::endl;
+                    answer = question();
+                    if(answer == false) { running = false; break; }
+                    continue;
                 }
 
             case 2:
@@ -1940,15 +1949,17 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                 std::cout << "\033[94mSie haben eine besondere " << sortOf << " mit dem Wert: " << craftedWeaponArmor<< " hergestellt.\033[0m" << std::endl;
                 if (sortOf == "Ruestung") { dispose = capacityCheck(player, roundManager, 2.25, 1, sortOf); }
                 if (sortOf == "Waffe"){ dispose = capacityCheck(player, roundManager, 2.5, 1, sortOf);}
-                if (dispose == false) { std::cout << "\033[91mSie koennen die " << sortOf << " nicht mitnehmen!\n" << std::endl; } 
-                if (sortOf == "Ruestung")
-                {
-                    if (player[roundManager].armor[0] == 0) { player[roundManager].armor[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
-                }
-                if (sortOf == "Waffe")
-                {
-                    if (player[roundManager].weapons[0] == 0) { player[roundManager].weapons[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
-                }
+                if (dispose == false) 
+                { 
+                    std::cout << "\033[91mSie koennen die " << sortOf << " nicht mitnehmen! Aber die Erfahrungspunkte werden Ihnen dennoch gutgeschrieben.\n" << std::endl;
+                    expUp(player, roundManager);
+                    std::cout << "\nMoechten Sie noch etwas herstellen? (J/N)" << std::endl;
+                    if(answer == false) { running = false; break; } else if(answer == true) { continue; }
+                    error(0);
+                    continue;
+                } 
+                if (sortOf == "Ruestung" && player[roundManager].armor[0]) { player[roundManager].armor[0] = craftedWeaponArmor; craftedWeaponArmor = 0;}
+                if (sortOf == "Waffe" && player[roundManager].weapons[0] == 0) { player[roundManager].weapons[0] = craftedWeaponArmor; craftedWeaponArmor = 0; } 
                 for (int i = 0; i < 500; i++)
                 {
                     if (sortOf == "Ruestung")
@@ -1972,8 +1983,11 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                     
                     }
                     std::cout << "Die " << sortOf << " wurde Ihrem Inventar hinzugefuegt!" << std::endl;
-                    getKey();
-                    break;
+                    std::cout << "\nMoechten Sie noch etwas herstellen? (J/N)" << std::endl;
+                    answer = question();
+                    if(answer == false) { running = false; break; } else if(answer == true) { continue; }
+                    error(0);
+                    continue;
                 }
                 
             case 3:
@@ -1990,18 +2004,20 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                 craftedWeaponArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
                 if (craftedWeaponArmor < 1) { craftedWeaponArmor= 1; }
                 craftedWeaponArmor += 2;
-                std::cout << "\033[92mSie haben die bestmoegliche " << sortOf << " mit dem Wert: " << craftedWeaponArmor<< " hergestellt.\033[0m" << std::endl;
+                std::cout << "\033[95mSie haben die bestmoegliche " << sortOf << " mit dem Wert: " << craftedWeaponArmor<< " hergestellt.\033[0m" << std::endl;
                 if (sortOf == "Ruestung") { dispose = capacityCheck(player, roundManager, 2.25, 1, sortOf); }
                 if (sortOf == "Waffe"){ dispose = capacityCheck(player, roundManager, 2.5, 1, sortOf);}
-                if (dispose == false) { std::cout << "\033[91mSie koennen die " << sortOf << " nicht mitnehmen!\n" << std::endl; } 
-                if (sortOf == "Ruestung")
-                {
-                    if (player[roundManager].armor[0] == 0) { player[roundManager].armor[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
+                if (dispose == false) 
+                { 
+                    std::cout << "\033[91mSie koennen die " << sortOf << " nicht mitnehmen! Aber die Erfahrungspunkte werden Ihnen dennoch gutgeschrieben.\n" << std::endl;
+                    expUp(player, roundManager);
+                    std::cout << "\nMoechten Sie noch etwas herstellen? (J/N)" << std::endl;
+                    if(answer == false) { running = false; break; } else if(answer == true) { continue; }
+                    error(0);
+                    continue;
                 }
-                if (sortOf == "Waffe")
-                {
-                    if (player[roundManager].weapons[0] == 0) { player[roundManager].weapons[0] = craftedWeaponArmor; craftedWeaponArmor = 0;}
-                }
+                if (sortOf == "Ruestung" && player[roundManager].armor[0]) { player[roundManager].armor[0] = craftedWeaponArmor; craftedWeaponArmor = 0;}
+                if (sortOf == "Waffe" && player[roundManager].weapons[0] == 0) { player[roundManager].weapons[0] = craftedWeaponArmor; craftedWeaponArmor = 0; }
                 for (int i = 0; i < 500; i++)
                 {
                     if (sortOf == "Ruestung")
@@ -2025,17 +2041,21 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                     
                     }
                     std::cout << "Die " << sortOf << " wurde Ihrem Inventar hinzugefuegt!" << std::endl;
-                    getKey();
-                    break;
+                    std::cout << "\nMoechten Sie noch etwas herstellen? (J/N)" << std::endl;
+                    answer = question();
+                    if(answer == false) { running = false; break; } else if(answer == true) { continue; }
+                    error(0);
+                    continue;
                 }
         
             default:
                 error(0);
-                break;
+                continue;
         }
         running = false;
         break;
     }
+    return;
 }
         
 void forge(Player player[], short roundManager, short room)
@@ -2156,7 +2176,7 @@ void shopBuy(Player player[], short roundManager)
                 break;
 
             case 1:
-                if (dealerScrap < 1) { error(4); break; }
+                if (dealerScrap <= 0) { error(4); break; }
                 std::cout << "Wie viele Einheiten Altmetall moechten Sie kaufen? (0 - " << dealerScrap << ") ";
                 while (!(std::cin >> counter) || counter < 0 || counter > dealerScrap) 
                 {
@@ -2185,16 +2205,16 @@ void shopBuy(Player player[], short roundManager)
                 break;
 
             case 2:
-                if (dealerCopper < 1) { error(4); break; }
+                if (dealerCopper <= 0) { error(4); break; }
                 std::cout << "Wie viele Einheiten Kupfer moechten Sie kaufen? (0 - " << dealerCopper << ") ";
                 while (!(std::cin >> counter) || counter < 0 || counter > dealerCopper) 
                 {
-                if (counter == 0) { break; }
                 error(0);
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Wie viele Einheiten Kupfer moechten Sie kaufen? (0 - " << dealerCopper << ") ";
                 }
+                if (counter == 0) { break; }
                 if ((counter * 45) > player[roundManager].gold) { error(5); break; }
                 dispose = capacityCheck(player, roundManager, 0.2, counter, "Kupfer");
                 if (dispose == false) 
@@ -2214,16 +2234,16 @@ void shopBuy(Player player[], short roundManager)
                 break;
 
             case 3:
-                if (dealerAluminum < 1) { error(4); break; }
+                if (dealerAluminum <= 0) { error(4); break; }
                 std::cout << "Wie viele Einheiten Aluminium moechten Sie kaufen? (0 - " << dealerAluminum << ") ";
                 while (!(std::cin >> counter) || counter < 0 || counter > dealerAluminum) 
                 {
-                if (counter == 0) { break; }
                 error(0);
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Wie viele Einheiten Aluminium moechten Sie kaufen? (0 - " << dealerAluminum << ") ";
                 }
+                if (counter == 0) { break; }
                 if ((counter * 60) > player[roundManager].gold) { error(5); break; }
                 dispose = capacityCheck(player, roundManager, 0.1, counter, "Aluminium");
                 if (dispose == false) 
@@ -2243,16 +2263,16 @@ void shopBuy(Player player[], short roundManager)
                 break;
 
             case 4:
-                if (dealerHerbs < 1) { error(4); break; }
+                if (dealerHerbs <= 0) { error(4); break; }
                 std::cout << "Wie viele Einheiten Kraeuter moechten Sie kaufen? (0 - " << dealerHerbs << ") ";
                 while (!(std::cin >> counter) || counter < 0 || counter > dealerHerbs) 
                 {
-                if (counter == 0) { break; }
                 error(0);
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Wie viele Einheiten Kraeuter moechten Sie kaufen? (0 - " << dealerHerbs << ") ";
                 }
+                if (counter == 0) { break; }
                 if ((counter * 75) > player[roundManager].gold) { error(5); break; }
                 dispose = capacityCheck(player, roundManager, 0.3, counter, "Kraut");
                 if (dispose == false) 
@@ -2272,16 +2292,16 @@ void shopBuy(Player player[], short roundManager)
                 break;
             
             case 5:
-                if (dealerHealth < 1) { error(4); break; }
+                if (dealerHealth <= 0) { error(4); break; }
                 std::cout << "Wie viele Einheiten Heiltraenke moechten Sie kaufen? (0 - " << dealerHealth << ") ";
                 while (!(std::cin >> counter) || counter < 0 || counter > dealerHealth) 
                 {
-                if (counter == 0) { break; }
                 error(0);
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Wie viele Einheiten Heiltraenke moechten Sie kaufen? (0 - " << dealerHealth << ") ";
                 }
+                if (counter == 0) { break; }
                 if ((counter * 45) > player[roundManager].gold) { error(5); break; }
                 dispose = capacityCheck(player, roundManager, 0.25, counter, "Heiltraenke");
                 if (dispose == false) 
@@ -2301,16 +2321,16 @@ void shopBuy(Player player[], short roundManager)
                 break;
 
             case 6:
-                if (dealerMana < 1) { error(4); break; }
+                if (dealerMana <= 0) { error(4); break; }
                 std::cout << "Wie viele Einheiten Manatraenke moechten Sie kaufen? (0 - " << dealerMana << ") ";
                 while (!(std::cin >> counter) || counter < 0 || counter > dealerMana) 
                 {
-                if (counter == 0) { break; }
                 error(0);
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Wie viele Einheiten Manatraenke moechten Sie kaufen? (0 - " << dealerMana << ") ";
                 }
+                if (counter == 0) { break; }
                 if ((counter * 60) > player[roundManager].gold) { error(5); break; }
                 dispose = capacityCheck(player, roundManager, 0.25, counter, "Manatraenke");
                 if (dispose == false) 
@@ -2330,16 +2350,16 @@ void shopBuy(Player player[], short roundManager)
                 break;
             
             case 7:
-                if (dealerRegen < 1) { error(4); break; }
+                if (dealerRegen <= 0) { error(4); break; }
                 std::cout << "Wie viele Einheiten Regenerationstraenke moechten Sie kaufen? (0 - " << dealerRegen << ") ";
                 while (!(std::cin >> counter) || counter < 0 || counter > dealerRegen) 
                 {
-                if (counter == 0) { break; }
                 error(0);
                 std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 std::cout << "Wie viele Einheiten Regenerations moechten Sie kaufen? (0 - " << dealerRegen << ") ";
                 }
+                if (counter == 0) { break; }
                 if ((counter * 75) > player[roundManager].gold) { error(5); break; }
                 dispose = capacityCheck(player, roundManager, 0.25, counter, "Regenerationstraenke");
                 if (dispose == false) 
@@ -2359,7 +2379,7 @@ void shopBuy(Player player[], short roundManager)
                 break;
             
             case 8:
-                if (dealerWeapon < 1) { error(6); break; }
+                if (dealerWeapon <= 0) { error(6); break; }
                 std::cout << "Sind Sie sicher, dass Sie die Waffe kaufen moechten? (J/N)" << std::endl;
                 answer = question();
                 if (answer == false) { break; }
@@ -2393,7 +2413,7 @@ void shopBuy(Player player[], short roundManager)
                 }
 
             case 9:
-                if (dealerArmor < 1) { error(6); break; }
+                if (dealerArmor <= 0) { error(6); break; }
                 std::cout << "Sind Sie sicher, dass Sie die Ruestung kaufen moechten? (J/N)" << std::endl;
                 answer = question();
                 if (answer == false) { break; }

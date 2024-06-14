@@ -307,8 +307,8 @@ void potions(Player player[], short roundManager)
         miniLine(0, 17);
         std::cout << "\033[35mRegenerationstraenke\033[0m ---> \033[35m" << player[roundManager].regenPotion << "\033[0m" << std::endl; 
         line();
-        position(20, 22); std::cout << "\033[41;97m[ 1 ]\033[0m ------> \033[31mHeiltrank benutzen\033[0m   \033[45;97m[ 3 ]\033[0m ------> \033[35mRegenerationstrank benutzen\033[0m" << std::endl;
-        position(20, 24); std::cout << "\033[44;97m[ 2 ]\033[0m ------> \033[34mManatrank benutzen\033[0m   \033[47;30m[ 4 ]\033[0m ------> Zurueck" << std::endl;
+        position(10, 22); std::cout << "\033[41;97m[ 1 ]\033[0m ------> \033[31mHeiltrank benutzen\033[0m             \033[45;97m[ 3 ]\033[0m ------> \033[35mRegenerationstrank benutzen\033[0m" << std::endl;
+        position(10, 24); std::cout << "\033[44;97m[ 2 ]\033[0m ------> \033[34mManatrank benutzen\033[0m             \033[47;30m[ 4 ]\033[0m ------> Zurueck" << std::endl;
                 
         short input = choice();
 
