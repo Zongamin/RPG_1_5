@@ -16,49 +16,66 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\player.h>
 
 /*Inhaltsverzeichnis:
-      - assignment     -- Zuweisung der Werte für neue Spieler
-      - charCalc       -- Charakter Rechner zum Errechnen neuer Werte bei Skillpunktverteilung
-      - random         -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
-      - getKey         -- press any key - Funktion
-      - error          -- Fehlermeldung : Falsche Eingabe
-      - clearScreen    -- Windows-CMD Screen leeren
-      - position       -- Setzen der Cursor Position
-      - miniLine       -- kleinen Trennstrich einfügen
-      - line           -- Trennstrich einfügen
-      - question       -- Ja/Nein - Abfrage des Spielers
-      - choice         -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe
-      - condition      -- Skillpunkt ermittlung für Charactermenü 
-      - lifeDisplay    -- Lebens- und Manaanzeige der Spieler
-      - colorSwitch    -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
-      - textColor      -- Schriftfarben verändern
-      - backgroundColor-- Verändern der Hintergrund Farbe
-      - levelUp        -- Anheben von Skillpunkten, Spielerlevel & geforderten Level Exp
-      - expUp          -- Anheben der Spieler Exp und Level Umbruch
-      - arraySort      -- Sortierung von Waffen- und Rüstungsarrays der Spieler
-      - capacityColor  -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
-      - weaponArmorDispose-- Menue zur Entsorgung von Ruestungen und Waffen
-      - disposeAmount  -- Menue zur Ermittlung der Anzahl der zu wegwerfenden Gegenstände
-      - disposal       -- Funktion zur Entsorgung von Gegenständen für den Spieler
-      - capacityCheck  -- Überprüfung und hinzufügen der Traglast des Spielers mit evtl. Übergabe an Entsorgungsfunktion für Gegenstände
-      - saveGame       -- Menü zum Speichern des Spielstandes 
-      - loadGame       -- Funktion zum Laden von Spielständen
-      - death          -- Ausgabe des Todes des Spielers
-      - trapCheck      -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
-      - loot           -- Funktion für die Suche-Option des Spielers
-      - textOne        -- Headline 1
-      - textTwo        -- Headline 2
-      - textThree      -- Headline 3
-      - textFour       -- Headline 4
-      - getNumber      -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
-      - dangerZone     -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
-      - dangerDisplay  -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
-      - trapCall       -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
-      - trapSearch     -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
-      - takeBreak      -- Ermittelt Werte beim Rasten des Spielers 
-      - checkRegen     -- Ermittelt einen boolschen Wert, ob Heilung, Mana oder beides benoetigt wird
-      - potionCheck    -- Ermittelt einen boolschen Wert, ob Heiltraenke, Manatraenke oder Regenerationstraenke vorhanden sind 
-      - potionDrink    -- Funktion zur Heilung, Manaregeneration oder beidem durch Tränke
-      - specialRoom    -- Funktion zur Ermittlung des derzeitigen Spezialraums   
+      - assignment          -- Zuweisung der Werte für neue Spieler
+      - charCalc            -- Charakter Rechner zum Errechnen neuer Werte bei Skillpunktverteilung
+      - random              -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
+      - getKey              -- press any key - Funktion
+      - error               -- Fehlermeldung : Falsche Eingabe
+      - clearScreen         -- Windows-CMD Screen leeren
+      - position            -- Setzen der Cursor Position
+      - miniLine            -- kleinen Trennstrich einfügen
+      - line                -- Trennstrich einfügen
+      - question            -- Ja/Nein - Abfrage des Spielers
+      - choice              -- Zahleneingabe des Spielers (0 - 9) ohne "Enter" - Eingabe
+      - condition           -- Skillpunkt ermittlung für Charactermenü 
+      - lifeDisplay         -- Lebens- und Manaanzeige der Spieler
+      - colorSwitch         -- Schalterfarben (Schrift mit Hintergrundfärbung) verändern
+      - textColor           -- Schriftfarben verändern
+      - backgroundColor     -- Verändern der Hintergrund Farbe
+      - levelUp             -- Anheben von Skillpunkten, Spielerlevel & geforderten Level Exp
+      - expUp               -- Anheben der Spieler Exp und Level Umbruch
+      - arraySort           -- Sortierung von Waffen- und Rüstungsarrays der Spieler
+      - capacityColor       -- Ermittelt den Farbwert der Traglast nach Füllstand des Inventars des Spielers in Prozent
+      - weaponArmorDispose  -- Menue zur Entsorgung von Ruestungen und Waffen
+      - disposeAmount       -- Menue zur Ermittlung der Anzahl der zu wegwerfenden Gegenstände
+      - disposal            -- Funktion zur Entsorgung von Gegenständen für den Spieler
+      - capacityCheck       -- Überprüfung und hinzufügen der Traglast des Spielers mit evtl. Übergabe an Entsorgungsfunktion für Gegenstände
+      - saveGame            -- Menü zum Speichern des Spielstandes 
+      - loadGame            -- Funktion zum Laden von Spielständen
+      - death               -- Ausgabe des Todes des Spielers
+      - trapCheck           -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
+      - loot                -- Funktion für die Suche-Option des Spielers
+      - textOne             -- Headline 1
+      - textTwo             -- Headline 2
+      - textThree           -- Headline 3
+      - textFour            -- Headline 4
+      - getNumber           -- Funktion zur Ermittlung und Ausgabe des Spielernummer Schriftzuges
+      - dangerZone          -- Funktion zur Ermittlung der Gefahrenstufe des derzeitigen Raums
+      - dangerDisplay       -- gibt die Gefahrenstufe des Raums auf den Bildschirm aus
+      - trapCall            -- Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
+      - trapSearch          -- Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
+      - takeBreak           -- Ermittelt Werte beim Rasten des Spielers 
+      - checkRegen          -- Ermittelt einen boolschen Wert, ob Heilung, Mana oder beides benoetigt wird
+      - potionCheck         -- Ermittelt einen boolschen Wert, ob Heiltraenke, Manatraenke oder Regenerationstraenke vorhanden sind 
+      - potionDrink         -- Funktion zur Heilung, Manaregeneration oder beidem durch Tränke
+      - specialHeader       -- Funktion zur Anzeige der Kopfzeile "Spezial" und der Überschrift des zugehörigen Spezialraums
+      - lever               -- Menü zum Spezialraum "Hebel"
+      - openChest           -- Funktion zum Öffenen der Truhe zum zugehörigen "Truhe" - Spezialraums
+      - chestFight          -- Funktion zum Auslösen eines Kampfes zum zugehörigen "Truhe" - Spezialraums
+      - chest               -- Menü zum Spezialraum "Truhe"
+      - forgeMenue          -- Funktion zur Überschrift und Anzeige der Ressourcen zum zugehörigen Spezialraum "Schmiede"
+      - needMaterial        -- Funktion zur Überprüfung zum Schmieden benötigter Materialien des zugehörigen Spezialraums "Schmiede"
+      - forgeWeaponArmor    -- Menü zur Herstellung verschiedener Rüstungen zum zugehörigen Spezialraum "Schmiede"
+      - forge               -- Hauptmenü des Spezialraums "Schmiede"
+      - headShop            -- Funktion zur Anzeige des Spielers, des Goldes und der Traglast zum zugehörigen Spezialraums "Shop"
+      - shopOffer           -- Funktion zur Errechnung der Anzahl der im Spezialraum "Shop" erhältlichen Gegenstände
+      - shopBuy             -- Kaufmenü des zugehörigen Spezialraums "Shop"
+      - shopWeaponArmor     -- Funktion zum Erstellen der im "Shop" erhältlichen Waffen und Rüstungen
+      - shopSellWeaponsArmor-- Verkaufsmenü für Waffen und Rüstungen zum zugehörigen Spezialraum "Shop"
+      - shopSell            -- Menü zum Verkaufen zum zugehörigen Raum "Shop"
+      - shop                -- Hauptmenü zum Spezialraum "Shop"
+
+      - specialRoom         -- Funktion zur Ermittlung des derzeitigen Spezialraums   
     */
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
@@ -1752,6 +1769,7 @@ void chestFight(Player player[], short roundManager)
 void chest(Player player[], short roundManager, int room, short danger)
 {
     specialHeader(room);
+    if (player[roundManager].specialRoom == true) { std::cout << "\033[31mDie Truhe wurde bereits geöffnet!\033[0m" << std::endl; getKey(); return; }
     std::cout << "\nMoechten Sie die Truhe oeffnen? (J/N)" << std::endl;
     bool answer = question();
     if (answer == true)
@@ -1761,6 +1779,7 @@ void chest(Player player[], short roundManager, int room, short danger)
         if (danger == 1)
         {
             openChest(player, roundManager);
+            player[roundManager].specialRoom = true;
             return;
         }
 
@@ -1773,6 +1792,7 @@ void chest(Player player[], short roundManager, int room, short danger)
                 return;
             }
             openChest(player, roundManager);
+            player[roundManager].specialRoom = true;
             return;
         }
 
@@ -1785,6 +1805,7 @@ void chest(Player player[], short roundManager, int room, short danger)
                 return;
             }
             openChest(player, roundManager);
+            player[roundManager].specialRoom = true;
             return;
         }
         error(0);
@@ -1799,7 +1820,7 @@ void forgeMenue(Player player[], short roundManager, short room)
     std::cout << player[roundManager].getName() << ", Ihre Ressourcen:" << std::endl;
     line();
     std::cout << "\033[90mAltmetall\033[0m ---> \033[90m" << player[roundManager].scrapMetal << "\033[0m" << std::endl;
-    std::cout << "\033[91mKupfer\033[0m ------> \033[91m" << player[roundManager].copper << "\033[0m" << std::endl;
+    std::cout << "\033[31mKupfer\033[0m ------> \033[91m" << player[roundManager].copper << "\033[0m" << std::endl;
     std::cout << "Aluminium ---> " << player[roundManager].aluminum << std::endl;
     line();
     return;
@@ -1808,6 +1829,7 @@ void forgeMenue(Player player[], short roundManager, short room)
 void needMaterial(std::string name)
 {
     std::cout << "\033[31mSie haben zu wenig "<< name << "!\033[0m" << std::endl;
+    getKey();
     return;
 }
 
@@ -1820,29 +1842,26 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
     while(running)
     {
         forgeMenue(player, roundManager, room);
-        std::cout << "Zur Herstellung einer normalen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:" << std::endl;
+        std::cout << "\033[90mZur Herstellung einer normalen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:\033[0m" << std::endl;
         double neededScrap = (round((player[roundManager].level * 5) - player[roundManager].luck));
         double neededCopper = (round((player[roundManager].level * 3) - player[roundManager].luck));
         double neededAluminum = (round((player[roundManager].level * 2) - player[roundManager].luck));
         std::cout << "Altmetall: " << neededScrap << " | Kupfer: " << neededCopper << " | Aluminium: " << neededAluminum << std::endl;
-        std::cout << "\n\033[94mZur Herstellungen einer besonderen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:\033[0m" << std::endl;
+        std::cout << "\n\033[94mZur Herstellung einer besonderen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:\033[0m" << std::endl;
         double goodScrap = (round((player[roundManager].level * 7.5) - player[roundManager].luck));
         double goodCopper = (round((player[roundManager].level * 4.25) - player[roundManager].luck));
         double goodAluminum = (round((player[roundManager].level * 3.5) - player[roundManager].luck));
         std::cout << "Altmetall: " << goodScrap << " | Kupfer: " << goodCopper << " | Aluminium: " << goodAluminum << std::endl;
-        std::cout << "\n\033[92mZur Herstellung der bestmoeglichen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:\033[0m" << std::endl;
+        std::cout << "\n\033[35mZur Herstellung der bestmoeglichen " << sortOf << " benoetigen Sie auf Ihrem derzeitigen Level:\033[0m" << std::endl;
         double bestScrap = (round((player[roundManager].level * 12.5) - player[roundManager].luck));
         double bestCopper = (round((player[roundManager].level * 7.5) - player[roundManager].luck));
         double bestAluminum = (round((player[roundManager].level * 5) - player[roundManager].luck));
         std::cout << "Altmetall: " << bestScrap << " | Kupfer: " << bestCopper << " | Aluminium: " << bestAluminum << std::endl;
         line();
-        if (sortOf == "Ruestung") { std::cout << "Welche Ruestungsart moechten Sie herstellen?" << std::endl; }
-        if (sortOf == "Waffe") { std::cout << "Welche Waffenart moechten Sie herstellen?" << std::endl; }
-        line();
-        std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
-        std::cout << "\033[47;30m[ 1 ]\033[0m ------> Normal" << std::endl;
-        std::cout << "\033[104;30m[ 2 ]\033[0m ------> \033[94mBesonders\033[0m" << std::endl;
-        std::cout << "\033[102;30m[ 3 ]\033[0m ------> \033[92mBestmoeglich\033[0m" << std::endl;
+        position(38, 15); std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\n" << std::endl;
+        position(40, 15); std::cout << "\033[100;30m[ 1 ]\033[0m ------> \033[90mNormal\n" << std::endl;
+        position(38, 45); std::cout << "\033[104;30m[ 2 ]\033[0m ------> \033[94mBesonders\033[0m\n" << std::endl;
+        position(40, 45); std::cout << "\033[95;30m[ 3 ]\033[0m ------> \033[92mBestmoeglich\033[0m\n" << std::endl;
 
         short input = choice();
         switch(input)
@@ -1852,9 +1871,9 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                 return;
             
             case 1:
-                if (player[roundManager].scrapMetal < neededScrap) { needMaterial("Altmetall"); break;}
-                if (player[roundManager].copper < neededCopper) { needMaterial("Kupfer"); break;}
-                if (player[roundManager].aluminum < neededAluminum) {needMaterial("Aluminium"); break;}
+                if (player[roundManager].scrapMetal < neededScrap) { needMaterial("Altmetall"); continue; }
+                if (player[roundManager].copper < neededCopper) { needMaterial("Kupfer"); continue; }
+                if (player[roundManager].aluminum < neededAluminum) { needMaterial("Aluminium"); continue; }
                 player[roundManager].scrapMetal -= neededScrap; 
                 player[roundManager].realCapacity -= (neededScrap * 0.3);
                 player[roundManager].copper -= neededCopper;
@@ -1900,13 +1919,14 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                     }
                     std::cout << "Die " << sortOf << " wurde Ihrem Inventar hinzugefuegt!" << std::endl;
                     getKey();
+                    std::cout << "\n";
                     break;
                 }
 
             case 2:
-                if (player[roundManager].scrapMetal < goodScrap) { needMaterial("Altmetall"); break;}
-                if (player[roundManager].copper < goodCopper) { needMaterial("Kupfer"); break;}
-                if (player[roundManager].aluminum < goodAluminum) {needMaterial("Aluminium"); break;}
+                if (player[roundManager].scrapMetal < goodScrap) { needMaterial("Altmetall"); continue; }
+                if (player[roundManager].copper < goodCopper) { needMaterial("Kupfer"); continue; }
+                if (player[roundManager].aluminum < goodAluminum) { needMaterial("Aluminium"); continue; }
                 player[roundManager].scrapMetal -= goodScrap; 
                 player[roundManager].realCapacity -= (goodScrap * 0.3);
                 player[roundManager].copper -= neededCopper;
@@ -1957,9 +1977,9 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                 }
                 
             case 3:
-                if (player[roundManager].scrapMetal < bestScrap) { needMaterial("Altmetall"); break;}
-                if (player[roundManager].copper < bestCopper) { needMaterial("Kupfer"); break;}
-                if (player[roundManager].aluminum < bestAluminum) {needMaterial("Aluminium"); break;}
+                if (player[roundManager].scrapMetal < bestScrap) { needMaterial("Altmetall"); continue; }
+                if (player[roundManager].copper < bestCopper) { needMaterial("Kupfer"); continue; }
+                if (player[roundManager].aluminum < bestAluminum) { needMaterial("Aluminium"); continue; }
                 player[roundManager].scrapMetal -= bestScrap; 
                 player[roundManager].realCapacity -= (bestScrap * 0.3);
                 player[roundManager].copper -= bestCopper;
@@ -2027,9 +2047,9 @@ void forge(Player player[], short roundManager, short room)
         forgeMenue(player, roundManager, room);
         std::cout << "Was moechten Sie herstellen?" << std::endl;
         line();
-        std::cout << "[ 0 ] ------> Zurueck" << std::endl;
-        std::cout << "[ 1 ] ------> Ruestung" << std::endl;
-        std::cout << "[ 2 ] ------> Waffe" << std::endl;
+        std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\n" << std::endl;
+        std::cout << "\033[100;30m[ 1 ]\033[0m ------> \033[90mRuestung\033[0m\n" << std::endl;
+        std::cout << "\033[47;30m[ 2 ]\033[0m ------> Waffe\n" << std::endl;
         short input = choice();
         switch (input)
         {

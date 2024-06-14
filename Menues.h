@@ -1085,6 +1085,7 @@ void roomOptions(Player player[], short roundManager, short danger, short number
                             running = false;
                             break;                            
                         }
+                        break;
 
             case 2:
                 loot(player, roundManager);
