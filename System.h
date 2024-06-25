@@ -11,6 +11,7 @@
 #include <windows.h>
 #include <algorithm>
 #include <random>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Enemy.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Main.cpp>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\player.h>
@@ -135,16 +136,6 @@ void assignment(Player player[], short numberOfPlayers)
     return;
 }
 
-//Falsche cin Eingabe
-
-void cinFail()
-{
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    error(0);
-    return;
-}
-
 // Errechnen neuer Werte bei Skillpunktverteilung
 
 void charCalc(Player player[], short index)
@@ -218,6 +209,16 @@ void error(short error)
             break;
     }
     getKey();
+    return;
+}
+
+//Falsche cin Eingabe
+
+void cinFail()
+{
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    error(0);
     return;
 }
 
