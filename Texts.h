@@ -99,7 +99,7 @@ void roomTexts(int room)
                 position(58, 14); std::cout << "gesagt, dass es sich hierbei zwangslaeufig um eine Falle handeln muss.";
                 position(58, 15); std::cout << "Auf Ihrer Linken Seite erscheint ein Engelchen und auf der Rechten";
                 position(58, 16); std::cout << "ein Teufelchen. Teufelchen sagt: Zieh den Hebel! Und Engelchen sagt:";
-                position(58, 17); std::cout << "Hast Du nicht gehört? Du sollst den Hebel ziehen! ";
+                position(58, 17); std::cout << "Hast Du nicht gehoert? Du sollst den Hebel ziehen! ";
                 break;
 
             case 6:
@@ -148,7 +148,7 @@ void roomTexts(int room)
                 
                 position(58, 8);  std::cout << "Auch im tiefsten Dungeon kann man hier und da mal auf ein kleines Licht";
                 position(58, 9);  std::cout << "oder halt eben auch auf ein groesseres Feuer in einem Ofen oder eben einer";
-                position(58, 10); std::cout << "Schmiede treffen.... Die Glut im Schmelzofen scheint noch schoen heiß zu";
+                position(58, 10); std::cout << "Schmiede treffen.... Die Glut im Schmelzofen scheint noch schoen heiss zu";
                 position(58, 11); std::cout << "sein. Gerade richtig um Ihre Metalle darin schmelzen zu koennen und das ein";
                 position(58, 12); std::cout << "oder andere brauchbare oder eben auch nicht brauchbare Schwert oder Schild"; 
                 position(58, 13); std::cout << "herzustellen. Bei dieser Gelegenheit zuecken Sie lieber schnell Ihre Metalle,";
@@ -180,7 +180,7 @@ void roomTexts(int room)
                 position(58, 11); std::cout << "Erzähler hier gar nicht mehr glaubwuerdig an den Mann bringen!";
                 position(58, 12); std::cout << "Aber bitte: Mitten in einer stillen Ecke des Dungeons finden Sie Glorg den Ork. Er";
                 position(58, 13); std::cout << "ist der einzige Ork hier unten, der versucht die Herrschafft des Dungeons mittels";
-                position(58, 14); std::cout << "Glücksspiel an sich zu reissen! Sein grimmiger Blick sagt Ihnen zwar, dass Sie es";
+                position(58, 14); std::cout << "Gluecksspiel an sich zu reissen! Sein grimmiger Blick sagt Ihnen zwar, dass Sie es";
                 position(58, 15); std::cout << "lieber bleibenlassen sollten, aber seine mit Gold gefüllten Taschen sagen Ihnen,";
                 position(58, 16); std::cout << "dass Sie es auch gerne versuchen wuerden, es ihm genau aus den Selbigen zu entfer-";
                 position(58, 17); std::cout << "nen und in Ihre eigenen wandern zu lassen.... Wollen Sie es versuchen?";
@@ -264,7 +264,7 @@ void roomTexts(int room)
                 position(58, 11); std::cout << "Moos undefinierbar. Die Dungeon-Versicherung uebernimmt bei Abstuerzen und/oder";
                 position(58, 12); std::cout << "weiteren Dungeon-Unfaellen keine Haftung! Haben Sie ueberhaupt eine abgeschlossen";
                 position(58, 13); std::cout << "bevor Sie hier unten hereingestuermt sind?";
-                position(58, 14); std::cout << "Ich auch nicht, denn die Beitraege sind eine wahre Unverschaemtheit! Doch ob Sie";
+                position(58, 14); std::cout << "Ich auch nicht, denn die Beitraege sind eine wahre Unverschaemtheit! Doch ob Sie"; 
                 position(58, 15); std::cout << "dieses alte, glitschige Ding betreten wollen liegt allerdings voll und ganz bei";
                 position(58, 16); std::cout << "Ihnen. Doch bloss nicht abrutschen und runterfallen, schliesslich brauchen Sie " ;
                 position(58, 17); std::cout << "Ihre Knochen und Gelenke noch!";
@@ -301,18 +301,32 @@ void roomTexts(int room)
             case 20:
 
                 position(58, 8);  std::cout << "Das Grabmal des geschaendeten Kriegers... Die Inschrift besagt, dass hier die Gebeine";
-                position(58, 9);  std::cout << "von Grogar dem Schrecklichen ruhen. Die Frage ist, ob Sie nicht bereits seine Ruhe";
+                position(58, 9);  std::cout << "von Groghar dem Schrecklichen ruhen. Die Frage ist, ob Sie nicht bereits seine Ruhe";
                 position(58, 10); std::cout << "durch Ihre blanke Anwesenheit stoeren. Weiter besagt die Inschrift, dass er selbst aus";
                 position(58, 11); std::cout << "dem Grab raus jeden vernichten wird, der vor hat sein Grab zu pluendern! Das er auferstehen";
                 position(58, 12); std::cout << "wird um seine Pluenderer auf ewig zu verfluchen und diese als Geist heimzusuchen... ";
                 position(58, 13); std::cout << "Sagen Sie mal, Sie haben nicht zufaellig eine Schaufel dabei, oder? Ein bisschen Grabraub";
                 position(58, 14); std::cout << "statt Ork-Leichen zu pluendern fehlt Ihnen ja eventuell noch auf der To-do-Liste...";
-                position(58, 15); std::cout << "Und ausserdem schien Grogar zu Lebzeiten ein sehr freundlicher und aufgeschlossener Mensch";
+                position(58, 15); std::cout << "Und ausserdem schien Groghar zu Lebzeiten ein sehr freundlicher und aufgeschlossener Mensch";
                 position(58, 16); std::cout << "gewesen zu sein! Es ist gerade so, als wuerde er Sie persoenlich aus dem Grabe heraus darum";
                 position(58, 17); std::cout << "bitten, seine Besitztuemer frohgemutes an sich zu nehmen...";
                 break; 
 
             case 21:
+
+                position(58, 8);  std::cout << "Herzlichen Glueckwunsch! Sie haben sich den Weg bis zum totalitaeren Wunschbrunnen gebahnt!";
+                position(58, 9);  std::cout << "Sie haben nun die Moeglichkeit sich totalitaer verzaubern zu lassen! Das Ganze gegen eine";
+                position(58, 10); std::cout << "minimale Gebuehr von 10 Goldmuenzen. Der Dev und ich finden, dass der Preis hier vollkommen";
+                position(58, 11); std::cout << "klar geht. Lassen Sie sich nicht von dem Schild taeuschen, das besagt: \"Benutzung auf eigene";
+                position(58, 12); std::cout << "Gefahr! Die Preise im Spiegel koennen groesser sein, als sie erscheinen!\". Auch die leicht an-";
+                position(58, 13); std::cout << "gemooste Gummiente die auf der Oberflaeche des leicht gruenlich schimmernden Wassers schwimmt";
+                position(58, 14); std::cout << "sollteS ie nicht daran hindern, hier die ein oder andere Goldmuenze zu versenken!";
+                position(58, 15); std::cout << "Man munkelt uebrigens, dass der Brunnen das Feature unterstuetzt, auch aus ihm trinken zu";
+                position(58, 16); std::cout << "koennen. Soll wohl bei den ganzen Mineralien ne Art Vitalkur sein.... Allerdings wuerde ich";
+                position(58, 17); std::cout << "das an Ihrer Stelle auch eher unter dem Aspekt \"Auf eigene Gefahr!\" verbuchen! ";
+                break;
+
+            case 22:
 
                 position(58, 8);  std::cout << "";
                 position(58, 9);  std::cout << "";
@@ -325,7 +339,6 @@ void roomTexts(int room)
                 position(58, 16); std::cout << "";
                 position(58, 17); std::cout << "";
                 break;
-
         }
         return;
 }

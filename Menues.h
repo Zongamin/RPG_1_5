@@ -32,7 +32,7 @@
 
 bool isRoomValid(int room) 
 {
-    if (room == 5 || room == 6 || room == 9 || room == 10 || room == 11 || room == 12 || room == 13 || room == 14 || room == 15 || room == 19 || room == 20)
+    if (room == 5 || room == 6 || room == 9 || room == 10 || room == 11 || room == 12 || room == 13 || room == 14 || room == 15 || room == 19 || room == 20 || room == 21)
     {
         return true;
     }
@@ -613,13 +613,14 @@ void inventory(Player player[], short roundManager)
     return;
 }
 
-void frameWork(Player player[], short roundManager, short zone, int room)
+void frameWork(Player player[], short roundManager, short zone, int room, short numberOfPlayers)
 {
     clearScreen();
     line();
     std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-    position(40, 3); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
-    capacityColor(player, roundManager); position(80, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    position(60, 3); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
+    capacityColor(player, roundManager); position(100, 3); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    if (numberOfPlayers > 1) { position(140, 3); std::cout << "AP: " << player[roundManager].realActionPoints << "/" << player[roundManager].actionPoints << std::endl; }
     line();
     roomPictures(room);
     roomTexts(room);
@@ -1013,11 +1014,11 @@ void roomOptions(Player player[], short roundManager, short danger, short number
     
     while(running)
     {
-        frameWork(player, roundManager, danger, player[roundManager].currentRoom);
+        frameWork(player, roundManager, danger, player[roundManager].currentRoom, numberOfPlayers);
         
          if (player[roundManager].permaDeath == true)
         {
-            std::cout << "\n\033[31mLeider weilen Sie derzeit nicht unter den Lebenden....\033[0m" << std::endl;
+            std::cout << "\n\033[101;30m*** Leider weilen Sie derzeit nicht unter den Lebenden.... ***\033[0m" << std::endl;
             player[roundManager].roomCleared == true;
             getKey();
             return;
@@ -1025,7 +1026,7 @@ void roomOptions(Player player[], short roundManager, short danger, short number
 
         if (numberOfPlayers > 1 && player[roundManager].realActionPoints == 0)
         {
-            position(20, 39); std::cout << "\033[101;30m*** Sie haben leider keine Aktionspunkte mehr! ***\033[0m" << std::endl;
+            position(20, 39); std::cout << "\033[101;30m*** Ihre Aktionspunkte sind aufgebraucht! Leider endet Ihr Zug hier.... ***\033[0m" << std::endl;
             getKey();
             running = false;
             break;
@@ -1054,7 +1055,7 @@ void roomOptions(Player player[], short roundManager, short danger, short number
                 {
                     if (player[roundManager].key >= 1) 
                     {
-                        std::cout << "\n\n Sind Sie sicher, dass Sie den Raum verlassen moechten? (J/N)" << std::endl;
+                        std::cout << "\n\nSind Sie sicher, dass Sie den Raum verlassen moechten? (J/N)" << std::endl;
                         answer = question();
                         if (answer == true)
                         {
@@ -1075,7 +1076,7 @@ void roomOptions(Player player[], short roundManager, short danger, short number
                     }
                     break;
                 }
-                std::cout << "\n\n Sind Sie sicher, dass Sie den Raum verlassen moechten? (J/N)" << std::endl;
+                std::cout << "\n\nSind Sie sicher, dass Sie den Raum verlassen moechten? (J/N)" << std::endl;
                         answer = question();
                         if (answer == true)
                         {

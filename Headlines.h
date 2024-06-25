@@ -6,11 +6,11 @@
 /* Inhaltsverzeichnis:
      Schriftzugdatei. Funktionen als Überschriften selbsterklärend
 
-    - textMainMenue     - textFight         - textMenue     - textMetal     - textRising
-    - textCharacter     - textInventory     - textSearch    - textArmor     - textTitle
-    - textPlayer        - textMagic         - textTrap      - textWeapons   - textEnd
-    - textLevelUp       - textSave          - textBreak     - textDisposal  - textDeath
-    - textExpUp         - textLoad          - textPotion    - textSpecial
+    - textMainMenue     - textFight         - textMenue     - textMetal     - textDismantle
+    - textCharacter     - textInventory     - textSearch    - textArmor     - textRising
+    - textPlayer        - textMagic         - textTrap      - textWeapons   - textTitle
+    - textLevelUp       - textSave          - textBreak     - textDisposal  - textEnd
+    - textExpUp         - textLoad          - textPotion    - textSpecial   - textDeath
     */
 
 void textMainMenue()
@@ -266,6 +266,20 @@ void textSpecial()
     std::cout << "    \\/_____/  \\ \\ \\/   \\/____/  \\/____/  \\/_/  \\/__/\\/_/ \\/____/                 \n";
     std::cout << "               \\ \\_\\                                                                    \n";
     std::cout << "                \\/_/                                                               \033[0m\n";
+    return;
+}
+
+void textDismantle()
+{
+    std::cout << "\033[91m ________                     ___                                         		                        ";
+    std::cout << "/\\_____  \\                   /\\_ \\                                        		                    \n";
+    std::cout << "\\/____//'/'       __    _ __ \\//\\ \\        __       __        __      ___    		                    \n";
+    std::cout << "     //'/'      /'__`\\ /\\`'__\\ \\ \\ \\     /'__`\\   /'_ `\\    /'__`\\   /' _`\\  		            \n";
+    std::cout << "    //'/'___   /\\  __/ \\ \\ \\/   \\_\\ \\_  /\\  __/  /\\ \\L\\ \\  /\\  __/  /\\ \\/\\ \\ 		    \n";
+    std::cout << "    /\\_______\\ \\ \\____\\ \\ \\_\\   /\\____\\ \\ \\____\\ \\ \\____ \\ \\ \\____\\ \\ \\_\\ \\_\\		\n";
+    std::cout << "    \\/_______/  \\/____/  \\/_/   \\/____/  \\/____/  \\/___L\\ \\ \\/____/  \\/_/\\/_/		            \n";
+    std::cout << "                                                    /\\____/                 		                        \n";
+    std::cout << "                                                    \\/___/                                        \033[0m\n";
     return;
 }
 
