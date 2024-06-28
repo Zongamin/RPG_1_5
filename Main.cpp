@@ -42,14 +42,8 @@ int main()
     
     // Initialisierung Enemy
 
-    Enemy enemy[6];
-    enemy[0].setName("Imp");
-    enemy[1].setName("Goblin");
-    enemy[2].setName("Ork");
-    enemy[3].setName("Oger");
-    enemy[4].setName("Killer Karnickel");
-    enemy[5].setName("Drache");
-    
+    Enemy enemy[5];
+        
     // Title
 
     clearScreen();

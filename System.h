@@ -1952,9 +1952,9 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
                 if (player[roundManager].aluminum < goodAluminum) { needMaterial("Aluminium"); continue; }
                 player[roundManager].scrapMetal -= goodScrap; 
                 player[roundManager].realCapacity -= (goodScrap * 0.3);
-                player[roundManager].copper -= neededCopper;
+                player[roundManager].copper -= goodCopper;
                 player[roundManager].realCapacity -= (goodCopper * 0.2);
-                player[roundManager].aluminum -= neededAluminum;
+                player[roundManager].aluminum -= goodAluminum;
                 player[roundManager].realCapacity -= (goodAluminum * 0.1);
                 player[roundManager].crafted++;
                 craftedWeaponArmor = random((player[roundManager].level * 0.1), (player[roundManager].level * 0.2));
@@ -2157,13 +2157,22 @@ void dismantleWeaponArmor(Player player[], short roundManager, std::string sortO
             experience = round(player[roundManager].weaponDmg * 25);
             std::cout << "\nFuer das Zerlegen dieser Waffe erhalten Sie: \033[90m" << scrapMetal << " Altmetall \033[0m| \033[31m" << copper << " Kupfer \033[0m| " << aluminum << " Aluminium." << std::endl;
             std::cout << "\nDesweiteren erhalten Sie fuer das Zerlegen " << experience << " Erfahrungspunkte." << std::endl;
-            std::cout << "\n\033[91mSind Sie sicher, dass Sie Ihre angelegte Waffe zerlegen moechten? (J/N)\033[0m" << std::endl;
+            if (player[roundManager].realCapacity - 2.5 + (scrapMetal * 0.3) + (copper * 0.2) + (aluminum * 0.1) > player[roundManager].capacity) 
+            { 
+                std::cout << "\033[91mLeider muss der Vorgang aber aus Platzmangel im Inventar abgebrochen werden!\033[0m" << std::endl;
+                getKey();
+                continue;
+            }
+            std::cout << "\n\033[91mSind Sie sicher, dass Sie Ihre \033[101;30mangelegte Waffe\033[91m zerlegen moechten? (J/N)\033[0m" << std::endl;
             answer = question();
             if (answer == false) { break; }
             player[roundManager].realCapacity -= 2.5;
             player[roundManager].scrapMetal += scrapMetal;
+            player[roundManager].realCapacity += (scrapMetal * 0.3);
             player[roundManager].copper += copper;
+            player[roundManager].realCapacity += (copper * 0.2);
             player[roundManager].aluminum += aluminum;
+            player[roundManager].realCapacity += (aluminum * 0.1);
             player[roundManager].weaponDmg = 0;
             player[roundManager].realExp += experience;
             std::cout << "\nDie Waffe wurde zerlegt. Sie haben das Material und die Erfahrungspunkte erhalten." << std::endl;
@@ -2183,14 +2192,23 @@ void dismantleWeaponArmor(Player player[], short roundManager, std::string sortO
             experience = round(player[roundManager].armorDmgReduce * 25);
             std::cout << "\nFuer das Zerlegen dieser Ruestung erhalten Sie: \033[90m" << scrapMetal << " Altmetall \033[0m| \033[31m" << copper << " Kupfer \033[0m| " << aluminum << " Aluminium." << std::endl;
             std::cout << "\nDesweiteren erhalten Sie fuer das Zerlegen " << experience << " Erfahrungspunkte." << std::endl;
-            std::cout << "\n\033[91mSind Sie sicher, dass Sie Ihre angelegte Ruestung zerlegen moechten? (J/N)\033[0m" << std::endl;
+            if (player[roundManager].realCapacity - 2.25 + (scrapMetal * 0.3) + (copper * 0.2) + (aluminum * 0.1) > player[roundManager].capacity) 
+            { 
+                std::cout << "\033[91mLeider muss der Vorgang aber aus Platzmangel im Inventar abgebrochen werden!\033[0m" << std::endl;
+                getKey();
+                continue;
+            }
+            std::cout << "\n\033[91mSind Sie sicher, dass Sie Ihre \033[101;30mangelegte Ruestung\033[91m zerlegen moechten? (J/N)\033[0m" << std::endl;
             answer = question();
             if (answer == false) { break; }
             player[roundManager].realCapacity -= 2.25;
             player[roundManager].scrapMetal += scrapMetal;
+            player[roundManager].realCapacity += (scrapMetal * 0.3);
             player[roundManager].copper += copper;
+            player[roundManager].realCapacity += (copper * 0.2);
             player[roundManager].aluminum += aluminum;
-            player[roundManager].weaponDmg = 0;
+            player[roundManager].realCapacity += (aluminum * 0.1);
+            player[roundManager].armorDmgReduce = 0;
             player[roundManager].realExp += experience;
             std::cout << "\nDie Ruestung wurde zerlegt. Sie haben das Material und die Erfahrungspunkte erhalten." << std::endl;
             getKey();
@@ -2209,13 +2227,22 @@ void dismantleWeaponArmor(Player player[], short roundManager, std::string sortO
             experience = round(player[roundManager].weapons[input -1] * 25);
             std::cout << "\nFuer das Zerlegen dieser Waffe erhalten Sie: \033[90m" << scrapMetal << " Altmetall \033[0m| \033[31m" << copper << " Kupfer \033[0m| " << aluminum << " Aluminium." << std::endl;
             std::cout << "\nDesweiteren erhalten Sie fuer das Zerlegen " << experience << " Erfahrungspunkte." << std::endl;
+            if (player[roundManager].realCapacity - 2.5 + (scrapMetal * 0.3) + (copper * 0.2) + (aluminum * 0.1) > player[roundManager].capacity) 
+            { 
+                std::cout << "\033[91mLeider muss der Vorgang aber aus Platzmangel im Inventar abgebrochen werden!\033[0m" << std::endl;
+                getKey();
+                continue;
+            }
             std::cout << "\n\033[91mSind Sie sicher, dass Sie diese Waffe zerlegen moechten? (J/N)\033[0m" << std::endl;
             answer = question();
             if (answer == false) { break; }
             player[roundManager].realCapacity -= 2.5;
             player[roundManager].scrapMetal += scrapMetal;
+            player[roundManager].realCapacity += (scrapMetal * 0.3);
             player[roundManager].copper += copper;
+            player[roundManager].realCapacity += (copper * 0.2);
             player[roundManager].aluminum += aluminum;
+            player[roundManager].realCapacity += (aluminum * 0.1);
             player[roundManager].weapons[input -1] = 0;
             arraySort(player, roundManager, "weapon");
             player[roundManager].realExp += experience;
@@ -2236,13 +2263,22 @@ void dismantleWeaponArmor(Player player[], short roundManager, std::string sortO
             experience = round(player[roundManager].armor[input - 1] * 25);
             std::cout << "\nFuer das Zerlegen dieser Ruestung erhalten Sie: \033[90m" << scrapMetal << " Altmetall \033[0m| \033[31m" << copper << " Kupfer \033[0m| " << aluminum << " Aluminium." << std::endl;
             std::cout << "\nDesweiteren erhalten Sie fuer das Zerlegen " << experience << " Erfahrungspunkte." << std::endl;
+            if (player[roundManager].realCapacity - 2.5 + (scrapMetal * 0.3) + (copper * 0.2) + (aluminum * 0.1) > player[roundManager].capacity) 
+            { 
+                std::cout << "\033[91mLeider muss der Vorgang aber aus Platzmangel im Inventar abgebrochen werden!\033[0m" << std::endl;
+                getKey();
+                continue;
+            }
             std::cout << "\n\033[91mSind Sie sicher, dass Sie diese Ruestung zerlegen moechten? (J/N)\033[0m" << std::endl;
             answer = question();
             if (answer == false) { break; }
             player[roundManager].realCapacity -= 2.25;
             player[roundManager].scrapMetal += scrapMetal;
+            player[roundManager].realCapacity += (scrapMetal * 0.3);
             player[roundManager].copper += copper;
+            player[roundManager].realCapacity += (copper * 0.2);
             player[roundManager].aluminum += aluminum;
+            player[roundManager].realCapacity += (aluminum * 0.1);
             player[roundManager].armor[input -1] = 0;
             arraySort(player, roundManager, "armor");
             player[roundManager].realExp += experience;
