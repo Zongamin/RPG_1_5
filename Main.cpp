@@ -43,6 +43,11 @@ int main()
     // Initialisierung Enemy
 
     Enemy enemy[5];
+    enemy[0].setName("Zero 01");
+    enemy[1].setName("Zero 02");
+    enemy[2].setName("Zero 03");
+    enemy[3].setName("Zero 04");
+    enemy[4].setName("Zero 05");
         
     // Title
 
@@ -87,7 +92,7 @@ int main()
 
         while (running)
         {
-            roomOptions(player, roundManager, zone, numberOfPlayers);
+            roomOptions(player, enemy, roundManager, zone, numberOfPlayers);
             running = false;
             player[roundManager].roomCleared = false;
             player[roundManager].realActionPoints = player[roundManager].actionPoints;
@@ -156,7 +161,7 @@ bool playGame = true;
             
         while (running)
             {
-                roomOptions(player, roundManager, zone, numberOfPlayers);
+                roomOptions(player, enemy, roundManager, zone, numberOfPlayers);
                 running = false;
                 break;
             }

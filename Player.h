@@ -69,39 +69,39 @@ class Player
         double deaths{};
         
         
-    void damage(double damage)
+void damage(double damage)
+{
+    this->realHealth -= damage;
+    
+    if (this->realHealth < this->health)
     {
-        this->realHealth -= damage;
-        
-        if (this->realHealth < this->health)
-        {
-            std::cout << "Tod";
-            return;
-        }
+        std::cout << "Tod";
         return;
     }
+    return;
+}
 
-    void heal(double heal)
+void heal(double heal)
+{
+    this->realHealth += heal;
+    if (this->realHealth > this->health)
     {
-        this->realHealth += heal;
-        if (this->realHealth > this->health)
-        {
-            this->realHealth = this->health;
-            return;
-        }
+        this->realHealth = this->health;
         return;
     }
+    return;
+}
 
-    void setName(std::string playerName)
-    {
-        this->playerName = playerName;
-        return;
-    }
+void setName(std::string playerName)
+{
+    this->playerName = playerName;
+    return;
+}
 
-    std::string getName() 
-    {
-        return this->playerName;
-    }
+std::string getName() 
+{
+    return this->playerName;
+}
 
 };
 

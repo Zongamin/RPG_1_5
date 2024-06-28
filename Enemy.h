@@ -48,11 +48,17 @@ class Enemy
         
 
 void setName(std::string enemyName)
-    {
-        this->enemyName = enemyName;
-        return; 
+{
+    this->enemyName = enemyName;
+    return; 
 
-    }
+}
+
+std::string getName()
+{
+    
+}
+
 };
 
 #endif 

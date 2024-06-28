@@ -14,7 +14,7 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Enemy.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Main.cpp>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
-#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\player.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
 
 /*Inhaltsverzeichnis:
       - assignment          -- Zuweisung der Werte für neue Spieler
@@ -899,7 +899,7 @@ void loadGame()
 
 // Ausgabe Tod des Spielers
 
-void death(Player player[], short roundManager)
+void death(Player player[], short roundManager, short numberOfPlayers)
 {
     player[roundManager].permaDeath = true;
     clearScreen();
@@ -921,7 +921,7 @@ void death(Player player[], short roundManager)
     return;
 }
 
-void trapCheck(Player player[], short roundManager, std::string room)
+void trapCheck(Player player[], short roundManager, std::string room, short numberOfPlayers)
 {
     double damage = 0;
     double vari = 0;
@@ -950,7 +950,7 @@ void trapCheck(Player player[], short roundManager, std::string room)
                 player[roundManager].realHealth = 0;
                 lifeDisplay(player, roundManager, 0, 22);
                 getKey();
-                death(player, roundManager);
+                death(player, roundManager, numberOfPlayers);
                 return;
             }
             lifeDisplay(player, roundManager, 0, 22);
@@ -965,17 +965,208 @@ void trapCheck(Player player[], short roundManager, std::string room)
     return;
 }
 
+// Funktion zur Ermittlung einer Kampfbegegnung
+
+bool fightCheck(Player player[], short roundManager, short dangerZone)
+{
+    short chance = 0;
+    chance = random(1, 100);
+
+    if (dangerZone == 1) { if (chance >= 36 && chance <= 64) { return true; } }
+    if (dangerZone == 2) { if (chance >= 25 && chance <= 75) { return true; } }
+    if (dangerZone == 3) { if (chance >= 12 && chance <= 88) { return true; } }
+    return false;
+}
+
+// Initialisierung der Gegner
+
+void initializeEnemy(Enemy enemy[], Player player[], short roundManager, short dangerZone, short kindOf, short enemyNumber)
+{
+    double factor = 0;
+    short variation = 0;
+    short chance = 0;
+
+    enemy[enemyNumber].permaDeath = false; 
+
+    if (kindOf == 1) { factor = 1; enemy[enemyNumber].picture = 0; enemy[enemyNumber].setName("Imp " + std::to_string(enemyNumber)); }
+    if (kindOf == 2) { factor = 1.5; enemy[enemyNumber].picture = 1; enemy[enemyNumber].setName("Goblin " + std::to_string(enemyNumber)); }
+    if (kindOf == 3) { factor = 2; enemy[enemyNumber].picture = 2; enemy[enemyNumber].setName("Ork " + std::to_string(enemyNumber)); }
+    if (kindOf == 4) { factor = 3; enemy[enemyNumber].picture = 3; enemy[enemyNumber].setName("Oger " + std::to_string(enemyNumber)); }
+    if (kindOf == 5) { factor = 4; enemy[enemyNumber].picture = 4; enemy[enemyNumber].setName("Killer-Karnickel " + std::to_string(enemyNumber)); }
+    if (kindOf == 6) { factor = 5; enemy[enemyNumber].picture = 5; enemy[enemyNumber].setName("Drache " + std::to_string(enemyNumber)); }
+    if (kindOf == 7) { factor = 3.5; enemy[enemyNumber].picture = 6; enemy[enemyNumber].setName("Mimik " + std::to_string(enemyNumber)); }
+    if (kindOf == 8) { factor = 4; enemy[enemyNumber].picture = 7; enemy[enemyNumber].setName("Groghar " + std::to_string(enemyNumber)); }
+    if (dangerZone == 1) { variation = 0; };
+    if (dangerZone == 2) { variation = random(0, 2); }
+    if (dangerZone == 3) { variation = random(1, 5); }
+    enemy[enemyNumber].level = (player[roundManager].level + variation);
+    enemy[enemyNumber].health = round(((player[roundManager].health / 2) * factor) + variation);
+    enemy[enemyNumber].realHealth = enemy[enemyNumber].health;
+    enemy[enemyNumber].mana = round(((player[roundManager].mana / 2) * factor) + variation);
+    enemy[enemyNumber].realMana = enemy[enemyNumber].mana;
+    enemy[enemyNumber].strength = round(((player[roundManager].strength / 4) * factor) + variation);
+    enemy[enemyNumber].intelligence = round(((player[roundManager].intelligence / 4) * factor) + variation);
+    enemy[enemyNumber].dexterity = round(((player[roundManager].dexterity / 2) * factor) + variation);
+    enemy[enemyNumber].luck = (player[roundManager].luck / 2) * factor;
+    if (enemy[enemyNumber].luck < 1) { enemy[enemyNumber].luck = 1; }
+    enemy[enemyNumber].endurance = round(((player[roundManager].endurance / 2) * factor) + variation);
+
+    // Inventar
+
+    enemy[enemyNumber].gold = (player[roundManager].level * 2) + variation;
+    enemy[enemyNumber].exp = {};
+    chance = random(1, 100);
+    if (chance >= 1 && chance <= 50) { enemy[enemyNumber].scrapMetal = round(random(1, 1 + (player[roundManager].level - 1) * 1)); }
+    chance = random(1, 100);
+    if (chance >=50 && chance <= 100) { enemy[enemyNumber].aluminum = round(random(1, 1 + (player[roundManager].level - 1) * 1)); }
+    chance = random(1, 100);
+    if (chance >= 1 && chance <= 50) { enemy[enemyNumber].copper = round(random(1, 1 + (player[roundManager].level - 1) * 1)); }
+    chance = random(1, 100);
+    if (chance >= 50 && chance <= 100) { enemy[enemyNumber].manaPotion = random(1, (3 + variation)); }
+    chance = random(1, 100);
+    if (chance >= 1 && chance <=50) { enemy[enemyNumber].healthPotion = random(1,(3 + variation)); }
+    chance = random(1, 100);
+    if (chance >= 35 && chance <= 65) {enemy[enemyNumber].weapons = (player[roundManager].level + variation); }
+    chance = random(1, 100);
+    if (chance >= 35 && chance <= 65) { enemy[enemyNumber].armor = (player[roundManager].level + variation); }
+    
+    // Buffs
+
+    enemy[enemyNumber].frozen = 0;
+    enemy[enemyNumber].fireAura = 0;
+    enemy[enemyNumber].poisoned = 0;
+    enemy[enemyNumber].regenerationOn = 0;
+            
+    return;
+}
+
+// Methode zum Errechnen der Gegneranzahl und der Gegner
+
+short fightInvite(Enemy enemy[], Player player[], short roundManager, short dangerZone, short specialFight)
+{
+    short kindOf = 0;
+    short enemyNumber = 0;
+    
+    if (specialFight == 0)
+    {
+        if (dangerZone == 1)
+        {
+            enemyNumber = random(0, 1);
+            
+            for(short index = 0; index < enemyNumber; index++)
+            {
+                kindOf = 0;
+                kindOf = random(1, 2);
+                initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, index);            
+            }
+        }
+        if (dangerZone == 2)
+        {
+            enemyNumber = random(0, 2);
+
+            for(short index = 0; index < enemyNumber; index++)
+            {
+                kindOf = 0;
+                kindOf = random(1, 3);
+                initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, index);
+            }
+        }
+        if (dangerZone == 3)
+        {
+            enemyNumber = random(0, 4);
+            
+            for(short index = 0; index = enemyNumber; index++)
+            {
+                kindOf = 0;
+                kindOf = random(1, 4);
+                initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, index);
+            }
+        }
+        return enemyNumber + 1;
+    }
+    if (specialFight == 1)
+    {
+        kindOf = 5;
+        enemyNumber = 0;
+        initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, enemyNumber);
+        return enemyNumber + 1;
+    }
+    if (specialFight == 2)
+    {
+        kindOf = 6;
+        enemyNumber = 0;
+        initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, enemyNumber);
+        return enemyNumber + 1;
+    }
+    if (specialFight == 3)
+    {
+        kindOf = 7;
+        enemyNumber = 0;
+        initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, enemyNumber);
+        return enemyNumber + 1;
+    }
+    if (specialFight == 4)
+    {
+        kindOf = 8;
+        enemyNumber = 0;
+        initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, enemyNumber);
+        return enemyNumber + 1;
+    }
+    error(0);
+    return 0;
+}
+void fight(Enemy enemy[], Player player[], short roundManager, short dangerZone, short specialFight)
+{
+    short roundCounter = 0;
+    short fighterCounter = 0;
+    short firstAttack = 0;
+    
+    fighterCounter = fightInvite(enemy, player, roundManager, dangerZone, specialFight);
+    firstAttack = random(1, 100);
+    clearScreen();
+    textFight();
+    line();
+    if (firstAttack >= 1 && firstAttack <= (25 + player[roundManager].luck) || firstAttack >= (75 - player[roundManager].luck) && firstAttack <= 100) { roundCounter = fighterCounter; }
+    if (roundCounter == 0) { std::cout << "\n\n\033[101;47m***** HINTERHALT! *****\033[0m" << std::endl; }
+    if (roundCounter == fighterCounter) { std::cout << "\n\n\033[102;30m*** Sie koennen den Feind ueberraschen und haben den ersten Angriff! ***\033[0m" << std::endl; }
+    std::cout << "\n\033[91mEs kommt zu einem Kampf! Sie treffen auf " << fighterCounter - 1 << " Gegner!\033[0m" << std::endl;
+    std::cout << "\n\033[91mSie treffen auf folgende(n) Gegner:\033[0m" << std::endl;
+    line();
+    for (short index; index < fighterCounter - 1; index++)
+    {
+        std::cout << "\033[91m" << index + 1 << "\033[0m ------> \033[91m " << enemy[index].getName() << "\033[0m\n" << std::endl;
+    }
+    line();
+    getKey();
+    return;
+}
+
 // looten nach erfolgreicher Suche
 
-void loot(Player player[], short roundManager)
+void loot(Player player[], Enemy enemy[], short roundManager, short dangerZone, short numberOfPlayers)
 {
     int chance = 0;
     bool dispose = false;
+    bool fighting = false;
     double tempExp = 0;
     double findItem = 0;
     double experience = 0;
         
-    trapCheck(player, roundManager, "loot");
+    trapCheck(player, roundManager, "loot", numberOfPlayers);
+    fighting = fightCheck(player, roundManager, dangerZone);
+    if (fighting == true)
+    {
+        fight(enemy, player, roundManager, dangerZone, 0);
+        if (player[roundManager].permaDeath == true)
+        {
+            if (numberOfPlayers == 1)
+            {
+                death(player, roundManager, numberOfPlayers);
+                player[roundManager].roomCleared = true;
+                return;
+            }
+        }
+    }
 
     clearScreen();
     textSearch();
@@ -1365,7 +1556,7 @@ void trapCall(Player player[], short roundManager, short zone)
     return;
 }
 
-void trapSearch(Player player[], short roundManager, short danger)
+void trapSearch(Player player[], short roundManager, short danger, short numberOfPlayers)
 {
     short zone = 0;
     double x = 0;
@@ -1414,7 +1605,7 @@ void trapSearch(Player player[], short roundManager, short danger)
                 player[roundManager].realHealth = 0;
                 lifeDisplay(player, roundManager, 0, 24);
                 getKey();
-                death(player, roundManager);
+                death(player, roundManager, numberOfPlayers);
                 return;
         }
         lifeDisplay(player, roundManager, 0, 24);
@@ -1431,16 +1622,32 @@ void trapSearch(Player player[], short roundManager, short danger)
     return;
 }
 
-void takeBreak(Player player[], short roundManager, short danger)
+void takeBreak(Player player[],Enemy enemy[], short roundManager, short danger, short numberOfPlayers)
 {
     short zone = 0;
     int mana = 0;
     int health = 0;
+    bool fighting = false;
     float x = 0;
      
     mana = round(random(((player[roundManager].mana / 100) * 25), ((player[roundManager].mana / 100) * 50)));
     health = round(random(((player[roundManager].health / 100) * 25), ((player[roundManager].health / 100) * 50)));
     zone = round(random(1, 100));
+
+    fighting = fightCheck(player, roundManager, danger);
+    if (fighting == true)
+    {
+        fight(enemy, player, roundManager, danger, 0);
+        if (player[roundManager].permaDeath == true)
+        {
+            if (numberOfPlayers == 1)
+            {
+                death(player, roundManager, numberOfPlayers);
+                player[roundManager].roomCleared = true;
+                return;
+            }
+        }
+    }
 
     if (danger >= 2)
     { 
@@ -1448,7 +1655,7 @@ void takeBreak(Player player[], short roundManager, short danger)
         if (danger == 3) { x = 17.5; }
         if (zone >= round((25 - x) - player[roundManager].luck) && zone <= round((25 + x) + player[roundManager].luck) || zone >= round((75 - x) - player[roundManager].luck) && zone <= round((75 + x) + player[roundManager].luck))
         {
-            trapCheck(player, roundManager, "sleep");
+            trapCheck(player, roundManager, "sleep", numberOfPlayers);
         }
     }
 
@@ -1646,7 +1853,7 @@ void lever(Player player[], short roundManager, int room, short numberOfPlayers)
                         std::cout << "\n\033[31mSie sind bei dieser Aktion leider gestorben!" << std::endl;
                         lifeDisplay(player, roundManager, 0, 30);
                         getKey();
-                        death(player, roundManager);
+                        death(player, roundManager, numberOfPlayers);
                         return;
                     }
                     lifeDisplay(player, roundManager, 0, 30);
