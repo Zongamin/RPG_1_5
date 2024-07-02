@@ -44,7 +44,7 @@ class Enemy
         double poisoned{};
         double regenerationOn{};
         short picture{};
-        bool permaDeath{};
+        bool permaDeath = true;
         
 
 void setName(std::string enemyName)
@@ -56,7 +56,7 @@ void setName(std::string enemyName)
 
 std::string getName()
 {
-    
+    return this->enemyName;
 }
 
 };

@@ -14,7 +14,10 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Enemy.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Main.cpp>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Texts.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Log.h>
 
 /*Inhaltsverzeichnis:
       - assignment          -- Zuweisung der Werte für neue Spieler
@@ -965,6 +968,101 @@ void trapCheck(Player player[], short roundManager, std::string room, short numb
     return;
 }
 
+// Funktion zur Anzeige des Kampf - Logs
+
+void fightLog(Log log)
+{
+    position(58, 23); std::cout << "Kampf - Log:" << std::endl;
+    position(58, 24); std::cout << log.getMessage(0);
+    position(58, 25); std::cout << log.getMessage(1);
+    position(58, 26); std::cout << log.getMessage(2);
+    position(58, 27); std::cout << log.getMessage(3);
+    position(58, 28); std::cout << log.getMessage(4);
+    position(58, 29); std::cout << log.getMessage(5);
+}
+
+// Funktion zum errechnen des Gegnerverhaltens
+
+bool enemyAi(Player player[], Enemy enemy[], short roundManager, short enemyNumber)
+{
+    position(58, 23); std::cout << "\033[41;37m*** " << enemy[enemyNumber].getName() << " ist am Zug ***\033[0m" << std::endl;
+    getKey();
+    return true;
+}
+
+// Funktion zum Kampfmenü des Spielers
+
+bool playerFightMenue(Player player[], Enemy enemy[], short roundManager, short enemyNumber)
+{
+    position(0, 33); std::cout << "";
+    return true;
+}
+
+// Funktion zur Anzeige des Lebens des Gegners
+
+void enemyLifeDisplay(Enemy enemy[], short enemyNumber)
+{
+    double range = 0;
+
+    position(61, 17); std::cout << "------------------------------------------------------------" << std::endl;
+    position(61, 18); std::cout << "| Leben |\033[41m                                                  \033[0m|" << std::endl;
+    position(61, 19); std::cout << "------------------------------------------------------------" << std::endl;
+    position(61, 20); std::cout << "| Mana  |\033[41m                                                  \033[0m|" << std::endl;
+    position(61, 21); std::cout << "------------------------------------------------------------" << std::endl;
+    position(70, 18);
+    range = round(50 * (enemy[enemyNumber].realHealth / enemy[enemyNumber].health));
+    for (int index = 0; index < range; index++)
+    {
+        std::cout << "\033[102m ";
+    }
+    position(67, 20);
+    range = round(50 * (enemy[enemyNumber].realMana / enemy[enemyNumber].mana));
+    for (int index = 0; index < range; index++)
+    {
+        std::cout << "\033[104m ";
+    }
+    std::cout << "\033[0m" << std::endl;
+    return;
+
+}
+
+// Funktion zur Anzeige des Gegnerlebens innerhalb desw Menüs
+void enemyMenueLifeDisplay(Enemy enemy[], short enemyNumber, short posX, short posY)
+{
+    position(posX, posY); std::cout << "\033[0m--------------------------------------------------------------------------------------------------------------\n";
+    position(posX, posY + 1); std::cout << "| Leben |\033[41m                                                                                                    \033[0m|\n";
+    position(posX, posY + 2); std::cout << "--------------------------------------------------------------------------------------------------------------\n";
+    double range{};
+    position((posX + 9), (posY + 1));
+    range = round(100 * (enemy[enemyNumber].realHealth / enemy[enemyNumber].health));
+    for (int i = 0; i < range; i++)
+    {
+        std::cout << "\033[102m ";
+    }
+    std::cout << "\n\n\033[0m" << std::endl;
+    return;
+}
+
+// Kampfmenü des Spielers
+
+void fightFrame(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber) 
+{
+    clearScreen();
+    textFight();
+    line();
+    enemyPictures(enemy[enemyNumber].picture);
+    enemyText(enemy[enemyNumber].picture);
+    position(90, 12); std::cout << "\033[41;37m*** Level " << enemy[enemyNumber].level << " ***\033[0m" << std::endl;
+    enemyLifeDisplay(enemy, enemyNumber);
+    position(58, 22); std::cout << "-------------------------------------------------------------------" << std::endl;
+    fightLog(log);
+    position(0, 30); 
+    line();
+    // TODO: getKey(); löschen!!! -----------------------------------------------------------------------------------------------------------------
+    getKey();
+    return;
+}
+
 // Funktion zur Ermittlung einer Kampfbegegnung
 
 bool fightCheck(Player player[], short roundManager, short dangerZone)
@@ -988,14 +1086,14 @@ void initializeEnemy(Enemy enemy[], Player player[], short roundManager, short d
 
     enemy[enemyNumber].permaDeath = false; 
 
-    if (kindOf == 1) { factor = 1; enemy[enemyNumber].picture = 0; enemy[enemyNumber].setName("Imp " + std::to_string(enemyNumber)); }
-    if (kindOf == 2) { factor = 1.5; enemy[enemyNumber].picture = 1; enemy[enemyNumber].setName("Goblin " + std::to_string(enemyNumber)); }
-    if (kindOf == 3) { factor = 2; enemy[enemyNumber].picture = 2; enemy[enemyNumber].setName("Ork " + std::to_string(enemyNumber)); }
-    if (kindOf == 4) { factor = 3; enemy[enemyNumber].picture = 3; enemy[enemyNumber].setName("Oger " + std::to_string(enemyNumber)); }
-    if (kindOf == 5) { factor = 4; enemy[enemyNumber].picture = 4; enemy[enemyNumber].setName("Killer-Karnickel " + std::to_string(enemyNumber)); }
-    if (kindOf == 6) { factor = 5; enemy[enemyNumber].picture = 5; enemy[enemyNumber].setName("Drache " + std::to_string(enemyNumber)); }
-    if (kindOf == 7) { factor = 3.5; enemy[enemyNumber].picture = 6; enemy[enemyNumber].setName("Mimik " + std::to_string(enemyNumber)); }
-    if (kindOf == 8) { factor = 4; enemy[enemyNumber].picture = 7; enemy[enemyNumber].setName("Groghar " + std::to_string(enemyNumber)); }
+    if (kindOf == 1) { factor = 1; enemy[enemyNumber].picture = 0; enemy[enemyNumber].setName("Imp " + std::to_string(enemyNumber + 1)); }
+    if (kindOf == 2) { factor = 1.5; enemy[enemyNumber].picture = 1; enemy[enemyNumber].setName("Goblin " + std::to_string(enemyNumber + 1)); }
+    if (kindOf == 3) { factor = 2; enemy[enemyNumber].picture = 2; enemy[enemyNumber].setName("Ork " + std::to_string(enemyNumber + 1)); }
+    if (kindOf == 4) { factor = 3; enemy[enemyNumber].picture = 3; enemy[enemyNumber].setName("Oger " + std::to_string(enemyNumber + 1)); }
+    if (kindOf == 5) { factor = 4; enemy[enemyNumber].picture = 4; enemy[enemyNumber].setName("Killer-Karnickel"); }
+    if (kindOf == 6) { factor = 5; enemy[enemyNumber].picture = 5; enemy[enemyNumber].setName("Drache"); }
+    if (kindOf == 7) { factor = 3.5; enemy[enemyNumber].picture = 6; enemy[enemyNumber].setName("Mimik"); }
+    if (kindOf == 8) { factor = 4; enemy[enemyNumber].picture = 7; enemy[enemyNumber].setName("Groghar"); }
     if (dangerZone == 1) { variation = 0; };
     if (dangerZone == 2) { variation = random(0, 2); }
     if (dangerZone == 3) { variation = random(1, 5); }
@@ -1013,8 +1111,8 @@ void initializeEnemy(Enemy enemy[], Player player[], short roundManager, short d
 
     // Inventar
 
-    enemy[enemyNumber].gold = (player[roundManager].level * 2) + variation;
-    enemy[enemyNumber].exp = {};
+    enemy[enemyNumber].gold = 10 + ((player[roundManager].level - 1) * 10) + variation;
+    enemy[enemyNumber].exp = 25 + ((player[roundManager].level - 1) * 25);
     chance = random(1, 100);
     if (chance >= 1 && chance <= 50) { enemy[enemyNumber].scrapMetal = round(random(1, 1 + (player[roundManager].level - 1) * 1)); }
     chance = random(1, 100);
@@ -1051,7 +1149,7 @@ short fightInvite(Enemy enemy[], Player player[], short roundManager, short dang
     {
         if (dangerZone == 1)
         {
-            enemyNumber = random(0, 1);
+            enemyNumber = 1;
             
             for(short index = 0; index < enemyNumber; index++)
             {
@@ -1062,7 +1160,7 @@ short fightInvite(Enemy enemy[], Player player[], short roundManager, short dang
         }
         if (dangerZone == 2)
         {
-            enemyNumber = random(0, 2);
+            enemyNumber = random(1, 3);
 
             for(short index = 0; index < enemyNumber; index++)
             {
@@ -1073,77 +1171,125 @@ short fightInvite(Enemy enemy[], Player player[], short roundManager, short dang
         }
         if (dangerZone == 3)
         {
-            enemyNumber = random(0, 4);
+            enemyNumber = random(1, 5);
             
-            for(short index = 0; index = enemyNumber; index++)
+            for(short index = 0; index < enemyNumber; index++)
             {
                 kindOf = 0;
                 kindOf = random(1, 4);
                 initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, index);
             }
         }
-        return enemyNumber + 1;
+        return enemyNumber;
     }
     if (specialFight == 1)
     {
         kindOf = 5;
-        enemyNumber = 0;
+        enemyNumber = 1;
         initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, enemyNumber);
-        return enemyNumber + 1;
+        return enemyNumber;
     }
     if (specialFight == 2)
     {
         kindOf = 6;
         enemyNumber = 0;
         initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, enemyNumber);
-        return enemyNumber + 1;
+        return enemyNumber;
     }
     if (specialFight == 3)
     {
         kindOf = 7;
         enemyNumber = 0;
         initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, enemyNumber);
-        return enemyNumber + 1;
+        return enemyNumber;
     }
     if (specialFight == 4)
     {
         kindOf = 8;
         enemyNumber = 0;
         initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, enemyNumber);
-        return enemyNumber + 1;
+        return enemyNumber;
     }
     error(0);
     return 0;
 }
-void fight(Enemy enemy[], Player player[], short roundManager, short dangerZone, short specialFight)
+void fight(Enemy enemy[], Player player[], Log log, short roundManager, short dangerZone, short specialFight)
 {
+    bool running = true;
+    bool roundEnd = false;
     short roundCounter = 0;
     short fighterCounter = 0;
     short firstAttack = 0;
-    
+    short deathCounter = 0;
+    short input = 0;
+
+    log.addMessage("\033[31mBeginn des Kampfes!\033[0m");
     fighterCounter = fightInvite(enemy, player, roundManager, dangerZone, specialFight);
+    fighterCounter++;
     firstAttack = random(1, 100);
     clearScreen();
     textFight();
     line();
+    if (specialFight == 0) { std::cout << "\033[91mSie begegnen streunenden Monstern!\033[0m" << std::endl; }
     if (firstAttack >= 1 && firstAttack <= (25 + player[roundManager].luck) || firstAttack >= (75 - player[roundManager].luck) && firstAttack <= 100) { roundCounter = fighterCounter; }
-    if (roundCounter == 0) { std::cout << "\n\n\033[101;47m***** HINTERHALT! *****\033[0m" << std::endl; }
+    if (roundCounter == 0) { std::cout << "\n\n\033[101;37m***** HINTERHALT! *****\033[0m" << std::endl; }
     if (roundCounter == fighterCounter) { std::cout << "\n\n\033[102;30m*** Sie koennen den Feind ueberraschen und haben den ersten Angriff! ***\033[0m" << std::endl; }
     std::cout << "\n\033[91mEs kommt zu einem Kampf! Sie treffen auf " << fighterCounter - 1 << " Gegner!\033[0m" << std::endl;
     std::cout << "\n\033[91mSie treffen auf folgende(n) Gegner:\033[0m" << std::endl;
     line();
-    for (short index; index < fighterCounter - 1; index++)
+    for (short index = 0; index < 5; index++)
     {
+        if (enemy[index].permaDeath == true) { break; }
         std::cout << "\033[91m" << index + 1 << "\033[0m ------> \033[91m " << enemy[index].getName() << "\033[0m\n" << std::endl;
     }
     line();
     getKey();
+    while(running)
+    {
+        input = 0;
+        if (roundEnd == true) { roundCounter++; roundEnd = false;}
+        if (roundCounter > fighterCounter) {roundCounter = 0;}
+        clearScreen();
+        textFight();
+        line();
+        if (fighterCounter > 2 && roundCounter == fighterCounter)
+        {
+            std::cout << "\033[92mSie sind am Zug! Welchen Gegner wollen Sie angreifen?\033[0m" << std::endl;
+            line();
+            for (short index = 0; index < fighterCounter - 1; index++)
+            {
+                std::cout << "\033[101;37m[ " << index + 1 << " ]\033[0m ------> \033[91m" << enemy[index].getName() << "\033[0m" << std::endl;
+                enemyMenueLifeDisplay(enemy, index, 0, (17 + (index * 5))); 
+            }
+            line();
+            input = choice();
+            if (input < 1 || input - 1 > fighterCounter - 1) { error(0); break; }
+            if (enemy[input - 1].permaDeath == true) { std::cout << "\033[91mDieser Gegner ist bereits Tod!" << std::endl; getKey(); break; }
+            fightFrame(player, enemy, log, roundManager, input - 1);
+            roundEnd = playerFightMenue(player, enemy, roundManager, roundCounter);
+            getKey();
+            running = false;
+            break;            
+        }
+        fightFrame(player, enemy, log, roundManager, roundCounter);
+        enemyAi(player, enemy, roundManager, roundCounter);
+        
+        getKey();
+        running = false;
+        break;
+    }
+    
+    for (short index = 0; index < 5; index++)
+    {
+        enemy[index].permaDeath = true;
+    }
+
     return;
 }
 
 // looten nach erfolgreicher Suche
 
-void loot(Player player[], Enemy enemy[], short roundManager, short dangerZone, short numberOfPlayers)
+void loot(Player player[], Enemy enemy[], Log log, short roundManager, short dangerZone, short numberOfPlayers)
 {
     int chance = 0;
     bool dispose = false;
@@ -1156,7 +1302,7 @@ void loot(Player player[], Enemy enemy[], short roundManager, short dangerZone, 
     fighting = fightCheck(player, roundManager, dangerZone);
     if (fighting == true)
     {
-        fight(enemy, player, roundManager, dangerZone, 0);
+        fight(enemy, player, log, roundManager, dangerZone, 0);
         if (player[roundManager].permaDeath == true)
         {
             if (numberOfPlayers == 1)
@@ -1622,7 +1768,7 @@ void trapSearch(Player player[], short roundManager, short danger, short numberO
     return;
 }
 
-void takeBreak(Player player[],Enemy enemy[], short roundManager, short danger, short numberOfPlayers)
+void takeBreak(Player player[],Enemy enemy[], Log log, short roundManager, short danger, short numberOfPlayers)
 {
     short zone = 0;
     int mana = 0;
@@ -1637,7 +1783,7 @@ void takeBreak(Player player[],Enemy enemy[], short roundManager, short danger, 
     fighting = fightCheck(player, roundManager, danger);
     if (fighting == true)
     {
-        fight(enemy, player, roundManager, danger, 0);
+        fight(enemy, player, log, roundManager, danger, 0);
         if (player[roundManager].permaDeath == true)
         {
             if (numberOfPlayers == 1)

@@ -86,9 +86,9 @@ void textFight()
     std::cout << "\033[36m __  __                                        ___                      \n";  
     std::cout << "/\\ \\/\\ \\                                     /'___\\                        \n"; 
     std::cout << "\\ \\ \\/'/'      __       ___ ___     _____   /\\ \\__/                        \n";
-    std::cout << " \\ \\ , <     /'__`\\   /' __` __`\\  /\\ '__`\\ \\ \\ ,__\\                   \n";
-    std::cout << "  \\ \\ \\`\\  /\\ \\L\\.\\_ /\\ \\/\\ \\/\\ \\ \\ \\ \\L\\ \\ \\ \\ \\_/       \n";
-    std::cout << "   \\ \\_\\ \\_\\ \\__/.\\_\\ \\_\\ \\_\\ \\_\\ \\ \\ ,__/  \\ \\_\\            \n";
+    std::cout << " \\ \\ , <     /'__`\\    /'__` __`\\  /\\ '__`\\ \\ \\ ,__\\                   \n";
+    std::cout << "  \\ \\ \\`\\\\  /\\ \\L\\.\\_ /\\ \\/\\ \\/\\ \\ \\ \\ \\L\\ \\ \\ \\ \\_/       \n";
+    std::cout << "   \\ \\_\\ \\_\\\\ \\__/.\\_\\\\ \\_\\ \\_\\ \\_\\ \\ \\ ,__/  \\ \\_\\            \n";
     std::cout << "    \\/_/\\/_/ \\/__/\\/_/ \\/_/\\/_/\\/_/  \\ \\ \\/    \\/_/                  \n";
     std::cout << "                                      \\ \\_\\                                  \n";
     std::cout << "                                       \\/_/                            \033[0m \n";
@@ -297,7 +297,7 @@ void textRising()
     std::cout << "                /        \\(  <_> ) |  |    |  |   \\     / (  <_> ) |  | \\/|    <  \\___ \\                          \n";
     std::cout << "               /_______  / \\____/  |__|    |__|    \\/\\_/   \\____/  |__|   |__|_ \\/____  >                         \n";
     std::cout << "                       \\/                                                      \\/     \\/                    \033[0m \n";
-    std::cout << "\n\n\033[0m              Note: Please maximize CMD - Window to ensure trouble-free program execution! \n";
+    std::cout << "\n\n\033[0m           Note: Please maximize CMD - Window and scroll up to ensure trouble-free program execution! \n";
     return;
 }
 

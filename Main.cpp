@@ -10,6 +10,7 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Headlines.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Pictures.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Texts.h>
+#include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Log.h>
 
 // Main Game
             
@@ -49,6 +50,11 @@ int main()
     enemy[3].setName("Zero 04");
     enemy[4].setName("Zero 05");
         
+    // Initialisieren des LogText - Arrays
+
+    Log log;
+    log.eraseLog();
+    
     // Title
 
     clearScreen();
@@ -92,7 +98,7 @@ int main()
 
         while (running)
         {
-            roomOptions(player, enemy, roundManager, zone, numberOfPlayers);
+            roomOptions(player, enemy, log, roundManager, zone, numberOfPlayers);
             running = false;
             player[roundManager].roomCleared = false;
             player[roundManager].realActionPoints = player[roundManager].actionPoints;
@@ -161,7 +167,7 @@ bool playGame = true;
             
         while (running)
             {
-                roomOptions(player, enemy, roundManager, zone, numberOfPlayers);
+                roomOptions(player, enemy, log, roundManager, zone, numberOfPlayers);
                 running = false;
                 break;
             }

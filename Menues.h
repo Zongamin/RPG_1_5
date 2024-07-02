@@ -1007,7 +1007,7 @@ void menue (Player player[], short roundManager)
 
 // Ingame Hauptmenü
 
-void roomOptions(Player player[], Enemy enemy[], short roundManager, short danger, short numberOfPlayers)
+void roomOptions(Player player[], Enemy enemy[], Log log, short roundManager, short danger, short numberOfPlayers)
 {
     bool running = true;
     bool answer = false;
@@ -1089,7 +1089,7 @@ void roomOptions(Player player[], Enemy enemy[], short roundManager, short dange
                         break;
 
             case 2:
-                loot(player, enemy, roundManager, danger, numberOfPlayers);
+                loot(player, enemy, log, roundManager, danger, numberOfPlayers);
                 break;
             
             case 3:
@@ -1097,7 +1097,7 @@ void roomOptions(Player player[], Enemy enemy[], short roundManager, short dange
                 break;
             
             case 4:
-                takeBreak(player, enemy, roundManager, danger, numberOfPlayers);
+                takeBreak(player, enemy, log, roundManager, danger, numberOfPlayers);
                 break;
             
             case 5:
