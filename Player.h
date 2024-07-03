@@ -57,6 +57,8 @@ class Player
         int traps{};
         bool permaDeath{};
         bool specialRoom{};
+        bool escape{};
+        bool block{};
 
         // Statistics
 

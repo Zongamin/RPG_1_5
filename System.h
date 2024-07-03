@@ -131,6 +131,8 @@ void assignment(Player player[], short numberOfPlayers)
             player[index].deaths = 0;
             player[index].permaDeath = false;
             player[index].roomCleared = false;
+            player[index].escape = false;
+            player[index].block = false;
             player[index].actionPoints = 5;
             player[index].realActionPoints = player[index].actionPoints;
             for (int dex = 0; dex < 500; dex++) {player[index].weapons[dex]= 0; break;}
@@ -981,41 +983,24 @@ void fightLog(Log log)
     position(58, 29); std::cout << log.getMessage(5);
 }
 
-// Funktion zum errechnen des Gegnerverhaltens
-
-bool enemyAi(Player player[], Enemy enemy[], short roundManager, short enemyNumber)
-{
-    position(58, 23); std::cout << "\033[41;37m*** " << enemy[enemyNumber].getName() << " ist am Zug ***\033[0m" << std::endl;
-    getKey();
-    return true;
-}
-
-// Funktion zum Kampfmenü des Spielers
-
-bool playerFightMenue(Player player[], Enemy enemy[], short roundManager, short enemyNumber)
-{
-    position(0, 33); std::cout << "";
-    return true;
-}
-
 // Funktion zur Anzeige des Lebens des Gegners
 
 void enemyLifeDisplay(Enemy enemy[], short enemyNumber)
 {
     double range = 0;
 
-    position(61, 17); std::cout << "------------------------------------------------------------" << std::endl;
-    position(61, 18); std::cout << "| Leben |\033[41m                                                  \033[0m|" << std::endl;
-    position(61, 19); std::cout << "------------------------------------------------------------" << std::endl;
-    position(61, 20); std::cout << "| Mana  |\033[41m                                                  \033[0m|" << std::endl;
-    position(61, 21); std::cout << "------------------------------------------------------------" << std::endl;
-    position(70, 18);
+    position(66, 17); std::cout << "------------------------------------------------------------" << std::endl;
+    position(66, 18); std::cout << "| Leben |\033[41m                                                  \033[0m|" << std::endl;
+    position(66, 19); std::cout << "------------------------------------------------------------" << std::endl;
+    position(66, 20); std::cout << "| Mana  |\033[41m                                                  \033[0m|" << std::endl;
+    position(66, 21); std::cout << "------------------------------------------------------------" << std::endl;
+    position(75, 18);
     range = round(50 * (enemy[enemyNumber].realHealth / enemy[enemyNumber].health));
     for (int index = 0; index < range; index++)
     {
         std::cout << "\033[102m ";
     }
-    position(67, 20);
+    position(75, 20);
     range = round(50 * (enemy[enemyNumber].realMana / enemy[enemyNumber].mana));
     for (int index = 0; index < range; index++)
     {
@@ -1024,23 +1009,6 @@ void enemyLifeDisplay(Enemy enemy[], short enemyNumber)
     std::cout << "\033[0m" << std::endl;
     return;
 
-}
-
-// Funktion zur Anzeige des Gegnerlebens innerhalb desw Menüs
-void enemyMenueLifeDisplay(Enemy enemy[], short enemyNumber, short posX, short posY)
-{
-    position(posX, posY); std::cout << "\033[0m--------------------------------------------------------------------------------------------------------------\n";
-    position(posX, posY + 1); std::cout << "| Leben |\033[41m                                                                                                    \033[0m|\n";
-    position(posX, posY + 2); std::cout << "--------------------------------------------------------------------------------------------------------------\n";
-    double range{};
-    position((posX + 9), (posY + 1));
-    range = round(100 * (enemy[enemyNumber].realHealth / enemy[enemyNumber].health));
-    for (int i = 0; i < range; i++)
-    {
-        std::cout << "\033[102m ";
-    }
-    std::cout << "\n\n\033[0m" << std::endl;
-    return;
 }
 
 // Kampfmenü des Spielers
@@ -1054,12 +1022,174 @@ void fightFrame(Player player[], Enemy enemy[], Log log, short roundManager, sho
     enemyText(enemy[enemyNumber].picture);
     position(90, 12); std::cout << "\033[41;37m*** Level " << enemy[enemyNumber].level << " ***\033[0m" << std::endl;
     enemyLifeDisplay(enemy, enemyNumber);
-    position(58, 22); std::cout << "-------------------------------------------------------------------" << std::endl;
+    position(58, 22); std::cout << "----------------------------------------------------------------------------" << std::endl;
     fightLog(log);
-    position(0, 30); 
+    position(0, 29); 
     line();
-    // TODO: getKey(); löschen!!! -----------------------------------------------------------------------------------------------------------------
-    getKey();
+    std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+    position(40, 32); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
+    capacityColor(player, roundManager); position(80, 32); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    line();
+    lifeDisplay(player, roundManager, 12, 35);
+    position(0, 41);
+    line();
+    return;
+}
+
+// Funktion zum errechnen des Gegnerverhaltens
+
+bool enemyAi(Player player[], Enemy enemy[],Log log, short roundManager, short enemyNumber)
+{
+    return true;
+}
+
+// Funktion für den Spieler Angriff
+
+void playerAttack(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
+{
+    return;
+}
+
+// Funktion für Spieler zum Zaubern innerhalb des Kampfes
+
+void playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
+{
+    return;
+}
+
+// Funktion für Spieler zur Trankeinnahme während des Kampfes
+
+bool playerInventory(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
+{
+    short input = 0;
+    double regenH = 0;
+    double regenM = 0;
+
+    fightFrame(player, enemy, log, roundManager, enemyNumber);
+    position(30, 44); std::cout << "\033[41;37m[ 1 ]\033[0m ------> \033[31mHeiltraenke\033[0m ------------> \033[31m " << player[roundManager].healthPotion << " im Inventar.\033[0m" << std::endl;
+    position(30, 46); std::cout << "\033[44;37m[ 2 ]\033[0m ------> \033[34mManatraenke\033[0m ------------> \033[34m " << player[roundManager].healthPotion << " im Inventar.\033[0m" << std::endl;
+    position(30, 48); std::cout << "\033[45;37m[ 3 ]\033[0m ------> \033[35mRegenerationstraenke\033[0m ---> \033[35m " << player[roundManager].healthPotion << " im Inventar.\033[0m" << std::endl;
+    position(30, 50); std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
+    input = choice();
+    switch (input)
+    {
+        case 0:
+            return false;
+        case 1:
+            if (player[roundManager].healthPotion < 1) { std::cout << "\033[91mSie haben keine Heiltraenke mehr im Inventar!\033[0m" << std::endl; getKey(); return false; }
+            if (player[roundManager].realHealth >= player[roundManager].health) { std::cout << "\033[91mSie benoetigen keine Heilung!\033[0m" << std::endl; getKey(); return false; }
+            regenH = round(random((player[roundManager].health / 100) * 15, (player[roundManager].health /100) * 25));
+            player[roundManager].healthPotion--;
+            player[roundManager].realHealth += regenH;
+            if (player[roundManager].realHealth > player[roundManager].health) { player[roundManager].realHealth = player[roundManager].health; }
+            log.addMessage("\033[92mSie verbrauchen einen Heiltrank und regenerieren " + std::to_string(regenH) + " Hitpoints!\033[0m");
+            player[roundManager].realCapacity -= 0.25;
+            return true;
+        case 2:
+            if (player[roundManager].manaPotion < 1) { std::cout << "\033[91mSie haben keine Manatraenke mehr im Inventar!\033[0m" << std::endl; getKey(); return false; }
+            if (player[roundManager].realMana >= player[roundManager].mana) { std::cout << "\033[91mSie benoetigen kein Mana!" << std::endl; getKey(); return false; }
+            regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 25));
+            player[roundManager].manaPotion--;
+            player[roundManager].realMana += regenM;
+            if (player[roundManager].realMana > player[roundManager].mana) { player[roundManager].realMana = player[roundManager].mana; }
+            log.addMessage("\033[94mSie verbrauchen einen Manatrank und regenerieren " + std::to_string(regenM) + " Manapoints!\033[0m");
+            player[roundManager].realCapacity -= 0.25;
+            return true;
+        case 3:
+            if (player[roundManager].regenPotion < 1) { std::cout << "\033[91mSie haben keine Regenerationstraenke mehr im Inventar!\033[0m" << std::endl; getKey(); return false; }
+            if (player[roundManager].realHealth >= player[roundManager].health && player[roundManager].realMana >= player[roundManager].mana) { std::cout << "\033[91mSie benoetigen weder Heilung noch Mana!" << std::endl; getKey(); return false; }
+            regenH = round(random((player[roundManager].health / 100) * 10, (player[roundManager].health /100) * 20));
+            regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 20));
+            player[roundManager].regenPotion--;
+            player[roundManager].realHealth += regenH;
+            player[roundManager].realMana += regenM;
+            if (player[roundManager].realHealth > player[roundManager].health) { player[roundManager].realHealth = player[roundManager].health; }
+            if (player[roundManager].realMana > player[roundManager].mana) { player[roundManager].realMana = player[roundManager].mana; }
+            log.addMessage("\033[92mSie verbrauchen einen Regenerationstrank und regenerieren " + std::to_string(regenH) + " Hitpoints und " + std::to_string(regenM) + " Manapoints\033[0m");
+            player[roundManager].realCapacity -= 0.25;
+            return true;
+        default:
+            error(0);
+            return false;
+    }
+}
+
+// Funktion zum Fluchtversuch des Spielers
+
+bool playerEscape(Player player[], Log log, short roundManager)
+{
+    short chance = 0;
+
+    chance = random(1, 1000);
+    if (chance >=1 && chance <= 100 || chance >= 200 && chance <= 300 || chance >= 400 && chance <= 500 || chance >= 600 && chance <= 700 || chance >= 800 && chance <= 900)
+    {
+    log.addMessage("\033[92mDie Flucht gelingt! Leider gibt es dafuer aber keine XP!\033[0m");
+    return true;
+    }
+    log.addMessage("\033[31mDie Flucht misslingt!\033[0m");
+    return false;
+}
+
+// Funktion zum Kampfmenü des Spielers
+
+bool playerFightMenue(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
+{
+    bool escape = false;
+    bool roundEnd = false;
+    short input = 0;
+
+    position(25, 44); std::cout << "\033[41;37m[ 1 ]\033[0m ------> \033[31mAngriff\033[0m" << std::endl; position(60, 44); std::cout << "\033[47;30m[ 4 ]\033[0m ------> Blocken" << std::endl;
+    position(25, 46); std::cout << "\033[44;37m[ 2 ]\033[0m ------> \033[34mMagie\033[0m" << std::endl; position(60, 46); std::cout << "\033[46;30m[ 5 ]\033[0m ------> \033[36mFlucht\033[0m" << std::endl;
+    position(25, 48); std::cout << "\033[100;30m[ 3 ]\033[0m ------> \033[90mInventar\033[0m" << std::endl; position(60, 48); std::cout << "\033[45;37m[ 0 ]\033[0m ------> \033[35mZug beenden\033[0m" << std::endl;
+    input = choice();
+    switch (input)
+    {
+        case 0:
+            return true;
+        case 1:
+            playerAttack(player, enemy, log, roundManager, enemyNumber);
+        case 2:
+            playerMagicMenue(player, enemy, log, roundManager, enemyNumber);
+        case 3:
+            roundEnd = playerInventory(player, enemy, log, roundManager, enemyNumber);
+            if (roundEnd == true)
+            {
+                return true;
+            }
+            return false;
+        case 4:
+            log.addMessage("Sie begeben sich in Abwehrhaltung für den nächsten Angriff...");
+            player[roundManager].block = true;
+            return true;
+        case 5:
+            escape = playerEscape(player, log, roundManager);
+            if (escape == true)
+            {
+                player[roundManager].escape = true;
+                return false;
+            }
+            return true;
+        default:
+            error(0); return false;
+    }
+    return true;
+}
+
+// Funktion zur Anzeige des Gegnerlebens innerhalb desw Menüs
+
+void enemyMenueLifeDisplay(Enemy enemy[], short enemyNumber, short posX, short posY)
+{
+    position(posX, posY); std::cout << "\033[0m--------------------------------------------------------------------------------------------------------------\n";
+    position(posX, posY + 1); std::cout << "| Leben |\033[41m                                                                                                    \033[0m|\n";
+    position(posX, posY + 2); std::cout << "--------------------------------------------------------------------------------------------------------------\n";
+    double range{};
+    position((posX + 9), (posY + 1));
+    range = round(100 * (enemy[enemyNumber].realHealth / enemy[enemyNumber].health));
+    for (int i = 0; i < range; i++)
+    {
+        std::cout << "\033[102m ";
+    }
+    std::cout << "\n\n\033[0m" << std::endl;
     return;
 }
 
@@ -1215,6 +1345,7 @@ short fightInvite(Enemy enemy[], Player player[], short roundManager, short dang
 }
 void fight(Enemy enemy[], Player player[], Log log, short roundManager, short dangerZone, short specialFight)
 {
+    bool abort = false;
     bool running = true;
     bool roundEnd = false;
     short roundCounter = 0;
@@ -1222,21 +1353,23 @@ void fight(Enemy enemy[], Player player[], Log log, short roundManager, short da
     short firstAttack = 0;
     short deathCounter = 0;
     short input = 0;
+    short enemyChoice = 0;
 
     log.addMessage("\033[31mBeginn des Kampfes!\033[0m");
+    
     fighterCounter = fightInvite(enemy, player, roundManager, dangerZone, specialFight);
-    fighterCounter++;
     firstAttack = random(1, 100);
     clearScreen();
     textFight();
     line();
     if (specialFight == 0) { std::cout << "\033[91mSie begegnen streunenden Monstern!\033[0m" << std::endl; }
     if (firstAttack >= 1 && firstAttack <= (25 + player[roundManager].luck) || firstAttack >= (75 - player[roundManager].luck) && firstAttack <= 100) { roundCounter = fighterCounter; }
-    if (roundCounter == 0) { std::cout << "\n\n\033[101;37m***** HINTERHALT! *****\033[0m" << std::endl; }
+    if (roundCounter == 0) { std::cout << "\n\n\033[101;30m***** HINTERHALT! *****\033[0m" << std::endl; }
     if (roundCounter == fighterCounter) { std::cout << "\n\n\033[102;30m*** Sie koennen den Feind ueberraschen und haben den ersten Angriff! ***\033[0m" << std::endl; }
-    std::cout << "\n\033[91mEs kommt zu einem Kampf! Sie treffen auf " << fighterCounter - 1 << " Gegner!\033[0m" << std::endl;
+    std::cout << "\n\033[91mEs kommt zu einem Kampf! Sie treffen auf " << fighterCounter << " Gegner!\033[0m" << std::endl;
     std::cout << "\n\033[91mSie treffen auf folgende(n) Gegner:\033[0m" << std::endl;
     line();
+    std::cout << "\n";
     for (short index = 0; index < 5; index++)
     {
         if (enemy[index].permaDeath == true) { break; }
@@ -1246,37 +1379,52 @@ void fight(Enemy enemy[], Player player[], Log log, short roundManager, short da
     getKey();
     while(running)
     {
-        input = 0;
         if (roundEnd == true) { roundCounter++; roundEnd = false;}
-        if (roundCounter > fighterCounter) {roundCounter = 0;}
-        clearScreen();
-        textFight();
-        line();
-        if (fighterCounter > 2 && roundCounter == fighterCounter)
+        if (roundCounter > fighterCounter) { roundCounter = 0; }
+        if (roundCounter == fighterCounter)
         {
-            std::cout << "\033[92mSie sind am Zug! Welchen Gegner wollen Sie angreifen?\033[0m" << std::endl;
-            line();
-            for (short index = 0; index < fighterCounter - 1; index++)
+            if (abort == false)
             {
-                std::cout << "\033[101;37m[ " << index + 1 << " ]\033[0m ------> \033[91m" << enemy[index].getName() << "\033[0m" << std::endl;
-                enemyMenueLifeDisplay(enemy, index, 0, (17 + (index * 5))); 
-            }
-            line();
-            input = choice();
-            if (input < 1 || input - 1 > fighterCounter - 1) { error(0); break; }
-            if (enemy[input - 1].permaDeath == true) { std::cout << "\033[91mDieser Gegner ist bereits Tod!" << std::endl; getKey(); break; }
-            fightFrame(player, enemy, log, roundManager, input - 1);
-            roundEnd = playerFightMenue(player, enemy, roundManager, roundCounter);
+                input = 0;
+                log.addMessage("\033[92m*** " + player[roundManager].getName() + " ***, Sie sind am Zug!\033[0m");
+
+                if (fighterCounter > 2 && roundCounter == fighterCounter)
+                {
+                    clearScreen();
+                    textFight();
+                    line();
+                    std::cout << "\033[92mSie sind am Zug! Welchen Gegner wollen Sie angreifen?\033[0m" << std::endl;
+                    line();
+                    for (short index = 0; index < fighterCounter - 1; index++)
+                    {
+                        std::cout << "\033[101;37m[ " << index + 1 << " ]\033[0m ------> \033[91m" << enemy[index].getName() << "\033[0m" << std::endl;
+                        enemyMenueLifeDisplay(enemy, index, 0, (17 + (index * 5))); 
+                    }
+                    line();
+                    input = choice();
+                    if (input < 1 || input - 1 > fighterCounter - 1) { error(0); break; }
+                    if (enemy[input - 1].permaDeath == true) { std::cout << "\033[91mDieser Gegner ist bereits Tod!" << std::endl; getKey(); break; }
+                    enemyChoice = input - 1;
+                }
+            }    
+            abort = false;
+            if (fighterCounter == 2) { enemyChoice = 0; }
+            fightFrame(player, enemy, log, roundManager, enemyChoice);
+            roundEnd = playerFightMenue(player, enemy, log, roundManager, enemyChoice);
+            if (roundEnd == false) { abort = true; continue; }
             getKey();
             running = false;
-            break;            
+            break;
         }
+        
+        log.addMessage("\033[31m*** " + enemy[roundCounter].getName() + " *** ist am Zug ***\033[0m");
         fightFrame(player, enemy, log, roundManager, roundCounter);
-        enemyAi(player, enemy, roundManager, roundCounter);
+        enemyAi(player, enemy, log, roundManager, roundCounter);
+        std::cout << "roundCounter:" << roundCounter << " | fighterCounter:" << fighterCounter << std::endl;
         
         getKey();
-        running = false;
-        break;
+        roundEnd = true;
+        continue;
     }
     
     for (short index = 0; index < 5; index++)

@@ -14,8 +14,7 @@ class Log
 
         void addMessage(std::string newMessage)
         {
-            short sort = 5;
-            for (short index = 5; index > 1; index--)
+            for (short index = 5; index > 0; index--)
             {
             this->logText[index] = this->logText[index - 1];
             }
