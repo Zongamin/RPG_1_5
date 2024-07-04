@@ -39,13 +39,15 @@ class Enemy
 
         // Buffs
 
-        double frozen{};
-        double fireAura{};
-        double poisoned{};
         double regenerationOn{};
         short picture{};
-        bool permaDeath = true;
         
+        // Debuffs
+        
+        bool permaDeath{};
+        double frozen{};
+        double burning{};
+        double poisoned{};
 
 void setName(std::string enemyName)
 {

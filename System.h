@@ -209,6 +209,9 @@ void error(short error)
         case 6:
             std::cout << "\n\n\033[31mDer Haendler hat diesen Ausruestungsgegenstand nicht mehr Vorraetig!\033[0m" << std::endl;
             break;
+        case 7:
+            std::cout << "\n\n\033[31mSie haben zu wenig Mana!\033[0m" << std::endl;
+            break;
         default:
             std::cout << "\n\n\033[31mUnbekannter Fehler!\033[0m" << std::endl;
             break;
@@ -1052,9 +1055,150 @@ void playerAttack(Player player[], Enemy enemy[], Log log, short roundManager, s
 
 // Funktion für Spieler zum Zaubern innerhalb des Kampfes
 
-void playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
+bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
 {
-    return;
+    short input = 0;
+    bool running = true;
+    bool buff = false;
+    double heal = 0;
+    double dmg = 0;
+    double vari = 0;
+    
+    while(running)
+    {
+        fightFrame(player, enemy, log, roundManager, enemyNumber);
+        if (player[roundManager].intelligence >= 5 ) { position(30, 44); std::cout << "\033[42;37m[ 1 ]\033[0m ------> \033[32mHeilung   (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
+        else { position(30, 44); std::cout << "\033[91mMindestanforderung\033[94m 5 Intelligenz"; }
+        if (player[roundManager].intelligence >= 10) { position(30, 46); std::cout << "\033[41;37m[ 2 ]\033[0m ------> \033[31mFeuerball (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
+        else { position(30, 46); std::cout << "\033[91mMindestanforderung\033[94m 10 Intelligenz"; }
+        if (player[roundManager].intelligence >= 15) { position(30, 48); std::cout << "\033[44;37m[ 3 ]\033[0m ------> \033[34mEispfeil  (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
+        else { position(30, 48); std::cout << "\033[91mMindestanforderung\033[94m 15 Intelligenz"; }
+        if (player[roundManager].intelligence >= 20) { position(30, 50); std::cout << "\033[45;37m[ 4 ]\033[0m ------> \033[35mGiftwolke (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
+        else { position(30, 50); std::cout << "\033[91mMindestanforderung\033[94m 20 Intelligenz"; }
+        if (player[roundManager].intelligence >= 25) { position(70, 44); std::cout << "\033[102;30m[ 5 ]\033[0m ------> \033[92mHeilung   (II)\033[0m \033[94m(25 Mana)\033[0m" << std::endl; }
+        else { position(70, 44); std::cout << "\033[91mMindestanforderung\033[94m 25 Intelligenz"; }
+        if (player[roundManager].intelligence >= 30) { position(70, 46); std::cout << "\033[101;30m[ 6 ]\033[0m ------> \033[91mFeuerball (II)\033[0m \033[94m(25 Mana)\033[0m" << std::endl; }
+        else { position(70, 46); std::cout << "\033[91mMindestanforderung\033[94m 30 Intelligenz"; }
+        if (player[roundManager].intelligence >= 35) { position(70, 48); std::cout << "\033[104;30m[ 7 ]\033[0m ------> \033[94mEispfeil  (II)\033[0m \033[94m(25 Mana)\033[0m" << std::endl; }
+        else { position(70, 48); std::cout << "\033[91mMindestanforderung\033[94m 35 Intelligenz"; }
+        if (player[roundManager].intelligence >= 40) { position(70, 50); std::cout << "\033[105;30m[ 8 ]\033[0m ------> \033[95mGiftwolke (II)\033[0m \033[94m(30 Mana)\033[0m" << std::endl; }
+        else { position(70, 50); std::cout << "\033[91mMindestanforderung\033[94m 40 Intelligenz"; }
+        position(50, 52); std::cout << "\033[47;30m[ 0 ]\033[0m -------> Zurueck" << std::endl;
+        input = choice();
+        switch (input)
+        {
+            case 0:
+                return false;
+            case 1:
+                if (player[roundManager].intelligence < 5) { error(3); continue; }
+                if (player[roundManager].realMana < 15) { error(7); continue; }
+                if (player[roundManager].realHealth >= player[roundManager].health) { std::cout << "\n\n\033[31mSie benoetigen keine Heilung!\033[0m" << std::endl; getKey(); continue; }
+                heal = round(((player[roundManager].health / 100) * 10));
+                vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                heal += vari;
+                log.addMessage("\033[92mSie benutzen Heilung (I) und regenerieren " + std::to_string(heal) + " Hitpoints und verbrauchen \033[94m15 Mana\033[92m.\033[0m");
+                player[roundManager].realMana -= 15;
+                player[roundManager].realHealth += heal;
+                if (player[roundManager].realHealth > player[roundManager].health) { player[roundManager].realHealth = player[roundManager].health; }
+                running = false;
+                break;
+            case 2:
+                if (player[roundManager].intelligence < 10) { error(3); continue; }
+                if (player[roundManager].realMana < 15) { error(7); continue; }
+                dmg = round((player[roundManager].health / 100) * 10);
+                vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                dmg += vari;
+                log.addMessage("\033[92mSie benutzen Feuerball (I) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m15 Mana\033[92m.\033[0m");
+                player[roundManager].realMana -= 15;
+                enemy[enemyNumber].realHealth -= dmg;
+                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+                running = false;
+                break;
+            case 3:
+                if (player[roundManager].intelligence < 15) { error(3); continue; }
+                if (player[roundManager].realMana < 15) { error(7); continue; }
+                dmg = round((player[roundManager].health / 100) * 12);
+                vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                dmg += vari;
+                log.addMessage("\033[92mSie benutzen Eispfeil (I) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m15 Mana\033[92m.\033[0m");
+                player[roundManager].realMana -= 15;
+                enemy[enemyNumber].realHealth -= dmg;
+                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+                running = false;
+                break;
+            case 4:
+                if (player[roundManager].intelligence < 20) { error(3); continue; }
+                if (player[roundManager].realMana < 15) { error(7); continue; }
+                dmg = round((player[roundManager].health / 100) * 15);
+                vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                dmg += vari;
+                log.addMessage("\033[92mSie benutzen Giftwolke (I) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m15 Mana\033[92m.\033[0m");
+                player[roundManager].realMana -= 15;
+                enemy[enemyNumber].realHealth -= dmg;
+                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true; log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+                running = false;
+                break;
+            case 5:
+                if (player[roundManager].intelligence < 25) { error(3); continue; }
+                if (player[roundManager].realMana < 25) { error(7); continue; }
+                heal = round(((player[roundManager].health / 100) * 25));
+                vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                heal += vari;
+                vari = 0; vari = random(1,100); if (vari >= 1 && vari <= round(25 + player[roundManager].luck)) { buff = true; player[roundManager].regenerationOn += 3; }
+                log.addMessage("\033[92mSie benutzen Heilung (II) und regenerieren " + std::to_string(heal) + " Hitpoints und verbrauchen \033[94m25 Mana\033[92m.\033[0m");
+                if (buff == true) { log.addMessage("\033[92mSie haben durch die Heilung einen Regenrationsbuff erhalten! (3 Runden)\033[0m"); }
+                player[roundManager].realMana -= 25;
+                player[roundManager].realHealth += heal;
+                if (player[roundManager].realHealth > player[roundManager].health) { player[roundManager].realHealth = player[roundManager].health; }
+                running = false;
+                break;
+            case 6:
+                if (player[roundManager].intelligence < 30) { error(3); continue; }
+                if (player[roundManager].realMana < 25) { error(7); continue; }
+                dmg = round((player[roundManager].health / 100) * 20);
+                vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                dmg += vari;
+                vari = 0; vari = random(1,100); if (vari >= 1 && vari <= round(25 + player[roundManager].luck)) { buff = true; enemy[enemyNumber].burning += 3; }
+                log.addMessage("\033[92mSie benutzen Feuerball (II) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m25 Mana\033[92m.\033[0m");
+                player[roundManager].realMana -= 25;
+                enemy[enemyNumber].realHealth -= dmg;
+                if (buff == true) { log.addMessage("\033[92mSie haben den Gegener in Brand gesetzt! (3 Runden)\033[0m"); }
+                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+                running = false;
+                break;
+            case 7:
+                if (player[roundManager].intelligence < 30) { error(3); continue; }
+                if (player[roundManager].realMana < 25) { error(7); continue; }
+                dmg = round((player[roundManager].health / 100) * 20);
+                vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                dmg += vari;
+                vari = 0; vari = random(1,100); if (vari >= 1 && vari <= round(25 + player[roundManager].luck)) { buff = true; enemy[enemyNumber].frozen += 3; }
+                log.addMessage("\033[92mSie benutzen Eispfeil (II) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m25 Mana\033[92m.\033[0m");
+                player[roundManager].realMana -= 25;
+                enemy[enemyNumber].realHealth -= dmg;
+                if (buff == true) { log.addMessage("\033[92mSie haben den Gegener eingefroren! (3 Runden)\033[0m"); }
+                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+                running = false;
+                break;
+            case 8:
+                if (player[roundManager].intelligence < 30) { error(3); continue; }
+                if (player[roundManager].realMana < 30) { error(7); continue; }
+                dmg = round((player[roundManager].health / 100) * 25);
+                vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
+                dmg += vari;
+                vari = 0; vari = random(1,100); if (vari >= 1 && vari <= round(25 + player[roundManager].luck)) { buff = true; enemy[enemyNumber].poisoned += 5; }
+                log.addMessage("\033[92mSie benutzen Giftwolke (II) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m25 Mana\033[92m.\033[0m");
+                player[roundManager].realMana -= 30;
+                enemy[enemyNumber].realHealth -= dmg;
+                if (buff == true) { log.addMessage("\033[92mSie haben den Gegener vergiftet! (5 Runden)\033[0m"); }
+                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+                running = false;
+                break;
+            default:
+                error(0); continue;
+        }
+    }
+    return true;
 }
 
 // Funktion für Spieler zur Trankeinnahme während des Kampfes
@@ -1138,9 +1282,9 @@ bool playerFightMenue(Player player[], Enemy enemy[], Log log, short roundManage
     bool roundEnd = false;
     short input = 0;
 
-    position(25, 44); std::cout << "\033[41;37m[ 1 ]\033[0m ------> \033[31mAngriff\033[0m" << std::endl; position(60, 44); std::cout << "\033[47;30m[ 4 ]\033[0m ------> Blocken" << std::endl;
-    position(25, 46); std::cout << "\033[44;37m[ 2 ]\033[0m ------> \033[34mMagie\033[0m" << std::endl; position(60, 46); std::cout << "\033[46;30m[ 5 ]\033[0m ------> \033[36mFlucht\033[0m" << std::endl;
-    position(25, 48); std::cout << "\033[100;30m[ 3 ]\033[0m ------> \033[90mInventar\033[0m" << std::endl; position(60, 48); std::cout << "\033[45;37m[ 0 ]\033[0m ------> \033[35mZug beenden\033[0m" << std::endl;
+    position(35, 44); std::cout << "\033[41;37m[ 1 ]\033[0m ------> \033[31mAngriff\033[0m" << std::endl; position(70, 44); std::cout << "\033[47;30m[ 4 ]\033[0m ------> Blocken" << std::endl;
+    position(35, 46); std::cout << "\033[44;37m[ 2 ]\033[0m ------> \033[34mMagie\033[0m" << std::endl; position(70, 46); std::cout << "\033[46;30m[ 5 ]\033[0m ------> \033[36mFlucht\033[0m" << std::endl;
+    position(35, 48); std::cout << "\033[100;30m[ 3 ]\033[0m ------> \033[90mInventar\033[0m" << std::endl; position(70, 48); std::cout << "\033[45;37m[ 0 ]\033[0m ------> \033[35mZug beenden\033[0m" << std::endl;
     input = choice();
     switch (input)
     {
@@ -1149,7 +1293,7 @@ bool playerFightMenue(Player player[], Enemy enemy[], Log log, short roundManage
         case 1:
             playerAttack(player, enemy, log, roundManager, enemyNumber);
         case 2:
-            playerMagicMenue(player, enemy, log, roundManager, enemyNumber);
+            roundEnd = playerMagicMenue(player, enemy, log, roundManager, enemyNumber);
         case 3:
             roundEnd = playerInventory(player, enemy, log, roundManager, enemyNumber);
             if (roundEnd == true)
@@ -1261,7 +1405,7 @@ void initializeEnemy(Enemy enemy[], Player player[], short roundManager, short d
     // Buffs
 
     enemy[enemyNumber].frozen = 0;
-    enemy[enemyNumber].fireAura = 0;
+    enemy[enemyNumber].burning = 0;
     enemy[enemyNumber].poisoned = 0;
     enemy[enemyNumber].regenerationOn = 0;
             
@@ -1402,9 +1546,10 @@ void fight(Enemy enemy[], Player player[], Log log, short roundManager, short da
                     }
                     line();
                     input = choice();
-                    if (input < 1 || input - 1 > fighterCounter - 1) { error(0); break; }
-                    if (enemy[input - 1].permaDeath == true) { std::cout << "\033[91mDieser Gegner ist bereits Tod!" << std::endl; getKey(); break; }
+                    if (input < 1 || input - 1 > fighterCounter) { error(0); continue; }
+                    if (enemy[input - 1].permaDeath == true) { std::cout << "\033[91mDieser Gegner ist bereits Tod!" << std::endl; getKey(); continue; }
                     enemyChoice = input - 1;
+                    log.addMessage("Sie haben " + enemy[input - 1].getName() + " als Angriffsziel ausgewählt.");
                 }
             }    
             abort = false;
