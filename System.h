@@ -1016,7 +1016,7 @@ void enemyLifeDisplay(Enemy enemy[], short enemyNumber)
 
 // Kampfmenü des Spielers
 
-void fightFrame(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber) 
+void fightFrame(Player player[], Enemy enemy[], Log& log, short roundManager, short enemyNumber) 
 {
     clearScreen();
     textFight();
@@ -1039,23 +1039,75 @@ void fightFrame(Player player[], Enemy enemy[], Log log, short roundManager, sho
     return;
 }
 
-// Funktion zum errechnen des Gegnerverhaltens
+// Funktion der Gegner Attacke
 
-bool enemyAi(Player player[], Enemy enemy[],Log log, short roundManager, short enemyNumber)
+bool enemyAttack(Player player[], Enemy enemy[], Log& log, short roundManager, short enemyNumber)
 {
+    bool criticalHit = false;
+    short crit = 0;
+    short critWindowMin = 0;
+    short critWindowMax = 0;
+    double damage = 0;
+    double variation = 0;
+
+    crit = random(1, 100);
+    critWindowMin = random(1, 100);
+    log.addMessage("\033[91mDer Gegner greift an!\033[0m");
+    if (critWindowMin < 50) { critWindowMax = critWindowMin + 2 + round(enemy[enemyNumber].luck); }
+    if (critWindowMin > 50) { critWindowMax = critWindowMin; critWindowMin = critWindowMax - 2 - round(enemy[enemyNumber].luck); }
+    if (crit >= critWindowMin && crit < critWindowMax) { criticalHit = true; log.addMessage("\033[41;37m***** Kritischer Treffer! *****\033[0;31m Der Gegner landet einen Kritischen Treffer!\033[0m"); criticalHit = true; }
+    variation = random(-1, round((enemy[enemyNumber].luck + 1)));
+    damage = round((enemy[enemyNumber].strength * 1.5) + variation);
+    if (enemy[enemyNumber].weapons > 0) { damage = damage + ((enemy[enemyNumber].weapons / 100) + 1); round(damage); }
+    if (criticalHit == true) { damage = damage * 2; }
+    if (player[roundManager].armorDmgReduce > 0) { damage = damage - player[roundManager].armorDmgReduce; }
+    if (player[roundManager].block == true) { damage = round(damage / 2); log.addMessage("\033[92mGekonnt blocken Sie den Angriff des Gegners!"); }
+    log.addMessage("\033[91m" + enemy[enemyNumber].getName() + " verursacht " + std::to_string(static_cast<int>(damage)) + " Schaden!\033[0m");
+    enemyAttackText();
+    Sleep(1000);
+    fightFrame(player, enemy, log, roundManager, enemyNumber);
+    player[roundManager].realHealth -= damage;
+    if (player[roundManager].realHealth <= 0) { player[roundManager].realHealth = 0; player[roundManager].permaDeath = true; log.addMessage("\033[41;37m*** " + enemy[enemyNumber].getName() + " hat Sie terminiert! ***\033[0m"); }
+    return true;
+}
+
+// Funktion zum Errechnen des Gegnerverhaltens
+
+bool enemyAi(Player player[], Enemy enemy[],Log& log, short roundManager, short enemyNumber)
+{
+    enemyAttack(player, enemy, log, roundManager, enemyNumber);
     return true;
 }
 
 // Funktion für den Spieler Angriff
 
-void playerAttack(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
+bool playerAttack(Player player[], Enemy enemy[], Log& log, short roundManager, short enemyNumber)
 {
-    return;
+    bool criticalHit = false;
+    short crit = 0;
+    double damage = 0;
+    double variation = 0;
+    
+    crit = random(1,100);
+    if (crit > 0 && crit < 2 + round(player[roundManager].luck)) { log.addMessage("\033[103;30m***** Kritischer Treffer! *****\033[0m"); criticalHit = true; }
+    variation = random(-1, round(player[roundManager].luck) + 1);
+    damage = round((player[roundManager].strength * 1.5) + variation);
+    if (player[roundManager].weaponDmg > 0) { damage = damage * ((player[roundManager].weaponDmg / 100) + 1); round(damage); }
+    if (criticalHit == true) { damage = damage * 2; }
+    if (enemy[enemyNumber].armor > 0) { damage -= enemy[enemyNumber].armor; }
+    if (enemy[enemyNumber].block == true) { damage = round(damage / 2); log.addMessage("\033[91mDer Gegner ist in Abwehrhaltung und blockt den Angriff!\033[0m"); }
+    log.addMessage("\033[92mSie greifen an und verursachen \033[91m" + std::to_string(static_cast<int>(damage)) + " Schaden\033[92m!\033[0m");
+    fightingStar();
+    Sleep(1000);
+    fightFrame(player, enemy, log, roundManager, enemyNumber);
+    enemy[enemyNumber].realHealth -= damage;
+    if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+    return true;
 }
 
 // Funktion für Spieler zum Zaubern innerhalb des Kampfes
 
-bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
+bool playerMagicMenue(Player player[], Enemy enemy[], Log& log, short roundManager, short enemyNumber)
 {
     short input = 0;
     bool running = true;
@@ -1096,7 +1148,7 @@ bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManage
                 heal = round(((player[roundManager].health / 100) * 10));
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 heal += vari;
-                log.addMessage("\033[92mSie benutzen Heilung (I) und regenerieren " + std::to_string(heal) + " Hitpoints und verbrauchen \033[94m15 Mana\033[92m.\033[0m");
+                log.addMessage("\033[92mSie zaubern Heilung (I), regenerieren " + std::to_string(static_cast<int>(heal)) + " Hitpoints und verbrauchen \033[94m15 Mana\033[92m.\033[0m");
                 player[roundManager].realMana -= 15;
                 player[roundManager].realHealth += heal;
                 if (player[roundManager].realHealth > player[roundManager].health) { player[roundManager].realHealth = player[roundManager].health; }
@@ -1108,7 +1160,7 @@ bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManage
                 dmg = round((player[roundManager].health / 100) * 10);
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 dmg += vari;
-                log.addMessage("\033[92mSie benutzen Feuerball (I) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m15 Mana\033[92m.\033[0m");
+                log.addMessage("\033[92mSie zaubern Feuerball (I), fuegen dem Gegner \033[91m" + std::to_string(static_cast<int>(dmg)) + " Schaden\033[92m zu und verbrauchen \033[94m15 Mana\033[92m.\033[0m");
                 player[roundManager].realMana -= 15;
                 enemy[enemyNumber].realHealth -= dmg;
                 if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
@@ -1120,7 +1172,7 @@ bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManage
                 dmg = round((player[roundManager].health / 100) * 12);
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 dmg += vari;
-                log.addMessage("\033[92mSie benutzen Eispfeil (I) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m15 Mana\033[92m.\033[0m");
+                log.addMessage("\033[92mSie zaubern Eispfeil (I), fuegen dem Gegner \033[91m" + std::to_string(static_cast<int>(dmg)) + " Schaden\033[92m zu und verbrauchen \033[94m15 Mana\033[92m.\033[0m");
                 player[roundManager].realMana -= 15;
                 enemy[enemyNumber].realHealth -= dmg;
                 if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
@@ -1132,7 +1184,7 @@ bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManage
                 dmg = round((player[roundManager].health / 100) * 15);
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 dmg += vari;
-                log.addMessage("\033[92mSie benutzen Giftwolke (I) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m15 Mana\033[92m.\033[0m");
+                log.addMessage("\033[92mSie zaubern Giftwolke (I), fuegen dem Gegner \033[91m" + std::to_string(static_cast<int>(dmg)) + " Schaden\033[92m zu und verbrauchen \033[94m15 Mana\033[92m.\033[0m");
                 player[roundManager].realMana -= 15;
                 enemy[enemyNumber].realHealth -= dmg;
                 if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true; log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
@@ -1145,7 +1197,7 @@ bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManage
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 heal += vari;
                 vari = 0; vari = random(1,100); if (vari >= 1 && vari <= round(25 + player[roundManager].luck)) { buff = true; player[roundManager].regenerationOn += 3; }
-                log.addMessage("\033[92mSie benutzen Heilung (II) und regenerieren " + std::to_string(heal) + " Hitpoints und verbrauchen \033[94m25 Mana\033[92m.\033[0m");
+                log.addMessage("\033[92mSie zaubern Heilung (II), regenerieren " + std::to_string(static_cast<int>(heal)) + " Hitpoints und verbrauchen \033[94m25 Mana\033[92m.\033[0m");
                 if (buff == true) { log.addMessage("\033[92mSie haben durch die Heilung einen Regenrationsbuff erhalten! (3 Runden)\033[0m"); }
                 player[roundManager].realMana -= 25;
                 player[roundManager].realHealth += heal;
@@ -1159,11 +1211,11 @@ bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManage
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 dmg += vari;
                 vari = 0; vari = random(1,100); if (vari >= 1 && vari <= round(25 + player[roundManager].luck)) { buff = true; enemy[enemyNumber].burning += 3; }
-                log.addMessage("\033[92mSie benutzen Feuerball (II) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m25 Mana\033[92m.\033[0m");
+                log.addMessage("\033[92mSie zaubern Feuerball (II), fuegen dem Gegner \033[91m" + std::to_string(static_cast<int>(dmg)) + " Schaden\033[92m zu und verbrauchen \033[94m25 Mana\033[92m.\033[0m");
                 player[roundManager].realMana -= 25;
                 enemy[enemyNumber].realHealth -= dmg;
                 if (buff == true) { log.addMessage("\033[92mSie haben den Gegener in Brand gesetzt! (3 Runden)\033[0m"); }
-                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!\033[0m"); }
                 running = false;
                 break;
             case 7:
@@ -1173,11 +1225,11 @@ bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManage
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 dmg += vari;
                 vari = 0; vari = random(1,100); if (vari >= 1 && vari <= round(25 + player[roundManager].luck)) { buff = true; enemy[enemyNumber].frozen += 3; }
-                log.addMessage("\033[92mSie benutzen Eispfeil (II) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m25 Mana\033[92m.\033[0m");
+                log.addMessage("\033[92mSie zaubern Eispfeil (II), fuegen dem Gegner \033[91m" + std::to_string(static_cast<int>(dmg)) + " Schaden\033[92m zu und verbrauchen \033[94m25 Mana\033[92m.\033[0m");
                 player[roundManager].realMana -= 25;
                 enemy[enemyNumber].realHealth -= dmg;
                 if (buff == true) { log.addMessage("\033[92mSie haben den Gegener eingefroren! (3 Runden)\033[0m"); }
-                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!\033[0m"); }
                 running = false;
                 break;
             case 8:
@@ -1187,23 +1239,24 @@ bool playerMagicMenue(Player player[], Enemy enemy[], Log log, short roundManage
                 vari = round(random(round((player[roundManager].intelligence / 100) * 25), player[roundManager].intelligence));
                 dmg += vari;
                 vari = 0; vari = random(1,100); if (vari >= 1 && vari <= round(25 + player[roundManager].luck)) { buff = true; enemy[enemyNumber].poisoned += 5; }
-                log.addMessage("\033[92mSie benutzen Giftwolke (II) und fuegen dem Gegner \033[91m" + std::to_string(dmg) + " Schaden\033[92m zu. Sie verbrauchen dabei \033[94m25 Mana\033[92m.\033[0m");
+                log.addMessage("\033[92mSie zaubern Giftwolke (II), fuegen dem Gegner \033[91m" + std::to_string(static_cast<int>(dmg)) + " Schaden\033[92m zu und verbrauchen \033[94m25 Mana\033[92m.\033[0m");
                 player[roundManager].realMana -= 30;
                 enemy[enemyNumber].realHealth -= dmg;
                 if (buff == true) { log.addMessage("\033[92mSie haben den Gegener vergiftet! (5 Runden)\033[0m"); }
-                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+                if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!\033[0m"); }
                 running = false;
                 break;
             default:
                 error(0); continue;
         }
+        return true;
     }
-    return true;
+    return false;
 }
 
 // Funktion für Spieler zur Trankeinnahme während des Kampfes
 
-bool playerInventory(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
+bool playerInventory(Player player[], Enemy enemy[], Log& log, short roundManager, short enemyNumber)
 {
     short input = 0;
     double regenH = 0;
@@ -1211,8 +1264,8 @@ bool playerInventory(Player player[], Enemy enemy[], Log log, short roundManager
 
     fightFrame(player, enemy, log, roundManager, enemyNumber);
     position(30, 44); std::cout << "\033[41;37m[ 1 ]\033[0m ------> \033[31mHeiltraenke\033[0m ------------> \033[31m " << player[roundManager].healthPotion << " im Inventar.\033[0m" << std::endl;
-    position(30, 46); std::cout << "\033[44;37m[ 2 ]\033[0m ------> \033[34mManatraenke\033[0m ------------> \033[34m " << player[roundManager].healthPotion << " im Inventar.\033[0m" << std::endl;
-    position(30, 48); std::cout << "\033[45;37m[ 3 ]\033[0m ------> \033[35mRegenerationstraenke\033[0m ---> \033[35m " << player[roundManager].healthPotion << " im Inventar.\033[0m" << std::endl;
+    position(30, 46); std::cout << "\033[44;37m[ 2 ]\033[0m ------> \033[34mManatraenke\033[0m ------------> \033[34m " << player[roundManager].manaPotion << " im Inventar.\033[0m" << std::endl;
+    position(30, 48); std::cout << "\033[45;37m[ 3 ]\033[0m ------> \033[35mRegenerationstraenke\033[0m ---> \033[35m " << player[roundManager].regenPotion << " im Inventar.\033[0m" << std::endl;
     position(30, 50); std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck" << std::endl;
     input = choice();
     switch (input)
@@ -1226,7 +1279,7 @@ bool playerInventory(Player player[], Enemy enemy[], Log log, short roundManager
             player[roundManager].healthPotion--;
             player[roundManager].realHealth += regenH;
             if (player[roundManager].realHealth > player[roundManager].health) { player[roundManager].realHealth = player[roundManager].health; }
-            log.addMessage("\033[92mSie verbrauchen einen Heiltrank und regenerieren " + std::to_string(regenH) + " Hitpoints!\033[0m");
+            log.addMessage("\033[92mSie verbrauchen einen Heiltrank und regenerieren " + std::to_string(static_cast<int>(regenH)) + " Hitpoints!\033[0m");
             player[roundManager].realCapacity -= 0.25;
             return true;
         case 2:
@@ -1236,7 +1289,7 @@ bool playerInventory(Player player[], Enemy enemy[], Log log, short roundManager
             player[roundManager].manaPotion--;
             player[roundManager].realMana += regenM;
             if (player[roundManager].realMana > player[roundManager].mana) { player[roundManager].realMana = player[roundManager].mana; }
-            log.addMessage("\033[94mSie verbrauchen einen Manatrank und regenerieren " + std::to_string(regenM) + " Manapoints!\033[0m");
+            log.addMessage("\033[94mSie verbrauchen einen Manatrank und regenerieren " + std::to_string(static_cast<int>(regenM)) + " Manapoints!\033[0m");
             player[roundManager].realCapacity -= 0.25;
             return true;
         case 3:
@@ -1249,7 +1302,7 @@ bool playerInventory(Player player[], Enemy enemy[], Log log, short roundManager
             player[roundManager].realMana += regenM;
             if (player[roundManager].realHealth > player[roundManager].health) { player[roundManager].realHealth = player[roundManager].health; }
             if (player[roundManager].realMana > player[roundManager].mana) { player[roundManager].realMana = player[roundManager].mana; }
-            log.addMessage("\033[92mSie verbrauchen einen Regenerationstrank und regenerieren " + std::to_string(regenH) + " Hitpoints und " + std::to_string(regenM) + " Manapoints\033[0m");
+            log.addMessage("\033[92mSie verbrauchen einen Regenerationstrank und regenerieren " + std::to_string(static_cast<int>(regenH)) + " Hitpoints und " + std::to_string(static_cast<int>(regenM)) + " Manapoints\033[0m");
             player[roundManager].realCapacity -= 0.25;
             return true;
         default:
@@ -1260,23 +1313,23 @@ bool playerInventory(Player player[], Enemy enemy[], Log log, short roundManager
 
 // Funktion zum Fluchtversuch des Spielers
 
-bool playerEscape(Player player[], Log log, short roundManager)
+bool playerEscape(Player player[], Log& log, short roundManager)
 {
     short chance = 0;
 
     chance = random(1, 1000);
-    if (chance >=1 && chance <= 100 || chance >= 200 && chance <= 300 || chance >= 400 && chance <= 500 || chance >= 600 && chance <= 700 || chance >= 800 && chance <= 900)
+    if (chance >=1 && chance <= 50 || chance >= 200 && chance <= 250 || chance >= 400 && chance <= 450 || chance >= 600 && chance <= 650 || chance >= 800 && chance <= 850)
     {
-    log.addMessage("\033[92mDie Flucht gelingt! Leider gibt es dafuer aber keine XP!\033[0m");
+    log.addMessage("\033[92mDie Flucht gelingt! Leider gibt es dafuer aber auch keine XP und kein Loot!\033[0m");
     return true;
     }
     log.addMessage("\033[31mDie Flucht misslingt!\033[0m");
-    return false;
+    return true;
 }
 
 // Funktion zum Kampfmenü des Spielers
 
-bool playerFightMenue(Player player[], Enemy enemy[], Log log, short roundManager, short enemyNumber)
+bool playerFightMenue(Player player[], Enemy enemy[], Log& log, short roundManager, short enemyNumber)
 {
     bool escape = false;
     bool roundEnd = false;
@@ -1291,15 +1344,16 @@ bool playerFightMenue(Player player[], Enemy enemy[], Log log, short roundManage
         case 0:
             return true;
         case 1:
-            playerAttack(player, enemy, log, roundManager, enemyNumber);
+            roundEnd = playerAttack(player, enemy, log, roundManager, enemyNumber);
+            if (roundEnd == true) { return true; }
+            return false;
         case 2:
             roundEnd = playerMagicMenue(player, enemy, log, roundManager, enemyNumber);
+            if (roundEnd == true) { return true; }
+            return false;
         case 3:
             roundEnd = playerInventory(player, enemy, log, roundManager, enemyNumber);
-            if (roundEnd == true)
-            {
-                return true;
-            }
+            if (roundEnd == true) { return true; }
             return false;
         case 4:
             log.addMessage("Sie begeben sich in Abwehrhaltung für den nächsten Angriff...");
@@ -1307,11 +1361,7 @@ bool playerFightMenue(Player player[], Enemy enemy[], Log log, short roundManage
             return true;
         case 5:
             escape = playerEscape(player, log, roundManager);
-            if (escape == true)
-            {
-                player[roundManager].escape = true;
-                return false;
-            }
+            if (escape == true) { player[roundManager].escape = true; return false; }
             return true;
         default:
             error(0); return false;
@@ -1380,6 +1430,7 @@ void initializeEnemy(Enemy enemy[], Player player[], short roundManager, short d
     enemy[enemyNumber].intelligence = round(((player[roundManager].intelligence / 4) * factor) + variation);
     enemy[enemyNumber].dexterity = round(((player[roundManager].dexterity / 2) * factor) + variation);
     enemy[enemyNumber].luck = (player[roundManager].luck / 2) * factor;
+    enemy[enemyNumber].block = false;
     if (enemy[enemyNumber].luck < 1) { enemy[enemyNumber].luck = 1; }
     enemy[enemyNumber].endurance = round(((player[roundManager].endurance / 2) * factor) + variation);
 
@@ -1394,9 +1445,13 @@ void initializeEnemy(Enemy enemy[], Player player[], short roundManager, short d
     chance = random(1, 100);
     if (chance >= 1 && chance <= 50) { enemy[enemyNumber].copper = round(random(1, 1 + (player[roundManager].level - 1) * 1)); }
     chance = random(1, 100);
-    if (chance >= 50 && chance <= 100) { enemy[enemyNumber].manaPotion = random(1, (3 + variation)); }
+    if (chance >= 50 && chance <= 100) { enemy[enemyNumber].herbs = round(random(1, 1 + (player[roundManager].level - 1) * 1)); }
     chance = random(1, 100);
-    if (chance >= 1 && chance <=50) { enemy[enemyNumber].healthPotion = random(1,(3 + variation)); }
+    if (chance >= 1 && chance <= 50) { enemy[enemyNumber].manaPotion = random(1, (3 + variation)); }
+    chance = random(1, 100);
+    if (chance >= 50 && chance <=100) { enemy[enemyNumber].healthPotion = random(1,(3 + variation)); }
+    chance = random(1, 100);
+    if (chance >= 1 && chance <= 50) { enemy[enemyNumber].regenPoition = round(random(1, 1 + (player[roundManager].level - 1) * 1)); }
     chance = random(1, 100);
     if (chance >= 35 && chance <= 65) {enemy[enemyNumber].weapons = (player[roundManager].level + variation); }
     chance = random(1, 100);
@@ -1487,7 +1542,165 @@ short fightInvite(Enemy enemy[], Player player[], short roundManager, short dang
     error(0);
     return 0;
 }
-void fight(Enemy enemy[], Player player[], Log log, short roundManager, short dangerZone, short specialFight)
+
+// Funktion zur Berrechnung des Spieler Sieges
+
+void fightWin(Player player[], Enemy enemy[], Log& log, short roundManager, short fighterCounter)
+{
+    bool dispose = false;
+    double gold = 0;
+    double scrap = 0;
+    double copper = 0;
+    double aluminum = 0;
+    double herbs = 0;
+    double health = 0;
+    double mana = 0;
+    double regen = 0;
+    double exp = 0;
+    double armor[10]{};
+    double weapon[10]{};
+
+
+    log.addMessage("\033[103;30m***** Sie haben den Kampf souveraen gewonnen! *****\033[0m");
+    fightFrame(player, enemy, log, roundManager, fighterCounter);
+    log.eraseLog();
+    for (short index = 0; index < fighterCounter; index++)
+    {
+        gold += round(enemy[index].gold); enemy[index].gold = 0;
+        scrap += round(enemy[index].scrapMetal); enemy[index].scrapMetal = 0;
+        copper += round(enemy[index].copper); enemy[index].copper = 0;
+        aluminum += round(enemy[index].aluminum); enemy[index].aluminum = 0;
+        herbs += round(enemy[index].herbs); enemy[index].herbs = 0;
+        health += round(enemy[index].healthPotion); enemy[index].healthPotion = 0;
+        mana += round(enemy[index].manaPotion); enemy[index].manaPotion = 0;
+        regen += round(enemy[index].regenPoition); enemy[index].regenPoition = 0;
+        exp += round(enemy[index].exp); enemy[index].exp = 0;
+        if (enemy[index].armor > 0) { armor[index] = enemy[index].armor; enemy[index].armor = 0; }
+        if (enemy[index].weapons > 0) { weapon[index] = enemy[index].weapons; enemy[index].weapons = 0; }
+    }
+    std::sort(armor, armor + 10, std::greater<int>());
+    std::sort(weapon, weapon + 10, std::greater<int>());
+    getKey();
+    clearScreen();
+    textBooty();
+    line();
+    std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+    position(40, 10); std::cout << "\033[93mGold: " << player[roundManager].gold << "\033[0m";
+    capacityColor(player, roundManager); position(80, 10); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    line();
+    std::cout << "\033[36m....und dem Sieger winkt die Beute.... Sie finden im Hackfleisch, dass Sie von Ihren Gegnern uebrig gelassen haben:\033[0m" << std::endl;
+    line();
+    if (gold > 0) 
+    { 
+        std::cout << "\033[33m" << gold << " Gold\033[0m" << std::endl;
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].gold += gold;
+    }
+    if (scrap > 0)
+    {
+        std::cout << "\033[90m" << scrap << " Altmetall\033[0m" << std::endl;
+        dispose = capacityCheck(player, roundManager, 0.3, scrap);
+        if (dispose == false) { std::cout << "\033[91mDas Material wurde liegengelassen!\n" <<  "---------------------------------------------------\033[0m" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].scrapMetal += scrap;
+        player[roundManager].realCapacity += scrap * 0.3;
+    }
+    if (copper = 0)
+    {
+        std::cout << "\033[31m" << copper << " Kupfer\033[0m" << std::endl;
+        dispose = capacityCheck(player, roundManager, 0.2, copper);
+        if (dispose == false) { std::cout << "\033[91mDas Material wurde liegengelassen!\n" <<  "---------------------------------------------------\033[0m" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].copper += copper;
+        player[roundManager].realCapacity += copper * 0.2;
+    }
+    if (aluminum = 0)
+    {
+        std::cout << "\033[0m" << aluminum << " Aluminium\033[0m" << std::endl;
+        dispose = capacityCheck(player, roundManager, 0.1, aluminum);
+        if (dispose == false) { std::cout << "\033[91mDas Material wurde liegengelassen!\n" <<  "---------------------------------------------------\033[0m" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].aluminum += aluminum;
+        player[roundManager].realCapacity += aluminum * 0.1;
+    }
+    if (herbs = 0)
+    {
+        std::cout << "\033[92m" << herbs << " Kraeuter\033[0m" << std::endl;
+        dispose = capacityCheck(player, roundManager, 0.1, herbs);
+        if (dispose == false) { std::cout << "\033[91mDas Material wurde liegengelassen!\n" <<  "---------------------------------------------------\033[0m" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].herbs += herbs;
+        player[roundManager].realCapacity += herbs * 0.1;
+    }
+    if (health = 0)
+    {
+        std::cout << "\033[31m" << health << " Heiltraenke\033[0m" << std::endl;
+        dispose = capacityCheck(player, roundManager, 0.25, health);
+        if (dispose == false) { std::cout << "\033[91mDie Traenke wurden liegengelassen!\n" <<  "---------------------------------------------------\033[0m" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].healthPotion += health;
+        player[roundManager].realCapacity += health * 0.25;
+    }
+    if (mana = 0)
+    {
+        std::cout << "\033[34m" << mana << " Manatraenke\033[0m" << std::endl;
+        dispose = capacityCheck(player, roundManager, 0.25, mana);
+        if (dispose == false) { std::cout << "\033[91mDie Traenke wurden liegengelassen!\n" <<  "---------------------------------------------------\033[0m" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].manaPotion += mana;
+        player[roundManager].realCapacity += mana * 0.25;
+    }
+    if (regen = 0)
+    {
+        std::cout << "\033[35m" << regen << " Regenerationstraenke\033[0m" << std::endl;
+        dispose = capacityCheck(player, roundManager, 0.25, regen);
+        if (dispose == false) { std::cout << "\033[91mDie Traenke wurden liegengelassen!\n" <<  "---------------------------------------------------\033[0m" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].regenPotion += regen;
+        player[roundManager].realCapacity += regen * 0.25;
+    }
+    if (armor[0] > 0)
+    {
+        for (short index = 0; index < 10; index++)
+        {
+        if (armor[index] < 1) { break; }
+        std::cout << "\033[90m" << armor[index] << " RST Ruestung\033[0m" << std::endl;
+        dispose = capacityCheck(player, roundManager, 2.25, 1);
+        if (dispose == false) { std::cout << "\033[91mDie Ruestung wurde liegengelassen!\n" <<  "---------------------------------------------------\033[0m" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].armor[499] += armor[index];
+        arraySort(player, roundManager, "armor");
+        player[roundManager].realCapacity += 2.25;
+        }
+    }
+    if (weapon[0] > 0)
+    {
+        for (short index = 0; index < 10; index++)
+        {
+        if (weapon[index] < 1) { break; }
+        std::cout << "\033[0m" << weapon[index] << " DMG Waffe\033[0m" << std::endl;
+        dispose = capacityCheck(player, roundManager, 2.5, 1);
+        if (dispose == false) { std::cout << "\033[91mDie Waffe wurde liegengelassen!\n" <<  "---------------------------------------------------\033[0m" << std::endl; }
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].weapons[499] += weapon[index];
+        arraySort(player, roundManager, "weapon");
+        player[roundManager].realCapacity += 2.5;
+        }
+    }
+    if (exp > 0)
+    {
+        std::cout << "\033[36m" << exp << " Erfahrungspunkte\033[0m" << std::endl;
+        std::cout << "---------------------------------------------------" << std::endl;
+        player[roundManager].realExp += exp;
+    }
+    getKey();
+    expUp(player, roundManager);
+    return;
+}
+
+// Funktion zur Berrechnung des Kampfablaufs
+
+void fight(Enemy enemy[], Player player[], Log& log, short roundManager, short dangerZone, short specialFight, short numberOfPlayers)
 {
     bool abort = false;
     bool running = true;
@@ -1523,8 +1736,12 @@ void fight(Enemy enemy[], Player player[], Log log, short roundManager, short da
     getKey();
     while(running)
     {
-        if (roundEnd == true) { roundCounter++; roundEnd = false;}
-        if (roundCounter > fighterCounter) { roundCounter = 0; }
+        if (player[roundManager].permaDeath == true) { death(player, roundManager, numberOfPlayers); }
+        if (player[roundManager].escape == true) { player[roundManager].escape = false; return; }
+        if (enemy[0].permaDeath + enemy[1].permaDeath + enemy[2].permaDeath + enemy[3].permaDeath + enemy[4].permaDeath == 5) { fightWin(player, enemy, log, roundManager, fighterCounter); return; }
+        if (enemy[roundCounter].permaDeath == true && fighterCounter > roundCounter ) { roundCounter++; continue; }
+        if (roundEnd == true) { roundCounter++; roundEnd = false; continue;}
+        if (roundCounter > fighterCounter) { roundCounter = 0; continue;}
         if (roundCounter == fighterCounter)
         {
             if (abort == false)
@@ -1532,14 +1749,14 @@ void fight(Enemy enemy[], Player player[], Log log, short roundManager, short da
                 input = 0;
                 log.addMessage("\033[92m*** " + player[roundManager].getName() + " ***, Sie sind am Zug!\033[0m");
 
-                if (fighterCounter > 2 && roundCounter == fighterCounter)
+                if (fighterCounter > 1 && roundCounter == fighterCounter)
                 {
                     clearScreen();
                     textFight();
                     line();
                     std::cout << "\033[92mSie sind am Zug! Welchen Gegner wollen Sie angreifen?\033[0m" << std::endl;
                     line();
-                    for (short index = 0; index < fighterCounter - 1; index++)
+                    for (short index = 0; index < fighterCounter; index++)
                     {
                         std::cout << "\033[101;37m[ " << index + 1 << " ]\033[0m ------> \033[91m" << enemy[index].getName() << "\033[0m" << std::endl;
                         enemyMenueLifeDisplay(enemy, index, 0, (17 + (index * 5))); 
@@ -1549,7 +1766,7 @@ void fight(Enemy enemy[], Player player[], Log log, short roundManager, short da
                     if (input < 1 || input - 1 > fighterCounter) { error(0); continue; }
                     if (enemy[input - 1].permaDeath == true) { std::cout << "\033[91mDieser Gegner ist bereits Tod!" << std::endl; getKey(); continue; }
                     enemyChoice = input - 1;
-                    log.addMessage("Sie haben " + enemy[input - 1].getName() + " als Angriffsziel ausgewählt.");
+                    log.addMessage("Sie haben " + enemy[input - 1].getName() + " als Angriffsziel ausgewaehlt.");
                 }
             }    
             abort = false;
@@ -1557,9 +1774,8 @@ void fight(Enemy enemy[], Player player[], Log log, short roundManager, short da
             fightFrame(player, enemy, log, roundManager, enemyChoice);
             roundEnd = playerFightMenue(player, enemy, log, roundManager, enemyChoice);
             if (roundEnd == false) { abort = true; continue; }
-            getKey();
-            running = false;
-            break;
+            continue;
+            
         }
         
         log.addMessage("\033[31m*** " + enemy[roundCounter].getName() + " *** ist am Zug ***\033[0m");
@@ -1582,7 +1798,7 @@ void fight(Enemy enemy[], Player player[], Log log, short roundManager, short da
 
 // looten nach erfolgreicher Suche
 
-void loot(Player player[], Enemy enemy[], Log log, short roundManager, short dangerZone, short numberOfPlayers)
+void loot(Player player[], Enemy enemy[], Log& log, short roundManager, short dangerZone, short numberOfPlayers)
 {
     int chance = 0;
     bool dispose = false;
@@ -1595,7 +1811,7 @@ void loot(Player player[], Enemy enemy[], Log log, short roundManager, short dan
     fighting = fightCheck(player, roundManager, dangerZone);
     if (fighting == true)
     {
-        fight(enemy, player, log, roundManager, dangerZone, 0);
+        fight(enemy, player, log, roundManager, dangerZone, 0, numberOfPlayers);
         if (player[roundManager].permaDeath == true)
         {
             if (numberOfPlayers == 1)
@@ -2061,7 +2277,7 @@ void trapSearch(Player player[], short roundManager, short danger, short numberO
     return;
 }
 
-void takeBreak(Player player[],Enemy enemy[], Log log, short roundManager, short danger, short numberOfPlayers)
+void takeBreak(Player player[],Enemy enemy[], Log& log, short roundManager, short danger, short numberOfPlayers)
 {
     short zone = 0;
     int mana = 0;
@@ -2076,7 +2292,7 @@ void takeBreak(Player player[],Enemy enemy[], Log log, short roundManager, short
     fighting = fightCheck(player, roundManager, danger);
     if (fighting == true)
     {
-        fight(enemy, player, log, roundManager, danger, 0);
+        fight(enemy, player, log, roundManager, danger, 0, numberOfPlayers);
         if (player[roundManager].permaDeath == true)
         {
             if (numberOfPlayers == 1)

@@ -31,14 +31,17 @@ class Enemy
         double scrapMetal{};
         double aluminum{};
         double copper{};
+        double herbs{};
         double manaPotion{};
         double healthPotion{};
+        double regenPoition{};
         double weapons{};
         double armor{};
         double exp{};
 
         // Buffs
 
+        bool block{};
         double regenerationOn{};
         short picture{};
         

@@ -50,6 +50,13 @@ int main()
     enemy[3].setName("Zero 04");
     enemy[4].setName("Zero 05");
         
+    // Initialisierung von PermaDeath für Enemy
+
+    for (short index = 0; index < 5; index++)
+    {
+        enemy[index].permaDeath = true;
+    }
+
     // Initialisieren des LogText - Arrays
 
     Log log;
