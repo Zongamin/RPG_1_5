@@ -25,7 +25,11 @@ class Item
 class HealthPotion : public Item
 {
     public:
-        HealthPotion() : Item("Heiltrank", 0.25) {}
+        HealthPotion() : Item("Heiltrank", 0.25) 
+        {
+        
+
+        }
 };
 
 class ManaPotion : public Item

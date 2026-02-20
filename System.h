@@ -19,6 +19,7 @@
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Player.h>
 #include <C:\Users\DokBa\Desktop\Work\Game\RPG_1_5\Log.h>
 
+
 /*Inhaltsverzeichnis:
       - assignment          -- Zuweisung der Werte für neue Spieler
       - charCalc            -- Charakter Rechner zum Errechnen neuer Werte bei Skillpunktverteilung
@@ -339,11 +340,11 @@ bool condition(Player player[], short roundManager, double strength, double inte
 void lifeDisplay(Player player[] , short roundManager,int posX, int posY)
 {
     position(posX, posY);     std::cout << "--------------------------------------------------------------------------------------------------------------\n";
-    position(posX, posY + 1); std::cout << "| Leben |\033[41m                                                                                                    \033[0m|\n";
+    position(posX, posY + 1); std::cout << "| Leben |\033[41m                                                                                                    \033[0m|\033[91m " << player[roundManager].realHealth << "/" << player[roundManager].health << "\033[0m" << std::endl;
     position(posX, posY + 2); std::cout << "--------------------------------------------------------------------------------------------------------------\n";
-    position(posX, posY + 3); std::cout << "| Mana  |\033[41m                                                                                                    \033[0m|\n";
+    position(posX, posY + 3); std::cout << "| Mana  |\033[41m                                                                                                    \033[0m|\033[94m " << player[roundManager].realMana << "/" << player[roundManager].mana << "\033[0m" << std::endl;
     position(posX, posY + 4); std::cout << "--------------------------------------------------------------------------------------------------------------\n";
-    position(posX, posY + 5); std::cout << "| Exp   |\033[41m                                                                                                    \033[0m|\n";
+    position(posX, posY + 5); std::cout << "| Exp   |\033[41m                                                                                                    \033[0m|\033[93m "  << player[roundManager].realExp << "/" << player[roundManager].exp << "\033[0m" << std::endl;;
     position(posX, posY + 6); std::cout << "--------------------------------------------------------------------------------------------------------------\n";
 
     double range{};
@@ -427,6 +428,10 @@ void backgroundColor (short color)
     
         case 1:
             system("color A0");
+            return;
+
+        case 2:
+            system("color 4F");
             return;
     }
 
@@ -665,12 +670,12 @@ double disposeAmount (Player player[], short roundManager, std::string sortOf, d
     bool answer = false;
     
     std::cout << "\n\nSie moechten " << sortOf << " entsorgen. Wie viele Einheiten sollen entsorgt werden? (0 - " << maxAmount << ") "; std::cin >> amount;
-    while (std::cin.fail()) { cinFail();std::cout << "\nBitte eine gueltige Zahl eingeben? (0 - " << maxAmount << ") "; std::cin >> amount; continue; }
-    if (amount > maxAmount || amount < 0){std::cout << "\n\033[31mDas ist nicht moeglich!"; getKey(); return -1;}
-    if (amount == 0) {return -1;}
+    while (std::cin.fail()) { cinFail(); std::cout << "\nBitte eine gueltige Zahl eingeben? (0 - " << maxAmount << ") "; std::cin >> amount; continue; }
+    if (amount > maxAmount || amount < 0){ std::cout << "\n\033[31mDas ist nicht moeglich!"; getKey(); return -1; }
+    if (amount == 0) { return -1; }
     std::cout << "\nSind Sie sicher? (J/N)" << std::endl;
     answer = question();
-    if (answer == false) {return -1;} 
+    if (answer == false) { return -1; } 
     std::cout << "\nSie haben " << amount << " Einheiten " << sortOf << " entsorgt!\033[0m" << std::endl;
     return amount;
 }
@@ -749,7 +754,7 @@ bool disposal(Player player[], short roundManager, double weight)
 
                 case 1:
                     amount = disposeAmount(player, roundManager, "Altmetall", player[roundManager].scrapMetal);
-                    if (amount == -1) {break;}
+                    if (amount == -1) { break; }
                     player[roundManager].scrapMetal -= amount;
                     player[roundManager].realCapacity -= (amount * 0.3);
                     getKey();
@@ -757,7 +762,7 @@ bool disposal(Player player[], short roundManager, double weight)
 
                 case 2:
                     amount = disposeAmount(player, roundManager, "Aluminium", player[roundManager].aluminum);
-                    if (amount == -1) {break;}
+                    if (amount == -1) { break; }
                     player[roundManager].aluminum -= amount;
                     player[roundManager].realCapacity -= (amount * 0.1);
                     getKey();
@@ -765,7 +770,7 @@ bool disposal(Player player[], short roundManager, double weight)
                 
                 case 3:
                     amount = disposeAmount(player, roundManager, "Kupfer", player[roundManager].copper);
-                    if (amount == -1) {break;}
+                    if (amount == -1) { break; }
                     player[roundManager].copper -= amount;
                     player[roundManager].realCapacity -= (amount * 0.2);
                     getKey();
@@ -773,7 +778,7 @@ bool disposal(Player player[], short roundManager, double weight)
                     
                 case 4:
                     amount = disposeAmount(player, roundManager, "Kraeuter", player[roundManager].herbs);
-                    if (amount == -1) {break;}
+                    if (amount == -1) { break; }
                     player[roundManager].herbs -= amount;
                     player[roundManager].realCapacity -= (amount * 0.1);
                     getKey();
@@ -781,7 +786,7 @@ bool disposal(Player player[], short roundManager, double weight)
 
                 case 5:
                     amount = disposeAmount(player, roundManager, "Heiltraenke", player[roundManager].healthPotion);
-                    if (amount == -1) {break;}
+                    if (amount == -1) { break; }
                     player[roundManager].healthPotion -= amount;
                     player[roundManager].realCapacity -= (amount * 0.25);
                     getKey();
@@ -789,7 +794,7 @@ bool disposal(Player player[], short roundManager, double weight)
                 
                 case 6:
                     amount = disposeAmount(player, roundManager, "Manatraenke", player[roundManager].manaPotion);
-                    if (amount == -1) {break;}
+                    if (amount == -1) { break; }
                     player[roundManager].manaPotion -= amount;
                     player[roundManager].realCapacity -= (amount * 0.25);
                     getKey();
@@ -797,7 +802,7 @@ bool disposal(Player player[], short roundManager, double weight)
                 
                 case 7:
                     amount = disposeAmount(player, roundManager, "Regenerationstaenke", player[roundManager].regenPotion);
-                    if (amount == -1) {break;}
+                    if (amount == -1) { break; }
                     player[roundManager].regenPotion -= amount;
                     player[roundManager].realCapacity -= (amount * 0.25);
                     getKey();
@@ -993,9 +998,9 @@ void enemyLifeDisplay(Enemy enemy[], short enemyNumber)
     double range = 0;
 
     position(66, 17); std::cout << "------------------------------------------------------------" << std::endl;
-    position(66, 18); std::cout << "| Leben |\033[41m                                                  \033[0m|" << std::endl;
+    position(66, 18); std::cout << "| Leben |\033[41m                                                  \033[0m|" << "\033[91m " << enemy[enemyNumber].realHealth << "/" << enemy[enemyNumber].health << "\033[0m" << std::endl;
     position(66, 19); std::cout << "------------------------------------------------------------" << std::endl;
-    position(66, 20); std::cout << "| Mana  |\033[41m                                                  \033[0m|" << std::endl;
+    position(66, 20); std::cout << "| Mana  |\033[41m                                                  \033[0m|" << "\033[94m " << enemy[enemyNumber].realMana << "/" << enemy[enemyNumber].mana << "\033[0m" << std::endl;
     position(66, 21); std::cout << "------------------------------------------------------------" << std::endl;
     position(75, 18);
     range = round(50 * (enemy[enemyNumber].realHealth / enemy[enemyNumber].health));
@@ -1053,8 +1058,8 @@ bool enemyAttack(Player player[], Enemy enemy[], Log& log, short roundManager, s
     crit = random(1, 100);
     critWindowMin = random(1, 100);
     log.addMessage("\033[91mDer Gegner greift an!\033[0m");
-    if (critWindowMin < 50) { critWindowMax = critWindowMin + 2 + round(enemy[enemyNumber].luck); }
-    if (critWindowMin > 50) { critWindowMax = critWindowMin; critWindowMin = critWindowMax - 2 - round(enemy[enemyNumber].luck); }
+    if (critWindowMin < 50) { critWindowMax = critWindowMin + (2 + round(enemy[enemyNumber].luck)); }
+    if (critWindowMin > 50) { critWindowMax = critWindowMin; critWindowMin = (critWindowMax - 2) - round(enemy[enemyNumber].luck); }
     if (crit >= critWindowMin && crit < critWindowMax) { criticalHit = true; log.addMessage("\033[41;37m***** Kritischer Treffer! *****\033[0;31m Der Gegner landet einen Kritischen Treffer!\033[0m"); criticalHit = true; }
     variation = random(-1, round((enemy[enemyNumber].luck + 1)));
     damage = round((enemy[enemyNumber].strength * 1.5) + variation);
@@ -1063,8 +1068,9 @@ bool enemyAttack(Player player[], Enemy enemy[], Log& log, short roundManager, s
     if (player[roundManager].armorDmgReduce > 0) { damage = damage - player[roundManager].armorDmgReduce; }
     if (player[roundManager].block == true) { damage = round(damage / 2); log.addMessage("\033[92mGekonnt blocken Sie den Angriff des Gegners!"); }
     log.addMessage("\033[91m" + enemy[enemyNumber].getName() + " verursacht " + std::to_string(static_cast<int>(damage)) + " Schaden!\033[0m");
-    enemyAttackText();
+    backgroundColor(2);
     Sleep(1000);
+    backgroundColor(0);
     fightFrame(player, enemy, log, roundManager, enemyNumber);
     player[roundManager].realHealth -= damage;
     if (player[roundManager].realHealth <= 0) { player[roundManager].realHealth = 0; player[roundManager].permaDeath = true; log.addMessage("\033[41;37m*** " + enemy[enemyNumber].getName() + " hat Sie terminiert! ***\033[0m"); }
@@ -1085,11 +1091,16 @@ bool playerAttack(Player player[], Enemy enemy[], Log& log, short roundManager, 
 {
     bool criticalHit = false;
     short crit = 0;
+    short critWindowMin = 0;
+    short critWindowMax = 0;
     double damage = 0;
     double variation = 0;
     
     crit = random(1,100);
-    if (crit > 0 && crit < 2 + round(player[roundManager].luck)) { log.addMessage("\033[103;30m***** Kritischer Treffer! *****\033[0m"); criticalHit = true; }
+    critWindowMin = random(1, 100);
+    if (critWindowMin < 50) { critWindowMax = critWindowMin + (2 + round(enemy[enemyNumber].luck)); }
+    if (critWindowMin > 50) { critWindowMax = critWindowMin; critWindowMin = (critWindowMax - 2) - round(enemy[enemyNumber].luck); }
+    if (crit > critWindowMin && crit < critWindowMax + round(player[roundManager].luck)) { log.addMessage("\033[103;30m***** Kritischer Treffer! *****\033[0m"); criticalHit = true; }
     variation = random(-1, round(player[roundManager].luck) + 1);
     damage = round((player[roundManager].strength * 1.5) + variation);
     if (player[roundManager].weaponDmg > 0) { damage = damage * ((player[roundManager].weaponDmg / 100) + 1); round(damage); }
@@ -1098,6 +1109,7 @@ bool playerAttack(Player player[], Enemy enemy[], Log& log, short roundManager, 
     if (enemy[enemyNumber].block == true) { damage = round(damage / 2); log.addMessage("\033[91mDer Gegner ist in Abwehrhaltung und blockt den Angriff!\033[0m"); }
     log.addMessage("\033[92mSie greifen an und verursachen \033[91m" + std::to_string(static_cast<int>(damage)) + " Schaden\033[92m!\033[0m");
     fightingStar();
+    playerAttackText(random(0, 3));
     Sleep(1000);
     fightFrame(player, enemy, log, roundManager, enemyNumber);
     enemy[enemyNumber].realHealth -= damage;
@@ -1119,23 +1131,23 @@ bool playerMagicMenue(Player player[], Enemy enemy[], Log& log, short roundManag
     while(running)
     {
         fightFrame(player, enemy, log, roundManager, enemyNumber);
-        if (player[roundManager].intelligence >= 5 ) { position(30, 44); std::cout << "\033[42;37m[ 1 ]\033[0m ------> \033[32mHeilung   (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
-        else { position(30, 44); std::cout << "\033[91mMindestanforderung\033[94m 5 Intelligenz"; }
-        if (player[roundManager].intelligence >= 10) { position(30, 46); std::cout << "\033[41;37m[ 2 ]\033[0m ------> \033[31mFeuerball (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
-        else { position(30, 46); std::cout << "\033[91mMindestanforderung\033[94m 10 Intelligenz"; }
-        if (player[roundManager].intelligence >= 15) { position(30, 48); std::cout << "\033[44;37m[ 3 ]\033[0m ------> \033[34mEispfeil  (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
-        else { position(30, 48); std::cout << "\033[91mMindestanforderung\033[94m 15 Intelligenz"; }
-        if (player[roundManager].intelligence >= 20) { position(30, 50); std::cout << "\033[45;37m[ 4 ]\033[0m ------> \033[35mGiftwolke (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
-        else { position(30, 50); std::cout << "\033[91mMindestanforderung\033[94m 20 Intelligenz"; }
-        if (player[roundManager].intelligence >= 25) { position(70, 44); std::cout << "\033[102;30m[ 5 ]\033[0m ------> \033[92mHeilung   (II)\033[0m \033[94m(25 Mana)\033[0m" << std::endl; }
-        else { position(70, 44); std::cout << "\033[91mMindestanforderung\033[94m 25 Intelligenz"; }
-        if (player[roundManager].intelligence >= 30) { position(70, 46); std::cout << "\033[101;30m[ 6 ]\033[0m ------> \033[91mFeuerball (II)\033[0m \033[94m(25 Mana)\033[0m" << std::endl; }
-        else { position(70, 46); std::cout << "\033[91mMindestanforderung\033[94m 30 Intelligenz"; }
-        if (player[roundManager].intelligence >= 35) { position(70, 48); std::cout << "\033[104;30m[ 7 ]\033[0m ------> \033[94mEispfeil  (II)\033[0m \033[94m(25 Mana)\033[0m" << std::endl; }
-        else { position(70, 48); std::cout << "\033[91mMindestanforderung\033[94m 35 Intelligenz"; }
-        if (player[roundManager].intelligence >= 40) { position(70, 50); std::cout << "\033[105;30m[ 8 ]\033[0m ------> \033[95mGiftwolke (II)\033[0m \033[94m(30 Mana)\033[0m" << std::endl; }
-        else { position(70, 50); std::cout << "\033[91mMindestanforderung\033[94m 40 Intelligenz"; }
-        position(50, 52); std::cout << "\033[47;30m[ 0 ]\033[0m -------> Zurueck" << std::endl;
+        if (player[roundManager].intelligence >= 5 ) { position(5, 44); std::cout << "\033[42;37m[ 1 ]\033[0m ------> \033[32mHeilung   (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
+        else { position(5, 44); std::cout << "\033[91mMindestanforderung\033[94m 5 Intelligenz"; }
+        if (player[roundManager].intelligence >= 10) { position(5, 46); std::cout << "\033[41;37m[ 2 ]\033[0m ------> \033[31mFeuerball (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
+        else { position(5, 46); std::cout << "\033[91mMindestanforderung\033[94m 10 Intelligenz"; }
+        if (player[roundManager].intelligence >= 15) { position(5, 48); std::cout << "\033[44;37m[ 3 ]\033[0m ------> \033[34mEispfeil  (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
+        else { position(5, 48); std::cout << "\033[91mMindestanforderung\033[94m 15 Intelligenz"; }
+        if (player[roundManager].intelligence >= 20) { position(45, 44); std::cout << "\033[45;37m[ 4 ]\033[0m ------> \033[35mGiftwolke (I)\033[0m \033[94m(15 Mana)\033[0m" << std::endl; }
+        else { position(45, 44); std::cout << "\033[91mMindestanforderung\033[94m 20 Intelligenz"; }
+        if (player[roundManager].intelligence >= 25) { position(45, 46); std::cout << "\033[102;30m[ 5 ]\033[0m ------> \033[92mHeilung   (II)\033[0m \033[94m(25 Mana)\033[0m" << std::endl; }
+        else { position(45, 46); std::cout << "\033[91mMindestanforderung\033[94m 25 Intelligenz"; }
+        if (player[roundManager].intelligence >= 30) { position(45, 48); std::cout << "\033[101;30m[ 6 ]\033[0m ------> \033[91mFeuerball (II)\033[0m \033[94m(25 Mana)\033[0m" << std::endl; }
+        else { position(45, 48); std::cout << "\033[91mMindestanforderung\033[94m 30 Intelligenz"; }
+        if (player[roundManager].intelligence >= 35) { position(85, 44); std::cout << "\033[104;30m[ 7 ]\033[0m ------> \033[94mEispfeil  (II)\033[0m \033[94m(25 Mana)\033[0m" << std::endl; }
+        else { position(85, 44); std::cout << "\033[91mMindestanforderung\033[94m 35 Intelligenz"; }
+        if (player[roundManager].intelligence >= 40) { position(85, 46); std::cout << "\033[105;30m[ 8 ]\033[0m ------> \033[95mGiftwolke (II)\033[0m \033[94m(30 Mana)\033[0m" << std::endl; }
+        else { position(85, 46); std::cout << "\033[91mMindestanforderung\033[94m 40 Intelligenz"; }
+        position(85, 48); std::cout << "\033[47;30m[ 0 ]\033[0m -------> Zurueck" << std::endl;
         input = choice();
         switch (input)
         {
@@ -1361,7 +1373,7 @@ bool playerFightMenue(Player player[], Enemy enemy[], Log& log, short roundManag
             return true;
         case 5:
             escape = playerEscape(player, log, roundManager);
-            if (escape == true) { player[roundManager].escape = true; return false; }
+            if (escape == true) { player[roundManager].escape = true; getKey(); return false; }
             return true;
         default:
             error(0); return false;
@@ -1419,8 +1431,8 @@ void initializeEnemy(Enemy enemy[], Player player[], short roundManager, short d
     if (kindOf == 7) { factor = 3.5; enemy[enemyNumber].picture = 6; enemy[enemyNumber].setName("Mimik"); }
     if (kindOf == 8) { factor = 4; enemy[enemyNumber].picture = 7; enemy[enemyNumber].setName("Groghar"); }
     if (dangerZone == 1) { variation = 0; };
-    if (dangerZone == 2) { variation = random(0, 2); }
-    if (dangerZone == 3) { variation = random(1, 5); }
+    if (dangerZone == 2) { variation = random(0, 1); }
+    if (dangerZone == 3) { variation = random(0, 2); }
     enemy[enemyNumber].level = (player[roundManager].level + variation);
     enemy[enemyNumber].health = round(((player[roundManager].health / 2) * factor) + variation);
     enemy[enemyNumber].realHealth = enemy[enemyNumber].health;

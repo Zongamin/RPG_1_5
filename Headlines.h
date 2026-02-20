@@ -333,7 +333,7 @@ void textTitle()
     std::cout << " #::::::#     #:::::##::::::::#               ###::::::###:::#     #::::::::::#  #::::#     ##:::::::::##             \n";   
     std::cout << " ########     #################                  ######   ####     ############  ######       #########        \033[0m\n";  
     std::cout << "\n\n                                       Written in 2023/2024 by \033[34mZongamin                            \033[0m\n";
-    std::cout << "\n                                       In an advisory function: \033[33mDecade                               \033[0m\n";
+    std::cout << "\n                                       Music, Sounds & Advisory: \033[33mDecade                               \033[0m\n";
     std::cout << "\n                              \033[92mChris\033[0m,\033[91m Herr Schmidt\033[0m,\033[95m Herr Lehmann\033[0m and \033[93mHerr Holz\033[0m\n";
     std::cout << "\n                                          Special Thanks to ChatGPT                                                 \n";
     std::cout << "\n                                               © in 2023/24 by                                                  \n\n\n";
