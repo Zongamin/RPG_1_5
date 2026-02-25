@@ -26,6 +26,7 @@
       - random              -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
       - getKey              -- press any key - Funktion
       - error               -- Fehlermeldung : Falsche Eingabe
+      - cinFail             -- Falsche cin Eingabe
       - clearScreen         -- Windows-CMD Screen leeren
       - position            -- Setzen der Cursor Position
       - miniLine            -- kleinen Trennstrich einfügen
@@ -49,6 +50,22 @@
       - loadGame            -- Funktion zum Laden von Spielständen
       - death               -- Ausgabe des Todes des Spielers
       - trapCheck           -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
+      - fightLog            -- Funktion zur Anzeige des Kampf - Logs
+      - enemyLifeDisplay    -- Funktion zur Anzeige des Lebens des Gegners
+      - fightFrame          -- Kampfmenü des Spielers
+      - enemyAttack         -- Funktion der Gegner Attacke
+      - enemyAi             -- Funktion zum Errechnen des Gegnerverhaltens
+      - playerAttack        -- Funktion für den Spieler Angriff
+      - playerMagicMenue    -- Funktion für Spieler zum Zaubern innerhalb des Kampfes
+      - playerInventory     -- Funktion für Spieler zur Trankeinnahme während des Kampfes
+      - playerEscape        -- Funktion zur Ermittlung eines Fluchtversuchs des Spielers
+      - playerFightMenue    -- Funktion zum Kampfmenü des Spielers
+      - enemyMenueLifeDisplay -- Funktion zur Anzeige des Gegnerlebens innerhalb des Menüs
+      - fightCheck          -- Funktion zur Ermittlung einer Kampfbegegnung
+      - initializeEnemy     -- Funktion zur Initialisierung von Gegnern
+      - fightInvite         -- Methode zum Errechnen der Gegneranzahl und des Gegnertyps
+      - fightWin            -- Funktion zur Berrechnung des Sieges des Spielers
+      - fight               -- Funktion zur Berrechnung des Kampfablaufs
       - loot                -- Funktion für die Suche-Option des Spielers
       - textOne             -- Headline 1
       - textTwo             -- Headline 2
@@ -71,16 +88,19 @@
       - forgeMenue          -- Funktion zur Überschrift und Anzeige der Ressourcen zum zugehörigen Spezialraum "Schmiede"
       - needMaterial        -- Funktion zur Überprüfung zum Schmieden benötigter Materialien des zugehörigen Spezialraums "Schmiede"
       - forgeWeaponArmor    -- Menü zur Herstellung verschiedener Rüstungen zum zugehörigen Spezialraum "Schmiede"
+      - dismantleAmount     -- Funktion zum Zerlegen einer vorher bestimmten Anzahl von Materialien
+      - dismantleWeaponArmor-- Hauptmenü zum Zerlegen von Waffen und Rüstungen
+      - dismantleMenue      -- Menü zum Zerlegen von Waffen oder Rüstungen
       - forge               -- Hauptmenü des Spezialraums "Schmiede"
       - headShop            -- Funktion zur Anzeige des Spielers, des Goldes und der Traglast zum zugehörigen Spezialraums "Shop"
       - shopOffer           -- Funktion zur Errechnung der Anzahl der im Spezialraum "Shop" erhältlichen Gegenstände
-      - shopBuy             -- Kaufmenü des zugehörigen Spezialraums "Shop"
       - shopWeaponArmor     -- Funktion zum Erstellen der im "Shop" erhältlichen Waffen und Rüstungen
+      - shopBuy             -- Kaufmenü des zugehörigen Spezialraums "Shop"
       - shopSellWeaponsArmor-- Verkaufsmenü für Waffen und Rüstungen zum zugehörigen Spezialraum "Shop"
       - shopSell            -- Menü zum Verkaufen zum zugehörigen Raum "Shop"
       - shop                -- Hauptmenü zum Spezialraum "Shop"
+      - specialRoom         -- Funktion zum Aufruf von speziellen Räumen
 
-      - specialRoom         -- Funktion zur Ermittlung des derzeitigen Spezialraums   
     */
 
 // Globale Variablen zum Eingrenzen von wiederholten Zufallszahlen
@@ -1381,7 +1401,7 @@ bool playerFightMenue(Player player[], Enemy enemy[], Log& log, short roundManag
     return true;
 }
 
-// Funktion zur Anzeige des Gegnerlebens innerhalb desw Menüs
+// Funktion zur Anzeige des Gegnerlebens innerhalb des Menüs
 
 void enemyMenueLifeDisplay(Enemy enemy[], short enemyNumber, short posX, short posY)
 {
@@ -1479,7 +1499,7 @@ void initializeEnemy(Enemy enemy[], Player player[], short roundManager, short d
     return;
 }
 
-// Methode zum Errechnen der Gegneranzahl und der Gegner
+// Methode zum Errechnen der Gegneranzahl und des Gegnertyps
 
 short fightInvite(Enemy enemy[], Player player[], short roundManager, short dangerZone, short specialFight)
 {
@@ -1555,7 +1575,7 @@ short fightInvite(Enemy enemy[], Player player[], short roundManager, short dang
     return 0;
 }
 
-// Funktion zur Berrechnung des Spieler Sieges
+// Funktion zur Berrechnung des Sieges des Spielers
 
 void fightWin(Player player[], Enemy enemy[], Log& log, short roundManager, short fighterCounter)
 {
@@ -2095,6 +2115,8 @@ void loot(Player player[], Enemy enemy[], Log& log, short roundManager, short da
     return;
 }
 
+// Headline 1
+
 void textOne()
 {
     position(70, 0); std::cout << "   _               \n";
@@ -2106,6 +2128,8 @@ void textOne()
     position(70, 6); std::cout << "     \\/_/         \n\n";
     return;
 }
+
+// Headline 2
 
 void textTwo()
 {
@@ -2119,6 +2143,8 @@ void textTwo()
     return;
 }
 
+// Headline 3
+
 void textThree()
 {
     position(70, 0); std::cout << "   __              \n";
@@ -2130,6 +2156,8 @@ void textThree()
     position(70, 6); std::cout << "   \\/___/         \n\n";
     return;
 }
+
+// Headline 4
 
 void textFour()
 {
@@ -2202,6 +2230,8 @@ void dangerDisplay(short zone)
     return;
 }
 
+// Ermittelt die Anzahl von Fallen in einem Raum auf Basis der Gefahrstufe des Raumes
+
 void trapCall(Player player[], short roundManager, short zone)
 {
     if (zone == 1)
@@ -2222,6 +2252,8 @@ void trapCall(Player player[], short roundManager, short zone)
     }
     return;
 }
+
+// Ermittelt, ob die Suche des Spielers nach einer Falle erfolgreich ist, oder sogar eine Falle auslöst
 
 void trapSearch(Player player[], short roundManager, short danger, short numberOfPlayers)
 {
@@ -2289,6 +2321,8 @@ void trapSearch(Player player[], short roundManager, short danger, short numberO
     return;
 }
 
+// Ermittelt Werte beim Rasten des Spielers 
+
 void takeBreak(Player player[],Enemy enemy[], Log& log, short roundManager, short danger, short numberOfPlayers)
 {
     short zone = 0;
@@ -2345,6 +2379,8 @@ void takeBreak(Player player[],Enemy enemy[], Log& log, short roundManager, shor
     return;
 }
 
+// Ermittelt einen boolschen Wert, ob Heilung, Mana oder beides benoetigt wird
+
 bool checkRegen(Player player[], short roundManager, short sort)
 {
     switch (sort)
@@ -2379,6 +2415,8 @@ bool checkRegen(Player player[], short roundManager, short sort)
     return true;
 }
 
+// Ermittelt einen boolschen Wert, ob Heiltraenke, Manatraenke oder Regenerationstraenke vorhanden sind 
+
 bool potionCheck (Player player[], short roundManager, short sort)
 {
     switch (sort)
@@ -2412,6 +2450,8 @@ bool potionCheck (Player player[], short roundManager, short sort)
     }
     return true;
 }
+
+// Funktion zur Heilung, Manaregeneration oder beidem durch Tränke
 
 void potionDrink (Player player[], short roundManager, short sort)
 {
@@ -2460,6 +2500,8 @@ void potionDrink (Player player[], short roundManager, short sort)
     return;    
 }
 
+// Funktion zur Anzeige der Kopfzeile "Spezial" und der Überschrift des zugehörigen Spezialraums
+
 void specialHeader(int room)
 {
     clearScreen();
@@ -2480,6 +2522,8 @@ void specialHeader(int room)
     line();
     return;
 }
+
+// Menü zum Spezialraum "Hebel"
 
 void lever(Player player[], short roundManager, int room, short numberOfPlayers)
 {
@@ -2564,6 +2608,8 @@ void lever(Player player[], short roundManager, int room, short numberOfPlayers)
     return;
 }
 
+// Funktion zum Öffenen der Truhe zum zugehörigen "Truhe" - Spezialraums
+
 void openChest(Player player[], short roundManager)
 {
     double exp = 0;
@@ -2635,6 +2681,8 @@ void openChest(Player player[], short roundManager)
     return;
 }
 
+// Funktion zum Auslösen eines Kampfes zum zugehörigen "Truhe" - Spezialraums
+
 void chestFight(Player player[], short roundManager)
 {
     std::cout << "\n\033[31mDoch als Sie sich der Truhe naehern verwandelt sich diese in einen Mimik und es kommt zum Kampf!\033[0m";
@@ -2649,6 +2697,8 @@ void chestFight(Player player[], short roundManager)
                 }
                 return;
 }
+
+// Menü zum Spezialraum "Truhe"
 
 void chest(Player player[], short roundManager, int room, short danger)
 {
@@ -2698,6 +2748,8 @@ void chest(Player player[], short roundManager, int room, short danger)
     return;
 }
 
+// Funktion zur Überschrift und Anzeige der Ressourcen zum zugehörigen Spezialraum "Schmiede"
+
 void forgeMenue(Player player[], short roundManager, short room)
 {
     specialHeader(room);
@@ -2710,12 +2762,16 @@ void forgeMenue(Player player[], short roundManager, short room)
     return;
 }
 
+// Funktion zur Überprüfung zum Schmieden benötigter Materialien des zugehörigen Spezialraums "Schmiede"
+
 void needMaterial(std::string name)
 {
     std::cout << "\033[31mSie haben zu wenig "<< name << "!\033[0m" << std::endl;
     getKey();
     return;
 }
+
+// Menü zur Herstellung verschiedener Rüstungen zum zugehörigen Spezialraum "Schmiede"
 
 void forgeWeaponArmor(Player player[], short roundManager, short room, std::string sortOf)
 {
@@ -2954,7 +3010,9 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
     }
     return;
 }
-        
+
+// Funktion zum Zerlegen einer vorher bestimmten Anzahl von Materialien
+
 double dismantleAmount(Player player[], short roundManager, double dmg, std::string sortOf)
 {
     double material = 0;
@@ -2977,6 +3035,8 @@ double dismantleAmount(Player player[], short roundManager, double dmg, std::str
     error(7);
     return 0;
 } 
+
+// Hauptmenü zum Zerlegen von Waffen und Rüstungen
 
 void dismantleWeaponArmor(Player player[], short roundManager, std::string sortOf)
 {
@@ -3168,6 +3228,8 @@ void dismantleWeaponArmor(Player player[], short roundManager, std::string sortO
     }
 }
 
+// Menü zum zerlegen von Waffen oder Rüstungen
+
 void dismantleMenue(Player player[], short roundManager)
 {
     bool running = true;
@@ -3206,6 +3268,8 @@ void dismantleMenue(Player player[], short roundManager)
     }
     return;
 }
+
+// Hauptmenü des Spezialraums "Schmiede"
 
 void forge(Player player[], short roundManager, short room)
 {
@@ -3249,6 +3313,8 @@ void forge(Player player[], short roundManager, short room)
     return;
 }
 
+// Funktion zur Anzeige des Spielers, des Goldes und der Traglast zum zugehörigen Spezialraums "Shop"
+
 void headShop(Player player[], short roundManager)
 {
     std::cout << "\033[36mSpieler: " << player[roundManager].getName();
@@ -3258,6 +3324,8 @@ void headShop(Player player[], short roundManager)
     return;
 }
 
+// Funktion zur Errechnung der Anzahl der im Spezialraum "Shop" erhältlichen Gegenstände
+
 int shopOffer(Player player[], short roundManager)
 {
     int offer = 0;
@@ -3265,6 +3333,8 @@ int shopOffer(Player player[], short roundManager)
     if (offer > 100) { offer = 100; } 
     return offer;
 }
+
+// Funktion zum Erstellen der im "Shop" erhältlichen Waffen und Rüstungen
 
 double shopWeaponArmor(Player player[], short roundManager)
 {
@@ -3275,6 +3345,8 @@ double shopWeaponArmor(Player player[], short roundManager)
     if (damage < 1) { damage = 1; }
     return damage;
 }
+
+// Kaufmenü des zugehörigen Spezialraums "Shop"
 
 void shopBuy(Player player[], short roundManager)
 {
@@ -3592,6 +3664,8 @@ void shopBuy(Player player[], short roundManager)
     return;
 }
 
+// Verkaufsmenü für Waffen und Rüstungen zum zugehörigen Spezialraum "Shop"
+
 void shopSellWeaponsArmor(Player player[], short roundManager, std::string sortOf)
 {
     bool running = true;
@@ -3719,6 +3793,8 @@ void shopSellWeaponsArmor(Player player[], short roundManager, std::string sortO
         return;
     }
 }
+
+// Menü zum Verkaufen zum zugehörigen Raum "Shop"
 
 void shopSell(Player player[], short roundManager)
 {
@@ -3894,6 +3970,8 @@ void shopSell(Player player[], short roundManager)
     }
 }
 
+// Hauptmenü zum Spezialsraum "Shop"
+
 void shop(Player player[], short roundManager, short room)
 {
     specialHeader(room);
@@ -3967,6 +4045,8 @@ void spring(Player player[], short roundManager, short room)
     specialHeader(room);
     return;
 }
+
+// Funktion zum Aufruf von speziellen Räumen
 
 void specialRoom(Player player[], short roundManager, int room, short danger, short numberOfPlayers)
 {
