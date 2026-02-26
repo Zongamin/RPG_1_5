@@ -53,6 +53,7 @@
       - fightLog            -- Funktion zur Anzeige des Kampf - Logs
       - enemyLifeDisplay    -- Funktion zur Anzeige des Lebens des Gegners
       - fightFrame          -- Kampfmenü des Spielers
+      - hitColor            -- Veränderung der Hintergrundfarbe beim Angriff eines Gegners
       - enemyAttack         -- Funktion der Gegner Attacke
       - enemyAi             -- Funktion zum Errechnen des Gegnerverhaltens
       - playerAttack        -- Funktion für den Spieler Angriff
@@ -443,7 +444,7 @@ void backgroundColor (short color)
     switch (color)
     {
         case 0:
-            system("color");
+            system("color0F");
             return;
     
         case 1:
@@ -878,6 +879,8 @@ bool capacityCheck(Player player[], short roundManager, double weight, short num
     return true;
 }
 
+// Funktion zum Speichern von Spielständen
+
 void saveGame() 
 {
     clearScreen();
@@ -903,6 +906,8 @@ void saveGame()
     }
     return;
 }
+
+// Funktion zuzm laden von Spielständen
 
 void loadGame()
 {
@@ -953,6 +958,8 @@ void death(Player player[], short roundManager, short numberOfPlayers)
     } 
     return;
 }
+
+// Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
 
 void trapCheck(Player player[], short roundManager, std::string room, short numberOfPlayers)
 {
@@ -1043,6 +1050,7 @@ void enemyLifeDisplay(Enemy enemy[], short enemyNumber)
 
 void fightFrame(Player player[], Enemy enemy[], Log& log, short roundManager, short enemyNumber) 
 {
+    backgroundColor(0);
     clearScreen();
     textFight();
     line();
@@ -1064,10 +1072,24 @@ void fightFrame(Player player[], Enemy enemy[], Log& log, short roundManager, sh
     return;
 }
 
+// Veränderung der Hintergrundfarbe beim Angriff eines Gegners
+
+void hitColor()
+{
+    backgroundColor(2);
+    Sleep(750);
+    backgroundColor(0);
+    clearScreen();
+    return;
+}
+  
 // Funktion der Gegner Attacke
 
 bool enemyAttack(Player player[], Enemy enemy[], Log& log, short roundManager, short enemyNumber)
 {
+    hitColor();
+    clearScreen();
+
     bool criticalHit = false;
     short crit = 0;
     short critWindowMin = 0;
@@ -1088,11 +1110,8 @@ bool enemyAttack(Player player[], Enemy enemy[], Log& log, short roundManager, s
     if (player[roundManager].armorDmgReduce > 0) { damage = damage - player[roundManager].armorDmgReduce; }
     if (player[roundManager].block == true) { damage = round(damage / 2); log.addMessage("\033[92mGekonnt blocken Sie den Angriff des Gegners!"); }
     log.addMessage("\033[91m" + enemy[enemyNumber].getName() + " verursacht " + std::to_string(static_cast<int>(damage)) + " Schaden!\033[0m");
-    backgroundColor(2);
-    Sleep(1000);
-    backgroundColor(0);
     fightFrame(player, enemy, log, roundManager, enemyNumber);
-    player[roundManager].realHealth -= damage;
+    player[roundManager].realHealth -= round(damage);
     if (player[roundManager].realHealth <= 0) { player[roundManager].realHealth = 0; player[roundManager].permaDeath = true; log.addMessage("\033[41;37m*** " + enemy[enemyNumber].getName() + " hat Sie terminiert! ***\033[0m"); }
     return true;
 }
@@ -1426,7 +1445,7 @@ bool fightCheck(Player player[], short roundManager, short dangerZone)
     short chance = 0;
     chance = random(1, 100);
 
-    if (dangerZone == 1) { if (chance >= 36 && chance <= 64) { return true; } }
+    if (dangerZone == 1) { if (chance >= 45 && chance <= 55) { return true; } }
     if (dangerZone == 2) { if (chance >= 25 && chance <= 75) { return true; } }
     if (dangerZone == 3) { if (chance >= 12 && chance <= 88) { return true; } }
     return false;
@@ -1813,9 +1832,6 @@ void fight(Enemy enemy[], Player player[], Log& log, short roundManager, short d
         log.addMessage("\033[31m*** " + enemy[roundCounter].getName() + " *** ist am Zug ***\033[0m");
         fightFrame(player, enemy, log, roundManager, roundCounter);
         enemyAi(player, enemy, log, roundManager, roundCounter);
-        std::cout << "roundCounter:" << roundCounter << " | fighterCounter:" << fighterCounter << std::endl;
-        
-        getKey();
         roundEnd = true;
         continue;
     }
@@ -2218,7 +2234,7 @@ void dangerDisplay(short zone)
     switch(zone)
     {
         case 1:
-            std::cout << "\033[30;102m Gefahrenstufe : Sicher \033[0m" << std::endl;
+            std::cout << "\033[30;102m Gefahrenstufe : Relativ Sicher \033[0m" << std::endl;
             break;
         case 2:
             std::cout << "\033[30;103m Gefahrenstufe : Unsicher \033[0m" << std::endl;
