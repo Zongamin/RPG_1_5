@@ -1055,6 +1055,7 @@ void fightFrame(Player player[], Enemy enemy[], Log& log, short roundManager, sh
     textFight();
     line();
     enemyPictures(enemy[enemyNumber].picture);
+    if (enemy[enemyNumber].permaDeath == true;) {enemyPictures(7); return;}
     enemyText(enemy[enemyNumber].picture);
     position(90, 12); std::cout << "\033[41;37m*** Level " << enemy[enemyNumber].level << " ***\033[0m" << std::endl;
     enemyLifeDisplay(enemy, enemyNumber);
