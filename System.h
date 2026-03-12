@@ -11,13 +11,13 @@
 #include <windows.h>
 #include <algorithm>
 #include <random>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Enemy.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Main.cpp>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Headlines.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Pictures.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Texts.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Player.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Log.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Enemy.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Main.cpp>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Headlines.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Pictures.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Texts.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Player.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Log.h>
 
 
 /*Inhaltsverzeichnis:
@@ -100,6 +100,7 @@
       - shopSellWeaponsArmor-- Verkaufsmenü für Waffen und Rüstungen zum zugehörigen Spezialraum "Shop"
       - shopSell            -- Menü zum Verkaufen zum zugehörigen Raum "Shop"
       - shop                -- Hauptmenü zum Spezialraum "Shop"
+      - casinoRoyal         -- Hauptmenü zum Spezialraum "Casino Royal"
       - specialRoom         -- Funktion zum Aufruf von speziellen Räumen
 
     */
@@ -1055,8 +1056,9 @@ void fightFrame(Player player[], Enemy enemy[], Log& log, short roundManager, sh
     textFight();
     line();
     enemyPictures(enemy[enemyNumber].picture);
-    if (enemy[enemyNumber].permaDeath == true;) {enemyPictures(7); return;}
+    if (enemy[enemyNumber].permaDeath == true) { enemyPictures(7); }
     enemyText(enemy[enemyNumber].picture);
+    if (enemy[enemyNumber].permaDeath == true) { enemyText(8); }
     position(90, 12); std::cout << "\033[41;37m*** Level " << enemy[enemyNumber].level << " ***\033[0m" << std::endl;
     enemyLifeDisplay(enemy, enemyNumber);
     position(58, 22); std::cout << "----------------------------------------------------------------------------" << std::endl;
@@ -3991,6 +3993,8 @@ void shopSell(Player player[], short roundManager)
 
 void shop(Player player[], short roundManager, short room)
 {
+    short input = 0;
+    
     specialHeader(room);
     headShop(player, roundManager);
     std::cout << "Was moechten Sie tun?" << std::endl;
@@ -3998,7 +4002,7 @@ void shop(Player player[], short roundManager, short room)
     std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\n" << std::endl;
     std::cout << "\033[37;102m[ 1 ]\033[0m ------> \033[92mKaufen\033[0m\n" << std::endl;
     std::cout << "\033[37;101m[ 2 ]\033[0m ------> \033[91mVerkaufen\033[0m\n" << std::endl;
-    short input = choice();
+    input = choice();
     switch(input)
     {
         case 0:
@@ -4014,6 +4018,8 @@ void shop(Player player[], short roundManager, short room)
     } 
     return;        
 }
+
+// Hauptmenue zum spezialraum "Casino Royal"
 
 void casinoRoyal(Player player[], short roundManager, short room)
 {

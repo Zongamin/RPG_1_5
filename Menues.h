@@ -3,10 +3,10 @@
 
 #include <iostream>
 #include <algorithm>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Main.cpp>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Pictures.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Texts.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\System.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Main.cpp>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Pictures.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Texts.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\System.h>
 
 /*  Inhaltsverzeichnis
             - isRoomValid       Validierung von Speziellen Räumen für Sonderaktionen

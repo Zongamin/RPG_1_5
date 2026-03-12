@@ -2,7 +2,6 @@
 #define TEXTS_H
 
 #include <iostream>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\System.h>
 
 /*Inhaltsverzeichnis:
     - roomTexts   -- case 0 = Eingang               -- case 8 = Treppe nach unten       -- case 16 = Kerker
@@ -258,11 +257,11 @@ void roomTexts(int room)
                 textPosition(58, 10); std::cout << "Kerkerzelle bietet alles, was das Herz begehrt: Rostige Gitterstaebe, einen fast neu-";
                 textPosition(58, 11); std::cout << "wertigen Pranger und eine steinharte Schlafbank, deren Haertegrad H4 bei Weitem ueber-";
                 textPosition(58, 12); std::cout << "steigt. Jeder Tag hier ist ein Feiertag! Nur halt ohne Feier und das Licht des Tages.";
-                textPosition(58, 13); std::cout << "Pain und Schmerz werden hier nicht noch gross geschrieben und stehen an der Tagesordung!";
+                textPosition(58, 13); std::cout << "Pain und Schmerz werden hier noch gross geschrieben und stehen an der Tagesordung!";
                 textPosition(58, 14); std::cout << "Die Spinnweben und Blutspritzer, welche von vorherigen Insassen hinterlassen wurden";
-                textPosition(58, 15); std::cout << "sind hier unangefochten das Highlight der Dekoration! Die Authentizität der trostlosen";
+                textPosition(58, 15); std::cout << "sind hier unangefochten das Highlight der Dekoration! Die Authentizitaet der trostlosen";
                 textPosition(58, 16); std::cout << "Umgebeung bietet fuer jeden Anlass den gewuenschten Effekt! Buchen auch Sie noch heute";
-                textPosition(58, 17); std::cout << "die Honeydoom-Suite und vergessen Ihren Eintrag im Gaestebuch bitte nicht!";
+                textPosition(58, 17); std::cout << "die Honeydoom-Suite und vergessen Sie Ihren Eintrag im Gaestebuch bitte nicht!";
                 break;
 
             case 17:
@@ -358,7 +357,7 @@ void enemyText(int kindOf)
     {
         case 0:
 
-            textPosition(58, 12); std::cout << "Der gemeine Imp:";
+            textPosition(58, 12); std::cout << "\033[1mDer gemeine Imp:\033[0m";
             textPosition(58, 13); std::cout << "Ein garstiges kleines Biest, das hier im Dungeon herumstreunt und";
             textPosition(58, 14); std::cout << "eigentlich nur nervt. Allerdings sollte man diese kleinen Viehcher";
             textPosition(58, 15); std::cout << "aufgrund ihrer oftmals groesseren Anzahl nicht unterschaetzen!";
@@ -366,7 +365,7 @@ void enemyText(int kindOf)
             break;
         
         case 1:
-            textPosition(58, 12); std::cout << "Der garstige Goblin:";
+            textPosition(58, 12); std::cout << "\033[1mDer garstige Goblin:\033[0m";
             textPosition(58, 13); std::cout << "zaehlt nicht gerade zu den Endgegnern, kann aber, gerade in groesserer";
             textPosition(58, 14); std::cout << "Anzahl, dennoch ziemlich gefaehrlich werden! Also dennoch ein ernst- ";
             textPosition(58, 15); std::cout << "zunehmender Gegner....";
@@ -375,7 +374,7 @@ void enemyText(int kindOf)
 
         case 2:
 
-            textPosition(58, 12); std::cout << "Der grunzende Ork:";
+            textPosition(58, 12); std::cout << "\033[1mDer grunzende Ork:\033[0m";
             textPosition(58, 13); std::cout << "Er mag nach leckerem Schinken riechen, ist aber vor dem Verwursten";
             textPosition(58, 14); std::cout << "erstmal tot zu kriegen! Sicherlich nicht einer der leichteren Gegner!";
             textPosition(58, 15); std::cout << "Behalten Sie Ihren Gesundheitsstand unbedingt im Auge!";
@@ -384,7 +383,7 @@ void enemyText(int kindOf)
 
         case 3:
             
-            textPosition(58, 12); std::cout << "Der affige Oger:";
+            textPosition(58, 12); std::cout << "\033[1mDer affige Oger:\033[0m";
             textPosition(58, 13); std::cout << "Auch wenn es schon ganz witzig sein kann ihn auf Distanz dabei zu be-";
             textPosition(58, 14); std::cout << "bachten, wie er seinen Kot durch die Gegend wirft, ist er ein nicht";
             textPosition(58, 15); std::cout << "zu unterschaetzender boeswilliger Gegner!";
@@ -393,7 +392,7 @@ void enemyText(int kindOf)
 
         case 4:
             
-            textPosition(58, 12); std::cout << "Das putzige Killer-Karnickel:";
+            textPosition(58, 12); std::cout << "\033[1mDas putzige Killer-Karnickel:\033[0m";
             textPosition(58, 13); std::cout << "So putzig und pelzig dieses Fellknaeuel auch ist, ist es quasi der";
             textPosition(58, 14); std::cout << "Hauptgewinn unter den boesen, gemeinen Gegner und kann sehr garstig";
             textPosition(58, 15); std::cout << "werden. Schaut euch nur seine todbringenden, gefaehrlichen Augen an!";
@@ -402,7 +401,7 @@ void enemyText(int kindOf)
         
         case 5:
 
-            textPosition(58, 12); std::cout << "Der toedliche Drache:";
+            textPosition(58, 12); std::cout << "\033[1mDer toedliche Drache:\033[0m";
             textPosition(58, 13); std::cout << "Auch wenn er auf den ersten Blick nicht ganz so schlimm aussieht, liegt das nur";
             textPosition(58, 14); std::cout << "an den ASCII - Kuensten des Programmierers! Lassen Sie sich nicht taeuschen! Ein";
             textPosition(58, 15); std::cout << "gefaehrlicher und toedlicher Gegner! Heilung vor Sonderangriff nicht vergessen!";
@@ -411,7 +410,7 @@ void enemyText(int kindOf)
 
         case 6:
 
-            textPosition(58, 12); std::cout << "Der heimtueckische Mimik:";
+            textPosition(58, 12); std::cout << "\033[1mDer heimtueckische Mimik:\033[0m";
             textPosition(58, 13); std::cout << "Da will man nur mal seiner Gier froehnen und schon hat man mir nichts,";
             textPosition(58, 14); std::cout << "dir nichts dieses heimtueckische und zaehe Biest vor sich. Seine Angriffe";
             textPosition(58, 15); std::cout << "sind zwar nicht gerade die staerksten, aber er kann einstecken!";
@@ -420,12 +419,22 @@ void enemyText(int kindOf)
 
         case 7:
 
-            textPosition(58, 12); std::cout << "Groghar der Geschaendete:";
+            textPosition(58, 12); std::cout << "\033[1mGroghar der Geschaendete:\033[0m";
             textPosition(58, 13); std::cout << "Ihr konntet es nicht lassen und habt es herausgefordert. So habt Ihr";
             textPosition(58, 14); std::cout << "Seinen Zorn erweckt! Jetzt muesst Ihr mit seiner boeswilligkeit klar";
             textPosition(58, 15); std::cout << "kommen... Dabei war er zu Lebzeiten echt ein netter Kerl!";
             textPosition(58, 16); std::cout << "----------------------------------------------------------------------------";
             break;
+
+        case 8:
+
+            textPosition(58, 12); std::cout << "\033[1mS I E G !\033[0m                                                             ";
+            textPosition(58, 13); std::cout << "Ganz souverean habt Ihr Euren Gegner zu Wurst verarbeitet!                          ";
+            textPosition(58, 14); std::cout << "Manchmal funktioniert es halt nur mit brachialer Gewalt und Ihr habt                ";
+            textPosition(58, 15); std::cout << "hart durchgegriffen! Mit Gefuehl geht eben alles! Gut gemacht.                      ";
+            textPosition(58, 16); std::cout << "----------------------------------------------------------------------------";
+            break;
+
 
 
     }

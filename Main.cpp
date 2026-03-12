@@ -3,14 +3,14 @@
 
 #include <string>
 #include <iostream>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Player.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Enemy.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\System.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Menues.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Headlines.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Pictures.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Texts.h>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\Log.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Player.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Enemy.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\System.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Menues.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Headlines.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Pictures.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Texts.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Log.h>
 
 // Main Game
             
@@ -87,7 +87,7 @@ int main()
     for (; roundManager < numberOfPlayers; roundManager++)
     {
         bool running = true;
-        short zone = dangerZone();
+        short zone = 1;
 
         backgroundColor(1);
         clearScreen();

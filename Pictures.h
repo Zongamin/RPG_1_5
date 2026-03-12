@@ -2,7 +2,7 @@
 #define PICTURES_H
 
 #include <iostream>
-#include <C:\Users\CC-Student\Desktop\Work\RPG_1_5\System.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\System.h>
 
 /* Inhaltsverzeichnis
         - roomPictures  -- case 0 Eingang           -- case 8 Treppe (Unten)        -- case 16 Kerker
@@ -69,7 +69,7 @@ void roomPictures(int room)
             std::cout << "|__|_____|_____|_____|_____|_____|_____|_____|_____|__|\n";
             std::cout << "|_____|_____|_____|_____|_____|_____|_____|_____|_____|\n";
             std::cout << "|__|_____|_____|_____|_____|_____|_____|_____|_____|__|\n";
-            std::cout << "|_____|_____|__\033[0m___\033[90m|\033[0m___\033[90m__|_____|_____|_____|_____|_____|\n";
+            std::cout << "|_____|_____|___\033[0m__\033[90m|\033[0m__\033[90m___|_____|_____|_____|_____|_____|\n";
             std::cout << "|__|_____|_____\033[0m|_____|\033[90m_____|_____|_____|_____|_____|__|\n";
             std::cout << "|_____|_____|_____|_____|_____|_____|_____|_____|_____|\n";
             std::cout << "|__|_____|_____|_____|_____|_____|_____|_____|_____|__|\n";
