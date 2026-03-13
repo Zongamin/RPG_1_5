@@ -46,7 +46,7 @@
       - disposeAmount       -- Menue zur Ermittlung der Anzahl der zu wegwerfenden Gegenstände
       - disposal            -- Funktion zur Entsorgung von Gegenständen für den Spieler
       - capacityCheck       -- Überprüfung und hinzufügen der Traglast des Spielers mit evtl. Übergabe an Entsorgungsfunktion für Gegenstände
-      - saveGame            -- Menü zum Speichern des Spielstandes 
+      - saveGame            -- Funktion zum erstellen von Spielständen
       - loadGame            -- Funktion zum Laden von Spielständen
       - death               -- Ausgabe des Todes des Spielers
       - trapCheck           -- Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
@@ -235,6 +235,11 @@ void error(short error)
         case 7:
             std::cout << "\n\n\033[31mSie haben zu wenig Mana!\033[0m" << std::endl;
             break;
+        case 8:
+            std::cout << "\n\n\033[31mFehler beim Speichern! Bitte versuchen Sie es erneut!\033[0m" << std::endl;
+            break;    
+        case 9:
+            std::cout << "\n\n\033[31mFehler beim Laden des Spielstandes!" << std::endl;
         default:
             std::cout << "\n\n\033[31mUnbekannter Fehler!\033[0m" << std::endl;
             break;
@@ -513,7 +518,7 @@ void expUp(Player player[], short roundManager)
         for (int i = 0; i < range; i++)
         {
             std::cout << "\033[103m ";
-            Sleep(5);
+            Sleep(2);
             std::cout << "\033[0m";
         }
             std::cout << "\n\n" << std::endl;
@@ -880,10 +885,12 @@ bool capacityCheck(Player player[], short roundManager, double weight, short num
     return true;
 }
 
-// Funktion zum Speichern von Spielständen
+// Funktion zum erstellen von Spielständen
 
-void saveGame() 
+void saveGame(Player player[], short numberOfPlayers, short roundManager) 
 {
+    std::string fileName = "nofile";
+    
     clearScreen();
     textSave();
     line();
@@ -894,16 +901,50 @@ void saveGame()
     std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spielstand 3 :" << std::endl;
     line();
     std::cout << "\n\033[47;30m[ 4 ]\033[0m ------> Zurueck" << std::endl;
+    
     short input = choice();
+    
     switch(input)
     {
         case 1:
-        
+            fileName = "RPGsave01.dat";
+            break;
+        case 2:
+            fileName = "RPGsave02.dat";
+            break;
+        case 3:
+            fileName = "RPGsave03.dat";
+            break;
         case 4:
             return;
-        
         default:
             error(0);
+            return;
+    }
+    
+    std::ofstream file(fileName, std::ios::binary);
+    if (!file) { error(8); getKey();return; }
+
+    file.write(reinterpret_cast<char*>(&numberOfPlayers), sizeof(numberOfPlayers));
+    file.write(reinterpret_cast<char*>(&roundManager), sizeof(roundManager));
+    
+    for(int index = 0; index < 4; index++)
+    {
+        size_t name =  player[index].getName().size();
+
+        file.write(reinterpret_cast<char*>(&name), sizeof(name));
+        file.write(reinterpret_cast<char*>(&player[index].level), sizeof(player[index].level));
+        file.write(reinterpret_cast<char*>(&player[index].exp), sizeof(player[index].exp));
+        file.write(reinterpret_cast<char*>(&player[index].realExp), sizeof(player[index].realExp));
+        file.write(reinterpret_cast<char*>(&player[index].health), sizeof(player[index].health));
+        file.write(reinterpret_cast<char*>(&player[index].realHealth), sizeof(player[index].realHealth));
+        file.write(reinterpret_cast<char*>(&player[index].mana), sizeof(player[index].mana));
+        file.write(reinterpret_cast<char*>(&player[index].realMana), sizeof(player[index].realMana));
+        file.write(reinterpret_cast<char*>(&player[index].strength), sizeof(player[index].strength));
+        file.write(reinterpret_cast<char*>(&player[index].intelligence), sizeof(player[index].intelligence));
+        file.write(reinterpret_cast<char*>(&player[index].dexterity), sizeof(player[index].dexterity));
+        file.write(reinterpret_cast<char*>(&player[index].luck), sizeof(player[index].luck));
+        
     }
     return;
 }
@@ -957,7 +998,7 @@ void death(Player player[], short roundManager, short numberOfPlayers)
     {
         loadGame();
     } 
-    return;
+    exit(0);
 }
 
 // Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
