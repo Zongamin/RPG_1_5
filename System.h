@@ -239,7 +239,10 @@ void error(short error)
             std::cout << "\n\n\033[31mFehler beim Speichern! Bitte versuchen Sie es erneut!\033[0m" << std::endl;
             break;    
         case 9:
-            std::cout << "\n\n\033[31mFehler beim Laden des Spielstandes!" << std::endl;
+            std::cout << "\n\n\033[31mFehler beim Laden des Spielstandes!\033[0m" << std::endl;
+        case 10:
+            std::cout << "\n\n\033[31mSpielstand nicht existent!\033[0m" << std::endl;
+            break;
         default:
             std::cout << "\n\n\033[31mUnbekannter Fehler!\033[0m" << std::endl;
             break;
@@ -535,7 +538,7 @@ void expUp(Player player[], short roundManager)
             for (int i = 0; i < range; i++)
             {
                 std::cout << "\033[103m ";
-                Sleep(5);
+                Sleep(2);
                 std::cout << "\033[0m";
             }
 
@@ -677,7 +680,7 @@ void weaponArmorDispose(Player player[], short roundManager, std::string sortOf)
             if (input - 1 > arraySize || input - 1 < 0) {std::cout << "\n\033[31mDas geht nicht !\033[0m"; getKey(); break;}
             std::cout << "\n\033[31mSind sie sicher? (J/N)";
             bool answer = question();
-            if (answer == false) {break;}
+            if (answer == false) { break;}
             player[roundManager].armor[input - 1] = 0;
             player[roundManager].realCapacity -= 2.25;
             arraySort(player, roundManager, "armor");
@@ -923,7 +926,7 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
     }
     
     std::ofstream file(fileName, std::ios::binary);
-    if (!file) { error(8); getKey();return; }
+    if (!file) { error(8); getKey(); return; }
 
     file.write(reinterpret_cast<char*>(&numberOfPlayers), sizeof(numberOfPlayers));
     file.write(reinterpret_cast<char*>(&roundManager), sizeof(roundManager));
@@ -944,7 +947,46 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
         file.write(reinterpret_cast<char*>(&player[index].intelligence), sizeof(player[index].intelligence));
         file.write(reinterpret_cast<char*>(&player[index].dexterity), sizeof(player[index].dexterity));
         file.write(reinterpret_cast<char*>(&player[index].luck), sizeof(player[index].luck));
-        
+        file.write(reinterpret_cast<char*>(&player[index].endurance), sizeof(player[index].endurance));
+        file.write(reinterpret_cast<char*>(&player[index].skillpoints), sizeof(player[index].skillpoints));
+        file.write(reinterpret_cast<char*>(&player[index].actionPoints), sizeof(player[index].actionPoints));
+        file.write(reinterpret_cast<char*>(&player[index].realActionPoints), sizeof(player[index].realActionPoints));
+        file.write(reinterpret_cast<char*>(&player[index].key), sizeof(player[index].key));
+        file.write(reinterpret_cast<char*>(&player[index].capacity), sizeof(player[index].capacity));
+        file.write(reinterpret_cast<char*>(&player[index].realCapacity), sizeof(player[index].realCapacity));
+        file.write(reinterpret_cast<char*>(&player[index].gold), sizeof(player[index].gold));
+        file.write(reinterpret_cast<char*>(&player[index].herbs), sizeof(player[index].herbs));
+        file.write(reinterpret_cast<char*>(&player[index].scrapMetal), sizeof(player[index].scrapMetal));
+        file.write(reinterpret_cast<char*>(&player[index].aluminum), sizeof(player[index].aluminum));
+        file.write(reinterpret_cast<char*>(&player[index].copper), sizeof(player[index].copper));
+        file.write(reinterpret_cast<char*>(&player[index].manaPoition), sizeof(player[index].manaPoition));
+        file.write(reinterpret_cast<char*>(&player[index].healthPoition), sizeof(player[index].healthPotion));
+        file.write(reinterpret_cast<char*>(&player[index].regenPoition), sizeof(player[index].regenPoition));
+        file.write(reinterpret_cast<char*>(&player[index].ressurrectionPoition), sizeof(player[index].ressurrectionPotion));
+        file.write(reinterpret_cast<char*>(&player[index].weaponDmg), sizeof(player[index].weaponDmg));
+        file.write(reinterpret_cast<char*>(&player[index].armorDmgReduce), sizeof(player[index].armorDmgReduce));
+        file.write(reinterpret_cast<char*>(&player[index].fireAura), sizeof(player[index].fireAura));
+        file.write(reinterpret_cast<char*>(&player[index].regenerationOn), sizeof(player[index].regenerationOn));
+        file.write(reinterpret_cast<char*>(&player[index].traps), sizeof(player[index].traps));
+        file.write(reinterpret_cast<char*>(&player[index].permaDeath), sizeof(player[index].permaDeath));
+        file.write(reinterpret_cast<char*>(&player[index].specialRoom), sizeof(player[index].specialRoom));
+        file.write(reinterpret_cast<char*>(&player[index].escape), sizeof(player[index].escape));
+        file.write(reinterpret_cast<char*>(&player[index].block), sizeof(player[index].block));
+        file.write(reinterpret_cast<char*>(&player[index].roomCleard), sizeof(player[index].roomCleard));
+        file.write(reinterpret_cast<char*>(&player[index].currentRoom), sizeof(player[index].currentRoom));
+        file.write(reinterpret_cast<char*>(&player[index].rooms), sizeof(player[index].rooms));
+        file.write(reinterpret_cast<char*>(&player[index].monsters), sizeof(player[index].monsters));
+        file.write(reinterpret_cast<char*>(&player[index].bosses), sizeof(player[index].bosses));
+        file.write(reinterpret_cast<char*>(&player[index].crafted), sizeof(player[index].crafted));
+        file.write(reinterpret_cast<char*>(&player[index].deaths), sizeof(player[index].deaths));
+        for (int i= 0; i < 500; i++)
+        {
+            file.write(reinterpret_cast<char*>(&player[index].weapons[i]), sizeof(player[index].weapons[i]));
+            file.write(reinterpret_cast<char*>(&player[index].armor[i]), sizeof(player[index].armor[i]));
+        }
+        file.close();
+        std::cout << "\n\n\032mDer Spielsatand wurde erfolgreich gespeichert\033[0m" << std::endl;
+        getKey();
     }
     return;
 }
