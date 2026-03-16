@@ -44,7 +44,7 @@ class Player
         double manaPotion{};
         double healthPotion{};
         double regenPotion{};
-        double resurrectionPoition{};
+        double resurrectionPotion{};
         double weaponDmg{};
         double armorDmgReduce{};
         double weapons[500];

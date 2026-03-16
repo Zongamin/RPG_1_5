@@ -888,7 +888,7 @@ bool capacityCheck(Player player[], short roundManager, double weight, short num
     return true;
 }
 
-// Funktion zum erstellen von Spielständen
+// Funktion zum erstellen von Spielständen (OMG! SYS 64738)
 
 void saveGame(Player player[], short numberOfPlayers, short roundManager) 
 {
@@ -948,7 +948,7 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
         file.write(reinterpret_cast<char*>(&player[index].dexterity), sizeof(player[index].dexterity));
         file.write(reinterpret_cast<char*>(&player[index].luck), sizeof(player[index].luck));
         file.write(reinterpret_cast<char*>(&player[index].endurance), sizeof(player[index].endurance));
-        file.write(reinterpret_cast<char*>(&player[index].skillpoints), sizeof(player[index].skillpoints));
+        file.write(reinterpret_cast<char*>(&player[index].skillPoints), sizeof(player[index].skillPoints));
         file.write(reinterpret_cast<char*>(&player[index].actionPoints), sizeof(player[index].actionPoints));
         file.write(reinterpret_cast<char*>(&player[index].realActionPoints), sizeof(player[index].realActionPoints));
         file.write(reinterpret_cast<char*>(&player[index].key), sizeof(player[index].key));
@@ -959,10 +959,10 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
         file.write(reinterpret_cast<char*>(&player[index].scrapMetal), sizeof(player[index].scrapMetal));
         file.write(reinterpret_cast<char*>(&player[index].aluminum), sizeof(player[index].aluminum));
         file.write(reinterpret_cast<char*>(&player[index].copper), sizeof(player[index].copper));
-        file.write(reinterpret_cast<char*>(&player[index].manaPoition), sizeof(player[index].manaPoition));
-        file.write(reinterpret_cast<char*>(&player[index].healthPoition), sizeof(player[index].healthPotion));
-        file.write(reinterpret_cast<char*>(&player[index].regenPoition), sizeof(player[index].regenPoition));
-        file.write(reinterpret_cast<char*>(&player[index].ressurrectionPoition), sizeof(player[index].ressurrectionPotion));
+        file.write(reinterpret_cast<char*>(&player[index].manaPotion), sizeof(player[index].manaPotion));
+        file.write(reinterpret_cast<char*>(&player[index].healthPotion), sizeof(player[index].healthPotion));
+        file.write(reinterpret_cast<char*>(&player[index].regenPotion), sizeof(player[index].regenPotion));
+        file.write(reinterpret_cast<char*>(&player[index].resurrectionPotion), sizeof(player[index].resurrectionPotion));
         file.write(reinterpret_cast<char*>(&player[index].weaponDmg), sizeof(player[index].weaponDmg));
         file.write(reinterpret_cast<char*>(&player[index].armorDmgReduce), sizeof(player[index].armorDmgReduce));
         file.write(reinterpret_cast<char*>(&player[index].fireAura), sizeof(player[index].fireAura));
