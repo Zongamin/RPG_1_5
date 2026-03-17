@@ -972,7 +972,7 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
         file.write(reinterpret_cast<char*>(&player[index].specialRoom), sizeof(player[index].specialRoom));
         file.write(reinterpret_cast<char*>(&player[index].escape), sizeof(player[index].escape));
         file.write(reinterpret_cast<char*>(&player[index].block), sizeof(player[index].block));
-        file.write(reinterpret_cast<char*>(&player[index].roomCleard), sizeof(player[index].roomCleard));
+        file.write(reinterpret_cast<char*>(&player[index].roomCleared), sizeof(player[index].roomCleared));
         file.write(reinterpret_cast<char*>(&player[index].currentRoom), sizeof(player[index].currentRoom));
         file.write(reinterpret_cast<char*>(&player[index].rooms), sizeof(player[index].rooms));
         file.write(reinterpret_cast<char*>(&player[index].monsters), sizeof(player[index].monsters));

@@ -960,7 +960,7 @@ void magicMenue(Player player[], short roundManager)
 
 // Spielmenü zum Speichern und beenden
 
-void menue (Player player[], short roundManager)
+void menue (Player player[], short numberOfPlayers, short roundManager)
 {
     bool running = true;
     bool answer;
@@ -980,7 +980,7 @@ void menue (Player player[], short roundManager)
         switch(input)
         {
             case 1:
-                saveGame();
+                saveGame(player, numberOfPlayers, roundManager);
                 continue;
 
             case 2:
@@ -1113,7 +1113,7 @@ void roomOptions(Player player[], Enemy enemy[], Log log, short roundManager, sh
                 break;
             
             case 8:
-                menue(player, roundManager);
+                menue(player, numberOfPlayers, roundManager);
                 break;
 
             default:
