@@ -11,6 +11,7 @@
 #include <windows.h>
 #include <algorithm>
 #include <random>
+#include <filesystem>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Enemy.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Main.cpp>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Headlines.h>
@@ -892,16 +893,22 @@ bool capacityCheck(Player player[], short roundManager, double weight, short num
 
 void saveGame(Player player[], short numberOfPlayers, short roundManager) 
 {
-    std::string fileName = "nofile";
+    std::string pathOne = "RPGsave01.dat";
+    std::string pathTwo = "RPGsave02.dat";
+    std::string pathThree = "RPGsave03.dat";
+    std::string fileName = "noFile";
+    bool fileOne = false;
+    bool fileTwo = false;
+    bool fileThree = false;
     
     clearScreen();
     textSave();
     line();
-    std::cout << "\n\033[47;30m[ 1 ]\033[0m ------> Spielstand 1 :" << std::endl;
+    std::cout << "\n\033[47;30m[ 1 ]\033[0m ------> Spielstand 1 : "; if (std::filesystem::exists(pathOne)) { std::cout << " existent"; fileOne = true; } std::cout << std::endl;
     line();
-    std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand 2 :" << std::endl;
+    std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand 2 : "; if (std::filesystem::exists(pathTwo)) { std::cout << " existent"; fileTwo = true; } std::cout << std::endl;
     line();
-    std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spielstand 3 :" << std::endl;
+    std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spielstand 3 : "; if (std::filesystem::exists(pathThree)) { std::cout << " existent"; fileThree = true; } std::cout << std::endl;
     line();
     std::cout << "\n\033[47;30m[ 4 ]\033[0m ------> Zurueck" << std::endl;
     
@@ -910,12 +917,30 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
     switch(input)
     {
         case 1:
+            if (fileOne == true)
+            {
+                std::cout << "\n\033[31mAchtung! Es existiert bereits ein Spielstand in diesem Slot. Wenn Sie fortfahren wird dieser ueberschrieben! Sind Sie sicher? (J/N)\033[0m" << std::endl;
+                bool answer = question();
+                if (answer == false) { return; }
+            }
             fileName = "RPGsave01.dat";
             break;
         case 2:
+            if (fileTwo == true)
+            {
+                std::cout << "\n\033[31mAchtung! Es existiert bereits ein Spielstand in diesem Slot. Wenn Sie fortfahren wird dieser ueberschrieben! Sind Sie sicher? (J/N)\033[0m" << std::endl;
+                bool answer = question();
+                if (answer == false) { return; }
+            }
             fileName = "RPGsave02.dat";
             break;
         case 3:
+            if (fileThree == true)
+            {
+                std::cout << "\n\033[31mAchtung! Es existiert bereits ein Spielstand in diesem Slot. Wenn Sie fortfahren wird dieser ueberschrieben! Sind Sie sicher? (J/N)\033[0m" << std::endl;
+                bool answer = question();
+                if (answer == false) { return; }
+            }
             fileName = "RPGsave03.dat";
             break;
         case 4:
@@ -985,38 +1010,142 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
             file.write(reinterpret_cast<char*>(&player[index].armor[i]), sizeof(player[index].armor[i]));
         }
         file.close();
-        std::cout << "\n\n\032mDer Spielsatand wurde erfolgreich gespeichert\033[0m" << std::endl;
+        std::cout << "\n\n\033[32mDer Spielsatand wurde erfolgreich gespeichert\033[0m" << std::endl;
         getKey();
+        break;
     }
     return;
 }
 
 // Funktion zuzm laden von Spielständen
 
-void loadGame()
+bool loadGame()
 {
+    std::string pathOne = "RPGsave01.dat";
+    std::string pathTwo = "RPGsave02.dat";
+    std::string pathThree = "RPGsave03.dat";
+    std::string fileName = "noFile";
+    bool fileOne = false;
+    bool fileTwo = false;
+    bool fileThree = false;
+    
     clearScreen();
-    textLoad();
+    textSave();
     line();
-    std::cout << "\n\033[47;30m[ 1 ]\033[0m ------> Spielstand 1 :" << std::endl;
+    std::cout << "\n\033[47;30m[ 1 ]\033[0m ------> Spielstand 1 : "; if (std::filesystem::exists(pathOne)) { std::cout << " existent"; fileOne = true; } std::cout << std::endl;
     line();
-    std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand 2 :" << std::endl;
+    std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand 2 : "; if (std::filesystem::exists(pathTwo)) { std::cout << " existent"; fileTwo = true; } std::cout << std::endl;
     line();
-    std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spielstand 3 :" << std::endl;
+    std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spielstand 3 : "; if (std::filesystem::exists(pathThree)) { std::cout << " existent"; fileThree = true; } std::cout << std::endl;
     line();
     std::cout << "\n\033[47;30m[ 4 ]\033[0m ------> Zurueck" << std::endl;
+    
     short input = choice();
+    
     switch(input)
     {
         case 1:
+            if (fileOne == false)
+            {
+                std::cout << "\n\033[31mIn Slot 1 existiert kein Spielstand!\033[0m" << std::endl;
+                getKey();
+                return false;
+            }
+            fileName = "RPGsave01.dat";
+            break;
         
+        case 2:
+            if (fileTwo == false)
+            {
+                std::cout << "\n\033[31mIn Slot 2 existiert kein Spielstand!\033[0m" << std::endl;
+                getKey();
+                return false;
+            }
+            fileName = "RPGsave02.dat";
+            break;
+        
+        case 3:
+            if (fileThree == false)
+            {
+                std::cout << "\n\033[31mIn Slot 3 existiert kein Spielstand!\033[0m" << std::endl;
+                getKey();
+                return false;
+            }
+            fileName = "RPGsave03.dat";
+            break;
+
         case 4:
-            return;
+            return false;
         
         default:
             error(0);
     }
-    return;
+    std::ifstream file(fileName, std::ios::binary);
+    if (!file) { error(8); getKey(); return false; }
+
+    file.read(reinterpret_cast<char*>(&numberOfPlayers), sizeof(numberOfPlayers));
+    file.read(reinterpret_cast<char*>(&roundManager), sizeof(roundManager));
+    
+    for(int index = 0; index < 4; index++)
+    {
+        size_t name =  player[index].getName().size();
+
+        file.read(reinterpret_cast<char*>(&name), sizeof(name));
+        file.read(reinterpret_cast<char*>(&player[index].level), sizeof(player[index].level));
+        file.read(reinterpret_cast<char*>(&player[index].exp), sizeof(player[index].exp));
+        file.read(reinterpret_cast<char*>(&player[index].realExp), sizeof(player[index].realExp));
+        file.read(reinterpret_cast<char*>(&player[index].health), sizeof(player[index].health));
+        file.read(reinterpret_cast<char*>(&player[index].realHealth), sizeof(player[index].realHealth));
+        file.read(reinterpret_cast<char*>(&player[index].mana), sizeof(player[index].mana));
+        file.read(reinterpret_cast<char*>(&player[index].realMana), sizeof(player[index].realMana));
+        file.read(reinterpret_cast<char*>(&player[index].strength), sizeof(player[index].strength));
+        file.read(reinterpret_cast<char*>(&player[index].intelligence), sizeof(player[index].intelligence));
+        file.read(reinterpret_cast<char*>(&player[index].dexterity), sizeof(player[index].dexterity));
+        file.read(reinterpret_cast<char*>(&player[index].luck), sizeof(player[index].luck));
+        file.read(reinterpret_cast<char*>(&player[index].endurance), sizeof(player[index].endurance));
+        file.read(reinterpret_cast<char*>(&player[index].skillPoints), sizeof(player[index].skillPoints));
+        file.read(reinterpret_cast<char*>(&player[index].actionPoints), sizeof(player[index].actionPoints));
+        file.read(reinterpret_cast<char*>(&player[index].realActionPoints), sizeof(player[index].realActionPoints));
+        file.read(reinterpret_cast<char*>(&player[index].key), sizeof(player[index].key));
+        file.read(reinterpret_cast<char*>(&player[index].capacity), sizeof(player[index].capacity));
+        file.read(reinterpret_cast<char*>(&player[index].realCapacity), sizeof(player[index].realCapacity));
+        file.read(reinterpret_cast<char*>(&player[index].gold), sizeof(player[index].gold));
+        file.read(reinterpret_cast<char*>(&player[index].herbs), sizeof(player[index].herbs));
+        file.read(reinterpret_cast<char*>(&player[index].scrapMetal), sizeof(player[index].scrapMetal));
+        file.read(reinterpret_cast<char*>(&player[index].aluminum), sizeof(player[index].aluminum));
+        file.read(reinterpret_cast<char*>(&player[index].copper), sizeof(player[index].copper));
+        file.read(reinterpret_cast<char*>(&player[index].manaPotion), sizeof(player[index].manaPotion));
+        file.read(reinterpret_cast<char*>(&player[index].healthPotion), sizeof(player[index].healthPotion));
+        file.read(reinterpret_cast<char*>(&player[index].regenPotion), sizeof(player[index].regenPotion));
+        file.read(reinterpret_cast<char*>(&player[index].resurrectionPotion), sizeof(player[index].resurrectionPotion));
+        file.read(reinterpret_cast<char*>(&player[index].weaponDmg), sizeof(player[index].weaponDmg));
+        file.read(reinterpret_cast<char*>(&player[index].armorDmgReduce), sizeof(player[index].armorDmgReduce));
+        file.read(reinterpret_cast<char*>(&player[index].fireAura), sizeof(player[index].fireAura));
+        file.read(reinterpret_cast<char*>(&player[index].regenerationOn), sizeof(player[index].regenerationOn));
+        file.read(reinterpret_cast<char*>(&player[index].traps), sizeof(player[index].traps));
+        file.read(reinterpret_cast<char*>(&player[index].permaDeath), sizeof(player[index].permaDeath));
+        file.read(reinterpret_cast<char*>(&player[index].specialRoom), sizeof(player[index].specialRoom));
+        file.read(reinterpret_cast<char*>(&player[index].escape), sizeof(player[index].escape));
+        file.read(reinterpret_cast<char*>(&player[index].block), sizeof(player[index].block));
+        file.read(reinterpret_cast<char*>(&player[index].roomCleared), sizeof(player[index].roomCleared));
+        file.read(reinterpret_cast<char*>(&player[index].currentRoom), sizeof(player[index].currentRoom));
+        file.read(reinterpret_cast<char*>(&player[index].rooms), sizeof(player[index].rooms));
+        file.read(reinterpret_cast<char*>(&player[index].monsters), sizeof(player[index].monsters));
+        file.read(reinterpret_cast<char*>(&player[index].bosses), sizeof(player[index].bosses));
+        file.read(reinterpret_cast<char*>(&player[index].crafted), sizeof(player[index].crafted));
+        file.read(reinterpret_cast<char*>(&player[index].deaths), sizeof(player[index].deaths));
+        for (int i= 0; i < 500; i++)
+        {
+            file.read(reinterpret_cast<char*>(&player[index].weapons[i]), sizeof(player[index].weapons[i]));
+            file.read(reinterpret_cast<char*>(&player[index].armor[i]), sizeof(player[index].armor[i]));
+        }
+        file.close();
+        std::cout << "\n\n\033[32mDer Spielsatand wurde erfolgreich geladen\033[0m" << std::endl;
+        
+        getKey();
+        break;
+    }
+    return true;
 }
 
 // Ausgabe Tod des Spielers

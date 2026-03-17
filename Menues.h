@@ -964,6 +964,7 @@ void menue (Player player[], short numberOfPlayers, short roundManager)
 {
     bool running = true;
     bool answer;
+    bool loaded = true;
     
     while(running)
     {
