@@ -71,53 +71,55 @@ int main()
     
     // Gamemenue mit Spielerinitialisierung
 
-    gameMenue(player, numberOfPlayers);
+    bool loaded = gameMenue(player, roundManager, numberOfPlayers);
     
     // Erste Werteverteilung der Spieler
-
-    for (; roundManager < numberOfPlayers; roundManager++)
+    if (!loaded)
     {
-    characterMenue(player, roundManager);
-    break; 
-    }
-    roundManager = 0;
-
-    // Eingangsraum
-      
-    for (; roundManager < numberOfPlayers; roundManager++)
-    {
-        bool running = true;
-        short zone = 1;
-
-        backgroundColor(1);
-        clearScreen();
-        textPlayer();
-        getNumber(roundManager);
-        line();
-        std::cout << "\n\n                             \033[32;40m *** Spieler " << player[roundManager].getName() << " ist jetzt am Zug! *** " << "\033[102m \n";
-        getKey();
-        backgroundColor(0);
-        
-        if (zone > 1) 
-            {
-                trapCall(player, roundManager, zone);
-            }
-
-        while (running)
+        for (; roundManager < numberOfPlayers; roundManager++)
         {
-            roomOptions(player, enemy, log, roundManager, zone, numberOfPlayers);
-            running = false;
-            player[roundManager].roomCleared = false;
-            player[roundManager].realActionPoints = player[roundManager].actionPoints;
-            player[roundManager].traps = 0;
+        characterMenue(player, roundManager);
+        break; 
+        }
+        roundManager = 0;
+
+        // Eingangsraum
+        
+        for (; roundManager < numberOfPlayers; roundManager++)
+        {
+            bool running = true;
+            short zone = 1;
+
+            backgroundColor(1);
+            clearScreen();
+            textPlayer();
+            getNumber(roundManager);
+            line();
+            std::cout << "\n\n                             \033[32;40m *** Spieler " << player[roundManager].getName() << " ist jetzt am Zug! *** " << "\033[102m \n";
+            getKey();
+            backgroundColor(0);
+            
+            if (zone > 1) 
+                {
+                    trapCall(player, roundManager, zone);
+                }
+
+            while (running)
+            {
+                roomOptions(player, enemy, log, roundManager, zone, numberOfPlayers);
+                running = false;
+                player[roundManager].roomCleared = false;
+                player[roundManager].realActionPoints = player[roundManager].actionPoints;
+                player[roundManager].traps = 0;
+                break;
+            }
             break;
         }
-        break;
+        roundManager = 0;    
+        player[roundManager].currentRoom = random(1, roomNumbers);
     }
-    roundManager = 0;    
-    player[roundManager].currentRoom = random(1, roomNumbers);
-
-    // Endlosspiel
+    
+// Endlosspiel
 
 bool playGame = true;
 

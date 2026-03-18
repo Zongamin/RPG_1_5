@@ -1019,7 +1019,7 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
 
 // Funktion zuzm laden von Spielständen
 
-bool loadGame()
+bool loadGame(Player player[], short numberOfPlayers, short roundManager)
 {
     std::string pathOne = "RPGsave01.dat";
     std::string pathTwo = "RPGsave02.dat";
@@ -1167,7 +1167,7 @@ void death(Player player[], short roundManager, short numberOfPlayers)
     bool answer = question();
     if (answer == true)
     {
-        loadGame();
+        loadGame(player, numberOfPlayers, roundManager);
     } 
     exit(0);
 }

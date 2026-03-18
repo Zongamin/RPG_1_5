@@ -39,10 +39,14 @@ bool isRoomValid(int room)
     return false;
 }
 
-void gameMenue(Player player[], short& numberOfPlayers)
+bool gameMenue(Player player[], short roundManager, short numberOfPlayers)
 {
-        bool running = true;
-        int trueOrFalse;
+    bool loaded = false;    
+    bool running = true;
+    int trueOrFalse;
+    
+    if (!loaded)
+    {
 
         while(running)
         { 
@@ -117,8 +121,8 @@ void gameMenue(Player player[], short& numberOfPlayers)
 
                 case 4:
             
-                    loadGame();
-                    break;
+                    loaded = loadGame(player, numberOfPlayers, roundManager);
+                    return true;
         
                 case 5:
             
@@ -141,8 +145,11 @@ void gameMenue(Player player[], short& numberOfPlayers)
                     error(0);
                     break;
             }
+        }
     }
+    
     assignment(player, numberOfPlayers);
+    return false;
 }
 
 void characterMenue(Player player[], short roundManager)
@@ -964,43 +971,46 @@ void menue (Player player[], short numberOfPlayers, short roundManager)
 {
     bool running = true;
     bool answer;
-    bool loaded = true;
+    bool loaded = false;
     
-    while(running)
+    if (!loaded)
     {
-        clearScreen();
-        textMenue();
-        line();
-        std::cout << "\n\033[47;30m[ 1 ]\033[0m ------> Spielstand speichern" << std::endl;
-        std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand laden" << std::endl;
-        std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spiel beenden" << std::endl;
-        std::cout << "\n\033[47;30m[ 4 ]\033[0m ------> Zurueck zum Spiel" << std::endl;
-        
-        short input = choice();
-        
-        switch(input)
+        while(running)
         {
-            case 1:
-                saveGame(player, numberOfPlayers, roundManager);
-                continue;
+            clearScreen();
+            textMenue();
+            line();
+            std::cout << "\n\033[47;30m[ 1 ]\033[0m ------> Spielstand speichern" << std::endl;
+            std::cout << "\n\033[47;30m[ 2 ]\033[0m ------> Spielstand laden" << std::endl;
+            std::cout << "\n\033[47;30m[ 3 ]\033[0m ------> Spiel beenden" << std::endl;
+            std::cout << "\n\033[47;30m[ 4 ]\033[0m ------> Zurueck zum Spiel" << std::endl;
+        
+            short input = choice();
+        
+            switch(input)
+            {
+                case 1:
+                    saveGame(player, numberOfPlayers, roundManager);
+                    continue;
 
-            case 2:
-                loadGame();
-                continue;
+                case 2:
+                    loaded = loadGame(player, numberOfPlayers, roundManager);
+                    continue;
             
-            case 3:
-                std::cout << "\n\033[31mSind Sie sicher, dass Sie das Spiel beenden moechten? (J/N)\033[0m" << std::endl;
-                answer = question();
-                if (answer == true) {std::cout << "\nHaben Sie noch einen schoenen Tag! Auf Wiedersehen :)" << std::endl; getKey(); exit(0);}
-                continue;
+                case 3:
+                    std::cout << "\n\033[31mSind Sie sicher, dass Sie das Spiel beenden moechten? (J/N)\033[0m" << std::endl;
+                    answer = question();
+                    if (answer == true) {std::cout << "\nHaben Sie noch einen schoenen Tag! Auf Wiedersehen :)" << std::endl; getKey(); exit(0);}
+                    continue;
             
-            case 4:
-                running = false;
-                break;
+                case 4:
+                    running = false;
+                    break;
 
-            default:
-                error(0);
-                continue;
+                default:
+                    error(0);
+                    continue;
+            }
         }
     }
     return;
