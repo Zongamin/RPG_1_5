@@ -202,7 +202,7 @@ void roomTexts(int room)
                 textPosition(58, 11); std::cout << "Etwas furchtbar boeses koennte darin lauern... wie zum Beispiel eine gelangweilte";
                 textPosition(58, 12); std::cout << "Fledermaus, die Ihr gerade beim Mittagsschlaf gestoert habt, oder schlimmer: Oglahr,";
                 textPosition(58, 13); std::cout << "der Dungeon-Hausmeister, der gerade seine Mittagspause machen will. Die Situation";
-                textPosition(58, 14); std::cout << "riecht geradezu förmlich nach Gefahr.... Eventuell ist es aber auch nur die Oger-";
+                textPosition(58, 14); std::cout << "riecht geradezu foermlich nach Gefahr.... Eventuell ist es aber auch nur die Oger-";
                 textPosition(58, 15); std::cout << "Socke die dort in der Ecke liegt. Genau weiss man es wohl nur, wenn man es genauer";
                 textPosition(58, 16); std::cout << "ueberpruefen wuerde, die Frage ist: Haben Sie den Schneid dazu, oder lassen Sie es";
                 textPosition(58, 17); std::cout << "vorerst lieber bleiben und trinken erst mal eine lauwarme Cervesia zum runterkommen.";

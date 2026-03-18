@@ -3006,6 +3006,7 @@ void needMaterial(std::string name)
 
 void forgeWeaponArmor(Player player[], short roundManager, short room, std::string sortOf)
 {
+    short input = 0;
     bool running = true;
     bool dispose = false;
     bool answer = false;
@@ -3036,7 +3037,7 @@ void forgeWeaponArmor(Player player[], short roundManager, short room, std::stri
         position(45, 38); std::cout << "\033[104;30m[ 2 ]\033[0m ------> \033[94mBesonders\033[0m\n" << std::endl;
         position(45, 40); std::cout << "\033[105;30m[ 3 ]\033[0m ------> \033[95mBestmoeglich\033[0m\n" << std::endl;
 
-        short input = choice();
+        input = choice();
         switch(input)
         {
         
