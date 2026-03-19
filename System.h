@@ -891,7 +891,7 @@ bool capacityCheck(Player player[], short roundManager, double weight, short num
 
 // Funktion zum erstellen von Spielständen (OMG! SYS 64738)
 
-void saveGame(Player player[], short numberOfPlayers, short roundManager) 
+void saveGame(Player player[], short numberOfPlayers, short roundManager, short zone) 
 {
     std::string pathOne = "RPGsave01.dat";
     std::string pathTwo = "RPGsave02.dat";
@@ -955,12 +955,16 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
 
     file.write(reinterpret_cast<char*>(&numberOfPlayers), sizeof(numberOfPlayers));
     file.write(reinterpret_cast<char*>(&roundManager), sizeof(roundManager));
+    file.write(reinterpret_cast<char*>(&zone), sizeof(zone));
     
     for(int index = 0; index < 4; index++)
     {
-        size_t name =  player[index].getName().size();
+        const std::string& name = player[index].getName();
+        size_t length = name.size();
 
-        file.write(reinterpret_cast<char*>(&name), sizeof(name));
+        file.write(reinterpret_cast<const char*>(&length), sizeof(length));
+        file.write(name.c_str(), length);
+        
         file.write(reinterpret_cast<char*>(&player[index].level), sizeof(player[index].level));
         file.write(reinterpret_cast<char*>(&player[index].exp), sizeof(player[index].exp));
         file.write(reinterpret_cast<char*>(&player[index].realExp), sizeof(player[index].realExp));
@@ -1019,7 +1023,7 @@ void saveGame(Player player[], short numberOfPlayers, short roundManager)
 
 // Funktion zuzm laden von Spielständen
 
-bool loadGame(Player player[], short numberOfPlayers, short roundManager)
+bool loadGame(Player player[], short numberOfPlayers, short roundManager, short zone)
 {
     std::string pathOne = "RPGsave01.dat";
     std::string pathTwo = "RPGsave02.dat";
@@ -1085,12 +1089,17 @@ bool loadGame(Player player[], short numberOfPlayers, short roundManager)
 
     file.read(reinterpret_cast<char*>(&numberOfPlayers), sizeof(numberOfPlayers));
     file.read(reinterpret_cast<char*>(&roundManager), sizeof(roundManager));
+    file.read(reinterpret_cast<char*>(&zone), sizeof(zone));
     
     for(int index = 0; index < 4; index++)
     {
-        size_t name =  player[index].getName().size();
+        size_t length;
+        file.read(reinterpret_cast<char*>(&length), sizeof(length));
+        std::string name;
+        name.resize(length);
+        file.read(&name[0], length);
+        player[index].setName(name);
 
-        file.read(reinterpret_cast<char*>(&name), sizeof(name));
         file.read(reinterpret_cast<char*>(&player[index].level), sizeof(player[index].level));
         file.read(reinterpret_cast<char*>(&player[index].exp), sizeof(player[index].exp));
         file.read(reinterpret_cast<char*>(&player[index].realExp), sizeof(player[index].realExp));
@@ -1150,7 +1159,7 @@ bool loadGame(Player player[], short numberOfPlayers, short roundManager)
 
 // Ausgabe Tod des Spielers
 
-void death(Player player[], short roundManager, short numberOfPlayers)
+void death(Player player[], short roundManager, short numberOfPlayers, short zone)
 {
     player[roundManager].permaDeath = true;
     clearScreen();
@@ -1167,14 +1176,14 @@ void death(Player player[], short roundManager, short numberOfPlayers)
     bool answer = question();
     if (answer == true)
     {
-        loadGame(player, numberOfPlayers, roundManager);
+        loadGame(player, numberOfPlayers, roundManager, zone);
     } 
     exit(0);
 }
 
 // Ermittelt die verbleibende Anzahl der Fallen des Spielers und löst ggf. Fallen aus
 
-void trapCheck(Player player[], short roundManager, std::string room, short numberOfPlayers)
+void trapCheck(Player player[], short roundManager, std::string room, short numberOfPlayers, short zone)
 {
     double damage = 0;
     double vari = 0;
@@ -1203,7 +1212,7 @@ void trapCheck(Player player[], short roundManager, std::string room, short numb
                 player[roundManager].realHealth = 0;
                 lifeDisplay(player, roundManager, 0, 22);
                 getKey();
-                death(player, roundManager, numberOfPlayers);
+                death(player, roundManager, numberOfPlayers, zone);
                 return;
             }
             lifeDisplay(player, roundManager, 0, 22);
@@ -2002,7 +2011,7 @@ void fight(Enemy enemy[], Player player[], Log& log, short roundManager, short d
     getKey();
     while(running)
     {
-        if (player[roundManager].permaDeath == true) { death(player, roundManager, numberOfPlayers); }
+        if (player[roundManager].permaDeath == true) { death(player, roundManager, numberOfPlayers, dangerZone); }
         if (player[roundManager].escape == true) { player[roundManager].escape = false; return; }
         if (enemy[0].permaDeath + enemy[1].permaDeath + enemy[2].permaDeath + enemy[3].permaDeath + enemy[4].permaDeath == 5) { fightWin(player, enemy, log, roundManager, fighterCounter); return; }
         if (enemy[roundCounter].permaDeath == true && fighterCounter > roundCounter ) { roundCounter++; continue; }
@@ -2070,7 +2079,7 @@ void loot(Player player[], Enemy enemy[], Log& log, short roundManager, short da
     double findItem = 0;
     double experience = 0;
         
-    trapCheck(player, roundManager, "loot", numberOfPlayers);
+    trapCheck(player, roundManager, "loot", numberOfPlayers, dangerZone);
     fighting = fightCheck(player, roundManager, dangerZone);
     if (fighting == true)
     {
@@ -2079,7 +2088,7 @@ void loot(Player player[], Enemy enemy[], Log& log, short roundManager, short da
         {
             if (numberOfPlayers == 1)
             {
-                death(player, roundManager, numberOfPlayers);
+                death(player, roundManager, numberOfPlayers, dangerZone);
                 player[roundManager].roomCleared = true;
                 return;
             }
@@ -2535,7 +2544,7 @@ void trapSearch(Player player[], short roundManager, short danger, short numberO
                 player[roundManager].realHealth = 0;
                 lifeDisplay(player, roundManager, 0, 24);
                 getKey();
-                death(player, roundManager, numberOfPlayers);
+                death(player, roundManager, numberOfPlayers, danger);
                 return;
         }
         lifeDisplay(player, roundManager, 0, 24);
@@ -2574,7 +2583,7 @@ void takeBreak(Player player[],Enemy enemy[], Log& log, short roundManager, shor
         {
             if (numberOfPlayers == 1)
             {
-                death(player, roundManager, numberOfPlayers);
+                death(player, roundManager, numberOfPlayers, danger);
                 player[roundManager].roomCleared = true;
                 return;
             }
@@ -2587,7 +2596,7 @@ void takeBreak(Player player[],Enemy enemy[], Log& log, short roundManager, shor
         if (danger == 3) { x = 17.5; }
         if (zone >= round((25 - x) - player[roundManager].luck) && zone <= round((25 + x) + player[roundManager].luck) || zone >= round((75 - x) - player[roundManager].luck) && zone <= round((75 + x) + player[roundManager].luck))
         {
-            trapCheck(player, roundManager, "sleep", numberOfPlayers);
+            trapCheck(player, roundManager, "sleep", numberOfPlayers, danger);
         }
     }
 
@@ -2756,7 +2765,7 @@ void specialHeader(int room)
 
 // Menü zum Spezialraum "Hebel"
 
-void lever(Player player[], short roundManager, int room, short numberOfPlayers)
+void lever(Player player[], short roundManager, int room, short numberOfPlayers, short zone)
 {
     specialHeader(room);
     if (player[roundManager].specialRoom == true) { std::cout << "\n\033[31mDer Hebel wurde bereits betaetigt und laesst sich jetzt nicht mehr bewegen!\033[0m" << std::endl; getKey(); return; }
@@ -2795,7 +2804,7 @@ void lever(Player player[], short roundManager, int room, short numberOfPlayers)
                         std::cout << "\n\033[31mSie sind bei dieser Aktion leider gestorben!" << std::endl;
                         lifeDisplay(player, roundManager, 0, 30);
                         getKey();
-                        death(player, roundManager, numberOfPlayers);
+                        death(player, roundManager, numberOfPlayers, zone);
                         return;
                     }
                     lifeDisplay(player, roundManager, 0, 30);
@@ -4286,7 +4295,7 @@ void spring(Player player[], short roundManager, short room)
 
 void specialRoom(Player player[], short roundManager, int room, short danger, short numberOfPlayers)
 {
-    if (room == 5) { lever(player, roundManager, room, numberOfPlayers); return; }
+    if (room == 5) { lever(player, roundManager, room, numberOfPlayers, danger); return; }
     if (room == 6) { chest(player, roundManager, room, danger); return; }
     if (room == 9) { forge(player, roundManager, room); return; }
     if (room == 10){ shop(player, roundManager, room); return; }

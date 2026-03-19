@@ -39,7 +39,7 @@ bool isRoomValid(int room)
     return false;
 }
 
-bool gameMenue(Player player[], short roundManager, short numberOfPlayers)
+bool gameMenue(Player player[], short roundManager, short numberOfPlayers, short zone)
 {
     bool loaded = false;    
     bool running = true;
@@ -89,7 +89,7 @@ bool gameMenue(Player player[], short roundManager, short numberOfPlayers)
                     else
                     {
                         error(0);
-                        continue;
+                        break;
                     }
 
                 case 3:
@@ -120,10 +120,9 @@ bool gameMenue(Player player[], short roundManager, short numberOfPlayers)
                     
 
                 case 4:
-            
-                    loaded = loadGame(player, numberOfPlayers, roundManager);
-                    return true;
-        
+                    loaded = loadGame(player, numberOfPlayers, roundManager, zone);
+                    if (!loaded) { break; } else { return loaded; }
+                        
                 case 5:
             
                     std::cout << "\n\nSind Sie sicher, dass Sie das Spiel beenden moechten (J/N)?\n";
@@ -967,7 +966,7 @@ void magicMenue(Player player[], short roundManager)
 
 // Spielmenü zum Speichern und beenden
 
-void menue (Player player[], short numberOfPlayers, short roundManager)
+void menue (Player player[], short numberOfPlayers, short roundManager, short zone)
 {
     bool running = true;
     bool answer;
@@ -990,11 +989,11 @@ void menue (Player player[], short numberOfPlayers, short roundManager)
             switch(input)
             {
                 case 1:
-                    saveGame(player, numberOfPlayers, roundManager);
+                    saveGame(player, numberOfPlayers, roundManager, zone);
                     continue;
 
                 case 2:
-                    loaded = loadGame(player, numberOfPlayers, roundManager);
+                    loaded = loadGame(player, numberOfPlayers, roundManager, zone);
                     continue;
             
                 case 3:
@@ -1124,7 +1123,7 @@ void roomOptions(Player player[], Enemy enemy[], Log log, short roundManager, sh
                 break;
             
             case 8:
-                menue(player, numberOfPlayers, roundManager);
+                menue(player, numberOfPlayers, roundManager, danger);
                 break;
 
             default:

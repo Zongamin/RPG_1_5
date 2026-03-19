@@ -21,6 +21,7 @@ int main()
     const int roomNumbers = 21;
     short numberOfPlayers = 1;
     short roundManager = 0;
+    short zone = 0;
     
     // Initialisierung Player
     
@@ -29,7 +30,7 @@ int main()
     player[1].setName("Maxine Mustermann");
     player[2].setName("Hans Wurst");
     player[3].setName("Helga Wurst");
-
+    
     // Initialisierung Waffen- und Ruestungs - Arrays der Spieler
 
     for (int dex = 0; dex == 3; dex++)
@@ -71,7 +72,7 @@ int main()
     
     // Gamemenue mit Spielerinitialisierung
 
-    bool loaded = gameMenue(player, roundManager, numberOfPlayers);
+    bool loaded = gameMenue(player, roundManager, numberOfPlayers, zone);
     
     // Erste Werteverteilung der Spieler
     if (!loaded)
