@@ -1,10 +1,16 @@
-Hallo an alle, die diese Repository testen und/oder forken möchten eine kurze aber wichtige Info:
-Auf Github wird dieser Code leider nicht funktionieren, da das Terminal auf Github auf Linux basiert, der Code aber unter
-Windows geschrieben wurde und 2 Windows Librarys enthält (#include conio.h / #include windows.h) die hier auch als Fehler
-angezeigt werden, aber für die Funktionalität unbedingt notwendig sind! Des Weiteren enthält er Textfärbungen (z.B.: \033[94m
-oder \033[0m) die nur bedingt bis gar nicht in einer Linux-Derivat - Shell funktionieren! Das Spiel ist auch noch "far from 
-finish" und muss wohl an mancher Stelle mit 'ctrl + c' unterbrochen werden! Benutzung auf eigene Gefahr! ;)
-Ansonsten HF! 
+Hinweis für Nutzer dieses Repositories
 
-Gruß Zongamin
+An alle, die dieses Repository testen oder forken möchten, vorab eine wichtige Information:
 
+Der bereitgestellte Code ist aktuell nicht für die Ausführung auf GitHub geeignet. Dies liegt daran, dass die dort verwendete Terminalumgebung auf Linux basiert, während der Code speziell für Windows entwickelt wurde. Entsprechend werden Windows-spezifische Bibliotheken wie conio.h und windows.h verwendet, die unter Linux nicht unterstützt werden und daher Fehlermeldungen verursachen.
+
+Darüber hinaus enthält das Projekt ANSI-Escape-Sequenzen zur Textformatierung (z. B. \033[94m oder \033[0m), deren Darstellung in Linux-basierten Shells nur eingeschränkt oder gar nicht funktioniert.
+
+Bitte beachten Sie außerdem, dass sich das Projekt noch in einem frühen Entwicklungsstadium („work in progress“) befindet. In einigen Fällen kann es erforderlich sein, das Programm manuell (z. B. mit Strg + C) zu beenden.
+
+Die Nutzung erfolgt daher auf eigene Verantwortung.
+
+Viel Spaß beim Ausprobieren!
+
+Mit freundlichen Grüßen
+D.Bastian
