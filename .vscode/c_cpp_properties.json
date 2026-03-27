@@ -3,7 +3,7 @@
     {
       "name": "windows-gcc-x86",
       "includePath": [
-        "c:/Users/DokBa/Desktop/Work/Game/RPG_1_5"
+        "c:C:/Users/CC-Student/Desktop/Work/Programmieren/RPG_1_5"
       ],
       "defines": [
         "_DEBUG",
@@ -14,7 +14,7 @@
       "cStandard": "c17",
       "cppStandard": "c++17",
       "intelliSenseMode": "windows-gcc-x86",
-      "compilerPath": "C:/MinGW/bin/gcc.exe"
+      "compilerPath": "C:/msys64/ucrt64/bin"
     }
   ],
   "version": 4

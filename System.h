@@ -101,6 +101,8 @@
       - shopSellWeaponsArmor-- Verkaufsmenü für Waffen und Rüstungen zum zugehörigen Spezialraum "Shop"
       - shopSell            -- Menü zum Verkaufen zum zugehörigen Raum "Shop"
       - shop                -- Hauptmenü zum Spezialraum "Shop"
+      - casinoFrame         -- Überschrift für sämtliche Würfelspiel Menüs
+      - dice                -- Würfelspiel Menue
       - casinoRoyal         -- Hauptmenü zum Spezialraum "Casino Royal"
       - specialRoom         -- Funktion zum Aufruf von speziellen Räumen
 
@@ -1850,6 +1852,7 @@ void fightWin(Player player[], Enemy enemy[], Log& log, short roundManager, shor
         mana += round(enemy[index].manaPotion); enemy[index].manaPotion = 0;
         regen += round(enemy[index].regenPoition); enemy[index].regenPoition = 0;
         exp += round(enemy[index].exp); enemy[index].exp = 0;
+        enemy[index].permaDeath = true;
         if (enemy[index].armor > 0) { armor[index] = enemy[index].armor; enemy[index].armor = 0; }
         if (enemy[index].weapons > 0) { weapon[index] = enemy[index].weapons; enemy[index].weapons = 0; }
     }
@@ -4241,11 +4244,91 @@ void shop(Player player[], short roundManager, short room)
     return;        
 }
 
+// Casino Header
+void casinoFrame(Player player[], short roundManager, int dealerGold, short playerBet, short dealerBet, short dealerDiceOne, short dealerDiceTwo)
+{
+    clearScreen();
+    textDice();
+    line();
+    std::cout << "\033[36mSpieler: " << player[roundManager].getName();
+    position(40, 12); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
+    capacityColor(player, roundManager); position(80, 12); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    line();
+    std::cout << "Gold des Croupiers : \033[93m" << dealerGold << "\033[0m                  Gold im Pot: \033[93m" << (playerBet + dealerBet) << "\033[0m                Wurf des Croupiers: " << (dealerDiceOne + dealerDiceTwo) << std::endl;
+    line();
+    return;
+}
+
+// Würfelfunktion
+
+void
+
+// Würfelspiel Menue
+
+void dice(Player player[], short roundManager)
+{
+    bool running = true;
+    bool betSet = false;
+    static int dealerGold = 2000;
+    short playerBet = 0;
+    short dealerBet = 0;
+    short playerDiceOne = 0;
+    short playerDiceTwo = 0;
+    short dealerDiceOne = 0;
+    short dealerDiceTwo = 0;
+
+    while(running)
+    {
+        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, dealerDiceOne, dealerDiceTwo);
+        if (betSet == false)
+        {
+        std::cout << "Wie viel Gold moechten Sie setzen? ( 0 - " << player[roundManager].gold << ") ? ";
+        std::cin >> playerBet;
+        if (std::cin.fail()) { cinFail(); continue; }
+        if (playerBet <= 0) { return;}
+        if (playerBet > player[roundManager].gold) { std::cout << "Sie haben nicht genug Gold!" << std::endl; getKey(); continue; }
+        if (playerBet > dealerGold) { std::cout << "Der Croupier hat nicht genug Gold, um mit Ihren Einsatz mitzugehen!" << std::endl; getKey(); continue; }
+        dealerBet = playerBet;
+        player[roundManager].gold = player[roundManager].gold - playerBet;
+        dealerGold = dealerGold - dealerBet;
+        std::cout << "Sind Sie mit Ihrer Wette zufrieden? (J/N)" << std::endl;
+        bool answer = question();
+        if (answer == false) { continue;}
+        betSet = true; 
+        continue;
+        }
+        std::cout << "Der Croupier wuerfelt....." << std::endl;
+        getKey();
+        aleaIactaEst(dealerDiceOne, dealerDiceTwo);
+        return;
+    }
+}
+
 // Hauptmenue zum spezialraum "Casino Royal"
 
 void casinoRoyal(Player player[], short roundManager, short room)
 {
     specialHeader(room);
+    headShop(player, roundManager);
+    std::cout << "Was moechten Sie tun?" << std::endl;
+    line();
+    std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\n" << std::endl;
+    std::cout << "\033[37;44m[ 1 ]\033[0m ------> \033[34mWuerfelspiel\033[0m\n" << std::endl;
+    std::cout << "\033[37;104m[ 2 ]\033[0m ------> \033[94mBlack Jack\033[0m\n" << std::endl;
+    int input = choice();
+    switch(input)
+    {
+        case 0:
+            return;
+
+        case 1:
+            dice(player, roundManager);
+            return;
+
+        case 2:
+           
+            return;
+    } 
     return;
 }
 

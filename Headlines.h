@@ -6,11 +6,11 @@
 /* Inhaltsverzeichnis:
      Schriftzugdatei. Funktionen als Überschriften selbsterklärend
 
-    - textMainMenue     - textFight         - textMenue     - textMetal     - textDismantle
-    - textCharacter     - textInventory     - textSearch    - textArmor     - textRising
-    - textPlayer        - textMagic         - textTrap      - textWeapons   - textTitle
-    - textLevelUp       - textSave          - textBreak     - textDisposal  - textEnd
-    - textExpUp         - textLoad          - textPotion    - textSpecial   - textDeath
+    - textMainMenue     - textFight         - textMenue     - textMetal     - textDismantle     - textEnd
+    - textCharacter     - textInventory     - textSearch    - textArmor     - textBooty         - textDeath
+    - textPlayer        - textMagic         - textTrap      - textWeapons   - textDice
+    - textLevelUp       - textSave          - textBreak     - textDisposal  - textRising
+    - textExpUp         - textLoad          - textPotion    - textSpecial   - textTitle     
     */
 
 void textMainMenue()
@@ -295,6 +295,20 @@ void textBooty()
     return;
 }
 
+void textDice()
+{
+    std::cout << "\033[36m __      __   __  __            ___       ___                               ___            	                \n";
+    std::cout << "/\\ \\  __/\\ \\ /\\_\\ \\_\\         /'___\\     /\\_ \\                   __        /\\_ \\     	                \n";
+    std::cout << "\\ \\ \\/\\ \\ \\ \\\\/_/\\/_/_  _ __ /\\ \\__/   __\\//\\ \\     ____  _____ /\\_\\     __\\//\\ \\                  \n";
+    std::cout << " \\ \\ \\ \\ \\ \\ \\ /\\ \\/\\ \\/\\`'_\\\\ \\ ,__\\/'__`\\\\ \\ \\   /',__\\/\\ '__`\\/\\ \\  /'__`\\\\ \\ \\   	\n";
+    std::cout << "  \\ \\ \\_/ \\_\\ \\\\ \\ \\_\\ \\ \\ \\/ \\ \\ \\_/\\  __/ \\_\\ \\_/\\__, `\\ \\ \\L\\ \\ \\ \\/\\  __/ \\_\\ \\_ 	\n";
+    std::cout << "   \\ `\\___x___/ \\ `\\___/\\ \\_\\  \\ \\_\\\\ \\____\\/\\____\\/\\____/\\ \\ ,__/\\ \\_\\ \\____\\/\\____\\	    \n";
+    std::cout << "    '\\/__//__/   `\\/__/  \\/_/   \\/_/ \\/____/\\/____/\\/___/  \\ \\ \\/  \\/_/\\/____/\\/____/	                \n";
+    std::cout << "                                                            \\ \\_\\                                               	\n";
+    std::cout << "                                                             \\/_/                                             \033[0m\n";
+    return;
+}
+
 void textRising()
 {
     std::cout << "\033[36m __________ .__         .__                     _________                  __                                  \n";
@@ -332,11 +346,11 @@ void textTitle()
     std::cout << " #::::::#     #:::::##::::::::#             ##:::::::::::::::#     #::::::::::#  ######   ##:::::::::::::##           \n"; 
     std::cout << " #::::::#     #:::::##::::::::#               ###::::::###:::#     #::::::::::#  #::::#     ##:::::::::##             \n";   
     std::cout << " ########     #################                  ######   ####     ############  ######       #########        \033[0m\n";  
-    std::cout << "\n\n                                       Written in 2023/2026 by \033[34mZongamin                            \033[0m\n";
+    std::cout << "\n\n                                       Written in 2024/2026 by \033[34mZongamin                            \033[0m\n";
     std::cout << "\n                                       Music, Sounds & Advisory: \033[33mDecade                               \033[0m\n";
     std::cout << "\n                                       \033[92mChris\033[0m,\033[95m Herr Lehmann\033[0m and \033[93mHerr Holz\033[0m\n";
     std::cout << "\n                                          Special Thanks to ChatGPT                                                 \n";
-    std::cout << "\n                                               © in 2023/24 by                                                  \n\n\n";
+    std::cout << "\n                                               © in 2024/2026 by                                                  \n\n\n";
     return;
 }
 
