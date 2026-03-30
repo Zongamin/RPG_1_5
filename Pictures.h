@@ -18,7 +18,9 @@
                         -- case 1 goblin
                         -- case 2 orc
                         -- case 3 oger
-                        -- case 4 killerRabbit   */
+                        -- case 4 killerRabbit   
+        
+        - diceFrame     -- Würfelrahmen */
 
 void positioning(int x, int y)
 {
@@ -797,8 +799,14 @@ void playerAttackText(int coincidence)
     }
 }
 
-void enemyAttackText()
+void diceFrame()
 {
+    std::cout << "         _______     _______        \n";
+    std::cout << "        |       |   |       |       \n";
+    std::cout << "        |       |   |       |       \n";
+    std::cout << "        |       |   |       |       \n";
+    std::cout << "        |       |   |       |       \n";
+    std::cout << "        |_______|   |_______|   \n\n\n";
     return;
 }
 

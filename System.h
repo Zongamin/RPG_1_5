@@ -4245,7 +4245,7 @@ void shop(Player player[], short roundManager, short room)
 }
 
 // Casino Header
-void casinoFrame(Player player[], short roundManager, int dealerGold, short playerBet, short dealerBet, short dealerDiceOne, short dealerDiceTwo)
+void casinoFrame(Player player[], short roundManager, int dealerGold, short playerBet, short dealerBet)
 {
     clearScreen();
     textDice();
@@ -4254,14 +4254,50 @@ void casinoFrame(Player player[], short roundManager, int dealerGold, short play
     position(40, 12); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
     capacityColor(player, roundManager); position(80, 12); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
     line();
-    std::cout << "Gold des Croupiers : \033[93m" << dealerGold << "\033[0m                  Gold im Pot: \033[93m" << (playerBet + dealerBet) << "\033[0m                Wurf des Croupiers: " << (dealerDiceOne + dealerDiceTwo) << std::endl;
+    std::cout << "Gold des Croupiers : \033[93m" << dealerGold << "\033[0m                  Gold im Pot: \033[93m" << (playerBet + dealerBet) << "\033[0m"  << std::endl;
     line();
+    return;
+}
+
+// Funktion zur Anzeige des Ergebnisses
+
+void diceResult(short &diceOne, short &diceTwo, bool dealer)
+{
+    int posX = 0;
+    int posY = 0;
+
+    if (dealer) { posX = 10; posY = 22; }
+    else { posX = 10; posY = 33; }
+
+    if (diceOne == 1) { positioning(posX + 2, posY + 3); std::cout << "O"; }
+    else if (diceOne == 2) { positioning(posX, posY + 1); std::cout << "O"; positioning(posX + 4, posY + 2); std::cout << "O"; }
+    else if (diceOne == 3) { positioning(posX, posY + 1); std::cout << "O"; positioning(posX + 2, posY + 2); std::cout << "O"; positioning(posX + 3, posY + 2); std::cout << "O"; }
+    else if (diceOne == 4) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 3); std::cout << "O   O";}
+    else if (diceOne == 5) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX + 2, posY + 2); std::cout << "O"; positioning(posX, posY + 3); std::cout << "O   O"; }
+    else if (diceOne == 6) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 2); std::cout << "O   O"; positioning(posX, posY + 3); std::cout << "O   O"; }
+    
+    if (dealer) { posX = 22; posY = 23; }
+    else { posX = 22; posY = 43; }
+    
+    if (diceTwo == 1) { positioning(posX + 2, posY + 3); std::cout << "O"; }
+    else if (diceTwo == 2) { positioning(posX, posY + 1); std::cout << "O"; positioning(posX + 4, posY + 2); std::cout << "O"; }
+    else if (diceTwo == 3) { positioning(posX, posY + 1); std::cout << "O"; positioning(posX + 2, posY + 2); std::cout << "O"; positioning(posX + 3, posY + 2); std::cout << "O"; }
+    else if (diceTwo == 4) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 3); std::cout << "O   O";}
+    else if (diceTwo == 5) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX + 2, posY + 2); std::cout << "O"; positioning(posX, posY + 3); std::cout << "O   O"; }
+    else if (diceTwo == 6) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 2); std::cout << "O   O"; positioning(posX, posY + 3); std::cout << "O   O"; }
+
+    std::cout << "\n\n\n" << std::endl;
     return;
 }
 
 // Würfelfunktion
 
-void
+void aleaIactaEst(short &diceOne, short &diceTwo)
+{
+    diceOne = random(1,6);
+    diceTwo = random(1,6);
+    return;
+}
 
 // Würfelspiel Menue
 
@@ -4269,6 +4305,7 @@ void dice(Player player[], short roundManager)
 {
     bool running = true;
     bool betSet = false;
+    bool dealer = true;
     static int dealerGold = 2000;
     short playerBet = 0;
     short dealerBet = 0;
@@ -4279,29 +4316,62 @@ void dice(Player player[], short roundManager)
 
     while(running)
     {
-        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, dealerDiceOne, dealerDiceTwo);
+        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet);
         if (betSet == false)
         {
-        std::cout << "Wie viel Gold moechten Sie setzen? ( 0 - " << player[roundManager].gold << ") ? ";
-        std::cin >> playerBet;
-        if (std::cin.fail()) { cinFail(); continue; }
-        if (playerBet <= 0) { return;}
-        if (playerBet > player[roundManager].gold) { std::cout << "Sie haben nicht genug Gold!" << std::endl; getKey(); continue; }
-        if (playerBet > dealerGold) { std::cout << "Der Croupier hat nicht genug Gold, um mit Ihren Einsatz mitzugehen!" << std::endl; getKey(); continue; }
-        dealerBet = playerBet;
-        player[roundManager].gold = player[roundManager].gold - playerBet;
-        dealerGold = dealerGold - dealerBet;
-        std::cout << "Sind Sie mit Ihrer Wette zufrieden? (J/N)" << std::endl;
-        bool answer = question();
-        if (answer == false) { continue;}
-        betSet = true; 
-        continue;
+            std::cout << "Wie viel Gold moechten Sie setzen? ( 0 - " << player[roundManager].gold << ") ? ";
+            std::cin >> playerBet;
+            if (std::cin.fail()) { cinFail(); continue; }
+            if (playerBet <= 0) { return;}
+            if (playerBet > player[roundManager].gold) { std::cout << "Sie haben nicht genug Gold!" << std::endl; getKey(); continue; }
+            if (playerBet > dealerGold) { std::cout << "Der Croupier hat nicht genug Gold, um mit Ihren Einsatz mitzugehen!" << std::endl; getKey(); continue; }
+            dealerBet = playerBet;
+            std::cout << "Sind Sie mit Ihrer Wette zufrieden? (J/N)" << std::endl;
+            bool answer = question();
+            if (answer == false) { continue;}
+            player[roundManager].gold = player[roundManager].gold - playerBet;
+            dealerGold = dealerGold - dealerBet;
+            betSet = true; 
+            continue;
         }
-        std::cout << "Der Croupier wuerfelt....." << std::endl;
-        getKey();
+        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet);
         aleaIactaEst(dealerDiceOne, dealerDiceTwo);
-        return;
+        diceFrame();
+        diceResult(dealerDiceOne, dealerDiceTwo, dealer);
+        line();
+        std::cout << "Der Croupier hat \033[6m" << (dealerDiceOne + dealerDiceTwo) << "\033[0m gewuerfelt!    \033[47;30m<< Leertaste druecken >>\033[0m" << std::endl;
+        line();
+        getKey();
+        aleaIactaEst(playerDiceOne, playerDiceTwo);
+        diceFrame();
+        diceResult(playerDiceOne, playerDiceTwo, !dealer);
+        line();
+        std::cout << "Sie haben \033[5m" << (playerDiceOne + playerDiceTwo) << "\033[0m gewuerfelt!";
+        if ((playerDiceOne + playerDiceTwo) > (dealerDiceOne + dealerDiceTwo))
+        {
+            std::cout << " \033[92;6mSie haben gewonnen!\033[0m" << std::endl;
+            player[roundManager].gold += (playerBet + dealerBet);
+        }
+        else if ((playerDiceOne + playerDiceTwo) < (dealerDiceOne + dealerDiceTwo))
+        {
+            std::cout << " \033[91;6mDer Croupier gewinnt!\033[0m" << std::endl;
+            dealerGold += (playerBet + dealerBet);
+        }
+        else
+        {
+            std::cout << " \033[93;6mUnentschieden!\033[0m" << std::endl;
+            player[roundManager].gold += playerBet;
+            dealerGold += dealerBet;
+        }
+        dealerBet = 0;
+        playerBet = 0;
+        line();
+        std::cout << "Moechten Sie noch eine Wette beim Wuerfeln platzieren? (J/N)" << std::endl;
+        bool answer = question();
+        if (answer == false) { running = false; break; }
+        if (answer == true) { betSet = false; continue; }
     }
+    return;
 }
 
 // Hauptmenue zum spezialraum "Casino Royal"
