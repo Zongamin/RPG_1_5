@@ -6,11 +6,11 @@
 /* Inhaltsverzeichnis:
      Schriftzugdatei. Funktionen als Überschriften selbsterklärend
 
-    - textMainMenue     - textFight         - textMenue     - textMetal     - textDismantle     - textEnd
-    - textCharacter     - textInventory     - textSearch    - textArmor     - textBooty         - textDeath
-    - textPlayer        - textMagic         - textTrap      - textWeapons   - textDice
-    - textLevelUp       - textSave          - textBreak     - textDisposal  - textRising
-    - textExpUp         - textLoad          - textPotion    - textSpecial   - textTitle     
+    - textMainMenue     - textFight         - textMenue     - textMetal     - textDismantle     - textTitle
+    - textCharacter     - textInventory     - textSearch    - textArmor     - textBooty         - textEnd
+    - textPlayer        - textMagic         - textTrap      - textWeapons   - textDice          - textDeath
+    - textLevelUp       - textSave          - textBreak     - textDisposal  - textCard
+    - textExpUp         - textLoad          - textPotion    - textSpecial   - textRising     
     */
 
 void textMainMenue()
@@ -306,6 +306,18 @@ void textDice()
     std::cout << "    '\\/__//__/   `\\/__/  \\/_/   \\/_/ \\/____/\\/____/\\/___/  \\ \\ \\/  \\/_/\\/____/\\/____/	                \n";
     std::cout << "                                                            \\ \\_\\                                               	\n";
     std::cout << "                                                             \\/_/                                             \033[0m\n";
+    return;
+}
+
+void textCard()
+{
+    std::cout << "\033[36m ____    ___                    __           _____                   __                                               \n";
+    std::cout << "/\\  _`\\ /\\_ \\                  /\\ \\         /\\___ \\                 /\\ \\       			                            \n"; 
+    std::cout << "\\ \\ \\L\\ \\//\\ \\      __      ___\\ \\ \\/'\\     \\/__/\\ \\     __      ___\\ \\ \\/'\\                                \n";
+    std::cout << " \\ \\  _ <'\\ \\ \\   /'__`\\   /'___\\ \\ , <        _\\ \\ \\  /'__`\\   /'___\\ \\ , <    	                            \n";
+    std::cout << "  \\ \\ \\L\\ \\\\_\\ \\_/\\ \\L\\.\\_/\\ \\__/\\ \\ \\\\`\\     /\\ \\_\\ \\/\\ \\L\\.\\_/\\ \\__/\\ \\ \\\\`\\  			\n";
+    std::cout << "   \\ \\____//\\____\\ \\__/.\\_\\ \\____\\\\ \\_\\ \\_\\   \\ \\____/\\ \\__/.\\_\\ \\____\\ \\_\\ \\_\\		            	\n";
+    std::cout << "    \\/___/ \\/____/\\/__/\\/_/\\/____/ \\/_/\\/_/    \\/___/  \\/__/\\/_/\\/____/ \\/_/\\/_/	                         \033[0m\n";
     return;
 }
 

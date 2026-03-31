@@ -4245,10 +4245,10 @@ void shop(Player player[], short roundManager, short room)
 }
 
 // Casino Header
-void casinoFrame(Player player[], short roundManager, int dealerGold, short playerBet, short dealerBet)
+void casinoFrame(Player player[], short roundManager, int dealerGold, short playerBet, short dealerBet, bool gameType)
 {
     clearScreen();
-    textDice();
+    if (gameType == true) { textDice(); } else { textCard();}
     line();
     std::cout << "\033[36mSpieler: " << player[roundManager].getName();
     position(40, 12); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
@@ -4317,7 +4317,7 @@ void dice(Player player[], short roundManager)
 
     while(running)
     {
-        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet);
+        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, true);
         if (betSet == false)
         {
             std::cout << "Wie viel Gold moechten Sie setzen? ( 0 - " << player[roundManager].gold << ") ? ";
@@ -4335,7 +4335,7 @@ void dice(Player player[], short roundManager)
             betSet = true; 
             continue;
         }
-        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet);
+        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, true);
         aleaIactaEst(dealerDiceOne, dealerDiceTwo);
         diceFrame();
         diceResult(dealerDiceOne, dealerDiceTwo, dealer);
@@ -4375,6 +4375,22 @@ void dice(Player player[], short roundManager)
     return;
 }
 
+// Black Jack Menue
+
+void card(player player[], short roundManager)
+{
+    bool running = true;
+    bool betSet = false;
+    bool dealer = true;
+    char key;
+    static int dealerGold = 2000;
+    short playerBet = 0;
+    short dealerBet = 0;
+
+    casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, false);
+    return;
+}
+
 // Hauptmenue zum spezialraum "Casino Royal"
 
 void casinoRoyal(Player player[], short roundManager, short room)
@@ -4397,7 +4413,7 @@ void casinoRoyal(Player player[], short roundManager, short room)
             return;
 
         case 2:
-           
+            card(player, roundManager);
             return;
     } 
     return;
