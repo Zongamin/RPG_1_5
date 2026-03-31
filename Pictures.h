@@ -736,24 +736,24 @@ void enemyPictures(int enemy)
 }
 void fightingStar()
 {
-    positioning(27, 11); std::cout << "/\\" << std::endl;
-    positioning(26, 12); std::cout << "/  \\" << std::endl;
-    positioning(25, 13); std::cout << "/    \\" << std::endl;
-    positioning(24, 14); std::cout << "/      \\" << std::endl;
-    positioning(14, 15); std::cout << "_________/        \\_________" << std::endl;
-    positioning(14, 16); std::cout << "\\                          /" << std::endl;
-    positioning(15, 17); std::cout << "\\                        /" << std::endl;
-    positioning(16, 18); std::cout << "\\                      /" << std::endl;
-    positioning(17, 19); std::cout << "\\                    /" << std::endl;
-    positioning(17, 20); std::cout << "/                    \\" << std::endl;
-    positioning(16, 21); std::cout << "/                      \\" << std::endl;
-    positioning(15, 22); std::cout << "/                        \\" << std::endl;
-    positioning(14, 23); std::cout << "/________          ________\\" << std::endl;
-    positioning(23, 24); std::cout << "\\        /" << std::endl;
-    positioning(24, 25); std::cout << "\\      /" << std::endl;
-    positioning(25, 26); std::cout << "\\    /" << std::endl;
-    positioning(26, 27); std::cout << "\\  /" << std::endl;
-    positioning(27, 28); std::cout << "\\/" << std::endl;
+    positioning(27, 12); std::cout << "/\\" << std::endl;
+    positioning(26, 13); std::cout << "/  \\" << std::endl;
+    positioning(25, 14); std::cout << "/    \\" << std::endl;
+    positioning(24, 15); std::cout << "/      \\" << std::endl;
+    positioning(14, 16); std::cout << "_________/        \\_________" << std::endl;
+    positioning(14, 17); std::cout << "\\                          /" << std::endl;
+    positioning(15, 18); std::cout << "\\                        /" << std::endl;
+    positioning(16, 19); std::cout << "\\                      /" << std::endl;
+    positioning(17, 20); std::cout << "\\                    /" << std::endl;
+    positioning(17, 21); std::cout << "/                    \\" << std::endl;
+    positioning(16, 22); std::cout << "/                      \\" << std::endl;
+    positioning(15, 23); std::cout << "/                        \\" << std::endl;
+    positioning(14, 24); std::cout << "/________          ________\\" << std::endl;
+    positioning(23, 25); std::cout << "\\        /" << std::endl;
+    positioning(24, 26); std::cout << "\\      /" << std::endl;
+    positioning(25, 27); std::cout << "\\    /" << std::endl;
+    positioning(26, 28); std::cout << "\\  /" << std::endl;
+    positioning(27, 29); std::cout << "\\/" << std::endl;
     return;
 }
 
@@ -762,39 +762,39 @@ void playerAttackText(int coincidence)
     switch(coincidence)
     {
         case 0:
-            positioning(9, 17); std::cout << ".______        ___      .___  ___.  __\n";
-            positioning(9, 18); std::cout << "|   _  \\      /   \\     |   \\/   | |  |\n";
-            positioning(9, 19); std::cout << "|  |_)  |    /  ^  \\    |  \\  /  | |  |\n";
-            positioning(9, 20); std::cout << "|   _  <    /  /_\\  \\   |  |\\/|  | |  |\n";
-            positioning(9, 21); std::cout << "|  |_)  |  /  _____  \\  |  |  |  | |__|\n";
-            positioning(9, 22); std::cout << "|______/  /__/     \\__\\ |__|  |__| (__)\033[0m\n";
+            positioning(9, 18); std::cout << ".______        ___      .___  ___.  __\n";
+            positioning(9, 19); std::cout << "|   _  \\      /   \\     |   \\/   | |  |\n";
+            positioning(9, 20); std::cout << "|  |_)  |    /  ^  \\    |  \\  /  | |  |\n";
+            positioning(9, 21); std::cout << "|   _  <    /  /_\\  \\   |  |\\/|  | |  |\n";
+            positioning(9, 22); std::cout << "|  |_)  |  /  _____  \\  |  |  |  | |__|\n";
+            positioning(9, 23); std::cout << "|______/  /__/     \\__\\ |__|  |__| (__)\033[0m\n";
             return;
 
         case 1:
-            positioning(10, 16); std::cout << "______   ________    ______    __\n";
-            positioning(9, 17);  std::cout << "/_____/\\ /_______/\\  /_____/\\  /__/\\\n";
-            positioning(9, 18);  std::cout << "\\:::__\\/ \\::: _  \\ \\ \\:::_ \\ \\ \\.:\\ \\\n";
-            positioning(12, 19); std::cout << "/: /   \\::(_)  \\ \\ \\:(_) \\ \\ \\::\\ \\\n";
-            positioning(11, 20); std::cout << "/::/___  \\:: __  \\ \\ \\: ___\\/  \\__\\/_\n";
-            positioning(10, 21); std::cout << "/_:/____/\\ \\:.\\ \\  \\ \\ \\ \\ \\      /__/\\\n";
-            positioning(10, 22); std::cout << "\\_______\\/  \\__\\/\\__\\/  \\_\\/      \\__\\/\033[0m\n";
+            positioning(10, 17); std::cout << "______   ________    ______    __\n";
+            positioning(9, 18);  std::cout << "/_____/\\ /_______/\\  /_____/\\  /__/\\\n";
+            positioning(9, 19);  std::cout << "\\:::__\\/ \\::: _  \\ \\ \\:::_ \\ \\ \\.:\\ \\\n";
+            positioning(12, 20); std::cout << "/: /   \\::(_)  \\ \\ \\:(_) \\ \\ \\::\\ \\\n";
+            positioning(11, 21); std::cout << "/::/___  \\:: __  \\ \\ \\: ___\\/  \\__\\/_\n";
+            positioning(10, 22); std::cout << "/_:/____/\\ \\:.\\ \\  \\ \\ \\ \\ \\      /__/\\\n";
+            positioning(10, 23); std::cout << "\\_______\\/  \\__\\/\\__\\/  \\_\\/      \\__\\/\033[0m\n";
             return;
 
         case 2:
-            positioning(14, 18); std::cout << "___   _    O O         _     _ \n";
-            positioning(13, 19); std::cout << "/ __| | |  ___   _ _   | |__ | |\n";
-            positioning(12, 20); std::cout << "| (__  | | / _ \\ | ' \\  | / / |_|\n";
-            positioning(13, 21); std::cout << "\\___| |_| \\___/ |_||_| |_\\_\\ (_)\033[0m\n";
+            positioning(14, 19); std::cout << "___   _    O O         _     _ \n";
+            positioning(13, 20); std::cout << "/ __| | |  ___   _ _   | |__ | |\n";
+            positioning(12, 21); std::cout << "| (__  | | / _ \\ | ' \\  | / / |_|\n";
+            positioning(13, 22); std::cout << "\\___| |_| \\___/ |_||_| |_\\_\\ (_)\033[0m\n";
             return;
         
         case 3:
-            positioning(6, 16); std::cout << "_____ ____   ____    ___   ____  ____    ____  __\n";
-            positioning(5, 17); std::cout << "/ ___/|    \\ |    \\  /   \\ |    ||    \\  /    ||  |\n";
-            positioning(4, 18); std::cout << "(   \\_ |  D  )|  D  )|     | |  | |  _  \\/   __||  |\n";
-            positioning(5, 19); std::cout << "\\__  ||   _/ |    / |  O  | |  | |  |  ||  |  ||__|\n";
-            positioning(5, 20); std::cout << "/  \\ ||  |   |    \\ |     | |  | |  |  ||  |_ | __\n";
-            positioning(5, 21); std::cout << "\\    ||  |   |  .  \\|     ! |  | |  |  ||     ||  |\n";
-            positioning(6, 22); std::cout << "\\___||__|   |__|\\_| \\___/ |____||__|__||___,_||__|\033[0m\n";
+            positioning(6, 17); std::cout << "_____ ____   ____    ___   ____  ____    ____  __\n";
+            positioning(5, 18); std::cout << "/ ___/|    \\ |    \\  /   \\ |    ||    \\  /    ||  |\n";
+            positioning(4, 19); std::cout << "(   \\_ |  D  )|  D  )|     | |  | |  _  \\/   __||  |\n";
+            positioning(5, 20); std::cout << "\\__  ||   _/ |    / |  O  | |  | |  |  ||  |  ||__|\n";
+            positioning(5, 21); std::cout << "/  \\ ||  |   |    \\ |     | |  | |  |  ||  |_ | __\n";
+            positioning(5, 22); std::cout << "\\    ||  |   |  .  \\|     ! |  | |  |  ||     ||  |\n";
+            positioning(6, 23); std::cout << "\\___||__|   |__|\\_| \\___/ |____||__|__||___,_||__|\033[0m\n";
             return;
     }
 }

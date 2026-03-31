@@ -4267,24 +4267,24 @@ void diceResult(short &diceOne, short &diceTwo, bool dealer)
     int posY = 0;
 
     if (dealer) { posX = 10; posY = 22; }
-    else { posX = 10; posY = 33; }
+    else { posX = 10; posY = 37; }
 
-    if (diceOne == 1) { positioning(posX + 2, posY + 3); std::cout << "O"; }
-    else if (diceOne == 2) { positioning(posX, posY + 1); std::cout << "O"; positioning(posX + 4, posY + 2); std::cout << "O"; }
-    else if (diceOne == 3) { positioning(posX, posY + 1); std::cout << "O"; positioning(posX + 2, posY + 2); std::cout << "O"; positioning(posX + 3, posY + 2); std::cout << "O"; }
-    else if (diceOne == 4) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 3); std::cout << "O   O";}
-    else if (diceOne == 5) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX + 2, posY + 2); std::cout << "O"; positioning(posX, posY + 3); std::cout << "O   O"; }
-    else if (diceOne == 6) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 2); std::cout << "O   O"; positioning(posX, posY + 3); std::cout << "O   O"; }
+    if (diceOne == 1) { positioning(posX + 2, posY + 1); std::cout << "O"; }
+    else if (diceOne == 2) { positioning(posX, posY); std::cout << "O"; positioning(posX + 4, posY + 2); std::cout << "O"; }
+    else if (diceOne == 3) { positioning(posX, posY); std::cout << "O"; positioning(posX + 2, posY + 1); std::cout << "O"; positioning(posX + 4, posY + 2); std::cout << "O"; }
+    else if (diceOne == 4) { positioning(posX, posY); std::cout << "O   O"; positioning(posX, posY + 2); std::cout << "O   O";}
+    else if (diceOne == 5) { positioning(posX, posY); std::cout << "O   O"; positioning(posX + 2, posY + 1); std::cout << "O"; positioning(posX, posY + 2); std::cout << "O   O"; }
+    else if (diceOne == 6) { positioning(posX, posY); std::cout << "O   O"; positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 2); std::cout << "O   O"; }
     
-    if (dealer) { posX = 22; posY = 23; }
-    else { posX = 22; posY = 43; }
+    if (dealer) { posX = 22; posY = 22; }
+    else { posX = 22; posY = 37; }
     
-    if (diceTwo == 1) { positioning(posX + 2, posY + 3); std::cout << "O"; }
-    else if (diceTwo == 2) { positioning(posX, posY + 1); std::cout << "O"; positioning(posX + 4, posY + 2); std::cout << "O"; }
-    else if (diceTwo == 3) { positioning(posX, posY + 1); std::cout << "O"; positioning(posX + 2, posY + 2); std::cout << "O"; positioning(posX + 3, posY + 2); std::cout << "O"; }
-    else if (diceTwo == 4) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 3); std::cout << "O   O";}
-    else if (diceTwo == 5) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX + 2, posY + 2); std::cout << "O"; positioning(posX, posY + 3); std::cout << "O   O"; }
-    else if (diceTwo == 6) { positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 2); std::cout << "O   O"; positioning(posX, posY + 3); std::cout << "O   O"; }
+    if (diceTwo == 1) { positioning(posX + 2, posY + 1); std::cout << "O"; }
+    else if (diceTwo == 2) { positioning(posX, posY); std::cout << "O"; positioning(posX + 4, posY + 2); std::cout << "O"; }
+    else if (diceTwo == 3) { positioning(posX, posY); std::cout << "O"; positioning(posX + 2, posY + 1); std::cout << "O"; positioning(posX + 4, posY + 2); std::cout << "O"; }
+    else if (diceTwo == 4) { positioning(posX, posY); std::cout << "O   O"; positioning(posX, posY + 2); std::cout << "O   O";}
+    else if (diceTwo == 5) { positioning(posX, posY); std::cout << "O   O"; positioning(posX + 2, posY + 1); std::cout << "O"; positioning(posX, posY + 2); std::cout << "O   O"; }
+    else if (diceTwo == 6) { positioning(posX, posY); std::cout << "O   O"; positioning(posX, posY + 1); std::cout << "O   O"; positioning(posX, posY + 2); std::cout << "O   O"; }
 
     std::cout << "\n\n\n" << std::endl;
     return;
@@ -4306,6 +4306,7 @@ void dice(Player player[], short roundManager)
     bool running = true;
     bool betSet = false;
     bool dealer = true;
+    char key;
     static int dealerGold = 2000;
     short playerBet = 0;
     short dealerBet = 0;
@@ -4341,7 +4342,7 @@ void dice(Player player[], short roundManager)
         line();
         std::cout << "Der Croupier hat \033[6m" << (dealerDiceOne + dealerDiceTwo) << "\033[0m gewuerfelt!    \033[47;30m<< Leertaste druecken >>\033[0m" << std::endl;
         line();
-        getKey();
+        key = _getch();
         aleaIactaEst(playerDiceOne, playerDiceTwo);
         diceFrame();
         diceResult(playerDiceOne, playerDiceTwo, !dealer);
