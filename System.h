@@ -19,6 +19,7 @@
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Texts.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Player.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Log.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Cards.h>
 
 
 /*Inhaltsverzeichnis:
@@ -4247,12 +4248,14 @@ void shop(Player player[], short roundManager, short room)
 // Casino Header
 void casinoFrame(Player player[], short roundManager, int dealerGold, short playerBet, short dealerBet, bool gameType)
 {
+    short posY = 0;
+    
     clearScreen();
-    if (gameType == true) { textDice(); } else { textCard();}
+    if (gameType == true) { textDice();  posY = 12; } else { textCard(); posY = 10; }
     line();
     std::cout << "\033[36mSpieler: " << player[roundManager].getName();
-    position(40, 12); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
-    capacityColor(player, roundManager); position(80, 12); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
+    position(40, posY); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
+    capacityColor(player, roundManager); position(80, posY); std::cout << "Traglast: " << player[roundManager].realCapacity << "/" << player[roundManager].capacity << "\033[0m" << std::endl;
     line();
     std::cout << "Gold des Croupiers : \033[93m" << dealerGold << "\033[0m                  Gold im Pot: \033[93m" << (playerBet + dealerBet) << "\033[0m"  << std::endl;
     line();
@@ -4335,7 +4338,6 @@ void dice(Player player[], short roundManager)
             betSet = true; 
             continue;
         }
-        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, true);
         aleaIactaEst(dealerDiceOne, dealerDiceTwo);
         diceFrame();
         diceResult(dealerDiceOne, dealerDiceTwo, dealer);
@@ -4377,7 +4379,7 @@ void dice(Player player[], short roundManager)
 
 // Black Jack Menue
 
-void card(player player[], short roundManager)
+void card(Player player[], short roundManager)
 {
     bool running = true;
     bool betSet = false;
@@ -4387,7 +4389,30 @@ void card(player player[], short roundManager)
     short playerBet = 0;
     short dealerBet = 0;
 
-    casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, false);
+    while(running)
+    {
+        casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, false);
+        if (betSet == false)
+        {
+            std::cout << "Wie viel Gold moechten Sie setzen? ( 0 - " << player[roundManager].gold << ") ? ";
+            std::cin >> playerBet;
+            if (std::cin.fail()) { cinFail(); }
+            if (playerBet <= 0) { return;}
+            if (playerBet > player[roundManager].gold) { std::cout << "Sie haben nicht genug Gold!" << std::endl; getKey(); return; }
+            if (playerBet > dealerGold) { std::cout << "Der Croupier hat nicht genug Gold, um mit Ihren Einsatz mitzugehen!" << std::endl; getKey(); return; }
+            dealerBet = playerBet;
+            std::cout << "Sind Sie mit Ihrer Wette zufrieden? (J/N)" << std::endl;
+            bool answer = question();
+            if (answer == false) { return;}
+            player[roundManager].gold = player[roundManager].gold - playerBet;
+            dealerGold = dealerGold - dealerBet;
+            betSet = true; 
+            continue;
+        }
+        
+        getKey();
+        break;
+    }
     return;
 }
 
@@ -4415,6 +4440,10 @@ void casinoRoyal(Player player[], short roundManager, short room)
         case 2:
             card(player, roundManager);
             return;
+        
+        default:
+            error(0);
+            continue;
     } 
     return;
 }
