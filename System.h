@@ -4391,13 +4391,15 @@ void card(Player player[], short roundManager)
 
     while(running)
     {
+        Deck deck ;
+
         casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, false);
         if (betSet == false)
         {
             std::cout << "Wie viel Gold moechten Sie setzen? ( 0 - " << player[roundManager].gold << ") ? ";
             std::cin >> playerBet;
             if (std::cin.fail()) { cinFail(); }
-            if (playerBet <= 0) { return;}
+            if (playerBet <= 0) { return; }
             if (playerBet > player[roundManager].gold) { std::cout << "Sie haben nicht genug Gold!" << std::endl; getKey(); return; }
             if (playerBet > dealerGold) { std::cout << "Der Croupier hat nicht genug Gold, um mit Ihren Einsatz mitzugehen!" << std::endl; getKey(); return; }
             dealerBet = playerBet;
@@ -4411,6 +4413,7 @@ void card(Player player[], short roundManager)
         }
         
         getKey();
+        running = false;
         break;
     }
     return;
@@ -4420,31 +4423,39 @@ void card(Player player[], short roundManager)
 
 void casinoRoyal(Player player[], short roundManager, short room)
 {
-    specialHeader(room);
-    headShop(player, roundManager);
-    std::cout << "Was moechten Sie tun?" << std::endl;
-    line();
-    std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\n" << std::endl;
-    std::cout << "\033[37;44m[ 1 ]\033[0m ------> \033[34mWuerfelspiel\033[0m\n" << std::endl;
-    std::cout << "\033[37;104m[ 2 ]\033[0m ------> \033[94mBlack Jack\033[0m\n" << std::endl;
-    int input = choice();
-    switch(input)
+    bool running = true;
+    
+    while(running)
     {
-        case 0:
-            return;
+        specialHeader(room);
+        headShop(player, roundManager);
+        std::cout << "Was moechten Sie tun?" << std::endl;
+        line();
+        std::cout << "\033[47;30m[ 0 ]\033[0m ------> Zurueck\n" << std::endl;
+        std::cout << "\033[37;44m[ 1 ]\033[0m ------> \033[34mWuerfelspiel\033[0m\n" << std::endl;
+        std::cout << "\033[37;104m[ 2 ]\033[0m ------> \033[94mBlack Jack\033[0m\n" << std::endl;
+        int input = choice();
+        switch(input)
+            {
+                case 0:
+                    running = false;
+                    break;
 
-        case 1:
-            dice(player, roundManager);
-            return;
+                case 1:
+                    dice(player, roundManager);
+                    running = false;
+                    break;
 
-        case 2:
-            card(player, roundManager);
-            return;
-        
-        default:
-            error(0);
-            continue;
-    } 
+                case 2:
+                    card(player, roundManager);
+                    running = false;
+                    break;
+                
+                default:
+                    error(0);
+                    continue;
+            } 
+    }
     return;
 }
 

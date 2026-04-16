@@ -8,7 +8,7 @@
 enum class Color { Herz, Karo, Pik, Kreuz };
 enum class Value { Zwei = 2, Drei, Vier, Fuenf, Sechs, Sieben, Acht, Neun, Zehn, Bube, Dame, Koenig, Ass };
 
-class Card 
+class Cards 
 {
     public :
         Color color;
@@ -25,7 +25,7 @@ class Card
 class Deck
 {
     private :
-        std::vector<Card> cards;
+        std::vector<Cards> cards;
 
     public :
         Deck()
@@ -38,30 +38,31 @@ class Deck
                 }
             }
         }
-}
 
-void shuffle() 
-{
-    std::shuffle(cards.begin(), cards.end(), std::mt19937(std::random_device()()));
-}
-
-void cardReset() 
-{
-    cards.clear();
-
-    for (int color = 0; color < 4; color++)
-    {
-        for (int value = 2; value <= 14; value++)
+        void shuffle() 
         {
-            cards.push_back({(Color)color, (Value)value});
+            std::shuffle(cards.begin(), cards.end(), std::mt19937(std::random_device()()));
         }
-    }
-}
 
-Card draw()
-{
-    Card c = cards.back();
-    cards.pop_back();
-    return c;
-}
+        void cardReset() 
+        {
+            cards.clear();
+
+            for (int color = 0; color < 4; color++)
+            {
+                for (int value = 2; value <= 14; value++)
+                {
+                    cards.push_back({(Color)color, (Value)value});
+                }
+            }
+        }
+
+        Cards draw()
+        {
+            Cards c = cards.back();
+            cards.pop_back();
+            return c;
+        }
+    };
+
 #endif
