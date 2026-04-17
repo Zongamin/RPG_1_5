@@ -14,3 +14,5 @@ Viel Spaß beim Ausprobieren!
 
 Mit freundlichen Grüßen
 D.Bastian
+
+P.S.: Dieses Spiel wird bewusst für die CMD programmiert, um genügend Kenntnisse in blankem C++ zu erlernen (Und auch ein bisschen, weil 8Bit Style immernoch cool ist ;). 
