@@ -1,8 +1,10 @@
 #ifndef MAIN_CPP
 #define MAIN_CPP
 
+#include <windows.h>
 #include <string>
 #include <iostream>
+#include <mmsystem.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Player.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Enemy.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\System.h>
@@ -11,6 +13,8 @@
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Pictures.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Texts.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Log.h>
+
+#pragma comment(lib, "winmm.lib")
 
 // Main Game
             
@@ -68,8 +72,10 @@ int main()
     clearScreen();
     textTitle();
     textRising();
+    PlaySound(TEXT("sounds\\Title.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
     getKey();
-    
+    PlaySound(NULL,0,0);
+        
     // Gamemenue mit Spielerinitialisierung
 
     bool loaded = gameMenue(player, roundManager, numberOfPlayers, zone);

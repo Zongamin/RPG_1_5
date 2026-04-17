@@ -7,6 +7,7 @@
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Pictures.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Texts.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\System.h>
+#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Player.h>
 
 /*  Inhaltsverzeichnis
             - isRoomValid       Validierung von Speziellen Räumen für Sonderaktionen

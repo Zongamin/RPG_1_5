@@ -2,7 +2,6 @@
 #define SYSTEM_H
 
 #include <string>
-#include <iostream>
 #include <limits>
 #include <conio.h>
 #include <ctime>
@@ -10,8 +9,10 @@
 #include <fstream>
 #include <windows.h>
 #include <algorithm>
+#include <iostream>
 #include <random>
 #include <filesystem>
+#include <mmsystem.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Enemy.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Main.cpp>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Headlines.h>
@@ -20,6 +21,8 @@
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Player.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Log.h>
 #include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Cards.h>
+
+#pragma comment(lib, "winmm.lib")
 
 
 /*Inhaltsverzeichnis:
@@ -206,6 +209,7 @@ void getKey()
     char key;
     std::cout << "\n\n                                            \033[30;47m<<<< Press any key >>>>\033[0m" << std::endl;
     key = _getch();
+    PlaySound(TEXT("sounds\\Bing.wav"), NULL, SND_FILENAME | SND_ASYNC);
     return;
 }
 
@@ -213,6 +217,8 @@ void getKey()
 
 void error(short error)
 {
+    PlaySound(TEXT("sounds\\Bing.wav"), NULL, SND_FILENAME | SND_ASYNC);
+
     switch(error)
     {
         case 0:
@@ -315,6 +321,7 @@ bool question()
     while(running)
     {
         key = _getch();
+        PlaySound(TEXT("sounds\\Bing.wav"), NULL, SND_FILENAME | SND_ASYNC);
 
         switch(key)
         {
@@ -343,6 +350,7 @@ short choice()
 {
     char key;
     key = _getch(); 
+    PlaySound(TEXT("sounds\\Bing.wav"), NULL, SND_FILENAME | SND_ASYNC);
     if (key >= '0' && key <= '9') 
     {
         return key - '0';
@@ -476,6 +484,7 @@ void backgroundColor (short color)
 void levelUp (Player player[], short roundManager)
 {
     clearScreen();
+    PlaySound(TEXT("sounds\\LevelUp.wav"), NULL, SND_FILENAME | SND_ASYNC);
     textLevelUp();
     line();
     player[roundManager].level++; 
@@ -1165,6 +1174,7 @@ bool loadGame(Player player[], short numberOfPlayers, short roundManager, short 
 void death(Player player[], short roundManager, short numberOfPlayers, short zone)
 {
     player[roundManager].permaDeath = true;
+    PlaySound(TEXT("sounds\\Death.wav"), NULL, SND_FILENAME | SND_ASYNC);
     clearScreen();
     textDeath();
     line();
@@ -1180,6 +1190,7 @@ void death(Player player[], short roundManager, short numberOfPlayers, short zon
     if (answer == true)
     {
         loadGame(player, numberOfPlayers, roundManager, zone);
+        return;
     } 
     exit(0);
 }
@@ -1313,7 +1324,10 @@ void hitColor()
 // Funktion der Gegner Attacke
 
 bool enemyAttack(Player player[], Enemy enemy[], Log& log, short roundManager, short enemyNumber)
-{
+{   
+    std::string path = "sounds\\Hit0" + std::to_string(random(1, 4)) + ".wav";
+    PlaySound(path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
+
     hitColor();
     clearScreen();
 
@@ -1361,7 +1375,7 @@ bool playerAttack(Player player[], Enemy enemy[], Log& log, short roundManager, 
     short critWindowMax = 0;
     double damage = 0;
     double variation = 0;
-    
+        
     crit = random(1,100);
     critWindowMin = random(1, 100);
     if (critWindowMin < 50) { critWindowMax = critWindowMin + (2 + round(enemy[enemyNumber].luck)); }
@@ -1376,6 +1390,8 @@ bool playerAttack(Player player[], Enemy enemy[], Log& log, short roundManager, 
     log.addMessage("\033[92mSie greifen an und verursachen \033[91m" + std::to_string(static_cast<int>(damage)) + " Schaden\033[92m!\033[0m");
     fightingStar();
     playerAttackText(random(0, 3));
+    std::string path = "sounds\\Hit0" + std::to_string(random(1, 4)) + ".wav";
+    PlaySound(path.c_str(), NULL, SND_FILENAME | SND_ASYNC);
     Sleep(1000);
     fightFrame(player, enemy, log, roundManager, enemyNumber);
     enemy[enemyNumber].realHealth -= damage;
@@ -1861,6 +1877,7 @@ void fightWin(Player player[], Enemy enemy[], Log& log, short roundManager, shor
     std::sort(weapon, weapon + 10, std::greater<int>());
     getKey();
     clearScreen();
+    PlaySound(TEXT("sounds\\Win.wav"), NULL, SND_FILENAME | SND_ASYNC);
     textBooty();
     line();
     std::cout << "\033[36mSpieler: " << player[roundManager].getName();
