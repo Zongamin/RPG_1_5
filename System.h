@@ -13,14 +13,13 @@
 #include <random>
 #include <filesystem>
 #include <mmsystem.h>
-#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Enemy.h>
-#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Main.cpp>
-#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Headlines.h>
-#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Pictures.h>
-#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Texts.h>
-#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Player.h>
-#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Log.h>
-#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\Cards.h>
+#include "Enemy.h"
+#include "Headlines.h"
+#include "Pictures.h"
+#include "Texts.h"
+#include "Player.h"  
+#include "Log.h"
+#include "Cards.h"
 
 #pragma comment(lib, "winmm.lib")
 

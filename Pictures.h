@@ -2,7 +2,7 @@
 #define PICTURES_H
 
 #include <iostream>
-#include <C:\Users\CC-Student\Desktop\Work\Programmieren\RPG_1_5\System.h>
+#include "System.h"
 
 /* Inhaltsverzeichnis
         - roomPictures  -- case 0 Eingang           -- case 8 Treppe (Unten)        -- case 16 Kerker

@@ -112,7 +112,7 @@ void roomTexts(int room)
 
             case 6:
                 
-                textPosition(58, 8);  std::cout << "Da steht sie... Prächtig und doch irgendwie random....";
+                textPosition(58, 8);  std::cout << "Da steht sie... Praechtig und doch irgendwie random....";
                 textPosition(58, 9);  std::cout << "Quasi ein klassisches Element in jedem Dungeon - Abenteuer! Ein \"Muss\"";
                 textPosition(58, 10); std::cout << "in jedem Spiel, dass auch nur ansatzweise was auf sich haelt! Ganz so";
                 textPosition(58, 11); std::cout << "schuechternd wie eine Jungfrau ueber ihre Jungfraeulichkeit ist sie ";
@@ -175,7 +175,7 @@ void roomTexts(int room)
                 textPosition(58, 12); std::cout << "flucht und die Fallen, die Sie hier sehen sind groesstenteils nur Ausstellungs-"; 
                 textPosition(58, 13); std::cout << "stuecke. Treten Sie naeher und finden Sie es heraus! Wir kaufen uebrigens Alles,";
                 textPosition(58, 14); std::cout << "was Sie loswerden moechten, denn sollten Sie hinter der naechsten Ecke sterben,";
-                textPosition(58, 15); std::cout << "plündern wir uns das Gold sowieso wieder zurueck! Hätten Sie eventuell Interesse";
+                textPosition(58, 15); std::cout << "pluendern wir uns das Gold sowieso wieder zurueck! Haetten Sie eventuell Interesse";
                 textPosition(58, 16); std::cout << "an diesem unsichtbaren Umhang? Man spuert tatsaechlich ueberhaupt nicht, dass man";
                 textPosition(58, 17); std::cout << "ihn traegt.\", sagt der Goblin mit verwegenem Grinsen. Na dann mal shoppen gehen!";
                 break;
@@ -185,11 +185,11 @@ void roomTexts(int room)
                 textPosition(58, 8);  std::cout << "Unfassbar was sich der Programmierer dieses Spiels noch alles ausdenkt, was hier";
                 textPosition(58, 9);  std::cout << "so in einem Dungeon rum kreuchen und fleuchen soll! Langsam wird es Zeit mich mal";
                 textPosition(58, 10); std::cout << "bei Rising Systems zu beschweren! Das kann ich doch als Geschichtenschreiber, bzw.";
-                textPosition(58, 11); std::cout << "Erzähler hier gar nicht mehr glaubwuerdig an den Mann bringen!";
+                textPosition(58, 11); std::cout << "Erzaehler hier gar nicht mehr glaubwuerdig an den Mann bringen!";
                 textPosition(58, 12); std::cout << "Aber bitte: Mitten in einer stillen Ecke des Dungeons finden Sie Glorg den Ork. Er";
                 textPosition(58, 13); std::cout << "ist der einzige Ork hier unten, der versucht die Herrschafft des Dungeons mittels";
                 textPosition(58, 14); std::cout << "Gluecksspiel an sich zu reissen! Sein grimmiger Blick sagt Ihnen zwar, dass Sie es";
-                textPosition(58, 15); std::cout << "lieber bleibenlassen sollten, aber seine mit Gold gefüllten Taschen sagen Ihnen,";
+                textPosition(58, 15); std::cout << "lieber bleibenlassen sollten, aber seine mit Gold gefuellten Taschen sagen Ihnen,";
                 textPosition(58, 16); std::cout << "dass Sie es auch gerne versuchen wuerden, es ihm genau aus den Selbigen zu entfer-";
                 textPosition(58, 17); std::cout << "nen und in Ihre eigenen wandern zu lassen.... Wollen Sie es versuchen?";
                 break;
@@ -286,7 +286,7 @@ void roomTexts(int room)
                 textPosition(58, 11); std::cout << "nach unten steigen. Jeder Sprossenabschnitt dieser antiken Leiter ist nicht nur";
                 textPosition(58, 12); std::cout << "ein Schritt in eine ungewisse Zukunft, sondern auch eine Einladung zu olfaktorischen";
                 textPosition(58, 13); std::cout << "Abenteurn! Ein wahres Fest für alle die, die keinen Geruchssinn mehr haben, ober";
-                textPosition(58, 14); std::cout << "zufällig zuvor bei einer Ork-Leiche eine Nasenklammer oder einen Duftbaum gepluendert";
+                textPosition(58, 14); std::cout << "zufaellig zuvor bei einer Ork-Leiche eine Nasenklammer oder einen Duftbaum gepluendert";
                 textPosition(58, 15); std::cout << "haben! Da will ich mal das Beste fuer Sie hoffen, denn wenn ich selbst einen Wunsch";
                 textPosition(58, 16); std::cout << "frei haette, so waere das Herabsteigen dieser Leiter garantiert auf dem letzten";
                 textPosition(58, 17); std::cout << "Platz. Dennoch: The show must go on.... Also Nase zu und durch!";
