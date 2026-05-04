@@ -16,7 +16,7 @@ class Cards
 
         int getValue() const
         {
-            if (value >= Value::Bube) return 10;
+            if (value >= Value::Bube && value < Value::Ass) return 10;
             if (value == Value::Ass) return 11;
             return static_cast<int>(value);
         }

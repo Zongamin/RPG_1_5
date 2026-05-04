@@ -810,4 +810,37 @@ void diceFrame()
     return;
 }
 
+void cardFrame(bool dealer, short cardNumber, Cards cards)
+{
+    short posX = 0;
+    short posY = 0;
+    
+    switch(cardNumber)
+    {
+        case 0:
+            posY = 7;
+            break;
+        case 1:
+            posY = 14;
+            break;
+        case 2:
+            posY = 21;
+            break;
+        case 3:
+            posY = 28;
+            break;
+        case 4:
+            posY = 35;
+            break;
+        case 5:
+            posY = 42;
+            break;
+        case 6:
+            posY = 49;
+            break;
+    }
+    if (dealer) { posX = 7; } else { posX = 14;}
+    positioning(posX, posY); std::cout << " _______ \n";
+}
+
 #endif

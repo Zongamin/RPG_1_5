@@ -20,6 +20,8 @@
             
 int main() 
 {   
+    SetConsoleOutputCP(65001);
+    
     // Globale Variablen
 
     const int roomNumbers = 21;

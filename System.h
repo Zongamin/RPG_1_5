@@ -27,7 +27,8 @@
 /*Inhaltsverzeichnis:
       - assignment          -- Zuweisung der Werte für neue Spieler
       - charCalc            -- Charakter Rechner zum Errechnen neuer Werte bei Skillpunktverteilung
-      - random              -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe
+      - pureRandom          -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe ohne Repeater
+      - random              -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe mit Repeater
       - getKey              -- press any key - Funktion
       - error               -- Fehlermeldung : Falsche Eingabe
       - cinFail             -- Falsche cin Eingabe
@@ -181,7 +182,19 @@ void charCalc(Player player[], short index)
     return;
 }
 
-// Generierung von Zufallszahlen mit min/max Wertübergabe
+// Generierung von Zufallszahlen mit min/max Wertübergabe ohne Repeater
+
+int pureRandom(int min, int max)
+{
+   static std::random_device rd;
+   static std::mt19937 gen(rd());
+
+   std::uniform_int_distribution<> distr(min, max);
+
+   return distr(gen); 
+}
+
+// Generierung von Zufallszahlen mit min/max Wertübergabe und Repeater
 
 int random(int min, int max)
 {
@@ -1394,7 +1407,7 @@ bool playerAttack(Player player[], Enemy enemy[], Log& log, short roundManager, 
     Sleep(1000);
     fightFrame(player, enemy, log, roundManager, enemyNumber);
     enemy[enemyNumber].realHealth -= damage;
-    if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!"); }
+    if (enemy[enemyNumber].realHealth <= 0) { enemy[enemyNumber].realHealth = 0; enemy[enemyNumber].permaDeath = true;  log.addMessage("\033[92mSie haben den Gegner " + enemy[enemyNumber].getName() +" eleminiert!\033[0m"); }
     return true;
 }
 
@@ -1587,7 +1600,7 @@ bool playerInventory(Player player[], Enemy enemy[], Log& log, short roundManage
             return true;
         case 3:
             if (player[roundManager].regenPotion < 1) { std::cout << "\033[91mSie haben keine Regenerationstraenke mehr im Inventar!\033[0m" << std::endl; getKey(); return false; }
-            if (player[roundManager].realHealth >= player[roundManager].health && player[roundManager].realMana >= player[roundManager].mana) { std::cout << "\033[91mSie benoetigen weder Heilung noch Mana!" << std::endl; getKey(); return false; }
+            if (player[roundManager].realHealth >= player[roundManager].health && player[roundManager].realMana >= player[roundManager].mana) { std::cout << "\033[91mSie benoetigen weder Heilung noch Mana!\033[0m" << std::endl; getKey(); return false; }
             regenH = round(random((player[roundManager].health / 100) * 10, (player[roundManager].health /100) * 20));
             regenM = round(random((player[roundManager].mana / 100) * 15, (player[roundManager].mana /100) * 20));
             player[roundManager].regenPotion--;
@@ -1776,34 +1789,35 @@ short fightInvite(Enemy enemy[], Player player[], short roundManager, short dang
             for(short index = 0; index < enemyNumber; index++)
             {
                 kindOf = 0;
-                kindOf = random(1, 2);
+                kindOf = pureRandom(1, 2);
                 initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, index);            
             }
         }
         if (dangerZone == 2)
         {
-            enemyNumber = random(1, 3);
+            enemyNumber = pureRandom(1, 3);
 
             for(short index = 0; index < enemyNumber; index++)
             {
                 kindOf = 0;
-                kindOf = random(1, 3);
+                kindOf = pureRandom(1, 3);
                 initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, index);
             }
         }
         if (dangerZone == 3)
         {
-            enemyNumber = random(1, 5);
+            enemyNumber = pureRandom(1, 5);
             
             for(short index = 0; index < enemyNumber; index++)
             {
                 kindOf = 0;
-                kindOf = random(1, 4);
+                kindOf = pureRandom(1, 4);
                 initializeEnemy(enemy, player, roundManager, dangerZone, kindOf, index);
             }
         }
+        if (player[roundManager].level < 10) { enemyNumber = pureRandom(1, 2); }
         return enemyNumber;
-    }
+    }    
     if (specialFight == 1)
     {
         kindOf = 5;
@@ -2059,7 +2073,7 @@ void fight(Enemy enemy[], Player player[], Log& log, short roundManager, short d
                     line();
                     input = choice();
                     if (input < 1 || input - 1 > fighterCounter) { error(0); continue; }
-                    if (enemy[input - 1].permaDeath == true) { std::cout << "\033[91mDieser Gegner ist bereits Tod!" << std::endl; getKey(); continue; }
+                    if (enemy[input - 1].permaDeath == true) { std::cout << "\033[91mDieser Gegner ist bereits Tod!\033[0m" << std::endl; getKey(); continue; }
                     enemyChoice = input - 1;
                     log.addMessage("Sie haben " + enemy[input - 1].getName() + " als Angriffsziel ausgewaehlt.");
                 }
