@@ -32,7 +32,7 @@ class Deck
         {
             for (int color = 0; color < 4; ++color)
             {
-                for (int value = 2; value <= 14; value++)
+                for (int value = 2; value <= 13; value++)
                 {
                     cards.push_back({(Color)color, (Value)value});
                 }
@@ -44,13 +44,13 @@ class Deck
             std::shuffle(cards.begin(), cards.end(), std::mt19937(std::random_device()()));
         }
 
-        void cardReset() 
+        void deckReset() 
         {
             cards.clear();
 
             for (int color = 0; color < 4; color++)
             {
-                for (int value = 2; value <= 14; value++)
+                for (int value = 2; value <= 13; value++)
                 {
                     cards.push_back({(Color)color, (Value)value});
                 }

@@ -2,7 +2,7 @@
 #define PICTURES_H
 
 #include <iostream>
-#include "System.h"
+#include "Cards.h"
 
 /* Inhaltsverzeichnis
         - roomPictures  -- case 0 Eingang           -- case 8 Treppe (Unten)        -- case 16 Kerker
@@ -810,37 +810,33 @@ void diceFrame()
     return;
 }
 
-void cardFrame(bool dealer, short cardNumber, Cards cards)
+void cardFrame(bool dealer, short cardNumber, const Cards& cards)
 {
-    short posX = 0;
     short posY = 0;
+    short posX = 0;
     
     switch(cardNumber)
     {
-        case 0:
-            posY = 7;
-            break;
-        case 1:
-            posY = 14;
-            break;
-        case 2:
-            posY = 21;
-            break;
-        case 3:
-            posY = 28;
-            break;
-        case 4:
-            posY = 35;
-            break;
-        case 5:
-            posY = 42;
-            break;
-        case 6:
-            posY = 49;
-            break;
+        case 0: posX = 0; break;
+        case 1: posX = 10; break;
+        case 2: posX = 20; break;
+        case 3: posX = 30; break;
+        case 4: posX = 40; break;
+        case 5: posX = 50; break;
+        case 6: posX = 60; break;
+        case 7: posX = 70; break;
+        case 8: posX = 80; break;
+        case 9: posX = 90; break;
     }
-    if (dealer) { posX = 7; } else { posX = 14;}
-    positioning(posX, posY); std::cout << " _______ \n";
+    if (dealer) { posY = 17; } else { posY = 28; }
+    positioning(posX, posY);     std::cout << " _______ ";
+    positioning(posX, posY + 1); std::cout << "|       |";
+    positioning(posX, posY + 2); std::cout << "|       |";
+    positioning(posX, posY + 3); std::cout << "|       |";
+    positioning(posX, posY + 4); std::cout << "|       |";
+    positioning(posX, posY + 5); std::cout << "|       |";
+    positioning(posX, posY + 6); std::cout << "|       |";
+    positioning(posX, posY + 7); std::cout << "|_______|";
 }
 
 #endif

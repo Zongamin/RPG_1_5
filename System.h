@@ -4418,11 +4418,19 @@ void card(Player player[], short roundManager)
     static int dealerGold = 2000;
     short playerBet = 0;
     short dealerBet = 0;
-
+    short cardNumberPlayer = 0;
+    short cardNumberDealer = 0;
+    short playerPoints = 0;
+    short dealerPoints = 0;
+    
+    Deck deck = Deck();
+    Cards thisCard;
+    deck.deckReset();
+    deck.shuffle();
+    
     while(running)
     {
-        Deck deck ;
-
+        position(0,0);        
         casinoFrame(player, roundManager, dealerGold, playerBet, dealerBet, false);
         if (betSet == false)
         {
@@ -4435,13 +4443,38 @@ void card(Player player[], short roundManager)
             dealerBet = playerBet;
             std::cout << "Sind Sie mit Ihrer Wette zufrieden? (J/N)" << std::endl;
             bool answer = question();
-            if (answer == false) { return;}
+            if (answer == false) { continue; }
             player[roundManager].gold = player[roundManager].gold - playerBet;
             dealerGold = dealerGold - dealerBet;
             betSet = true; 
             continue;
         }
-        
+        if (dealerPoints <= 17) 
+        {
+            position(0, 24);
+            line();
+            std::cout << "Der Croupier zieht eine Karte...                  \033[47;30m<< Leertaste druecken >>\033[0m" << std::endl;
+            line();
+            key = _getch();
+            thisCard = deck.draw();
+            dealerPoints += thisCard.getValue();
+            cardFrame(dealer, cardNumberDealer, thisCard);
+            dealer = false;
+            cardNumberDealer++;
+        }
+        if (dealerPoints > 21)
+        {
+            std::cout << "Der Croupier hat sich ueberkauft! \033[92;6mSie haben gewonnen!\033[0m" << std::endl;
+            player[roundManager].gold += (playerBet + dealerBet);
+            std::cout << "Moechten Sie noch eine Wette beim Black Jack platzieren? (J/N)" << std::endl;
+            bool answer = question();
+            if (answer == false) { running = false; break; }
+            if (answer == true) { betSet = false; playerBet = 0; dealerBet = 0; break; }
+        }
+        line();
+        std::cout << "Der Croupier hat " << dealerPoints << " Punkte.               Sie haben " << playerPoints << " Punkte.               " << std::endl;
+        line();
+                
         getKey();
         running = false;
         break;
