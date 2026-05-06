@@ -830,13 +830,19 @@ void cardFrame(bool dealer, short cardNumber, const Cards& cards)
     }
     if (dealer) { posY = 17; } else { posY = 28; }
     positioning(posX, posY);     std::cout << " _______ ";
-    positioning(posX, posY + 1); std::cout << "|       |";
-    positioning(posX, posY + 2); std::cout << "|       |";
-    positioning(posX, posY + 3); std::cout << "|       |";
-    positioning(posX, posY + 4); std::cout << "|       |";
-    positioning(posX, posY + 5); std::cout << "|       |";
-    positioning(posX, posY + 6); std::cout << "|       |";
-    positioning(posX, posY + 7); std::cout << "|_______|";
+    positioning(posX, posY + 1); std::cout << "|\033[47m       \033[0m|";
+    positioning(posX, posY + 2); std::cout << "|\033[47m       \033[0m|";
+    positioning(posX, posY + 3); std::cout << "|\033[47m       \033[0m|";
+    positioning(posX, posY + 4); std::cout << "|\033[47m       \033[0m|";
+    positioning(posX, posY + 5); std::cout << "|\033[47m       \033[0m|";
+    positioning(posX, posY + 6); std::cout << "|\033[47m       \033[0m|";
+    positioning(posX, posY + 7); std::cout << "|\033[47m_______\033[0m|";
+    if (cards.color == Color::Kreuz || cards.color == Color::Pik) { std::cout << "\033[1;30;47m"; } else { std::cout << "\033[1;31;47m"; }
+    positioning(posX + 1, posY + 2); std::cout << cards.getValueString();
+    positioning(posX + 7, posY + 6); std::cout << cards.getValueString();
+    positioning(posX + 4, posY + 4); std::cout << cards.getSymbol();
+    std::cout << "\033[0m";
+    return;
 }
 
 #endif

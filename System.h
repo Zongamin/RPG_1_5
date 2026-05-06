@@ -338,18 +338,17 @@ bool question()
         switch(key)
         {
             case 'j':
+            case 'J':
                 choice = true;
                 running = false;
                 break;
-
             case 'n':
+            case 'N':
                 choice = false;
                 running = false;
                 break;
 
             default:
-                error(0);
-                std::cout << "\nBitte treffen Sie Ihre Wahl erneut... (J/N)" << std::endl;
                 continue;
         }
     }
@@ -4411,6 +4410,7 @@ void dice(Player player[], short roundManager)
 
 void card(Player player[], short roundManager)
 {
+    clearScreen();
     bool running = true;
     bool betSet = false;
     bool dealer = true;
@@ -4453,7 +4453,7 @@ void card(Player player[], short roundManager)
         {
             position(0, 24);
             line();
-            std::cout << "Der Croupier zieht eine Karte...                  \033[47;30m<< Leertaste druecken >>\033[0m" << std::endl;
+            std::cout << "Der Croupier zieht eine Karte...                  \033[47;30m<< Leertaste druecken >>\033[0m                                " << std::endl;
             line();
             key = _getch();
             thisCard = deck.draw();
@@ -4471,10 +4471,47 @@ void card(Player player[], short roundManager)
             if (answer == false) { running = false; break; }
             if (answer == true) { betSet = false; playerBet = 0; dealerBet = 0; break; }
         }
+        position(0, 24);
         line();
-        std::cout << "Der Croupier hat " << dealerPoints << " Punkte.               Sie haben " << playerPoints << " Punkte.               " << std::endl;
+        std::cout << "Der Croupier hat " << dealerPoints << " Punkte. Sie haben " << playerPoints << " Punkte.    \033[30;47mMoechten Sie eine Karte ziehen? (J/N)\033[0m" << std::endl;
         line();
-                
+        bool answer = question(); 
+        if (answer == false) 
+        {
+            if (playerPoints > dealerPoints)
+            {
+                std::cout << "Sie haben die Partie gewonnen und bekommen : \033[92m" << (playerBet + dealerBet) << " Gold\033[0m !" << std::endl;
+                player[roundManager].gold += (playerBet + dealerBet);
+            }
+            else if (playerPoints < dealerPoints)
+            {
+                std::cout << "Der Croupier gewinnt die Partie und bekommt : \033[91m" << (playerBet + dealerBet) << " Gold\033[0m !" << std::endl;
+                dealerGold += (playerBet + dealerBet);
+            }
+            else
+            {
+                std::cout << "Unentschieden! Beide bekommen ihre Einsaetze zurueck!" << std::endl;
+                player[roundManager].gold += playerBet;
+                dealerGold += dealerBet;
+            }
+        }
+        if (answer == true) 
+        {
+            thisCard = deck.draw();
+            playerPoints += thisCard.getValue();
+            cardFrame(!dealer, cardNumberPlayer, thisCard);
+            dealer = true;
+            cardNumberPlayer++;
+            if (playerPoints > 21)
+            {
+                std::cout << "Sie haben sich ueberkauft! \033[91;6mDer Croupier gewinnt!\033[0m" << std::endl;
+                dealerGold += (playerBet + dealerBet);
+            }
+        }
+        std::cout << "Moechten Sie noch eine Wette beim Black Jack platzieren? (J/N)" << std::endl;
+        bool answer = question();
+        if (answer == false) { running = false; break; }
+        if (answer == true) { betSet = false; playerBet = 0; dealerBet = 0; continue; }
         getKey();
         running = false;
         break;
