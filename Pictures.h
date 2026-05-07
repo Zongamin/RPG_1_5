@@ -839,7 +839,9 @@ void cardFrame(bool dealer, short cardNumber, const Cards& cards)
     positioning(posX, posY + 7); std::cout << "|\033[47m_______\033[0m|";
     if (cards.color == Color::Kreuz || cards.color == Color::Pik) { std::cout << "\033[1;30;47m"; } else { std::cout << "\033[1;31;47m"; }
     positioning(posX + 1, posY + 2); std::cout << cards.getValueString();
+    if (cards.value == Value::Zehn) { posX -= 1; };
     positioning(posX + 7, posY + 6); std::cout << cards.getValueString();
+    if (cards.value == Value::Zehn) { posX += 1; };
     positioning(posX + 4, posY + 4); std::cout << cards.getSymbol();
     std::cout << "\033[0m";
     return;
