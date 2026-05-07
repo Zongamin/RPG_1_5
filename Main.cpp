@@ -15,12 +15,15 @@
 #include "Log.h"
 
 #pragma comment(lib, "winmm.lib")
+#pragma comment(lib, "gdi32.lib")
 
 // Main Game
             
 int main() 
 {   
-    SetConsoleOutputCP(65001);
+    // Console Einstellungen bei Spielstart
+
+    initConsole();
     
     // Globale Variablen
 

@@ -8,6 +8,7 @@
 #include <cmath>
 #include <fstream>
 #include <windows.h>
+#include <stdio.h>
 #include <algorithm>
 #include <iostream>
 #include <random>
@@ -25,6 +26,7 @@
 
 
 /*Inhaltsverzeichnis:
+      - setScreen           -- Funktion zur Automatischen Anpassung der Console
       - assignment          -- Zuweisung der Werte für neue Spieler
       - charCalc            -- Charakter Rechner zum Errechnen neuer Werte bei Skillpunktverteilung
       - pureRandom          -- Zufallsgenerierte Zahlen mit Minmal und Maximal übergabe ohne Repeater
@@ -119,6 +121,52 @@ short repeater{};
 short dangerRepeater{};
 short danger{};
 
+// Funktion der automatischen Anpassung der Console an die Bildschirmgröße des Spielers
+
+void initConsole()
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    
+    HDC hdc = GetDC(NULL);
+    int screenHeight = GetDeviceCaps(hdc, VERTRES);
+    ReleaseDC(NULL, hdc);
+
+    short fontSize;
+    if      (screenHeight <= 768)  fontSize = 5;
+    else if (screenHeight <= 960)  fontSize = 5;
+    else if (screenHeight <= 1080) fontSize = 8;
+    else if (screenHeight <= 1200) fontSize = 10;
+    else if (screenHeight <= 1440) fontSize = 12;
+    else                           fontSize = 16;
+
+    CONSOLE_FONT_INFOEX fontInfo;
+    fontInfo.cbSize = sizeof(CONSOLE_FONT_INFOEX);
+    GetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);
+    fontInfo.dwFontSize.X = 0;
+    fontInfo.dwFontSize.Y = fontSize;
+    SetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);
+
+    // Puffergröße
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    GetConsoleScreenBufferInfo(hConsole, &csbi);
+    COORD bufferSize = { csbi.dwMaximumWindowSize.X, csbi.dwMaximumWindowSize.Y };
+    SetConsoleScreenBufferSize(hConsole, bufferSize);
+
+    // Cursor verstecken
+    CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };
+    SetConsoleCursorInfo(hConsole, &cursorInfo);
+
+    // Titel und Encoding
+    SetConsoleTitle(TEXT("Big Random RPG 1.5"));
+    SetConsoleOutputCP(65001);
+
+    std::cout << "Font: " << fontSize;
+    Sleep(5000);
+
+    return;
+}
+
+         
 //Wertzuweisung neuer Spieler Objekte
 
 void assignment(Player player[], short numberOfPlayers)
@@ -4509,7 +4557,7 @@ void card(Player player[], short roundManager)
             }
         }
         std::cout << "Moechten Sie noch eine Wette beim Black Jack platzieren? (J/N)" << std::endl;
-        bool answer = question();
+        answer = 0; answer = question();
         if (answer == false) { running = false; break; }
         if (answer == true) { betSet = false; playerBet = 0; dealerBet = 0; continue; }
         getKey();
