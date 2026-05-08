@@ -4329,8 +4329,8 @@ void casinoFrame(Player player[], short roundManager, int dealerGold, short play
 {
     short posY = 0;
     
-    clearScreen();
-    if (gameType == true) { textDice();  posY = 12; } else { textCard(); posY = 10; }
+    position(0, 0);
+    if (gameType == true) { clearScreen(); textDice();  posY = 12; } else { textCard(); posY = 10; }
     line();
     std::cout << "\033[36mSpieler: " << player[roundManager].getName();
     position(40, posY); std::cout << "\033[33mGold: " << player[roundManager].gold << "\033[0m";
@@ -4592,11 +4592,12 @@ void card(Player player[], short roundManager)
             std::cout << "Der Croupier hat " << dealerPoints << " Punkte. Sie haben " << playerPoints << " Punkte. Der Croupier ist am Zug. \033[30;47m<< Leertaste druecken >>\033[0m";
             key = _getch();
             PlaySound(TEXT("sounds\\Bing.wav"), NULL, SND_FILENAME | SND_ASYNC);
-            break;
+            dealer = true;
+            continue;
         }
         position(0, 24);
         line();
-        std::cout << "Moechten Sie noch eine Wette beim Black Jack platzieren? (J/N)                                              " << std::endl;
+        std::cout << "\033[30;47mMoechten Sie noch eine Wette beim Black Jack platzieren? (J/N)\033[0m                                              " << std::endl;
         answer = 0; answer = question();
         if (answer == false) { running = false; break; }
         if (answer == true) { dealer = true; betSet = false; playerBet = 0; dealerBet = 0; cardNumberPlayer = 0; cardNumberDealer = 0; playerPoints = 0; dealerPoints = 0; clearScreen(); break; }
