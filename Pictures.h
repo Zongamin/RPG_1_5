@@ -828,7 +828,7 @@ void cardFrame(bool dealer, short cardNumber, const Cards& cards)
         case 8: posX = 80; break;
         case 9: posX = 90; break;
     }
-    if (dealer) { posY = 17; } else { posY = 28; }
+    if (dealer) { posY = 17; } else { posY = 30; }
     positioning(posX, posY);     std::cout << " _______ ";
     positioning(posX, posY + 1); std::cout << "|\033[47m       \033[0m|";
     positioning(posX, posY + 2); std::cout << "|\033[47m       \033[0m|";
@@ -837,7 +837,7 @@ void cardFrame(bool dealer, short cardNumber, const Cards& cards)
     positioning(posX, posY + 5); std::cout << "|\033[47m       \033[0m|";
     positioning(posX, posY + 6); std::cout << "|\033[47m       \033[0m|";
     positioning(posX, posY + 7); std::cout << "|\033[47m_______\033[0m|";
-    if (cards.color == Color::Kreuz || cards.color == Color::Pik) { std::cout << "\033[1;30;47m"; } else { std::cout << "\033[1;31;47m"; }
+    if (cards.color == Color::Kreuz || cards.color == Color::Pik) { std::cout << "\033[30;47m"; } else { std::cout << "\033[31;47m"; }
     positioning(posX + 1, posY + 2); std::cout << cards.getValueString();
     if (cards.value == Value::Zehn) { posX -= 1; };
     positioning(posX + 7, posY + 6); std::cout << cards.getValueString();

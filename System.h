@@ -133,7 +133,7 @@ void initConsole()
 
     short fontSize;
     if      (screenHeight <= 768)  fontSize = 5;
-    else if (screenHeight <= 960)  fontSize = 5;
+    else if (screenHeight <= 960)  fontSize = 7;
     else if (screenHeight <= 1080) fontSize = 8;
     else if (screenHeight <= 1200) fontSize = 10;
     else if (screenHeight <= 1440) fontSize = 12;
@@ -142,8 +142,10 @@ void initConsole()
     CONSOLE_FONT_INFOEX fontInfo;
     fontInfo.cbSize = sizeof(CONSOLE_FONT_INFOEX);
     GetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);
+    wcscpy_s(fontInfo.FaceName, L"Lucida Console");
     fontInfo.dwFontSize.X = 0;
     fontInfo.dwFontSize.Y = fontSize;
+    fontInfo.FontWeight = FW_NORMAL;
     SetCurrentConsoleFontEx(hConsole, FALSE, &fontInfo);
 
     // Puffergröße
@@ -4458,23 +4460,26 @@ void dice(Player player[], short roundManager)
 
 void card(Player player[], short roundManager)
 {
-    clearScreen();
+    char key;
     bool running = true;
     bool betSet = false;
     bool dealer = true;
-    char key;
-    static int dealerGold = 2000;
+    bool dealerNoDraw = false;
+    bool playerNoDraw = false;
     short playerBet = 0;
     short dealerBet = 0;
     short cardNumberPlayer = 0;
     short cardNumberDealer = 0;
     short playerPoints = 0;
     short dealerPoints = 0;
-    
+    static int dealerGold = 2000;
+        
     Deck deck = Deck();
     Cards thisCard;
     deck.deckReset();
     deck.shuffle();
+
+    clearScreen();
     
     while(running)
     {
@@ -4504,6 +4509,7 @@ void card(Player player[], short roundManager)
             std::cout << "Der Croupier zieht eine Karte...                  \033[47;30m<< Leertaste druecken >>\033[0m                                " << std::endl;
             line();
             key = _getch();
+            PlaySound(TEXT("sounds\\Bing.wav"), NULL, SND_FILENAME | SND_ASYNC);
             thisCard = deck.draw();
             dealerPoints += thisCard.getValue();
             cardFrame(dealer, cardNumberDealer, thisCard);
@@ -4514,52 +4520,86 @@ void card(Player player[], short roundManager)
         {
             std::cout << "Der Croupier hat sich ueberkauft! \033[92;6mSie haben gewonnen!\033[0m" << std::endl;
             player[roundManager].gold += (playerBet + dealerBet);
-            std::cout << "Moechten Sie noch eine Wette beim Black Jack platzieren? (J/N)" << std::endl;
+            std::cout << "Moechten Sie noch eine Wette beim Black Jack platzieren? (J/N)                                                             " << std::endl;
             bool answer = question();
             if (answer == false) { running = false; break; }
-            if (answer == true) { betSet = false; playerBet = 0; dealerBet = 0; break; }
+            if (answer == true) { dealer = true; betSet = false; playerBet = 0; dealerBet = 0; cardNumberPlayer = 0; cardNumberDealer = 0; playerPoints = 0; dealerPoints = 0; clearScreen(); break; }
+        }
+        if (dealerPoints >=18 && dealerPoints > playerPoints)
+        {
+            position(0, 24);
+            line();
+            std::cout << "Der Croupier moechte keine Karte ziehen...        \033[47;30m<< Leertaste druecken >>\033[0m                                " << std::endl;
+            key = _getch();
+            PlaySound(TEXT("sounds\\Bing.wav"), NULL, SND_FILENAME | SND_ASYNC);
+        }
+        if (dealerNoDraw)
+        {
+            if (dealerPoints > playerPoints)
+            {
+                
+            }
         }
         position(0, 24);
         line();
+        dealer = false;
         std::cout << "Der Croupier hat " << dealerPoints << " Punkte. Sie haben " << playerPoints << " Punkte.    \033[30;47mMoechten Sie eine Karte ziehen? (J/N)\033[0m" << std::endl;
-        line();
         bool answer = question(); 
         if (answer == false) 
         {
             if (playerPoints > dealerPoints)
             {
+                position(0, 24);
+                line();
                 std::cout << "Sie haben die Partie gewonnen und bekommen : \033[92m" << (playerBet + dealerBet) << " Gold\033[0m !" << std::endl;
                 player[roundManager].gold += (playerBet + dealerBet);
+                getKey();
             }
             else if (playerPoints < dealerPoints)
             {
+                position(0, 24);
+                line();
                 std::cout << "Der Croupier gewinnt die Partie und bekommt : \033[91m" << (playerBet + dealerBet) << " Gold\033[0m !" << std::endl;
                 dealerGold += (playerBet + dealerBet);
+                getKey();
             }
             else
             {
+                position(0, 24);
+                line();
                 std::cout << "Unentschieden! Beide bekommen ihre Einsaetze zurueck!" << std::endl;
                 player[roundManager].gold += playerBet;
                 dealerGold += dealerBet;
+                getKey();
             }
         }
         if (answer == true) 
         {
             thisCard = deck.draw();
             playerPoints += thisCard.getValue();
-            cardFrame(!dealer, cardNumberPlayer, thisCard);
-            dealer = true;
+            cardFrame(dealer, cardNumberPlayer, thisCard);
             cardNumberPlayer++;
             if (playerPoints > 21)
             {
+                position(0, 24);
+                line();
                 std::cout << "Sie haben sich ueberkauft! \033[91;6mDer Croupier gewinnt!\033[0m" << std::endl;
                 dealerGold += (playerBet + dealerBet);
+                getKey();
             }
+            position(0, 24);
+            line();
+            std::cout << "Der Croupier hat " << dealerPoints << " Punkte. Sie haben " << playerPoints << " Punkte. Der Croupier ist am Zug. \033[30;47m<< Leertaste druecken >>\033[0m";
+            key = _getch();
+            PlaySound(TEXT("sounds\\Bing.wav"), NULL, SND_FILENAME | SND_ASYNC);
+            break;
         }
-        std::cout << "Moechten Sie noch eine Wette beim Black Jack platzieren? (J/N)" << std::endl;
+        position(0, 24);
+        line();
+        std::cout << "Moechten Sie noch eine Wette beim Black Jack platzieren? (J/N)                                              " << std::endl;
         answer = 0; answer = question();
         if (answer == false) { running = false; break; }
-        if (answer == true) { betSet = false; playerBet = 0; dealerBet = 0; continue; }
+        if (answer == true) { dealer = true; betSet = false; playerBet = 0; dealerBet = 0; cardNumberPlayer = 0; cardNumberDealer = 0; playerPoints = 0; dealerPoints = 0; clearScreen(); break; }
         getKey();
         running = false;
         break;
